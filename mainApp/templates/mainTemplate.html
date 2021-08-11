@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ar">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="-1" />
+        {%load static%}
+  
+        
+        <link rel="icon" type="image/png" sizes="32x32" href="/static/img/Logo 2.png">
+        <!--Start of the imports css-->
+        {% block importsData %}
+        
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/owl.carousel.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/index_style.css' %}">
+       
+        {% endblock %}
+       
+       
+        {% block title %}
+          <title>الرئيسية</title>
+          
+          {% endblock %}
+        <!--End of the imports css-->
+    
+
+    </head>
+
+
+    <body>
+
+
+<header>
+
+    <div class="layer">
+<div class="container">
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid" style="direction:rtl">
+     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">الرئيسية</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">انواع الخدمات</a>
+                  </li>
+                  
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">من نحن</a>
+                  </li>
+                  {% if not user.is_authenticated %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="/accounts/login/">دخول</a>
+                  </li>
+                  <li class="nav-item login">
+                    <a class="nav-link" href="#">أنضم الان</a>
+                  </li>
+                  {% endif %}
+                  {% if user.is_authenticated %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="logout/">تسجيل خروج</a>
+                  </li>
+                  {% endif %}
+                </ul>
+             </div>
+            <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-50" alt="logo"></a>
+          
+            </div>
+            </nav>
+            
+        </div>
+          <section id="Search">
+              <div class="container">
+                <h1>ابحث عن خدماتك الان</h1>
+
+                    <div class="row search-bar" style="direction:rtl">
+                      <div class="col-md-4 w-100">
+                        <div class="dropdown w-100">
+                            <a class="btn btn-secondary dropdown-toggle w-100" href="#" type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            الخدمات
+                            </a>
+                          
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <li><a class="dropdown-item" href="#">الخدمات الطبية</a></li>
+                              <li><a class="dropdown-item" href="#">الخدمات التعليمية</a></li>
+                              <li><a class="dropdown-item" href="#">تكنولوجيا</a></li>
+                              <li><a class="dropdown-item" href="#">إنشاءات ومقاولات</a></li>
+                              <li><a class="dropdown-item" href="#">صيانة منزلية</a></li>
+
+                            </ul>
+                          </div>
+                    </div>
+                    <div class="col-md-4 w-100">
+                        <div class="dropdown w-100">
+                            <a class="btn btn-secondary dropdown-toggle w-100" href="#" type="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              مقدم الخدمة
+                            </a>
+                          
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
+                              <li><a class="dropdown-item" href="#">Action</a></li>
+                              <li><a class="dropdown-item" href="#">Another action</a></li>
+                              <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                          </div>
+                    </div>
+
+
+                        <div class="col-md-4 w-100">
+                            <button type="button" class="btn btn-primary btn-lg w-100">ابحث<i class="fas fa-search"></i></button>
+
+                        </div>
+                    
+                    </div>    
+        
+
+              </div>
+      
+              
+          </section>
+
+      
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:rgb(248, 174, 21);stop-opacity:1" />
+          <stop offset="100%" style="stop-color:rgba(248, 172, 21, 0);stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <path fill="url(#grad1)" fill-opacity="1" d="M0,192L34.3,176C68.6,160,137,128,206,144C274.3,160,343,224,411,218.7C480,213,549,139,617,128C685.7,117,754,171,823,176C891.4,181,960,139,1029,117.3C1097.1,96,1166,96,1234,117.3C1302.9,139,1371,181,1406,202.7L1440,224L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
+</header>
+
+
+
+
+
+
+
+
+<section id="about">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 about-img">
+          <div class="border">
+            <div class="profile-pic">
+            <img src="/static/img/man-with-magnifying-glass-train-station.jpg">
+            </div>
+          </div>        
+         </div>
+        <div class="col-md-6 about-text">
+            <h2>من نحن</h2>
+            <div id="borders">
+              <div class="border"></div>
+              <div class="border1"></div>
+              <div class="border"></div>
+            </div>
+
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, officiis nostrum odio itaque
+     ducimus molestias iure modi, ab quia eum laboriosam voluptatum voluptate aperiam. Animi accusamus vero dolorem ducimus molestiae.
+</p>
+<a href="index_services.html"><button class="btn">اقرا المزيد</button></a>
+
+
+ </div>
+    </div>
+</div>
+</section>
+
+
+<section id="services">
+  <div class="layer">
+    <div class="container">
+        <h2>خدماتنا</h2>
+        <div id="borders">
+          <div class="border"></div>
+          <div class="border1"></div>
+          <div class="border"></div>
+        </div>
+        <div class="owl-carousel owl-theme">
+            <div>
+                <div class="single-service">
+                  <img class="img-fluid" src="/static/img/635435339228902500.jpg">
+                  <div class="overlay">
+              
+              <h4>الخدمات الطبية</h4>
+                  <a href="index_services.html"><button class="btn">Read More</button></a>
+              
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="single-service">
+              <img class="img-fluid" src="/static/img/1.jpg">
+              <div class="overlay">
+          
+          <h4>
+            الخدمات
+            التعليمية
+            </h4>
+                    <a href="index_services.html"><button class="btn">Read More</button></a>
+          
+          </div>
+        </div>
+      </div>
+        
+
+      <div>
+        <div class="single-service">
+          <img class="img-fluid" src="/static/img/encyclopedia-ما-هي-فوائد-التكنولوجيا.jpg">
+          <div class="overlay">
+      
+      <h4>
+        تكنولوجيا</h4>
+                <a href="index_services.html"><button class="btn">Read More</button></a>
+      
+      </div>
+    </div>
+  </div>
+    
+
+  <div>
+    <div class="single-service">
+      <img class="img-fluid" src="/static/img/application-occupation-profession-job-seeker-concept.jpg">
+      <div class="overlay">
+  
+  <h4>
+    إنشاءات ومقاولات</h4>
+            <a href="index_services.html"><button class="btn">Read More</button></a>
+  
+  </div>
+</div>
+</div>
+
+
+<div>
+    <div class="single-service">
+      <img class="img-fluid" src="/static/img/Untitled-1-01.png">
+      <div class="overlay">
+  
+  <h4>
+    صيانة
+منزلية
+</h4>
+            <a href="index_services.html"><button class="btn">Read More</button></a>
+  
+  </div>
+</div>
+</div>
+
+
+<div>
+    <div class="single-service">
+      <img class="img-fluid" src="/static/img/635435339228902500.jpg">
+      <div class="overlay">
+  
+  <h4>
+    المحاسبة والمالية</h4>
+            <a href="index_services.html"><button class="btn">Read More</button></a>
+  
+  </div>
+</div>
+</div>
+
+
+<div>
+    <div class="single-service">
+      <img class="img-fluid" src="/static/img/aerial-background-beverage-blog-blogger-browsing-1447929-pxhere.com.jpg">
+      <div class="overlay">
+  
+  <h4>
+    الخدمات الطبية</h4>
+            <a href="index_services.html"><button class="btn">Read More</button></a>
+  
+  </div>
+</div>
+</div>
+    
+          </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section id="footer-contact">
+    <div class="layout">
+    <div class="container">
+
+        <div class="row m-auto">
+
+            <div class="col-md-4">
+                <img src="/static/img/Logo 2.png"  alt="footer-logo">
+
+            </div>
+
+            <div class="col-md-4">
+                <h5 class="ml-4">Contact Info</h5>
+                <p class="ml-4">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit, labore.
+                    </p>
+
+            </div>
+
+            <div class="col-md-4 Info">
+                <h5>Our Info</h5>
+                <ul>
+                    <li><a href="#">About Us </a></li>
+                    <li><a href="#">Our Services </a></li>
+                    <li><a href="#">Contact Us </a></li>
+                </ul>
+
+            </div>
+        </div>
+        </div>
+    </div>
+        </section>
+
+
+
+
+
+
+ <!--Start of the imports js-->
+ {% block javascripts %}
+
+
+
+
+ <script src="{% static 'js/jquery-3.5.1.js' %}"></script> 
+ <script src="{% static 'js/popper.min.js' %}"></script> 
+ <script src="{% static 'js/bootstrap.min.js' %}"></script> 
+
+ 
+ <script src="{% static 'js/jquery.easing.1.3.js' %}"></script> 
+ <script src="{% static 'js/owl.carousel.min.js' %}"></script> 
+ <script src="{% static 'js/typed.js' %}"></script>  
+ <script src="{% static 'js/index_about.js' %}"></script> 
+
+ <script>
+
+ $(".boxButton").click(function(event) {
+     
+     window.location.href =$(event.target).attr('href');
+ });
+
+ </script>
+ {% endblock %}
+
+ {% block Extrajavascripts %}
+
+ {% endblock %}
+
+
+    </body>
+
+        </html>

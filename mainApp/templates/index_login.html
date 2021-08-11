@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html dir="rtl">
+
+    <head>
+        <meta charset="utf-8">      
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+        <meta name="viewport" content="width=device-width">
+            
+      {%load static%}
+        {% load i18n %}
+        {% get_current_language as LANGUAGE_CODE %}
+
+      
+      <link rel="icon" type="image/png" sizes="32x32" href="/static/img/Logo 2.png">
+      <!--Start of the imports css-->
+     
+         
+
+        <link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/owl.carousel.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/index_style.css' %}">
+       
+     
+
+        <title>تسجيل الدخول </title>
+        <style>
+            body {
+                 background: #4f4d4d;
+                font-family: 'Poppins', sans-serif;
+                background-size: cover!important; 
+                
+    background-image: url(/static/img/back1.jpg);
+    background-size: auto;
+    background-blend-mode: overlay;
+
+            }
+        </style>
+      <!--End of the imports css-->
+      </head>
+
+
+
+        <body >
+         
+
+                        <div class="container">
+                            <div class="row mt-5">
+                                <div class="col-md-4 col-4"></div>
+                                <div class="col-md-4 col-4"><img src="/static/img/Logo 2.png" alt="logo" style="width: 100%;"/></div>
+                                <div class="col-md-4 col-4"></div>
+                                
+                               
+                            </div>
+
+
+                            <div class="row mt-5">
+                                <div class="col-md-3 col-1"></div>
+                                <div class="col-md-6 col-10" style=" background: #ffffffd6;padding: 18px;border-radius: 35px;box-shadow: 0px 1px 5px 5px #c0bcbc;">
+                                    <div class="login-block col-sm-12">
+                                        <h1 style=" text-align: right; ">تسجيل الدخول</h1>
+                                        <p style=" text-align: right; "> برجاء ادخل البيانات الخاصة بك</p>
+                                        <form id="formLogin" class="ng-untouched ng-pristine ng-valid container">
+                                            {% csrf_token %}
+                                            <hr class="hr-xs">
+                                            <div class="form-group row">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon mt-1 ml-2">
+                                                        <i class="fa fa-user ti-email"></i>
+                                                    </span>
+                                                    <input type="text" value="admin" placeholder="ادخل اسم المستخدم " name="username" class="form-control" id="Username" placeholder="Username" style="padding-right: 10px;">
+                                                </div>
+                                            </div>
+                                            <hr class="hr-xs">
+                                            <div class="form-group row">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon mt-1 ml-2">
+                                                        <i class="fa fa-lock ti-unlock"></i>
+                                                    </span>
+                                                    <input type="password" value="Aaa123456789" placeholder="الرقم السري " name="password" id="password" class="form-control" style="padding-right: 10px;">
+                                                </div>
+                                            </div>
+                                            <div class=" row mt-3">
+                                                <a  id="loginButton" href="javascript:void(0)" class="btn btn-block" style="background-color: #e6aa32d9;font-family: system-ui;font-size: 17px;font-weight: 500;">تسجيل الدخول </a>
+                                            </div>
+                                        </form>
+                                        
+                                        <br>
+                                        <br>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-4"></div>
+                            </div>
+                        </div>
+
+                       
+                  
+                        <script src="{% static 'js/jquery-3.5.1.js' %}"></script> 
+                        <script src="{% static 'js/popper.min.js' %}"></script> 
+                        <script src="{% static 'js/bootstrap.min.js' %}"></script> 
+                       
+                        
+                        <script src="{% static 'js/jquery.easing.1.3.js' %}"></script> 
+                        <script src="{% static 'js/owl.carousel.min.js' %}"></script> 
+                        <script src="{% static 'js/typed.js' %}"></script>  
+                        <script src="{% static 'js/index_about.js' %}"></script> 
+            
+            <script src="{% static 'js/bootstrap-notify.js' %}"></script>
+            <script>
+
+function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+
+                $('#loginButton').on('click', function() {
+                    login();
+ });
+
+ $("#formLogin").keyup(function(event) {
+    if (event.keyCode === 13) {
+       // Add your logic to submit to your backend server here.
+                login();
+           
+    }
+});
+
+
+function login(){
+
+var username = $('#Username').val();
+var password = $('#password').val();
+
+if (username==""||password==""){
+    $.notify({
+                icon: "add_alert",
+                message: " برجاء مراجعة الأسم والرقم السرى "
+
+            },{
+                type: 'danger',
+                timer: 4000
+            });
+}else{
+
+//Auth
+$('#loginButton').html('Loging ... ');
+
+$.ajax({
+    type: 'POST',
+    url: '/{{LANGUAGE_CODE}}/authUser',
+    data: { 
+        'username': username,
+        'password': password
+    },
+    headers:{
+        "X-CSRFToken": csrftoken
+         },
+    dataType: 'json',
+    cache: false,
+    success: function(result) {
+        console.log(result);
+       if(result['Result']=='Success'){
+           
+        var urlNew = result['url'].substr(result['url'].indexOf("next=/")+"next=/".length, result['url'].length);
+        console.log(urlNew);
+        if(urlNew.includes("/accounts/login/")){
+            window.location.href = "/";
+        }else{
+            window.location.href = decodeURIComponent("/"+urlNew);
+        }
+       }else{
+
+        $('#loginButton').html('SIGN IN');
+        $.notify({
+                icon: "add_alert",
+                message: " لايوجد شخص مسجل بهذه البيانات برجاء مراجعة الأسم والرقم السرى "
+
+            },{
+                type: 'danger',
+                timer: 4000
+            });
+       }
+    },error: function (xhr, ajaxOptions, thrownError) {
+        console.log(thrownError)
+           }
+});
+}
+
+
+}
+            </script>
+        </body>
+   
+</html>
