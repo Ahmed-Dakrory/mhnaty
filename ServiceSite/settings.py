@@ -72,18 +72,29 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ServiceSite.wsgi.application'
-ASGI_APPLICATION = 'ServiceSite.asgi.application'
+# ASGI_APPLICATION = 'ServiceSite.asgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#     'ENGINE': 'django.db.backends.mysql', 
+#     'NAME': 'services',                      
+#     'USER': 'root',                      
+#     'PASSWORD': '',          
+#     'HOST': '127.0.0.1',                 
+#     'PORT': '3306',                      
+#         },
+#     }
+
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.mysql', 
-    'NAME': 'services',                      
-    'USER': 'root',                      
-    'PASSWORD': '',          
+    'NAME': 'mhnatyco_main',                      
+    'USER': 'mhnatyco_ahmed',                      
+    'PASSWORD': 'A@123456789`134679',          
     'HOST': '127.0.0.1',                 
     'PORT': '3306',                      
         },
