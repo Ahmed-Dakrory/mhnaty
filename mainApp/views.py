@@ -68,5 +68,14 @@ def loadLoginPage(request):
     return render(request,'index_login.html',None)
 
 
+def SearchPage(request):
+    
+    return render(request,'index_search.html',None)
+
+def CompanyPage(request):
+    
+    return render(request,'index_company.html',None)
+
+
 def loadMainPage(request):
     return render(request,'index.html',None)

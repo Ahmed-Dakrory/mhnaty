@@ -78,27 +78,27 @@ WSGI_APPLICATION = 'ServiceSite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#     'ENGINE': 'django.db.backends.mysql', 
-#     'NAME': 'services',                      
-#     'USER': 'root',                      
-#     'PASSWORD': '',          
-#     'HOST': '127.0.0.1',                 
-#     'PORT': '3306',                      
-#         },
-#     }
-
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.mysql', 
-    'NAME': 'mhnatyco_main',                      
-    'USER': 'mhnatyco_ahmed',                      
-    'PASSWORD': 'A@123456789`134679',          
+    'NAME': 'services',                      
+    'USER': 'root',                      
+    'PASSWORD': '',          
     'HOST': '127.0.0.1',                 
     'PORT': '3306',                      
         },
     }
+
+# DATABASES = {
+#     'default': {
+#     'ENGINE': 'django.db.backends.mysql', 
+#     'NAME': 'mhnatyco_main',                      
+#     'USER': 'mhnatyco_ahmed',                      
+#     'PASSWORD': 'A@123456789`134679',          
+#     'HOST': '127.0.0.1',                 
+#     'PORT': '3306',                      
+#         },
+#     }
 
 
 # Password validation
@@ -161,7 +161,7 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "static" , "static_root")
+STATIC_ROOT = '/mhnatyco/public_html/'#os.path.join(BASE_DIR, "static" , "static_root")
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),

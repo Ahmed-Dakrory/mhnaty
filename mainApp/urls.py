@@ -7,6 +7,8 @@ app_name = 'mainApp'
 
 urlpatterns = [
     path('',views.loadMainPage,name = 'loadMainPage'),
+    path('SearchPage/',views.SearchPage,name = 'SearchPage'),
+    path('CompanyPage/',views.CompanyPage,name = 'CompanyPage'),
     path('accounts/login/',views.loadLoginPage,name = 'loadLoginPage'),
 
 

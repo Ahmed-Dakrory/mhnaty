@@ -3,7 +3,7 @@ body{
 
 }
 header{
-    background-image: url(../Img/diverse-friends-using-digital-devices.jpg);
+    background-image: url(../img/diverse-friends-using-digital-devices.jpg);
     height: 100vh;
     width: 100%;
     background-size: cover;
@@ -72,7 +72,6 @@ header .layer{
     border: solid 1px rgb(248, 174, 21);
     color: rgb(248, 174, 21)!important;
     padding-right: 1rem;
-    margin-right: 5px;
 }
 
 .navbar-light .login .nav-link :hover{
@@ -81,18 +80,8 @@ header .layer{
     margin-right: 1rem;
 }
 
-#Search{
-    height: 70%;
-    display: flex;
-justify-content: center;
-align-items: center;
-text-align: center;
-}
-#Search h1{
-font-size: 4rem;
-font-weight: 600;
-margin-bottom: 3rem;
-}
+#Search{margin-top: 6rem;}
+#Search h1{font-size: 4rem;font-weight: 600;text-align: center;margin-bottom: 3rem;}
 
 #Search .search-bar{
     border: 1px solid white;
@@ -221,20 +210,7 @@ border: 1px solid #f7ae14 !important;
     top: 21px;
     left: 21px;
 }
-.about-img .border .profile-pic .overlay{
-    position: absolute;
-    background-color:rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    width: 100%;
-    height: 100%;
-    top: 100%;
-    left: 0%;
-    transition: all 0.5s;
-}
 
-.about-img .border  :hover .overlay{
-    top: 0%;
-}
 
 
 #services .layer{
@@ -246,11 +222,10 @@ border: 1px solid #f7ae14 !important;
 #services{
     margin-top: 10rem;
     text-align: center;
-background-image: url(../Img/aerial-background-beverage-blog-blogger-browsing-1447929-pxhere.com.jpg);
+background-image: url(../img/aerial-background-beverage-blog-blogger-browsing-1447929-pxhere.com.jpg);
 background-size: cover;
 background-repeat: no-repeat;
 background-attachment: fixed;
-
 }
 
 #services h2 {
@@ -275,15 +250,14 @@ padding-top: 3rem;
 }
 #services .single-service img{
     background-size: cover;
-    height: 285px;
-    border-radius: 50% 50%;
-    width: 500px;
+    height: 40%;
+  border-radius: 50% 50%;
 }
 
 #services .single-service .overlay{
     width: 100%;
     padding: 1.2rem 2rem;
-    background-color: #58544b9c;
+    background-color: #f7ae1436;
     border-radius: 50% 50%;
     height: 100%;
     position: absolute;
@@ -341,10 +315,8 @@ right: -5%;
 
 
 #footer-contact{
-    background-image: url(../Img/bg-1.jpg.webp);
     background-repeat: no-repeat;
     color: white;
-    margin-top: 3rem !important;
 }
 #footer-contact .layout{
     background-color: rgb(32, 32, 32);
@@ -379,15 +351,802 @@ right: -5%;
     color:black;
 }
 
+/* About company */
+#company {
+    background: none;
+}
+#company .navbar{
+}
+
+#company #Search{
+    text-align: center;
+}
+#company #Search h1{
+font-size: 2rem;
+font-weight: 600;
+margin-bottom: 2rem;
+}
+
+#company #Search .search-bar{
+    border: 1px solid rgb(248, 174, 21);
+    border-radius: 15px;
+    padding: 1rem 1.2rem;
+}
+
+#company #Search .search-bar .btn-secondary {
+    color: white;
+    background-color: rgb(248, 174, 21);
+    border: none; 
+    font-size: 1.5rem;
+    height: 100%;
+
+}
+
+#company #Search .search-bar .btn-secondary:hover {
+    color: white;
+    background-color: #414242;
+    
+}
+
+#company #Search .search-bar .btn-primary {
+    color: #fff;
+    background-color: #414242;
+     border: none; 
+     font-size: 1.8rem;
+     font-weight: 600;
+     
+}
+
+#company #Search .search-bar .btn-primary:hover {
+    color: #f7ae14;
+    background-color: #282929;
+    border: none;
+}
+#company #Search .search-bar .btn-primary i{
+    padding-right: 0.5rem;
+    font-size: 1.5rem;
+}
+
+#about-company{
+    margin-top: -11rem;
+    margin-bottom: 3rem;
+}
 
 
+#about-company .about-company-img .border
+{
+    border-radius: 10px;
+    background-color: #f7ae14;
+    width: 100%;    
+}
 
-.nav-item{
+#about-company .about-company-img .border img{
+    width: 100%;
+    border-radius: 10px;
+
+}
+#about-company .about-company-img .border .profile-pic{
+    overflow: hidden;
+    position: relative;
+    top: 21px;
+    left: 21px;
+}
+
+
+#about-company .about-company-text {
     text-align: right;
+    /* padding-top: 1.5rem; */
+    /* padding-left: 3rem; */
+}
+#about-company .about-company-text .company-text-title {
+    border-bottom: solid 1px rgb(165, 164, 164);
+    width: 100%;
+}
+#about-company .about-company-text .company-text-title p{
+    color: #f7ae14;
+    font-size: 1.3rem;
+}
+#about-company .about-company-text .company-text-body{
+    border-bottom: solid 1px rgb(165, 164, 164);
+padding-top: 1.5rem;
+}
+
+#about-company .about-company-text .company-text-body .row i{
+    color: #f7ae14;
+    font-size: 1.5rem;
+}
+
+
+#about-company .about-company-img .evaluate{
+    margin: auto;
+    text-align: center;   
+}
+
+#about-company .about-company-img .evaluate .evaluate-clints{
+    display: flex;
+    justify-content: space-around;
+    padding: 0 10rem;
+}
+
+#about-company .about-company-img .evaluate .unlike i{
+    color: grey;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+#about-company .about-company-img .evaluate h5{
+    font-size: 2rem;
+}
+#about-company .about-company-img .evaluate .like i{
+    color: #f7ae14;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.row > .column {
+    padding: 0 8px;
+  }
+  
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Create four equal columns that floats next to eachother */
+  .column {
+    float: left;
+    width: 25%;
+    cursor: pointer;
+  }
+  
+  /* The Modal (background) */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 30px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: black;
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    width: 90%;
+    max-width: 1200px;
+    display: block;
+  }
+  
+  /* The Close Button */
+  .close {
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 35px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #999;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  /* Hide the slides by default */
+  .mySlides {
+    display: none;
+  }
+  
+  /* Next & previous buttons */
+  .prev,
+  .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -50px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  /* Position the "next button" to the right */
+  .next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+  }
+  
+  /* On hover, add a black background color with a little bit see-through */
+  .prev:hover,
+  .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Number text (1/3 etc) */
+  .numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+  }
+  
+  /* Caption text */
+  .caption-container {
+    text-align: center;
+    background-color: black;
+    padding: 2px 16px;
+    color: white;
+  }
+  
+  img.demo {
+    opacity: 0.6;
+  }
+  
+  .active,
+  .demo:hover {
+    opacity: 1;
+  }
+  
+  img.hover-shadow {
+    transition: 0.3s;
+  }
+  
+  .hover-shadow:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  #review{
+      background-image: url(../img/bg-section-review1.png);
+      background-color: #e0dfdf;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      text-align: center;
+      padding: 3rem 0;
+
+  }
+  #review h2{
+      font-size: 2.5rem;
+      color: #f7ae14;
+      font-weight: 600;
+  }
+
+  #review .item{
+      background-color: #ffffff;
+      text-align: center;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border-radius:50% 50%;
+  }
+
+  #review .item:hover{
+      box-shadow: 2px 5px 5px rgb(177, 175, 175);
+  }
+  #review .item i{
+      color: #f7ae14;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+  }
+  
+
+  #review .owl-carousel .owl-nav button.owl-next, .owl-carousel .owl-nav button.owl-prev, .owl-carousel button.owl-dot {
+    
+    color: #f7ae14;
+    border: none;
+    padding: 0.5rem!important;
+    font: inherit;
+    font-size: 2rem;
+}
+
+  #form{
+      text-align: right;
+  }
+
+  #form input[type=text], select, textarea {
+    width: 100%; /* Full width */
+    padding: 0.7rem; /* Some padding */ 
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 4px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    margin-top: 6px; /* Add a top margin */
+    margin-bottom: 16px; /* Bottom margin */
+    resize: vertical; /* Allow the user to vertically resize the textarea (not horizontally) */
+    text-align: right;
+
+  }
+
+  #form input[type=email], select, textarea {
+    width: 100%; /* Full width */
+    padding: 0.7rem; /* Some padding */ 
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 4px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    margin-top: 6px; /* Add a top margin */
+    margin-bottom: 16px; /* Bottom margin */
+    resize: vertical; /* Allow the user to vertically resize the textarea (not horizontally) */
+    text-align: right;
+
+  }
+
+  #form input[type=submit] {
+    background-color: #f7ae14;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: right;
+
+  }
+  
+  /* When moving the mouse over the submit button, add a darker green color */
+  #form input[type=submit]:hover {
+    background-color: #f7ae14;
+    text-align: right;
+
+  }
+  
+  /* Add a background color and some padding around the form */
+  #form .container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+
+
+
+
+
+/*    Search Results     */
+
+#searchResults .services .accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: right;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+  }
+  
+  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+  #searchResults .services .active, .accordion:hover {
+    background-color: #ccc;
+  }
+  
+  /* Style the accordion panel. Note: hidden by default */
+  #searchResults .services .panel {
+    padding: 0 18px;
+    background-color: white;
+    display: none;
+    overflow: hidden;
+  }
+
+  #searchResults .services .panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
+
+  
+
+  #searchResults .services .panel label:hover{
+    color: #f7ae14;
+  }
+  
+  #searchResults .services .active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+  }
+
+  #searchResults {
+      margin-top: 2rem;
+  }
+
+  #searchResults .services{
+      text-align: right;
+  }
+
+  #searchResults .services .services-title{
+      background-color: #f7ae14;
+      border-radius: 15px 15px 0 0;
+      box-shadow: 0px 2px 7px rgb(219, 218, 218);
+
+  }
+
+  #searchResults .services .services-title h4{
+      color: white;
+      margin: 0;
+      padding: 1rem;
+      font-size: 2rem;
+text-align: center;  
+}
+#searchResults .services .services-body{
+    box-shadow: 0px 2px 7px rgb(226, 226, 226);
+}
+
+#searchResults .services .services-body .form-check label{
+margin-right: 3rem;
+}
+#searchResults .services .services-body .form-check input{
+    padding-left: 5rem;
 }
 
 
 
+#searchResults .services .accordion:after {
+    content: '\02795';
+    font-size: 13px;
+    color: #f7ae14!important;
+    float: left!important;
+    margin-left: 5px;
+    margin-right: 3rem;
+}
+  
+  #searchResults .results{
+      margin-top: 1.5rem;
+      padding: 0 2rem;
+  }
+  #searchResults .results .card{
+      text-align: right;
+      background-color: rgb(245, 243, 243);
+      border-radius: 15px;
+      padding: 1rem 0 1rem 2rem;
+      border: #0000003d;
+      transition: 0.5s all;
+      border-width: 1px;
+      border-style: solid;
+  }
+
+  #searchResults .results .card:hover{
+    box-shadow: 2px 5px 5px rgb(177, 175, 175);
+    transform: translateY(-10px);
+border-top: 4px solid #f7ae14;
+}
+
+#searchResults .results .col-md-3{
+    padding: 0 1rem;
+}
+#searchResults .results .col-md-3 .border{
+    background-color: #f7ae14;
+    margin: 1.5rem 1rem 0 0;
+}
+  #searchResults .results .col-md-3 img{
+width: 100%;
+height: 50%;
+  }
+
+  #searchResults .results .col-md-3 .profile-pic{
+    position: relative;
+    top: 10px;
+    right: 10px;
+}
+
+  #searchResults .results .sort{
+      float: left;
+      width: 100%;
+      display: flex;
+      padding-bottom: 2rem;
+
+  }
+
+
+  #searchResults .results .sort .btn{
+      text-align: left;
+      background-color: rgb(245, 243, 243);
+      color: gray;
+      padding: 0.5rem 3rem;
+      border-radius: 10px;
+  }
+
+  #searchResults .results .sort p{
+      font-size: 1.2rem;
+      padding-left: 0.8rem;
+      padding-top: 0.4rem;
+  }
+
+
+  #searchResults .results .contacts{
+      background-color: white;
+      padding: 0;
+      border-radius: 5%;
+
+  }
+  #searchResults .results .contacts p{
+      text-align: center;
+
+  }
+  #searchResults .results .contacts:hover{
+    box-shadow: 2px 5px 5px rgb(177, 175, 175);
+
+  }
+
+  #searchResults .results .contacts h4{
+      background-color: rgb(179, 179, 179);
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem 0;
+      font-size: 1.3rem;
+      color: white;
+      border-radius: 10px 10px 0 0;
+
+  }
+
+  #searchResults .results .contacts:hover h4{
+background-color: #f7ae14;
+color: white;
+  }
+  #searchResults .results .contacts .evaluate{
+margin: auto;
+text-align: center;
+}
+
+#searchResults .results .contacts .evaluate .evaluate-clints{
+    display: flex;
+justify-content: center;
+}
+#searchResults .results .contacts .evaluate .unlike{
+    padding-right: 0.5rem;
+    padding-bottom: 0;
+    
+}
+
+#searchResults .results .contacts .evaluate .like{
+    padding-right: 1rem;
+    padding-bottom: 0;
+}
+#searchResults .results .contacts .evaluate .unlike i{
+    color: grey;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+
+}
+
+#searchResults .results .contacts .evaluate h5{
+    font-size: 1rem;
+    font-weight: 600;
+    padding-top: 0.8rem;
+}
+#searchResults .results .contacts .evaluate .like i{
+    color: #f7ae14;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+
+#searchResults .results .contacts i{
+    color: #f7ae14;
+
+}
 
 
 
+.page-item:last-child .page-link {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+    /* height: 100%; */
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: auto;
+    background-color: #fff;
+    border-color: #dee2e6;
+    /* height: 100%; */
+}
+
+nav .pagination{
+    margin-left: 14rem;
+}
+
+
+
+@media only screen and (max-width: 768px){
+
+.column {
+    float: left;
+    width: 50%;
+    cursor: pointer;
+}
+
+    header .navbar img{
+        width: 100%!important;
+    }
+
+    #Search{
+    }
+    #Search h1{
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    }
+    #Search .row{
+        margin: 0;
+    }
+    #Search .search-bar{
+        border: 1px solid white;
+        border-radius: 15px;
+        padding: 1.3rem 1.5rem;
+    }
+    
+    #Search .search-bar .btn-secondary {
+        font-size: 1.2rem;
+    
+    }   
+
+    #Search .search-bar .btn-primary {
+        
+         font-size: 1.2rem;         
+    }
+    
+    #Search .search-bar .btn-primary i{
+        padding-right: 0.5rem;
+        font-size: 1.2rem;
+    }
+
+    header{
+        background-image: url(../img/diverse-friends-using-digital-devices.jpg);
+        height: 60vh;
+        
+    }
+
+
+    #about{
+        text-align: right;
+        margin-top: 7rem;
+    
+    }
+    
+    #about .about-text{
+        margin-top: 3rem;
+        border-right: none ;
+    }
+    
+    
+    #about .about-img{
+        margin-right: 1rem;
+    }
+    
+    #about .about-text h2{
+    font-size: 2rem;
+    font-weight: 600;
+    color: #f7ae14;
+    
+    }
+    
+   
+    #about .about-text .btn {
+        display: inline-block;
+        font-size: 1rem;
+        margin-top: 1rem;
+    }
+
+    #services{
+        margin-top: 3rem;
+    }
+
+
+    #company #Search h1{
+        margin-top: 4rem;
+    }
+
+   #company .navbar img{
+}
+
+#company #Search .search-bar .btn-secondary {
+    font-size: 1.2rem;
+
+}   
+
+#company #Search .search-bar .btn-primary {
+    
+     font-size: 1.2rem;         
+}
+
+#company #Search .search-bar .btn-primary i{
+    padding-right: 0.5rem;
+    font-size: 1.2rem;
+}
+#about-company {
+    margin-top: -2rem;
+    margin-bottom: 2rem;
+}
+
+#about-company .about-company-img .evaluate h5 {
+    font-size: 1.3rem;
+}
+
+#about-company .about-company-img .evaluate .like i {
+    color: #f7ae14;
+    font-size: 1.2rem;
+    margin-bottom: 0.7rem;
+}
+
+#about-company .about-company-img .evaluate .unlike i {
+    font-size: 1.2rem;
+    margin-bottom: 0.7rem;
+}
+
+#about-company .about-company-img .evaluate .evaluate-clints {
+    padding: 0 5rem;
+}
+#about-company .about-company-text .company-text-title h2{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+
+#searchResults .results .contacts{
+    margin-right: 1rem;
+}
+
+#searchResults .results .card {
+    padding-right: 1rem;
+}
+
+#searchResults .results .col-md-3 img{
+    height: 70%;
+}
+
+nav .pagination {
+    margin-left: 2rem;
+}
+#searchResults .services .services-title h4 {
+    padding: 0.3rem;
+    font-size: 1.5rem;
+}
+}
+
+
+
+.dropdown-menu{
+width:100%;
+}
+
+
+.nav-item{
+
+    text-align: right;
+
+}
+
+
+.dropdown-item{
+
+text-align:right;
+}
+
+
+.w-100 {
+    width: 100%!important;
+    max-width: 100%;
+}
+
+.evaluate-clints .fas:hover{
+color:black!important;
+}
+
+.nameOfService{
+
+    color: #3291e2;
+    font-size: 1.5rem;
+}
