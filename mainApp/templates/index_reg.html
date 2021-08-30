@@ -24,7 +24,7 @@
        
      
 
-        <title>تسجيل الدخول </title>
+        <title>انضم الينا  </title>
         <style>
             body {
                  background: #4f4d4d;
@@ -59,7 +59,7 @@
                                 <div class="col-md-3 col-1"></div>
                                 <div class="col-md-6 col-10" style=" background: #ffffffd6;padding: 18px;border-radius: 35px;box-shadow: 0px 1px 5px 5px #c0bcbc;">
                                     <div class="login-block col-sm-12">
-                                        <h1 style=" text-align: center; ">تسجيل الدخول</h1>
+                                        <h1 style=" text-align: center; ">تسجيل عضو جديد</h1>
                                         <p style=" text-align: center; "> برجاء ادخل البيانات الخاصة بك</p>
                                         <form id="formLogin" class="ng-untouched ng-pristine ng-valid container">
                                             {% csrf_token %}
@@ -84,37 +84,10 @@
                                             <div class=" row mt-3">
                                                 <a  id="loginButton" href="javascript:void(0)" class="btn btn-block" style="background-color: #e6aa32d9;font-family: system-ui;font-size: 17px;font-weight: 500;">تسجيل الدخول </a>
                                             </div>
-                                            <hr class="hr-xs mt-4 mb-0">
-                                            <div class="row">
-                                                       
-                                                        <p id="text2">او سجل دخول ب</p>
-                                                       
-                                                        
-                                                        
-                                             </div>
-                                             
-                                            <div class=" row ">
-                                                <div class="col-6">
-                                                    <button id="facebook"><span>Facebook</span><img id="facebook1" src="https://image.flaticon.com/icons/svg/174/174848.svg"></button>
-                                                </div>
-
-                                                <div class="col-6">
-                                                    <button id="google"><span>Google</span><img id="google1" src="https://image.flaticon.com/icons/svg/281/281764.svg"></button>
-                                                </div>
-                                            </div>
-
-                                            <div class=" row">
-                                                <div class="col-6 p-0">
-                                                <p id="text3">لست عضوا؟</p> 
-                                                </div>
-                                                <div class="col-6 p-0 pr-2">
-                                                    <p style="text-align: right;">
-                                                        <a id="signup" href="#">انضم الأن</a>
-                                                    </p>
-                                                </div>
-                                            </div>
                                         </form>
                                         
+                                        <br>
+                                        <br>
                                         
                                     </div>
                                 </div>
@@ -130,8 +103,11 @@
                        
                         
                         <script src="{% static 'js/jquery.easing.1.3.js' %}"></script> 
-                        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+                        <script src="{% static 'js/owl.carousel.min.js' %}"></script> 
+                        <script src="{% static 'js/typed.js' %}"></script>  
+                        <script src="{% static 'js/index_about.js' %}"></script> 
             
+            <script src="{% static 'js/bootstrap-notify.js' %}"></script>
             <script>
 
 function getCookie(name) {

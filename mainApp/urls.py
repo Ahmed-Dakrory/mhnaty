@@ -10,6 +10,9 @@ urlpatterns = [
     path('SearchPage/',views.SearchPage,name = 'SearchPage'),
     path('CompanyPage/',views.CompanyPage,name = 'CompanyPage'),
     path('accounts/login/',views.loadLoginPage,name = 'loadLoginPage'),
+    path('loadRegPage/',views.loadRegPage,name = 'loadRegPage'),
+    path('getAllCategoriesJson.json',views.getAllCategoriesJson,name = 'getAllCategoriesJson'),
+    path('getNewResultsForAds',views.getNewResultsForAds,name = 'getNewResultsForAds'),
 
 
  

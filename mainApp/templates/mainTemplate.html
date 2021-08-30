@@ -1,3 +1,7 @@
+{%load static%}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
 <html lang="ar">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -5,7 +9,7 @@
         <meta http-equiv="cache-control" content="no-cache" />
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="-1" />
-        {%load static%}
+       
    
         
         <link rel="icon" type="image/png" sizes="32x32" href="/static/img/Logo 2.png">
@@ -64,7 +68,7 @@
                 <a class="nav-link" href="/accounts/login/">دخول</a>
               </li>
               <li class="nav-item login">
-                <a class="nav-link" href="#">أنضم الان</a>
+                <a class="nav-link" href="/loadRegPage/">أنضم الان</a>
               </li>
               {% endif %}
               {% if user.is_authenticated %}
@@ -86,7 +90,7 @@
               <h1>ابحث عن خدماتك الان</h1>
 
                   <div class="row search-bar" style="direction:rtl">
-                      <div class="col-md-4 col-6 w-100 mt-1 p-1">
+                      <div class="col-md-3 col-12 w-100 mt-1 p-1">
                           <div class="dropdown w-100">
                               <a class="btn btn-secondary dropdown-toggle w-100" href="#" type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               الخدمات
@@ -102,24 +106,55 @@
                               </ul>
                             </div>
                       </div>
-                      <div class="col-md-4 col-6 w-100 mt-1 p-1">
-                          <div class="dropdown w-100">
-                              <a class="btn btn-secondary dropdown-toggle w-100" href="#" type="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                مقدم الخدمة
-                              </a>
-                            
-                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
-                                <li><a class="dropdown-item" href="#">حسن علام</a></li>
-                                <li><a class="dropdown-item" href="#">الاردنية للمقاولات</a></li>
-                                <li><a class="dropdown-item" href="#">مقاولات عامة وانشاءات</a></li>
-                              </ul>
-                            </div>
-                      </div>
+                      <div class="col-md-3 col-12 w-100 mt-1 p-1">
+                        <div class="dropdown w-100">
+                            <a class="btn btn-secondary dropdown-toggle w-100" href="#" type="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              مقدم الخدمة
+                            </a>
+                          
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
+                              <li><a class="dropdown-item" href="#">حسن علام</a></li>
+                              <li><a class="dropdown-item" href="#">الاردنية للمقاولات</a></li>
+                              <li><a class="dropdown-item" href="#">مقاولات عامة وانشاءات</a></li>
+                            </ul>
+                          </div>
+                    </div>
 
-                      <div class="col-md-4 w-100 mt-1 p-1">
-                          <a href="/SearchPage/" class="btn btn-primary btn-lg w-100">ابحث<i class="fas fa-search"></i></a>
+                    <div class="col-md-3 col-12 w-100 mt-1 p-1">
+                      <div class="dropdown w-100">
+                          <a class="btn btn-secondary dropdown-toggle w-100" href="#" type="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            البلد
+                          </a>
+                        
+                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
+                            <li><a class="dropdown-item" href="#">حسن علام</a></li>
+                            <li><a class="dropdown-item" href="#">الاردنية للمقاولات</a></li>
+                            <li><a class="dropdown-item" href="#">مقاولات عامة وانشاءات</a></li>
+                          </ul>
+                        </div>
+                  </div>
 
-                      </div>
+                    <div class="col-md-3 col-12 w-100 mt-1 p-1">
+                      <div class="dropdown w-100">
+                          <a class="btn btn-secondary dropdown-toggle w-100" href="#" type="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            المنطقة
+                          </a>
+                        
+                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
+                            <li><a class="dropdown-item" href="#">حسن علام</a></li>
+                            <li><a class="dropdown-item" href="#">الاردنية للمقاولات</a></li>
+                            <li><a class="dropdown-item" href="#">مقاولات عامة وانشاءات</a></li>
+                          </ul>
+                        </div>
+                  </div>
+
+
+                  <div class="col-md-3 w-100 mt-1 p-1 "></div>
+                  <div class="col-md-6 w-100 mt-1 p-1">
+                      <a href="/SearchPage/" class="btn btn-primary btn-lg w-100">ابحث<i class="fas fa-search"></i></a>
+
+                  </div>
+                  <div class="col-md-3 w-100 mt-1 p-1"></div>
                   
                   </div>    
       
@@ -184,105 +219,25 @@
         <div class="border"></div>
       </div>
       <div class="owl-carousel owl-theme">
-          <div>
+        
+        
+        {% for item in allMainCategories%}
+        <div>
               <div class="single-service">
-                <img class="img-fluid" src="/static/img/635435339228902500.jpg">
+                <img class="img-fluid" src="{{item.image}}">
                 <div class="overlay">
             
-            <h4>الخدمات الطبية</h4>
+            <h4>{{item.name}}</h4>
                 <a href="index_services.html"><button class="btn">Read More</button></a>
             
             </div>
           </div>
         </div>
 
-        <div>
-          <div class="single-service">
-            <img class="img-fluid" src="/static/img/1.jpg">
-            <div class="overlay">
-        
-        <h4>
-          الخدمات
-          التعليمية
-          </h4>
-                  <a href="index_services.html"><button class="btn">Read More</button></a>
-        
-        </div>
-      </div>
-    </div>
-      
-
-    <div>
-      <div class="single-service">
-        <img class="img-fluid" src="/static/img/encyclopedia-ما-هي-فوائد-التكنولوجيا.jpg">
-        <div class="overlay">
-    
-    <h4>
-      تكنولوجيا</h4>
-              <a href="index_services.html"><button class="btn">Read More</button></a>
-    
-    </div>
-  </div>
-</div>
-  
-
-<div>
-  <div class="single-service">
-    <img class="img-fluid" src="/static/img/application-occupation-profession-job-seeker-concept.jpg">
-    <div class="overlay">
-
-<h4>
-  إنشاءات ومقاولات</h4>
-          <a href="index_services.html"><button class="btn">Read More</button></a>
-
-</div>
-</div>
-</div>
+        {% endfor %}
 
 
-<div>
-  <div class="single-service">
-    <img class="img-fluid" src="/static/img/Untitled-1-01.png">
-    <div class="overlay">
 
-<h4>
-  صيانة
-منزلية
-</h4>
-          <a href="index_services.html"><button class="btn">Read More</button></a>
-
-</div>
-</div>
-</div>
-
-
-<div>
-  <div class="single-service">
-    <img class="img-fluid" src="/static/img/635435339228902500.jpg">
-    <div class="overlay">
-
-<h4>
-  المحاسبة والمالية</h4>
-          <a href="index_services.html"><button class="btn">Read More</button></a>
-
-</div>
-</div>
-</div>
-
-
-<div>
-  <div class="single-service">
-    <img class="img-fluid" src="/static/img/aerial-background-beverage-blog-blogger-browsing-1447929-pxhere.com.jpg">
-    <div class="overlay">
-
-<h4>
-  الخدمات الطبية</h4>
-          <a href="index_services.html"><button class="btn">Read More</button></a>
-
-</div>
-</div>
-</div>
-  
         </div>
       </div>
   </div>

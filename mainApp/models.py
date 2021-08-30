@@ -94,3 +94,88 @@ class profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class attachmentTranscript(models.Model):
+    file = models.FileField('ListDoc', upload_to=path_and_renameListing)
+    postDate = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    content_type = models.CharField(max_length=500,default=None)
+    name = models.CharField(max_length=5000,default=None)
+    
+    
+    @property
+    def filename(self):
+        name = self.file.name.split("/")[1].replace('_',' ').replace('-',' ')
+        return name
+
+    
+    class Meta:
+        db_table = "attachmenttranscript"
+
+
+class category(models.Model):
+    name = models.CharField(max_length=500,default=None)
+    isFirstHead = models.BooleanField(default=False)
+    details = models.CharField(max_length=500,default=None,null=True)
+    image = models.ImageField(upload_to='attachments/allImages/',null=True)
+    parentCategory = models.IntegerField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    updated = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
+
+
+    class Meta:
+        db_table = "category"
+
+
+    def to_json(self):
+        return {
+            'id' :self.id,
+            'name':self.user.username,
+            'image':self.image
+            }
+        
+
+    def __str__(self):
+        return self.name
+
+
+
+class theAdd(models.Model):
+    owner = models.ForeignKey(profile, on_delete=models.PROTECT)
+    name = models.CharField(max_length=500,default=None)
+    details = models.TextField(default=None)
+    moreDetails = models.TextField(default=None)
+    category = models.ForeignKey(category, on_delete=models.PROTECT)
+    images = models.ManyToManyField(attachmentTranscript)
+    averageRate = models.FloatField(blank=True, null=True)
+    mainImage = models.ImageField(upload_to='attachments/mainImage/',null=True)
+
+    created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    updated = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
+
+
+    class Meta:
+        db_table = "theAdd"
+
+
+    def to_json(self):
+        return {
+            'id' :self.id,
+            'name':self.name,
+            'owner':self.owner.user.first_name,
+            'phone':self.owner.phone,
+            'averageRate':self.averageRate,
+            'address':self.owner.address,
+            'details':self.details,
+            'mainImage':self.mainImage.url,
+            'category_name':self.category.name,
+            }
+        
+
+    def __str__(self):
+        return self.name
+
+
+

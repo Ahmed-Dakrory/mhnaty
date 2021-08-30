@@ -169,7 +169,7 @@ STATICFILES_DIRS = [
 
 from pathlib import Path
 home = str(Path.home())
-# print(home)
+print(home)
 MEDIA_DIR = os.path.join(home,'media')
 
 MEDIA_URL = '/media/'
