@@ -19,6 +19,9 @@ from django.http import JsonResponse
 import json
 from django.db.models import Q
 from django.shortcuts import render
+import urllib.request
+from django.core.files.uploadedfile import SimpleUploadedFile
+from urllib.parse import urlparse
 
 from .models import *
 # Create your views here.
@@ -74,10 +77,6 @@ def loadRegPage(request):
 
 
 def getNewResultsForAds(request):
-    print('---------------------------------------------------')
-    print(request.POST)
-    print(request.GET)
-    print('---------------------------------------------------')
     pageLength = int(request.POST['length'])
     pageNumber = int(request.POST['start'])
     draw = int(request.POST['draw'])
@@ -185,3 +184,135 @@ def getAllCategoriesJson(request):
     #             ]
     
     return JsonResponse(allJson, safe=False)
+
+
+
+def AuthOutSide(request):
+    
+    try:
+        firstNameData = request.POST['firstName']
+        lastNameData = request.POST['lastName']
+        emailData = request.POST['email']
+        passwordData = request.POST['email']+str('AhmedAuth')
+        roleId = request.POST['role']
+        img_url = request.POST['img']
+        usernameData = request.POST['email']
+        
+        findLastUser = User.objects.filter(email=emailData)
+        if roleId !='':
+            roleData = role.objects.get(id=roleId)
+        else:
+            roleData = None
+
+        if len(findLastUser) == 0:
+            
+            usernew = User.objects.create_user(username=usernameData,  password=passwordData,email=emailData,first_name=firstNameData,
+            last_name=lastNameData)
+            usernew.save()
+
+            basename = urlparse(img_url).path.split('/')[-1]
+            tmpfile, _ = urllib.request.urlretrieve(img_url)
+            img_temp = SimpleUploadedFile(basename, open(tmpfile, "rb").read())
+
+            dataToInsert = profile.objects.create(user=usernew,role=roleData,image=img_temp)
+            dataToInsert.save()
+            user = authenticate(username=usernameData, password=passwordData)
+            if user is not None:
+                login(request, user)
+
+            response = {
+                'State':'Ok',
+                'isExist':'No',
+                'ableToLogin':'Yes',
+                'RedirectUrl':'/'
+            }
+        else:
+            user = authenticate(username=usernameData, password=passwordData)
+            if user is not None:
+                login(request, user)
+                response = {
+                    'State':'Ok',
+                    'isExist':'Ok',
+                    'ableToLogin':'Yes',
+                    'RedirectUrl':'/'
+                    }
+            else:
+                response = {
+                    'State':'Ok',
+                    'isExist':'Ok',
+                    'ableToLogin':'No',
+                    'Error':'Registered Email',
+                    'RedirectUrl':'/'
+                    }
+
+
+                
+            
+
+        
+    except:
+        response = {
+                'State':'Error'
+            }
+    
+    return JsonResponse(response, safe=False)
+
+
+
+def addnew_profile(request):
+    all_role = role.objects.all()
+    all_job = job.objects.all()
+    typeOfEntry = request.GET['type']
+    if typeOfEntry == 'new':
+        dataToInsert = None
+    elif typeOfEntry == 'edit':
+        idOfelement = request.GET['id']
+        dataToInsert = profile.objects.get(id=idOfelement)
+    
+    
+    context = {
+        'all_role':all_role,
+        'all_job':all_job,
+        'profileData':dataToInsert,
+        'type':typeOfEntry}
+
+    if request.method=='POST':
+        emailData = request.POST['email']
+        passwordData = request.POST['password']
+        addressData = request.POST['address']
+        phoneData = request.POST['phone']
+        roleId = request.POST['role']
+        jobId = request.POST['job']
+        
+        if jobId !='':
+            jobData = job.objects.get(id=jobId)
+        else:
+            jobData = None
+
+        if roleId !='':
+            roleData = role.objects.get(id=roleId)
+        else:
+            roleData = None
+
+        if typeOfEntry == 'new':
+            usernameData = request.POST['username']
+            usernew = User.objects.create_user(username=usernameData,  password=passwordData,email=emailData)
+            usernew.save()
+
+            dataToInsert = profile.objects.create(user=usernew,job=jobData,address=addressData,phone=phoneData,role=roleData)
+            dataToInsert.save()
+        elif typeOfEntry == 'edit':
+            dataToInsert = profile.objects.filter(id=idOfelement)
+            userData = profile.objects.get(pk = idOfelement).user
+            if passwordData!='':
+                userData.set_password(passwordData)
+                userData.save()
+            
+            User.objects.filter(id=userData.id).update(email=emailData)
+            dataToInsert.update(address=addressData,job=jobData,phone=phoneData,role=roleData)
+            
+
+
+        return HttpResponseRedirect('/'+get_language()+'/listOf_profile')
+    elif request.method=='GET':
+        return render(request,'controls/users/profile/addnew.html',context)

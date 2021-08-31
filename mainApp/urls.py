@@ -13,6 +13,8 @@ urlpatterns = [
     path('loadRegPage/',views.loadRegPage,name = 'loadRegPage'),
     path('getAllCategoriesJson.json',views.getAllCategoriesJson,name = 'getAllCategoriesJson'),
     path('getNewResultsForAds',views.getNewResultsForAds,name = 'getNewResultsForAds'),
+    path('AuthOutSide',views.AuthOutSide,name = 'AuthOutSide'),
+    
 
 
  
