@@ -21,7 +21,7 @@ from django.db.models import Q
 from django.shortcuts import render
 import urllib.request
 from django.core.files.uploadedfile import SimpleUploadedFile
-from urllib.parse import urlparse
+import uuid
 
 from .models import *
 # Create your views here.
@@ -210,10 +210,10 @@ def AuthOutSide(request):
             last_name=lastNameData)
             usernew.save()
 
-            basename = urlparse(img_url).path.split('/')[-1]
+            basename = str(uuid.uuid1())+'jpg'
             tmpfile, _ = urllib.request.urlretrieve(img_url)
             img_temp = SimpleUploadedFile(basename, open(tmpfile, "rb").read())
-
+            
             dataToInsert = profile.objects.create(user=usernew,role=roleData,image=img_temp)
             dataToInsert.save()
             user = authenticate(username=usernameData, password=passwordData)

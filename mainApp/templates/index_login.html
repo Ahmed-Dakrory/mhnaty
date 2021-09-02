@@ -99,7 +99,15 @@
                                              
                                             <div class=" row ">
                                                 <div class="col-6">
-                                                    <button id="facebook"><span>Facebook</span><img id="facebook1" src="https://image.flaticon.com/icons/svg/174/174848.svg"></button>
+
+                                                    
+                                                <!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+                                                </fb:login-button>
+
+                                                <div id="status">
+                                                </div> -->
+
+                                                    <button id="facebook" type="button" onclick="fb_login();"><span>Facebook</span><img id="facebook1" src="https://image.flaticon.com/icons/svg/174/174848.svg"></button>
                                                 </div>
 
                                                 <div class="col-6">
@@ -136,6 +144,64 @@
                         <script src="{% static 'js/jquery.easing.1.3.js' %}"></script> 
                         <script src="{% static 'js/owl.carousel.min.js' %}"></script>
             
+                        
+<script>
+
+function fb_login(){
+    FB.login(function(response) {
+
+        if (response.authResponse) {
+            console.log('Welcome!  Fetching your information.... ');
+            //console.log(response); // dump complete info
+            access_token = response.authResponse.accessToken; //get access token
+            user_id = response.authResponse.userID; //get FB UID
+
+            FB.api('/me?fields=id,name,email,first_name,last_name,picture.type(large)', function(response) {
+                    // console.log(response.picture.data.url)
+                    SignInNowSocial(response.email,
+                    response.first_name,
+                    response.last_name,
+                response.picture.data.url,2);
+
+                    console.log(response.picture.data.url);
+                    console.log(response.first_name);
+                    console.log(response.last_name);
+                    console.log(response.email);
+                
+                    }); 
+
+        } else {
+            //user hit cancel button
+            console.log('User cancelled login or did not fully authorize.');
+
+        }
+    }, {
+        scope: 'public_profile,email,user_photos'
+    });
+}
+
+
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '363144762180447',
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v11.0'
+      });
+        console.log("FbLoaded");
+        
+    };
+  
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "https://connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>
+                        
             <script>
  
  function getCookie(name) {
@@ -186,8 +252,8 @@
                   success: function(result) {
                       
                       hideLoader();
-                      if(result.State=="Ok"){
-                          if(result.ableToLogin=='Yes'){
+                      if(result.State="Ok"){
+                          if(result.ableToLogin='Yes'){
                                 window.location.href = result.RedirectUrl;
                             }else{
                                 
@@ -282,7 +348,7 @@ $.ajax({
     cache: false,
     success: function(result) {
         console.log(result);
-       if(result['Result']=='Success'){
+       if(result['Result']='Success'){
            
         var urlNew = result['url'].substr(result['url'].indexOf("next=/")+"next=/".length, result['url'].length);
         console.log(urlNew);
