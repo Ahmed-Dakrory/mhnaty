@@ -70,6 +70,8 @@ class profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     address = models.CharField(max_length=500,default=None,null=True)
     phone = models.CharField(max_length=500,default=None,null=True)
+    country = models.CharField(max_length=500,default=None,null=True)
+    region = models.CharField(max_length=500,default=None,null=True)
     mobile = models.CharField(max_length=500,default=None,null=True)
     image = models.ImageField(upload_to='attachments/userData/',null=True)
     role = models.ForeignKey(role, on_delete=models.PROTECT,null=True)
@@ -176,6 +178,8 @@ class theAdd(models.Model):
 
     def __str__(self):
         return self.name
+
+
 
 
 

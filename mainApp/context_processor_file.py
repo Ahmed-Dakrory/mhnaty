@@ -23,8 +23,11 @@ def defaultContextProcessor(request):
         userProfile = profile.objects.get(user=user)
     else:
         userProfile = None
+    
+    allMainCategories = category.objects.filter(Q(isFirstHead=0) & Q(deleted=False))
 
     return dict(
         userProfile = userProfile,
+        allMainCategories=allMainCategories,
         current_date = datetime.now()    
     )

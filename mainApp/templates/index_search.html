@@ -30,6 +30,9 @@
 
 
     <body>
+      <div id="loading">
+        <div id="loadingImg"></div>
+      </div>
 
       
         
@@ -315,7 +318,7 @@
                   
                   <div aria-label="..." class="my-4 row mt-5">
                     
-                    <input type="hidden" numberOFResultView="0" id="currentDraw"/>
+                    <input type="hidden" numberOFResultView="1" id="currentDraw"/>
                     <div class="row w-100">
                       <div class="col-1 p-0 m-0"></div>
                       <div class="page-item  col-3 text-center col-md-2 m-0 " id="goNextButton" onclick="getNextPage();">
@@ -502,34 +505,20 @@
     <script src="{% static 'js/typeahead.bundle.min.js' %}"></script> 
     <script src="{% static 'js/bootstrap-tagsinput.min.js' %}"></script> 
 
+    <script src="{% static 'js/mainFunctions.js' %}"></script>
 
     <script>
-       function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    var csrftoken = getCookie('csrftoken');
+       
+      var url = new URL(window.location);
+      var category = url.searchParams.get("category");
+      var provider = url.searchParams.get("provider");
+      var country = url.searchParams.get("country");
+      var region = url.searchParams.get("region");
+      console.log(region);
 
 
-    function showLoader(){
 
-    }
-
-    function hideLoader(){
-      
-    }
-
+   
     function getBlock(data){
       phoneStatment = '';
               if(data.phone !='' || data.phone!=' '){
@@ -637,7 +626,7 @@
        
 
         resultRecordsFiltered =  $('#AllRecords').html();
-        if(parseInt($('#currentDraw').attr('numberOFResultView'))!=0){
+        if(parseInt($('#currentDraw').attr('numberOFResultView'))!=1){
                       
           $('#goNextButton').removeClass('disabled');
             pageNumber = $('#currentDraw').attr('numberOFResultView')-1;
@@ -656,7 +645,7 @@
       function getAdds(){
         showLoader();
         // console.log($('#currentDraw').attr('numberOFResultView'));
-        if(parseInt($('#currentDraw').attr('numberOFResultView'))==0){
+        if(parseInt($('#currentDraw').attr('numberOFResultView'))==1){
           console.log('StartPage');
 
           $('#goBackButton').removeClass('disabled');
@@ -666,8 +655,8 @@
           
         }
 
-        if($('#currentDraw').attr('numberOFResultView')=='0'){
-          start = 0
+        if($('#currentDraw').attr('numberOFResultView')=='1'){
+          start = 1
         }else{
           start = $('#currentDraw').attr('numberOFResultView')*3+1;
         }
@@ -680,7 +669,11 @@
                       'length':3,
                       'start':start,
                       'draw':$('#currentDraw').attr('numberOFResultView'),
-                      'search[value]':''
+                      'search[value]':'',
+                      'category':category,
+                      'provider':provider,
+                      'country':country,
+                      'region':region,
                   },
                   headers:{
                       "X-CSRFToken": csrftoken

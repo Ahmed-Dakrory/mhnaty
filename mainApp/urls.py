@@ -14,6 +14,9 @@ urlpatterns = [
     path('getAllCategoriesJson.json',views.getAllCategoriesJson,name = 'getAllCategoriesJson'),
     path('getNewResultsForAds',views.getNewResultsForAds,name = 'getNewResultsForAds'),
     path('AuthOutSide',views.AuthOutSide,name = 'AuthOutSide'),
+    path('getServiceProviders',views.getServiceProviders,name = 'getServiceProviders'),
+    path('getListOfRegions',views.getListOfRegions,name = 'getListOfRegions'),
+    path('getListOfCountries',views.getListOfCountries,name = 'getListOfCountries'),
     
 
 

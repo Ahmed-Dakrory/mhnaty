@@ -22,7 +22,10 @@ from django.shortcuts import render
 import urllib.request
 from django.core.files.uploadedfile import SimpleUploadedFile
 import uuid
-
+from django.shortcuts import HttpResponseRedirect   
+from django.http import HttpResponse
+from django.db import connection
+import math
 from .models import *
 # Create your views here.
 
@@ -76,6 +79,144 @@ def loadRegPage(request):
     return render(request,'index_reg.html',None)
 
 
+def getServiceProviders(request):
+    
+    with connection.cursor() as cursorLast:
+    
+        try:
+            category = request.POST['category']
+            
+            if category !='':
+                sql_query = """
+
+                        select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
+                        as output 
+                        from (
+                        SELECT  profile.id,auth_user.first_name as name FROM theadd
+                        left join profile on profile.id = theadd.owner_id
+                        left join auth_user on profile.user_id = auth_user.id
+                        left join category on category.id = theadd.category_id
+                        where category.name = '"""+str(category)+"""' and auth_user.first_name !='' and auth_user.first_name !=' '
+                        group by profile.id) x;
+
+
+
+                    """
+            else:
+                sql_query = """
+
+                        select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
+                        as output 
+                        from (
+                        SELECT  profile.id,auth_user.first_name as name FROM theadd
+                        left join profile on profile.id = theadd.owner_id
+                        left join auth_user on profile.user_id = auth_user.id
+                         where  auth_user.first_name !='' and auth_user.first_name !=' '
+                        group by profile.id) x;
+
+
+
+                    """
+
+
+            cursorLast.execute(sql_query)
+            cursorAllData = cursorLast.fetchone()
+            y=cursorAllData[0].replace('\r\n','')
+            # print(y)
+            return HttpResponse(y,content_type='application/json')
+        except Exception as e:
+            print(e)
+            allJson = {"Result": "Fail"}
+            return JsonResponse(allJson, safe=False)
+
+
+
+def getListOfCountries(request):
+    
+    with connection.cursor() as cursorLast:
+    
+        try:
+            sql_query = """
+
+                    select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
+                    as output 
+                    from (
+                    SELECT  profile.id,profile.country as name FROM theadd
+                    left join profile on profile.id = theadd.owner_id
+                    where profile.country !='' and profile.country !=' '
+                    group by profile.country) x;
+
+
+                """
+            
+
+            cursorLast.execute(sql_query)
+            cursorAllData = cursorLast.fetchone()
+            y=cursorAllData[0].replace('\r\n','')
+            # print(y)
+            return HttpResponse(y,content_type='application/json')
+        except Exception as e:
+            print(e)
+            allJson = {"Result": "Fail"}
+            return JsonResponse(allJson, safe=False)
+
+
+
+
+def getListOfRegions(request):
+    
+    with connection.cursor() as cursorLast:
+    
+        try:
+            country = request.POST['country']
+            
+            if country !='':
+                sql_query = """
+
+                        select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
+                    as output 
+                    from (
+                    SELECT  profile.id,profile.region as name FROM theadd
+                    left join profile on profile.id = theadd.owner_id
+                    where LOWER(profile.country)=LOWER('"""+country+"""') and profile.region !='' and profile.region !=' '
+                    group by profile.region) x;
+
+
+
+                    """
+            else:
+                sql_query = """
+
+                        select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
+                    as output 
+                    from (
+                    SELECT  profile.id,profile.region as name FROM theadd
+                    left join profile on profile.id = theadd.owner_id
+                    where  profile.region !='' and profile.region !=' '
+                    group by profile.region) x;
+
+
+
+
+                    """
+
+
+            cursorLast.execute(sql_query)
+            cursorAllData = cursorLast.fetchone()
+            y=cursorAllData[0].replace('\r\n','')
+            # print(y)
+            return HttpResponse(y,content_type='application/json')
+        except Exception as e:
+            print(e)
+            allJson = {"Result": "Fail"}
+            return JsonResponse(allJson, safe=False)
+
+       
+
+
+
+
+
 def getNewResultsForAds(request):
     pageLength = int(request.POST['length'])
     pageNumber = int(request.POST['start'])
@@ -83,9 +224,20 @@ def getNewResultsForAds(request):
     searchKey = request.POST['search[value]']
     pageNumber = int(pageNumber/pageLength + 1)
     
+
+    category = request.POST['category']
+    provider = request.POST['provider']
+    country = request.POST['country']
+    region = request.POST['region']
+
     try:
         if searchKey == '':
-            allElements = theAdd.objects.filter( Q(id__isnull=False) & Q(deleted=False))
+            allElements = theAdd.objects.filter( Q(id__isnull=False)
+            & Q(category__name__contains=category)
+            & Q(owner__user__first_name__contains=provider)
+            & Q(owner__country__contains=country)
+            & Q(owner__region__contains=region)
+            & Q(deleted=False))
         else:
             allElements = theAdd.objects.filter(Q(deleted=False) & 
             (Q(name__contains=searchKey) |
@@ -107,7 +259,7 @@ def getNewResultsForAds(request):
             response = paginator.page(paginator.num_pages)
 
         listResult = list(response)
-        allElementsJson = {"draw": draw,"recordsTotal": len(allElements),"recordsFiltered": len(allElements)/pageLength+1,"data":[]}
+        allElementsJson = {"draw": draw,"recordsTotal": len(allElements),"recordsFiltered": math.ceil(len(allElements)/pageLength)-1,"data":[]}
 
         for result in listResult:
             allElementsJson['data'].append(result.to_json())
@@ -115,7 +267,7 @@ def getNewResultsForAds(request):
         return JsonResponse(allElementsJson)
     except Exception as e:
         print("Ahmed Error: "+str(e))
-        return JsonResponse({"draw": draw,"recordsTotal": len(allElements),"recordsFiltered": len(allElements)/pageLength+1,"data":[]})
+        return JsonResponse({"draw": draw,"recordsTotal": len(allElements),"recordsFiltered": math.ceil(len(allElements)/pageLength)-1,"data":[]})
 
 
 def SearchPage(request):
