@@ -309,6 +309,29 @@ def SearchPage(request):
     }
     return render(request,'index_search.html',data)
 
+
+@login_required
+def profileWeb(request):
+    user =request.user
+    userobject = User.objects.filter(pk=user.id)
+    userProfile = profile.objects.filter(user=user)
+
+    if request.method=='POST':
+        typeOfForm = request.POST['typeOfForm']  
+        if typeOfForm == 'mainData':
+            nameData = request.POST['name'] 
+            
+            phoneData = request.POST['phone']
+            addressData = request.POST['address']
+            mobileData = request.POST['mobile'] 
+
+            userobject.update(first_name=nameData)
+            userProfile.update(phone=phoneData,mobile=mobileData,address=addressData)
+        
+    return render(request,'profile.html',None)
+
+
+
 def CompanyPage(request):
     id = request.GET['id']
     thisAdd = theAdd.objects.get(pk=id)
@@ -385,9 +408,10 @@ def AuthOutSide(request):
         passwordData = request.POST['email']+str('AhmedAuth')
         roleId = request.POST['role']
         img_url = request.POST['img']
-        usernameData = request.POST['email']
+        usernameData = request.POST['username']
+        typeOfRegisterationData = request.POST['typeOfRegisteration']
         
-        findLastUser = User.objects.filter(email=emailData)
+        findLastUser = User.objects.filter(Q(email=emailData)|Q(username=usernameData))
         if roleId !='':
             roleData = role.objects.get(id=roleId)
         else:
@@ -403,8 +427,9 @@ def AuthOutSide(request):
             tmpfile, _ = urllib.request.urlretrieve(img_url)
             img_temp = SimpleUploadedFile(basename, open(tmpfile, "rb").read())
             
-            dataToInsert = profile.objects.create(user=usernew,role=roleData,image=img_temp)
+            dataToInsert = profile.objects.create(user=usernew,role=roleData,image=img_temp,typeOfRegisteration=typeOfRegisterationData)
             dataToInsert.save()
+
             user = authenticate(username=usernameData, password=passwordData)
             if user is not None:
                 login(request, user)
@@ -430,7 +455,7 @@ def AuthOutSide(request):
                     'State':'Ok',
                     'isExist':'Ok',
                     'ableToLogin':'No',
-                    'Error':'Registered Email',
+                    'Error':'Registered Email or username',
                     'RedirectUrl':'/'
                     }
 
@@ -439,9 +464,10 @@ def AuthOutSide(request):
             
 
         
-    except:
+    except Exception as e:
         response = {
-                'State':'Error'
+                'State':'Error',
+                'statment':str(e)
             }
     
     return JsonResponse(response, safe=False)

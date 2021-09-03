@@ -161,11 +161,11 @@ function fb_login(){
             user_id = response.authResponse.userID; //get FB UID
 
             FB.api('/me?fields=id,name,email,first_name,last_name,picture.type(large)', function(response) {
-                    // console.log(response.picture.data.url)
-                    SignInNowSocial(response.email,
+                    // console.log("ahhhhhhhhhh: "+response.name);
+                    SignInNowSocial(response.name.replace(/\s/g, '')+'_fromfacebook',response.email,
                     response.first_name,
                     response.last_name,
-                response.picture.data.url,2);
+                response.picture.data.url,2,"Facebook");
 
                     console.log(response.picture.data.url);
                     console.log(response.first_name);
@@ -211,7 +211,7 @@ function fb_login(){
     
 
 
-    function SignInNowSocial(mail,firstname,lastname,imgUrl,role){
+    function SignInNowSocial(username,mail,firstname,lastname,imgUrl,role,typeOfRegisteration){
         showLoader();
                 
         $.ajax({
@@ -219,11 +219,13 @@ function fb_login(){
                   url: '/{{LANGUAGE_CODE}}/AuthOutSide',
                   dataType: 'json',
                   data: { 
+                      'username':username,
                       'email':mail,
                       'lastName':lastname,
                       'firstName':firstname,
                       'role':role,
-                      'img':imgUrl
+                      'img':imgUrl,
+                      'typeOfRegisteration':typeOfRegisteration
                   },
                   headers:{
                       "X-CSRFToken": csrftoken
@@ -232,8 +234,9 @@ function fb_login(){
                   success: function(result) {
                       
                       hideLoader();
-                      if(result.State="Ok"){
-                          if(result.ableToLogin='Yes'){
+                      console.log(result)
+                      if(result.State=="Ok"){
+                          if(result.ableToLogin=='Yes'){
                                 window.location.href = result.RedirectUrl;
                             }else{
                                 
@@ -266,10 +269,11 @@ function fb_login(){
             function(googleUser) {
                 var profile = googleUser.getBasicProfile();
                
-                SignInNowSocial(profile.getEmail(),
+                //console.log(profile.getName().replace(/\s/g, ''));
+                SignInNowSocial(profile.getName().replace(/\s/g, '')+'_fromgmail',profile.getEmail(),
                 profile.getGivenName(),
                 profile.getFamilyName(),
-                profile.getImageUrl(),2);
+                profile.getImageUrl(),2,'Gmail');
 
             }, function(error) {
                 swal("مشكلة", "حدثت مشكلة عند الدخول!", "error");

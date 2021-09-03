@@ -73,6 +73,10 @@ class profile(models.Model):
     country = models.CharField(max_length=500,default=None,null=True)
     region = models.CharField(max_length=500,default=None,null=True)
     mobile = models.CharField(max_length=500,default=None,null=True)
+    # normal 0
+    #facebook 1
+    #gmail  2
+    typeOfRegisteration = models.CharField(max_length=500,default='Normal', null=True)
     image = models.ImageField(upload_to='attachments/userData/',null=True)
     role = models.ForeignKey(role, on_delete=models.PROTECT,null=True)
     created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
