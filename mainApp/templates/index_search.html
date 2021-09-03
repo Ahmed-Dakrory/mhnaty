@@ -514,7 +514,7 @@
       var provider = url.searchParams.get("provider");
       var country = url.searchParams.get("country");
       var region = url.searchParams.get("region");
-      console.log(region);
+      // console.log(region);
 
 
 
@@ -568,7 +568,7 @@
 
               <div class="col-md-7 order-md-2 order-1 p-0">
                 <div class="card-body">
-                  <a href="/CompanyPage" class="card-title mb-0 nameOfService">`+data.name+`</a>
+                  <a href="/CompanyPage?id=`+data.id+`" class="card-title mb-0 nameOfService">`+data.name+`</a>
                   <p class="card-text mb-2">
                     `+data.details+`</p>
                   <a class="card-text mb-1" style="direction: rtl;color: #88b334;" href="#"><i class="fa fa-cannabis text-info m-2"></i>`+data.category_name+` </a>
@@ -646,7 +646,7 @@
         showLoader();
         // console.log($('#currentDraw').attr('numberOFResultView'));
         if(parseInt($('#currentDraw').attr('numberOFResultView'))==1){
-          console.log('StartPage');
+          // console.log('StartPage');
 
           $('#goBackButton').removeClass('disabled');
           $('#goNextButton').removeClass('disabled');
@@ -655,12 +655,11 @@
           
         }
 
-        if($('#currentDraw').attr('numberOFResultView')=='1'){
-          start = 1
-        }else{
-          start = $('#currentDraw').attr('numberOFResultView')*3+1;
-        }
-
+        // console.log($('#currentDraw').attr('numberOFResultView'));
+        
+          start = ($('#currentDraw').attr('numberOFResultView')-1)*3+1;
+        
+          // console.log(start)
         $.ajax({
                   type: 'POST',
                   url: '/{{LANGUAGE_CODE}}/getNewResultsForAds',
@@ -685,7 +684,7 @@
                     $('#ListOfAdds').empty();
 
                     if(parseInt($('#currentDraw').attr('numberOFResultView'))==parseInt(result.recordsFiltered)){
-                      console.log('StartPage');
+                      // console.log('StartPage');
 
                       $('#goBackButton').removeClass('disabled');
                       $('#goNextButton').removeClass('disabled');
@@ -708,8 +707,8 @@
                             // "readonly":true,
                             "value":element.averageRate,
                             "click": function (e) {
-                                console.log(e);
-                                $(".halfstarsInput").val(e.stars);
+                                // console.log(e);
+                                //$(".halfstarsInput").val(e.stars);
                             }
                         });
 
@@ -772,7 +771,7 @@ experiensesTag.tagsinput({
 experiensesTag.on('itemAdded', function(event) {
   // event.item: contains the item
 
-  console.log($(event));
+  // console.log($(event));
 });
 
 

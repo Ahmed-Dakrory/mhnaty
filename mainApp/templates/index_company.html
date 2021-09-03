@@ -18,7 +18,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/owl.carousel.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/index_style.css' %}">
-<script src="{% static 'js/mainFunctions.js' %}"></script>
+
 <title>خدمة</title>
 
 
@@ -34,7 +34,7 @@
       </div>
 
         
-<section id="company" >
+<section id="company" class="mb-3">
         
   <div class="layer">
     <div style=" max-width: 100%; background-color: #414242 !important; ">
@@ -169,51 +169,77 @@
 
 
 <section id="about-company" style=" direction: rtl; " >
-    <div class="container">
+    <div class="container w-100">
         <div class="row  m-0">
          
-          <div class="col-md-6  about-company-img about-company-text row order-1  m-0">
+          <div class="col-md-2 services mb-5 d-md-block d-none order-md-1">
+               
+            <div class="services-body mt-3" style=" border-style: solid; border-radius: 7px; border-width: 1px; ">
+              <a href="/"> 
+               <img src="/media/attachments/allImages/1.jpg" alt="logo" style="width: 100%;height: 950px;">
+              </a>
+            </div>
+
+      </div>
+
+          <div class="col-md-6  about-company-img about-company-text row order-md-2  m-0">
+
+            <div class="container p-md-3 p-0">
+
+              
             <div class="company-text-title">
               <h2>{{thisAdd.name}}</h2>
             </div>
 
-            <div class="row">
-              <div class="column">
-                <img src="/static/img/diverse-friends-using-digital-devices.jpg" onclick="openModal();currentSlide(1)" class="hover-shadow w-100">
-              </div>
-              <div class="column">
-                <img src="/static/img/635435339228902500.jpg" onclick="openModal();currentSlide(2)" class="hover-shadow w-100">
-              </div>
-              <div class="column">
-                <img src="/static/img/aerial-background-beverage-blog-blogger-browsing-1447929-pxhere.com.jpg" onclick="openModal();currentSlide(3)" class="hover-shadow w-100">
-              </div>
-              <div class="column">
-                <img src="/static/img/application-occupation-profession-job-seeker-concept.jpg" onclick="openModal();currentSlide(4)" class="hover-shadow w-100">
-              </div>
+
+
+            
+            {% if mainImage != None %}
+
+            <div class="row w-100 p-0 m-0">
+            <div class="col-md-10 p-0 col-9">
+
+              <img src="{{mainImage.file.url}}" id="mainImage" numberOfImage = "1"  class="mainImageForGallary w-100">
             </div>
+
+
+            <div class="col-md-2 p-0 col-3 colForAllImages" >
+              
+              {% for images in allFiles%}
+              <div class="column2 p-1">
+                <img src="{{images.file.url}}" numberOfImage = "{{forloop.counter}}"  class="hover-shadow w-100">
+              </div>
+              {% endfor %}
+             
+
+
+            </div>
+          </div>
+
+          {% endif %}
           <div id="myModal" class="modal">
             <span class="close cursor" onclick="closeModal()">&times;</span>
             <div class="modal-content">
 
-              <div class="mySlides">
-                <div class="numbertext">1 / 4</div>
-                <img src="/static/img/diverse-friends-using-digital-devices.jpg"  class="w-100 h-75">
-              </div>
 
+              {% for images in allFiles%}
               <div class="mySlides">
-                <div class="numbertext">2 / 4</div>
-                <img src="/static/img/635435339228902500.jpg"  class="w-100 h-75">
+                <div class="numbertext">{{forloop.counter}} / {{numberOfFiles}}</div>
+                <img src="{{images.file.url}}"  class="w-100 h-75">
               </div>
+              {% endfor %}
 
-              <div class="mySlides">
-                <div class="numbertext">3 / 4</div>
-                <img src="/static/img/aerial-background-beverage-blog-blogger-browsing-1447929-pxhere.com.jpg"  class="w-100 h-75">
-              </div>
 
-              <div class="mySlides">
-                <div class="numbertext">4 / 4</div>
-                <img src="/static/img/application-occupation-profession-job-seeker-concept.jpg" class="w-100 h-75">
-              </div>
+              
+
+            
+
+              
+
+             
+
+
+              
 
               <!-- Next/previous controls -->
               <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -224,93 +250,114 @@
                 <p id="caption"></p>
               </div>
 
+
+              {% for images in allFiles%}
               <!-- Thumbnail image controls -->
               <div class="column">
-                <img class="demo w-100" src="/static/img/diverse-friends-using-digital-devices.jpg" onclick="currentSlide(1)" >
+                <img class="demo w-100" src="{{images.file.url}}" onclick="currentSlide({{forloop.counter}})" >
               </div>
+              {% endfor %}
 
-              <div class="column">
-                <img class="demo w-100" src="/static/img/635435339228902500.jpg" onclick="currentSlide(2)" >
-              </div>
 
-              <div class="column">
-                <img class="demo w-100" src="/static/img/aerial-background-beverage-blog-blogger-browsing-1447929-pxhere.com.jpg" onclick="currentSlide(3)">
-              </div>
+              
 
-              <div class="column">
-                <img class="demo w-100" src="/static/img/application-occupation-profession-job-seeker-concept.jpg" onclick="currentSlide(4)">
-              </div>
+
+              
             </div>
           </div>
 
 
-<div class="evaluate  m-auto w-100 pt-3">
+            <div class="evaluate  m-auto w-100 pt-3">
 
-  <h5>تقييم الشركة</h5>
-  <div class="evaluate-clints">
-  <div class="like">
-    <i class="fas fa-thumbs-up"></i>
-  <p>50</p>
-  </div>
-  
-  <div class="unlike">
-  <i class="fas fa-thumbs-down"></i>
-  <p>3</p>
-</div>
-</div>
-</div>
+              <h5>تقييم الشركة</h5>
+              <div class="evaluate-clints">
+                <div id = "halfstarsReview" data-rating-readonly="true" class=" mb-3" dir="rtl"></div>
+              </div>
+            </div>
 
-<div class="company-text-body pt-0">
-  <h5>عن الشركة</h5>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-      Dignissimos fugiat culpa architecto dolorem quisquam. 
-      Odio inventore saepe iure odit impedit!</p>
-</div>
-<div class="company-text-body">
-  <h5>خدمات الشركة</h5>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-      Dignissimos fugiat culpa architecto dolorem quisquam. 
-      Odio inventore saepe iure odit impedit!</p>
-</div>
+            <div class="company-text-body pt-0">
+              <h5>عن الشركة</h5>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                  Dignissimos fugiat culpa architecto dolorem quisquam. 
+                  Odio inventore saepe iure odit impedit!</p>
+
+
+                  <p>خبرات الشركة</p>
+                  <div class="row w-100 m-3">
+                    <a href="#" class="badge badge-primary">Primary</a>
+                    <a href="#" class="badge badge-secondary">Secondary</a>
+                    <a href="#" class="badge badge-success">Success</a>
+                    <a href="#" class="badge badge-danger">Danger</a>
+                    <a href="#" class="badge badge-warning">Warning</a>
+                    <a href="#" class="badge badge-info">Info</a>
+                    <a href="#" class="badge badge-light">Light</a>
+                    <a href="#" class="badge badge-dark">Dark</a>
+                  </div>
+            </div>
+            <div class="company-text-body">
+              <h5>خدمات الشركة</h5>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                  Dignissimos fugiat culpa architecto dolorem quisquam. 
+                  Odio inventore saepe iure odit impedit!</p>
+            </div>
+
+
+            <div class="company-text-body w-100 mb-3">
+              <h5>فيديو خاص بالخدمة</h5>
+              <div class="w-100">
+                <iframe style="width: 100%;height: 355px;"
+                src="https://www.youtube.com/embed/watch?v=Lex4NKotiw4&list=RDLex4NKotiw4&start_radio=1">
+                </iframe>
+              </div>
+            </div>
 
        
 
+          </div>
 
           </div>
 
-          <div class="col-md-1 order-2"></div>
+          <!-- <div class="col-md-1 order-2"></div> -->
               
-          <div class="col-md-5 about-company-text row order-3  m-0 mb-3" style=" background: #7c90b545; border-radius: 2%; padding: 17px; ">
+          <div class="col-md-4 about-company-text row order-md-3  m-0 mb-3" style=" background: #7c90b545; border-radius: 2%; padding: 17px; ">
             
-            
+            <div class="container">
 
-              <div class="company-text-body " style=" padding: 3%; background: #716e6614; border-top-right-radius: 16px; border-top-left-radius: 16px; ">
-                  <h5>اتصل بنا</h5>
-                  <div class="row">
-                    
-                      <div class="col-sm-10 order-2">
-                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                              Dignissimos fugiat culpa architecto dolorem quisquam.</p>
-                      </div>
-                      <div class="col-sm-2  order-1">
-                          <i class="fas fa-map-marker-alt"></i>
-                      </div>
-
-                      <div class="col-sm-10  order-4">
-                          <p>0101010101010</p>
-                      </div>
-                      <div class="col-sm-2  order-3">
-                          <i class="fas fa-phone"></i>
-                      </div>
-
-                      <div class="col-sm-10 order-6">
-                          <p>mail@gmail.com</p>
-                      </div>
-                      <div class="col-sm-2 mb-2 order-5">
-                          <i class="fas fa-envelope"></i>
-                      </div>
+            <div class="company-text-body " style=" padding: 5%;background: #716e6614;border-radius: 16px;border-top-left-radius: 16px;margin-bottom: 6%;">
+              <h5>اتصل بنا</h5>
+              <div class="row">
+                
+                <div class="col-sm-10 order-2">
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                      Dignissimos fugiat culpa architecto dolorem quisquam.</p>
               </div>
+              <div class="col-sm-2  order-1">
+                  <i class="fas fa-map-marker-alt"></i>
+              </div>
+
+
+            
+
+                  <div class="col-sm-10  order-4">
+                      <p>0101010101010</p>
                   </div>
+                  <div class="col-sm-2  order-3">
+                      <i class="fas fa-phone"></i>
+                  </div>
+
+                  <div class="col-sm-10 order-6">
+                      <p>mail@gmail.com</p>
+                  </div>
+                  <div class="col-sm-2 mb-2 order-5">
+                      <i class="fas fa-envelope"></i>
+                  </div>
+          </div>
+              </div>
+
+
+
+              
+
 
                   <div id="form" class="w-100">
                     <div class="container">
@@ -318,21 +365,184 @@
                     
                        
                         <label for="subject">رأيك يهمنا</label>
+                        <div id= "rateSend"  class=" mb-3" dir="rtl"></div>
+  
                         <textarea id="subject" name="subject" placeholder="اترك رسالتك.." style="height:100px"></textarea>
                     
-                        <input type="submit" value="Submit">
+                        <input type="submit" value="ارسال">
                     
                       </form>
                     </div>
                   </div>
+
+
+
+                  
+
+<section id="review" class="mt-3">
+  <div class="container p-0">
+    <div class="review-head">
+    <h2 class="pb-2">أراء العملاء</h2>
+    <p class="pb-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem pariatur repellendus eos quas sit, 
+      </p>
+    </div>
+  
+    
+
+
+    <div class="reviewComments w-100 p-4">
+    
+      
+
+      <div class="row commentDetails">
+  
+        <div class="col-md-3 img-comments col-5">
+  <img src="/static/Img/blank-profile-picture-973460_640.png" class="w-100" alt="">
+  
+        </div>
+  <div class="col-md-9 clint-name text-right col-7">
+  <p class="m-0">Clinte Name</p>
+  <div class="evaluation">
+    <div class="commentRate" data-rating-stars="5" data-rating-readonly="true" data-rating-input="#dataReadonlyInput" data-rating-value="1.7" dir="rtl" rating="true" style="color: rgb(252, 215, 3);"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
+    
+  <p>18/9/2020</p>
+  </div>
+  </div>
+  
+  <div class="col-md-12 text-comments w-100 text-right col-12">
+  <p class="commentTextDetails">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+  Nobis pariatur maxime numquam cupiditate ipsam ex corporis impedit 
+  dignissimos praesentium molestiae asperiores libero quis suscipit ratione 
+  nemo quam cum, repellendus nulla?</p>
+  
+  <div class="feedback-clints mt-3">
+    <input type="text" class="form-control mt-2 w-75 commentEnter" placeholder="Write a comment...">
+  </div>
+  </div>
+  
+      </div>
+
+
+
+
+
+
+      <div class="row commentDetails">
+  
+        <div class="col-md-3 img-comments col-5">
+  <img src="/static/Img/blank-profile-picture-973460_640.png" class="w-100" alt="">
+  
+        </div>
+  <div class="col-md-9 clint-name text-right col-7">
+  <p class="m-0">Clinte Name</p>
+  <div class="evaluation">
+    <div class="commentRate" data-rating-stars="5" data-rating-readonly="true" data-rating-input="#dataReadonlyInput" data-rating-value="1.7" dir="rtl" rating="true" style="color: rgb(252, 215, 3);"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
+    
+  <p>18/9/2020</p>
+  </div>
+  </div>
+  
+  <div class="col-md-12 text-comments w-100 text-right col-12">
+  <p class="commentTextDetails">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+  Nobis pariatur maxime numquam cupiditate ipsam ex corporis impedit 
+  dignissimos praesentium molestiae asperiores libero quis suscipit ratione 
+  nemo quam cum, repellendus nulla?</p>
+  
+  <div class="feedback-clints mt-3">
+    <input type="text" class="form-control mt-2 w-75 commentEnter" placeholder="Write a comment...">
+  </div>
+  </div>
+  
+      </div>
+
+
+
+
+
+      <div class="row commentDetails">
+  
+        <div class="col-md-3 img-comments col-5">
+  <img src="/static/Img/blank-profile-picture-973460_640.png" class="w-100" alt="">
+  
+        </div>
+  <div class="col-md-9 clint-name text-right col-7">
+  <p class="m-0">Clinte Name</p>
+  <div class="evaluation">
+    <div class="commentRate" data-rating-stars="5" data-rating-readonly="true" data-rating-input="#dataReadonlyInput" data-rating-value="1.7" dir="rtl" rating="true" style="color: rgb(252, 215, 3);"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
+    
+  <p>18/9/2020</p>
+  </div>
+  </div>
+  
+  <div class="col-md-12 text-comments w-100 text-right col-12">
+  <p class="commentTextDetails">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+  Nobis pariatur maxime numquam cupiditate ipsam ex corporis impedit 
+  dignissimos praesentium molestiae asperiores libero quis suscipit ratione 
+  nemo quam cum, repellendus nulla?</p>
+  
+  <div class="feedback-clints mt-3">
+    <input type="text" class="form-control mt-2 w-75 commentEnter" placeholder="Write a comment...">
+  </div>
+  </div>
+  
+      </div>
+
+
+
+
+
+      <div class="row commentDetails">
+  
+        <div class="col-md-3 img-comments col-5">
+  <img src="/static/Img/blank-profile-picture-973460_640.png" class="w-100" alt="">
+  
+        </div>
+  <div class="col-md-9 clint-name text-right col-7">
+  <p class="m-0">Clinte Name</p>
+  <div class="evaluation">
+    <div class="commentRate" data-rating-stars="5" data-rating-readonly="true" data-rating-input="#dataReadonlyInput" data-rating-value="1.7" dir="rtl" rating="true" style="color: rgb(252, 215, 3);"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
+    
+  <p>18/9/2020</p>
+  </div>
+  </div>
+  
+  <div class="col-md-12 text-comments w-100 text-right col-12">
+  <p class="commentTextDetails">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+  Nobis pariatur maxime numquam cupiditate ipsam ex corporis impedit 
+  dignissimos praesentium molestiae asperiores libero quis suscipit ratione 
+  nemo quam cum, repellendus nulla?</p>
+  
+  <div class="feedback-clints mt-3">
+    <input type="text" class="form-control mt-2 w-75 commentEnter" placeholder="Write a comment...">
+  </div>
+  </div>
+  
+      </div>
+
+
+    </div>
+
+
+
+
+  </div>
+  </section>
+  
+
+                </div>
+
+
+                  
               </div>
+
+            
 
 </div>
         </div>
     </div>
 </section>
 
-
+<!-- 
 
 <section id="review" >
 <div class="container">
@@ -384,7 +594,7 @@
     
 </div>
 </div>
-</section>
+</section> -->
 
 
         <section id="footer-contact">
@@ -433,14 +643,48 @@
  <script src="{% static 'js/index.js' %}"></script> 
  <script src="{% static 'js/company.js' %}"></script> 
 
+
+
+ 
+ <script src="{% static 'js/rating.js' %}"></script> 
+
+ <script src="{% static 'js/mainFunctions.js' %}"></script>
         
         
  <script>
 
+$(".commentRate").rating({"readonly":true});
 
-  $(".dropdown-item").click(function(event) {
-      $(this).parents('.dropdown').find('.dropdown-toggle').html($(event.target).html());
-  });
+$("#rateSend").rating({
+                            "half": true,
+                            "halfStar":"fas fa-star-half-alt fa-flip-horizontal",
+                            "filledStar":"fas fa-star",
+                            // "readonly":true,
+                            "value":0,
+                            "click": function (e) {
+                                console.log(e);
+                               // $(".halfstarsInput").val(e.stars);
+                            }
+                        });
+
+
+$("#halfstarsReview").rating({
+                            "half": true,
+                            "halfStar":"fas fa-star-half-alt fa-flip-horizontal",
+                            "filledStar":"fas fa-star",
+                            "readonly":true,
+                            "value":3.5,
+                            "click": function (e) {
+                                console.log(e);
+                               // $(".halfstarsInput").val(e.stars);
+                            }
+                        });
+
+
+                      
+
+
+                        makeSelectDropDown();
  
   </script>
     </body>

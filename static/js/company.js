@@ -41,3 +41,28 @@
               }
   
   
+              
+$('.column2 img').click(function(){
+  //Some code
+
+  numberOfImage = $(this).attr('numberOfImage');
+  srcOfImage = $(this).attr('src');
+  
+  console.log(numberOfImage);
+
+  $('#mainImage').attr('numberOfImage',numberOfImage);
+  $('#mainImage').attr('src',srcOfImage);
+  // openModal();
+  // currentSlide(numberOfImage);
+});
+
+
+$('#mainImage').click(function(){
+  //Some code
+
+  numberOfImage = $(this).attr('numberOfImage');
+  srcOfImage = $(this).attr('src');
+  
+  openModal();
+  currentSlide(numberOfImage);
+});

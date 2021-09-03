@@ -230,14 +230,42 @@ def getNewResultsForAds(request):
     country = request.POST['country']
     region = request.POST['region']
 
+
+    print(pageNumber)
+    print(category)
+    print(provider)
+    print(country)
+    print(region)
     try:
         if searchKey == '':
+
+            if category!='':
+                categorySearch = Q(category__name__contains=category)
+            else:
+                categorySearch = Q(id__isnull=False)
+
+            if provider!='':
+                providerSearch = Q(owner__user__first_name__contains=provider)
+            else:
+                providerSearch = Q(id__isnull=False)
+
+            if country!='':
+                countrySearch = Q(owner__country__contains=country)
+            else:
+                countrySearch = Q(id__isnull=False)
+
+            if region!='':
+                regionSearch =  Q(owner__region__contains=region)
+            else:
+                regionSearch = Q(id__isnull=False)
+
             allElements = theAdd.objects.filter( Q(id__isnull=False)
-            & Q(category__name__contains=category)
-            & Q(owner__user__first_name__contains=provider)
-            & Q(owner__country__contains=country)
-            & Q(owner__region__contains=region)
+            & (categorySearch
+            & providerSearch
+            & countrySearch
+            & regionSearch)
             & Q(deleted=False))
+
         else:
             allElements = theAdd.objects.filter(Q(deleted=False) & 
             (Q(name__contains=searchKey) |
@@ -259,7 +287,7 @@ def getNewResultsForAds(request):
             response = paginator.page(paginator.num_pages)
 
         listResult = list(response)
-        allElementsJson = {"draw": draw,"recordsTotal": len(allElements),"recordsFiltered": math.ceil(len(allElements)/pageLength)-1,"data":[]}
+        allElementsJson = {"draw": draw,"recordsTotal": len(allElements),"recordsFiltered": math.ceil(len(allElements)/pageLength),"data":[]}
 
         for result in listResult:
             allElementsJson['data'].append(result.to_json())
@@ -267,7 +295,7 @@ def getNewResultsForAds(request):
         return JsonResponse(allElementsJson)
     except Exception as e:
         print("Ahmed Error: "+str(e))
-        return JsonResponse({"draw": draw,"recordsTotal": len(allElements),"recordsFiltered": math.ceil(len(allElements)/pageLength)-1,"data":[]})
+        return JsonResponse({"draw": draw,"recordsTotal": len(allElements),"recordsFiltered": math.ceil(len(allElements)/pageLength),"data":[]})
 
 
 def SearchPage(request):
@@ -282,12 +310,21 @@ def SearchPage(request):
     return render(request,'index_search.html',data)
 
 def CompanyPage(request):
-    thisAdd = theAdd.objects.get(pk=1)
+    id = request.GET['id']
+    thisAdd = theAdd.objects.get(pk=id)
     allFiles = thisAdd.images.all()
+    numberOfFiles = len(allFiles)
+    if len(allFiles) > 0: 
+        mainImage = thisAdd.images.first
+    else:
+        mainImage=None
 
+    print(mainImage)
     data = {
         'thisAdd':thisAdd,
-        'allFiles':allFiles
+        'allFiles':allFiles,
+        'mainImage':mainImage,
+        'numberOfFiles':numberOfFiles
     }
 
     return render(request,'index_company.html',data)

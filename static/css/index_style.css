@@ -601,7 +601,9 @@ padding-top: 1.5rem;
   
   img.demo {
     opacity: 0.6;
-  }
+    height: 190px;
+    padding: 1px;
+}
   
   .active,
   .demo:hover {
@@ -649,6 +651,18 @@ padding-top: 1.5rem;
       margin-bottom: 2rem;
   }
   
+
+  #review .text-comments {
+    margin: 1rem 0 1rem 5rem;
+}
+
+
+
+#review .img-comments img {
+    border-radius: 50%;
+    border: white 3px solid;
+    float: right;
+}
 
   #review .owl-carousel .owl-nav button.owl-next, .owl-carousel .owl-nav button.owl-prev, .owl-carousel button.owl-dot {
     
@@ -994,8 +1008,38 @@ nav .pagination{
     position: relative;
     left: 26.5%
 }
+
+
+.mainImageForGallary,.colForAllImages{
+    height: 406px;
+}
+.colForAllImages{
+    overflow-y: auto;
+}
+
+
+.hover-shadow{
+
+    height: 85px;
+}
+
 @media only screen and (max-width: 768px){
 
+
+    img.demo {
+        opacity: 0.6;
+        height: 147px;
+        padding: 1px;
+    }
+
+
+    .hover-shadow {
+        height: 77px;
+    }
+
+    .mainImageForGallary,.colForAllImages{
+        height: 251px;
+    }
 
     #text2 {
         left: -25%;
@@ -1315,3 +1359,85 @@ color:black!important;
     background-size: 59px 59px;
   }
   
+
+  #halfstarsReview .fas, #halfstarsReview .far{
+      font-size: 1.7rem;
+  }
+
+
+  #halfstarsReview i{
+    cursor: pointer;width: 20%!important;
+}
+  
+
+input.form-control.mt-2.w-75.commentEnter {
+    height: 25px;
+    font-size: 13px;
+}
+
+
+p.commentTextDetails {
+    font-size: 14px;
+}
+
+
+.reviewComments{
+    height: 725px;
+    overflow: auto;
+}
+
+#review{
+    
+    background-image: url(../img/bg-section-review1.png);
+    background-color: #e0dfdf;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    padding: 3rem 0;
+}
+#review .review-head h2{
+    font-size: 2.5rem;
+    color: #f7ae14;
+    font-weight: 600;
+}
+
+#review .review-head{
+    text-align: center;
+}
+
+#review .img-comments img{
+  border-radius: 50%;
+  border: white 3px solid;
+  float: right;
+}
+
+#review .row {
+  border-bottom: solid 2px rgb(167, 167, 167);
+  margin-bottom: 2rem;
+}
+#review .text-comments{
+  margin: 1rem 0 1rem 5rem;
+}
+
+
+.commentDetails{
+    box-shadow: -3px 0px 15px 5px grey;
+    padding-top: 22px;
+    margin: -12.5px;
+    border-radius: 11px;
+}
+
+
+::-webkit-scrollbar {
+    width: 5px;
+    /* height: 2em; */
+}
+::-webkit-scrollbar-button {
+    background: #888888;
+}
+::-webkit-scrollbar-track-piece {
+    background: #888
+}
+::-webkit-scrollbar-thumb {
+    background: #ffbf30;
+}
