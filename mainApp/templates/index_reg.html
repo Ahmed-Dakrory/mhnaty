@@ -64,28 +64,96 @@
                                     <div class="login-block col-sm-12">
                                         <h1 style=" text-align: center; ">تسجيل عضو جديد</h1>
                                         <p style=" text-align: center; "> برجاء ادخل البيانات الخاصة بك</p>
-                                        <form id="formLogin" class="ng-untouched ng-pristine ng-valid container">
+                                        <form method="POST" id="mainform" class="needs-validation form-horizontal" novalidate>
                                             {% csrf_token %}
                                             <hr class="hr-xs">
-                                            <div class="form-group row">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon mt-1 ml-2">
-                                                        <i class="fa fa-user ti-email"></i>
-                                                    </span>
-                                                    <input type="text" value="admin" placeholder="ادخل اسم المستخدم " name="username" class="form-control" id="Username" placeholder="Username" style="padding-right: 10px;">
-                                                </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label" for="username" style=" text-align: right; width: 100%; ">اسم المستخدم</label>
+                                                <input type="text" id="username" name="username" required=""  class="form-control mb-1 required" >
+                                                <div class="invalid-feedback" style=" text-align: right; ">
+                                                  {% trans "Please fill this field with not existing username" %}
+                                                </div> 
+                                              </div>
+
+                                              <div class="form-group">
+                                                <label class="form-label" for="first_name" style=" text-align: right; width: 100%; ">اسم بالكامل</label>
+                                                <input type="text" id="first_name" name="first_name" required=""  class="form-control mb-1 required">
+                                                <div class="invalid-feedback" style=" text-align: right; ">
+                                                  {% trans "Please fill this field" %}
+                                                </div> 
+                                              </div>
+
+
+
+                                              <div class="form-group">
+                                                <label class="form-label" for="address" style=" text-align: right; width: 100%; ">العنوان بالكامل</label>
+                                                <input type="text" id="address" name="address"  class="form-control mb-1 ">
                                             </div>
-                                            <hr class="hr-xs">
-                                            <div class="form-group row">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon mt-1 ml-2">
-                                                        <i class="fa fa-lock ti-unlock"></i>
-                                                    </span>
-                                                    <input type="password" value="Aaa123456789" placeholder="الرقم السري " name="password" id="password" class="form-control" style="padding-right: 10px;">
-                                                </div>
+
+
+                                            <div class="form-group">
+                                                <label class="form-label" for="country" style=" text-align: right; width: 100%; ">اسم البلد</label>
+                                                <input type="text" id="country" name="country" required=""  class="form-control mb-1 required">
+                                                <div class="invalid-feedback" style=" text-align: right; ">
+                                                  {% trans "Please fill this field" %}
+                                                </div> 
+                                              </div>
+
+
+                                            <div class="form-group">
+                                                <label class="form-label" for="region" style=" text-align: right; width: 100%; ">المنطقة</label>
+                                                <input type="text" id="region" name="region" required=""  class="form-control mb-1 required">
+                                                <div class="invalid-feedback" style=" text-align: right; ">
+                                                  {% trans "Please fill this field" %}
+                                                </div> 
+                                              </div>
+
+
+                                             
+                                            
+
+
+                                              <div class="form-group">
+                                                <label class="form-label" for="email" style=" text-align: right; width: 100%; ">البريد الألكترونى </label>
+                                                <input type="email" id="email" name="email" required=""  class="form-control mb-1 required">
+                                                <div class="invalid-feedback" style=" text-align: right; ">
+                                                  {% trans "Please fill this field with not existing email" %}
+                                                </div> 
+                                              </div>
+
+
+                                              <div class="form-group">
+                                                <label class="form-label" for="password" style=" text-align: right; width: 100%; ">كلمة المرور</label>
+                                                <input type="password" id="password" name="password" required=""  class="form-control mb-1 required">
+                                                <div class="invalid-feedback" style=" text-align: right; ">
+                                                  {% trans "Please fill this field" %}
+                                                </div> 
+                                              </div>
+
+
+                                              <div class="form-group">
+                                                <label class="form-label" for="password2" style=" text-align: right; width: 100%; ">كلمة المرور اعادة</label>
+                                                <input type="password" id="password2" name="password2" required=""  class="form-control mb-1 required">
+                                                <div class="invalid-feedback" style=" text-align: right; ">
+                                                  {% trans "Please fill this field with the same password" %}
+                                                </div> 
                                             </div>
+
+
+                                            <div class="form-group">
+                                                <label class="form-label" for="phone" style=" text-align: right; width: 100%; ">رقم الهاتف المنزلى </label>
+                                                <input type="tel" id="phone" name="phone"  class="form-control mb-1 ">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label" for="phone2" style=" text-align: right; width: 100%; ">رقم الهاتف الخاص بك </label>
+                                                <input type="tel" id="phone2" name="phone2"  class="form-control mb-1 ">
+                                            </div>
+                                            
+                                              
                                             <div class=" row mt-3">
-                                                <a  id="loginButton" href="javascript:void(0)" class="btn btn-block" style="background-color: #e6aa32d9;font-family: system-ui;font-size: 17px;font-weight: 500;">تسجيل الدخول </a>
+                                                <button type="submit"  id="RegButton" class="btn btn-block" style="background-color: #e6aa32d9;font-family: system-ui;font-size: 17px;font-weight: 500;">تسجيل الدخول </button>
                                             </div>
                                         </form>
                                         
@@ -100,19 +168,152 @@
 
                        
                   
-                        <script src="{% static 'js/jquery-3.5.1.js' %}"></script> 
-                        <script src="{% static 'js/popper.min.js' %}"></script> 
-                        <script src="{% static 'js/bootstrap.min.js' %}"></script> 
-                       
-                        
-                        <script src="{% static 'js/jquery.easing.1.3.js' %}"></script> 
-                        <script src="{% static 'js/owl.carousel.min.js' %}"></script> 
-                        <script src="{% static 'js/typed.js' %}"></script>  
-                        <script src="{% static 'js/index_about.js' %}"></script> 
-            
-            <script src="{% static 'js/bootstrap-notify.js' %}"></script>
-            <script src="{% static 'js/mainFunctions.js' %}"></script>
+
+                    <script src="{% static 'js/jquery-3.5.1.js' %}"></script> 
+                    <script src="{% static 'js/popper.min.js' %}"></script> 
+                    <script src="{% static 'js/bootstrap.min.js' %}"></script> 
+                    
+                    <script src="{% static 'js/sweetalert.min.js' %}"></script>
+
+
+                    <script src="{% static 'js/index_searchResults.js' %}"></script> 
+                    <script src="{% static 'js/rating.js' %}"></script> 
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script> 
+
+                    <script src="{% static 'js/typeahead.bundle.min.js' %}"></script> 
+                    <script src="{% static 'js/bootstrap-tagsinput.min.js' %}"></script> 
+
+                    <script src="{% static 'js/mainFunctions.js' %}"></script>
             <script>
+
+
+    
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+    form.addEventListener('submit', function(event) {
+    if (form.checkValidity() === false) {
+    event.preventDefault();
+    event.stopPropagation();
+    }
+    form.classList.add('was-validated');
+    }, false);
+    });
+    }, false);
+    })();
+
+
+
+    
+$('input[name=username]').keyup(function () {
+    'use strict';
+        
+
+        
+$.ajax({
+    type: 'POST',
+    url: '/{{LANGUAGE_CODE}}/checkusername',
+    data: { 
+        'username': $('#username').val()
+    },
+    headers:{
+        "X-CSRFToken": csrftoken
+         },
+    dataType: 'json',
+    cache: false,
+    success: function(result) {
+        // console.log(result);
+       if(result['State']=='Ok'){
+           if(result['statment']=='Exists'){
+            $('input[name=username]').get(0).setCustomValidity('sds');
+           }else{
+            $('input[name=username]').get(0).setCustomValidity('');
+           }
+       
+       }else{
+
+        swal("مشكلة",  result['statment'], "error");
+    
+      
+       }
+    },error: function (xhr, ajaxOptions, thrownError) {
+        console.log(thrownError)
+        
+        swal("مشكلة",  thrownError, "error");
+    
+           }
+});
+
+
+
+
+});
+
+
+
+
+    
+$('input[name=email]').keyup(function () {
+    'use strict';
+        
+
+        
+$.ajax({
+    type: 'POST',
+    url: '/{{LANGUAGE_CODE}}/checkemail',
+    data: { 
+        'email': $('#email').val()
+    },
+    headers:{
+        "X-CSRFToken": csrftoken
+         },
+    dataType: 'json',
+    cache: false,
+    success: function(result) {
+        // console.log(result);
+       if(result['State']=='Ok'){
+           if(result['statment']=='Exists'){
+            $('input[name=email]').get(0).setCustomValidity('sds');
+           }else{
+            $('input[name=email]').get(0).setCustomValidity('');
+           }
+       
+       }else{
+
+        swal("مشكلة",  result['statment'], "error");
+    
+      
+}
+},error: function (xhr, ajaxOptions, thrownError) {
+ console.log(thrownError)
+ 
+ swal("مشكلة",  thrownError, "error");
+           }
+});
+
+
+
+
+});
+
+
+
+
+
+$('input[name=password2]').keyup(function () {
+    'use strict';
+
+    if ($('input[name=password]').val() === $(this).val()) {
+        this.setCustomValidity('');
+    } else {
+        this.setCustomValidity('Passwords must match');
+    }
+});
+
 
 function getCookie(name) {
         var cookieValue = null;
@@ -132,9 +333,7 @@ function getCookie(name) {
     var csrftoken = getCookie('csrftoken');
 
 
-                $('#loginButton').on('click', function() {
-                    login();
- });
+             
 
  $("#formLogin").keyup(function(event) {
     if (event.keyCode === 13) {
@@ -145,69 +344,7 @@ function getCookie(name) {
 });
 
 
-function login(){
-
-var username = $('#Username').val();
-var password = $('#password').val();
-
-if (username==""||password==""){
-    $.notify({
-                icon: "add_alert",
-                message: " برجاء مراجعة الأسم والرقم السرى "
-
-            },{
-                type: 'danger',
-                timer: 4000
-            });
-}else{
-
-//Auth
-$('#loginButton').html('Loging ... ');
-
-$.ajax({
-    type: 'POST',
-    url: '/{{LANGUAGE_CODE}}/authUser',
-    data: { 
-        'username': username,
-        'password': password
-    },
-    headers:{
-        "X-CSRFToken": csrftoken
-         },
-    dataType: 'json',
-    cache: false,
-    success: function(result) {
-        console.log(result);
-       if(result['Result']=='Success'){
-           
-        var urlNew = result['url'].substr(result['url'].indexOf("next=/")+"next=/".length, result['url'].length);
-        console.log(urlNew);
-        if(urlNew.includes("/accounts/login/")){
-            window.location.href = "/";
-        }else{
-            window.location.href = decodeURIComponent("/"+urlNew);
-        }
-       }else{
-
-        $('#loginButton').html('SIGN IN');
-        $.notify({
-                icon: "add_alert",
-                message: " لايوجد شخص مسجل بهذه البيانات برجاء مراجعة الأسم والرقم السرى "
-
-            },{
-                type: 'danger',
-                timer: 4000
-            });
-       }
-    },error: function (xhr, ajaxOptions, thrownError) {
-        console.log(thrownError)
-           }
-});
-}
-
-
-}
-            </script>
+</script>
         </body>
    
 </html>

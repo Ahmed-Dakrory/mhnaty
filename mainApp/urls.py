@@ -18,6 +18,8 @@ urlpatterns = [
     path('getServiceProviders',views.getServiceProviders,name = 'getServiceProviders'),
     path('getListOfRegions',views.getListOfRegions,name = 'getListOfRegions'),
     path('getListOfCountries',views.getListOfCountries,name = 'getListOfCountries'),
+    path('checkemail',views.checkemail,name = 'checkemail'),
+    path('checkusername',views.checkusername,name = 'checkusername'),
     
 
 

@@ -126,22 +126,32 @@
                     <div class="col-md-9">
                       <div class="tab-content">
                         <div class="tab-pane fade active show" id="account-general">
-                            <form method="POST" id="mainform" class="needs-validation form-horizontal" novalidate>
-                                {% csrf_token %}
-                                <input type="hidden"  name="typeOfForm" value="mainData">
+                           
                           <div class="card-body media align-items-center">
+                            {% if userProfile.image != None %}
                             <img src="{{userProfile.image.url}}" alt="" class="d-block ui-w-80">
+                            {% endif %}
+
                             <div class="media-body mr-4" style="text-align: right;">
-                              <label class="btn btn-outline-primary">
+                              <label class="btn btn-outline-primary" for="file-input" >
                                 أختر صورة جديدة
-                                <input type="file" class="account-settings-fileinput">
+                                <form  method="POST" enctype="multipart/form-data" id="formImage" class="needs-validation form-horizontal" novalidate style="display: none;">
+                                  {% csrf_token %}
+                                  
+                                  <input type="hidden"  name="typeOfForm" value="mainImage">
+                                  <input id="file-input" class="account-settings-fileinput" accept="image/x-png,image/gif,image/jpeg" type="file" name="file-input" onchange="document.getElementById('formImage').submit();" />
+            
+                                </form>
+
                               </label> &nbsp;
             
                               <div class="text-light small mt-1">المتاح JPG, GIF or PNG. بحجم أقصى 800K</div>
                             </div>
                           </div>
                           <hr class="border-light m-0">
-            
+                          <form method="POST" id="mainform" class="needs-validation form-horizontal" novalidate>
+                            {% csrf_token %}
+                            <input type="hidden"  name="typeOfForm" value="mainData">
                           <div class="card-body" style="  text-align: right;">
                             <div class="form-group">
                               <label class="form-label" for="username">اسم المستخدم</label>
@@ -179,7 +189,7 @@
 
 
                               <div class="form-group">
-                                <label class="form-label" for="address">رقم الهاتف</label>
+                                <label class="form-label" for="address">العنوان </label>
                                 <input type="text" id="address" name="address" class="form-control" value="{{userProfile.address}}">
   
                               </div>

@@ -124,7 +124,7 @@
                                                 </div>
                                                 <div class="col-6 p-0 pr-2">
                                                     <p style="text-align: right;">
-                                                        <a id="signup" href="#">انضم الأن</a>
+                                                        <a id="signup" href="/loadRegPage/">انضم الأن</a>
                                                     </p>
                                                 </div>
                                             </div>
@@ -162,7 +162,7 @@ function fb_login(){
 
             FB.api('/me?fields=id,name,email,first_name,last_name,picture.type(large)', function(response) {
                     // console.log("ahhhhhhhhhh: "+response.name);
-                    SignInNowSocial(response.name.replace(/\s/g, '')+'_fromfacebook',response.email,
+                    SignInNowSocial(response.name.replace(/\s/g, ''),response.email,
                     response.first_name,
                     response.last_name,
                 response.picture.data.url,2,"Facebook");
@@ -270,7 +270,7 @@ function fb_login(){
                 var profile = googleUser.getBasicProfile();
                
                 //console.log(profile.getName().replace(/\s/g, ''));
-                SignInNowSocial(profile.getName().replace(/\s/g, '')+'_fromgmail',profile.getEmail(),
+                SignInNowSocial(profile.getName().replace(/\s/g, ''),profile.getEmail(),
                 profile.getGivenName(),
                 profile.getFamilyName(),
                 profile.getImageUrl(),2,'Gmail');
@@ -305,14 +305,9 @@ var username = $('#Username').val();
 var password = $('#password').val();
 
 if (username==""||password==""){
-    $.notify({
-                icon: "add_alert",
-                message: " برجاء مراجعة الأسم والرقم السرى "
-
-            },{
-                type: 'danger',
-                timer: 4000
-            });
+    swal("مشكلة", " برجاء مراجعة الأسم والرقم السرى !", "error");
+       
+    
 }else{
 
 //Auth
@@ -332,26 +327,21 @@ $.ajax({
     cache: false,
     success: function(result) {
         console.log(result);
-       if(result['Result']='Success'){
-           
-        var urlNew = result['url'].substr(result['url'].indexOf("next=/")+"next=/".length, result['url'].length);
-        console.log(urlNew);
+       if(result['Result']=='Success'){
+        var urlNew = result['url'];
+       
+         console.log(urlNew);
         if(urlNew.includes("/accounts/login/")){
             window.location.href = "/";
         }else{
+            var urlNew = result['url'].substr(result['url'].indexOf("next=/")+"next=/".length, result['url'].length);
             window.location.href = decodeURIComponent("/"+urlNew);
         }
        }else{
 
         $('#loginButton').html('SIGN IN');
-        $.notify({
-                icon: "add_alert",
-                message: " لايوجد شخص مسجل بهذه البيانات برجاء مراجعة الأسم والرقم السرى "
-
-            },{
-                type: 'danger',
-                timer: 4000
-            });
+        swal("مشكلة", "لايوجد شخص مسجل بهذه البيانات برجاء مراجعة الأسم والرقم السرى !", "error");
+       
        }
     },error: function (xhr, ajaxOptions, thrownError) {
         console.log(thrownError)

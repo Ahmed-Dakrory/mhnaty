@@ -26,6 +26,9 @@ from django.shortcuts import HttpResponseRedirect
 from django.http import HttpResponse
 from django.db import connection
 import math
+
+from django.utils.translation import activate, get_language
+
 from .models import *
 # Create your views here.
 
@@ -76,6 +79,44 @@ def loadLoginPage(request):
 
 
 def loadRegPage(request):
+    if request.method=='POST':
+        firstNameData = request.POST['first_name']
+        emailData = request.POST['email']
+        passwordData = request.POST['password']
+        roleId = 2
+        regionData = request.POST['region']
+        addressData = request.POST['address']
+        countryData = request.POST['country']
+        phoneData = request.POST['phone']
+        phone2Data = request.POST['phone2']
+        usernameData = request.POST['username']
+        typeOfRegisterationData = 0
+        
+        findLastUser = User.objects.filter(Q(email=emailData)|Q(username=usernameData))
+        if roleId !='':
+            roleData = role.objects.get(id=roleId)
+        else:
+            roleData = None
+
+        if len(findLastUser) == 0:
+            
+            usernew = User.objects.create_user(username=usernameData,  password=passwordData,email=emailData,first_name=firstNameData,
+            last_name='')
+            usernew.save()
+
+            dataToInsert = profile.objects.create(user=usernew,role=roleData,typeOfRegisteration=typeOfRegisterationData
+            ,region=regionData,country=countryData,address=addressData
+            ,phone=phoneData,mobile=phone2Data)
+            dataToInsert.save()
+
+            user = authenticate(username=usernameData, password=passwordData)
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/'+get_language()+'/')
+
+        
+
+
     return render(request,'index_reg.html',None)
 
 
@@ -316,8 +357,13 @@ def profileWeb(request):
     userobject = User.objects.filter(pk=user.id)
     userProfile = profile.objects.filter(user=user)
 
+   
+
+
     if request.method=='POST':
         typeOfForm = request.POST['typeOfForm']  
+
+        print(typeOfForm)
         if typeOfForm == 'mainData':
             nameData = request.POST['name'] 
             
@@ -327,6 +373,13 @@ def profileWeb(request):
 
             userobject.update(first_name=nameData)
             userProfile.update(phone=phoneData,mobile=mobileData,address=addressData)
+        elif typeOfForm == 'mainImage':
+            userProfile = profile.objects.get(user=user)
+            userProfile.image = request.FILES['file-input']
+            
+            userProfile.save()
+
+            
         
     return render(request,'profile.html',None)
 
@@ -441,7 +494,9 @@ def AuthOutSide(request):
                 'RedirectUrl':'/'
             }
         else:
-            user = authenticate(username=usernameData, password=passwordData)
+            # user = authenticate(username=usernameData, password=passwordData)
+            user = User.objects.get(email=emailData)
+            print(user)
             if user is not None:
                 login(request, user)
                 response = {
@@ -531,3 +586,63 @@ def addnew_profile(request):
         return HttpResponseRedirect('/'+get_language()+'/listOf_profile')
     elif request.method=='GET':
         return render(request,'controls/users/profile/addnew.html',context)
+
+
+
+
+def checkusername(request):
+       
+    try:
+        usernameData = request.POST['username']
+        
+        user = User.objects.filter(username=usernameData)
+
+        if len(user)>0:
+            response = {
+                'State':'Ok',
+                'statment':'Exists'
+            }
+        else:
+            response = {
+                'State':'Ok',
+                'statment':'NotExists'
+            }
+
+
+    
+    except Exception as e:
+        response = {
+                'State':'Error',
+                'statment':str(e)
+            }
+    
+    return JsonResponse(response, safe=False)
+
+
+def checkemail(request):
+    
+    try:
+        emailData = request.POST['email']
+        
+        user = User.objects.filter(email=emailData)
+
+        if len(user)>0:
+            response = {
+                'State':'Ok',
+                'statment':'Exists'
+            }
+        else:
+            response = {
+                'State':'Ok',
+                'statment':'NotExists'
+            }
+
+
+    
+    except Exception as e:
+        response = {
+                'State':'Error',
+                'statment':str(e)
+            }
+    
+    return JsonResponse(response, safe=False)
