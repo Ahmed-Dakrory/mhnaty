@@ -79,7 +79,7 @@
               {% endif %}
               {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="logout/">تسجيل خروج</a>
+                <a class="nav-link" href="/logout/">تسجيل خروج</a>
               </li>
               {% endif %}
             
@@ -232,7 +232,7 @@
                 <div class="overlay">
             
             <h4>{{item.name}}</h4>
-                <a href="index_services.html"><button class="btn">Read More</button></a>
+                <a href="/{{LANGUAGE_CODE}}/SearchPage/?category={{item.name}}&provider=&country=&region="><button class="btn">Read More</button></a>
             
             </div>
           </div>

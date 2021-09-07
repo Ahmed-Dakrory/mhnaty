@@ -40,35 +40,48 @@
     <div style=" max-width: 100%; background-color: #414242 !important; ">
 <div class="container p-0">
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid" style="direction:rtl">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">الرئيسية</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">انواع الخدمات</a>
-              </li>
-              
-              <li class="nav-item">
-                <a class="nav-link" href="#">من نحن</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/accounts/login/">دخول</a>
-              </li>
-              <li class="nav-item login">
-                <a class="nav-link" href="#">أنضم الان</a>
-              </li>
-            </ul>
-         </div>
-        <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-50" alt="logo"></a>
-      
-        </div>
-        </nav>
+     
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid" style="direction:rtl">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">الرئيسية</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">انواع الخدمات</a>
+          </li>
+          
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/profile/">ملفى</a>
+          </li>
+          {% endif %}
+
+          {% if not user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/accounts/login/">دخول</a>
+          </li>
+          <li class="nav-item login">
+            <a class="nav-link" href="/loadRegPage/">أنضم الان</a>
+          </li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/logout/">تسجيل خروج</a>
+          </li>
+          {% endif %}
+        
+        </ul>
+     </div>
+     
+     <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-50" alt="logo"></a>
+  
+    </div>
+    </nav>
       </div>
 
       </div>
@@ -361,16 +374,24 @@
 
                   <div id="form" class="w-100">
                     <div class="container">
-                      <form action="action_page.php">
+                      <form method="POST" id="mainform" class="needs-validation form-horizontal" novalidate>
+                      {% csrf_token %}
+                        
+                      <input type="hidden"  name="typeOfForm" value="feedBack">
+                      <input type="hidden"  name="mainRateFromUser" id="mainRateFromUser" value="0">
+                        
                     
                        
                         <label for="subject">رأيك يهمنا</label>
                         <div id= "rateSend"  class=" mb-3" dir="rtl"></div>
   
                         <textarea id="subject" name="subject" placeholder="اترك رسالتك.." style="height:100px"></textarea>
-                    
+                        {% if user.is_authenticated %}
                         <input type="submit" value="ارسال">
-                    
+                        {% else %}
+
+                        <p class="text-secondary mr-3">برجاء تسجيل الدخول لوضع رأى</p>
+                        {% endif %}
                       </form>
                     </div>
                   </div>
@@ -383,7 +404,7 @@
   <div class="container p-0">
     <div class="review-head">
     <h2 class="pb-2">أراء العملاء</h2>
-    <p class="pb-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem pariatur repellendus eos quas sit, 
+    <p class="pb-4">يمكنك الأطلاع على أراء العملاء لهذه الخدمة بما فى ذلك الرد على هذه الأراء من قبل عملاء أخرين
       </p>
     </div>
   
@@ -392,134 +413,49 @@
 
     <div class="reviewComments w-100 p-4">
     
+
+
+      {% for comment in allcomments%}
+      <div class="row rowDetails commentDetails w-100">
+        <div class="row col-md-12 w-100">
+          <div class="col-md-3 img-comments col-5 m-0">
+              <img src="{{comment.fromUser.image.url}}" class="w-100" alt="">
+          </div>
+
+          <div class="col-md-9 clint-name text-right col-7 m-0 p-0">
+            <p class="m-0">{{comment.fromUser.user.first_name}}</p>
+            <div class="evaluation">
+              <div class="commentRate" data-rating-stars="5" data-rating-readonly="true" data-rating-input="#dataReadonlyInput" data-rating-value="{{comment.rate}}" dir="rtl" rating="true" style="color: rgb(252, 215, 3);"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
+              
+              <p>{{comment.created|date:"d/m/Y"}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12  w-100 text-right col-12 mb-0">
+          <p class="commentTextDetails">{{comment.details}}</p>
+        </div>
+
+
+
+        <div class="col-md-12 w-100 pr-5 pt-1" id="commentReplies_{{comment.id}}" >
+          
+        
+        </div>
+        
+        <div class="col-md-12 mt-0 mb-3 pr-5">
+          <div class="feedback-clints">
+            <input type="text" class="form-control w-100 commentEnter" id="commentText_{{comment.id}}"   placeholder="Write a comment...">
+          </div>
+        </div>
+  
+      </div>
+      {% endfor %}
+
+
+
       
-
-      <div class="row commentDetails">
-  
-        <div class="col-md-3 img-comments col-5">
-  <img src="/static/Img/blank-profile-picture-973460_640.png" class="w-100" alt="">
-  
-        </div>
-  <div class="col-md-9 clint-name text-right col-7">
-  <p class="m-0">Clinte Name</p>
-  <div class="evaluation">
-    <div class="commentRate" data-rating-stars="5" data-rating-readonly="true" data-rating-input="#dataReadonlyInput" data-rating-value="1.7" dir="rtl" rating="true" style="color: rgb(252, 215, 3);"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
     
-  <p>18/9/2020</p>
-  </div>
-  </div>
-  
-  <div class="col-md-12 text-comments w-100 text-right col-12">
-  <p class="commentTextDetails">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-  Nobis pariatur maxime numquam cupiditate ipsam ex corporis impedit 
-  dignissimos praesentium molestiae asperiores libero quis suscipit ratione 
-  nemo quam cum, repellendus nulla?</p>
-  
-  <div class="feedback-clints mt-3">
-    <input type="text" class="form-control mt-2 w-75 commentEnter" placeholder="Write a comment...">
-  </div>
-  </div>
-  
-      </div>
-
-
-
-
-
-
-      <div class="row commentDetails">
-  
-        <div class="col-md-3 img-comments col-5">
-  <img src="/static/Img/blank-profile-picture-973460_640.png" class="w-100" alt="">
-  
-        </div>
-  <div class="col-md-9 clint-name text-right col-7">
-  <p class="m-0">Clinte Name</p>
-  <div class="evaluation">
-    <div class="commentRate" data-rating-stars="5" data-rating-readonly="true" data-rating-input="#dataReadonlyInput" data-rating-value="1.7" dir="rtl" rating="true" style="color: rgb(252, 215, 3);"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
-    
-  <p>18/9/2020</p>
-  </div>
-  </div>
-  
-  <div class="col-md-12 text-comments w-100 text-right col-12">
-  <p class="commentTextDetails">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-  Nobis pariatur maxime numquam cupiditate ipsam ex corporis impedit 
-  dignissimos praesentium molestiae asperiores libero quis suscipit ratione 
-  nemo quam cum, repellendus nulla?</p>
-  
-  <div class="feedback-clints mt-3">
-    <input type="text" class="form-control mt-2 w-75 commentEnter" placeholder="Write a comment...">
-  </div>
-  </div>
-  
-      </div>
-
-
-
-
-
-      <div class="row commentDetails">
-  
-        <div class="col-md-3 img-comments col-5">
-  <img src="/static/Img/blank-profile-picture-973460_640.png" class="w-100" alt="">
-  
-        </div>
-  <div class="col-md-9 clint-name text-right col-7">
-  <p class="m-0">Clinte Name</p>
-  <div class="evaluation">
-    <div class="commentRate" data-rating-stars="5" data-rating-readonly="true" data-rating-input="#dataReadonlyInput" data-rating-value="1.7" dir="rtl" rating="true" style="color: rgb(252, 215, 3);"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
-    
-  <p>18/9/2020</p>
-  </div>
-  </div>
-  
-  <div class="col-md-12 text-comments w-100 text-right col-12">
-  <p class="commentTextDetails">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-  Nobis pariatur maxime numquam cupiditate ipsam ex corporis impedit 
-  dignissimos praesentium molestiae asperiores libero quis suscipit ratione 
-  nemo quam cum, repellendus nulla?</p>
-  
-  <div class="feedback-clints mt-3">
-    <input type="text" class="form-control mt-2 w-75 commentEnter" placeholder="Write a comment...">
-  </div>
-  </div>
-  
-      </div>
-
-
-
-
-
-      <div class="row commentDetails">
-  
-        <div class="col-md-3 img-comments col-5">
-  <img src="/static/Img/blank-profile-picture-973460_640.png" class="w-100" alt="">
-  
-        </div>
-  <div class="col-md-9 clint-name text-right col-7">
-  <p class="m-0">Clinte Name</p>
-  <div class="evaluation">
-    <div class="commentRate" data-rating-stars="5" data-rating-readonly="true" data-rating-input="#dataReadonlyInput" data-rating-value="1.7" dir="rtl" rating="true" style="color: rgb(252, 215, 3);"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
-    
-  <p>18/9/2020</p>
-  </div>
-  </div>
-  
-  <div class="col-md-12 text-comments w-100 text-right col-12">
-  <p class="commentTextDetails">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-  Nobis pariatur maxime numquam cupiditate ipsam ex corporis impedit 
-  dignissimos praesentium molestiae asperiores libero quis suscipit ratione 
-  nemo quam cum, repellendus nulla?</p>
-  
-  <div class="feedback-clints mt-3">
-    <input type="text" class="form-control mt-2 w-75 commentEnter" placeholder="Write a comment...">
-  </div>
-  </div>
-  
-      </div>
-
-
     </div>
 
 
@@ -645,11 +581,165 @@
 
 
 
+ <script src="{% static 'js/sweetalert.min.js' %}"></script>
  
  <script src="{% static 'js/rating.js' %}"></script> 
 
  <script src="{% static 'js/mainFunctions.js' %}"></script>
+       
+ 
+
+
+ 
+
+ <script>
+
+          {% for comment in allcomments %}
+
+
+          
+
+
+          $('#commentText_{{comment.id}}').bind("enterKey",function(e){
+
+            if("{{userProfile.user.is_authenticated}}"=="True"){
+
+              
+                
+  $.ajax({
+            type: 'POST',
+            url: '/en/sendReply',
+            data: { 
+               'commentid': {{comment.id}},
+               'profileid': "{{userProfile.id}}",
+               'replyDetails': $(this).val()
+            },
+            headers:{
+                "X-CSRFToken": csrftoken
+                 },
+            dataType: 'json',
+            cache: false,
+            success: function(result) {
+              console.log(result)
+               if(result['Result']=='Ok'){
+                $('#commentReplies_{{comment.id}}').empty();
+                result.data.forEach(element => {
+               
+                  console.log('comment: {{comment.id}} ,Reply: '+element.id);
+                            $('#commentReplies_{{comment.id}}').append(`
+                            <div class="row w-100">
+                                <div class="col-md-2 img-comments col-4 w-100 pb-2 pr-1 pl-2">
+                                  <img src="`+element.image+`" class="w-100" alt="">
+                                </div>
+
+                                <div class="col-md-9 clint-name text-right col-7 m-0 p-0">
+                                  <p class="m-0" style=" font-size: 12px; ">`+element.username+`</p>
+                                  <div class="evaluation">
+                                    <p style=" font-size: 12px; padding:0; margin:0;">`+element.created+`</p>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-12 w-100 text-right col-12 m-0">
+                                  <p class="commentTextDetails" style="font-size:11px;">`+element.details+`</p>
+                                </div>
+                                
+                              </div>
+                              
+
+                            `)
+                            $('#commentText_{{comment.id}}').attr('value','');
+                            $('#commentText_{{comment.id}}').val('');
+                });
+
+
+              
         
+               
+             
+               }
+
+            },error: function (xhr, ajaxOptions, thrownError) {
+                console.log(thrownError)
+                   }
+        });
+        
+
+            }else{
+              
+              swal("تنبيه", "لا يمكنك القيام بذلك برجاء تسجيل الدخول", "warning");
+            }
+            
+          });
+
+
+  $.ajax({
+            type: 'POST',
+            url: '/en/getAllRepliesForComment',
+            data: { 
+               'id': {{comment.id}}
+            },
+            headers:{
+                "X-CSRFToken": csrftoken
+                 },
+            dataType: 'json',
+            cache: false,
+            success: function(result) {
+              // console.log(result)
+               if(result['Result']=='Ok'){
+                $('#commentReplies_{{comment.id}}').empty();
+                result.data.forEach(element => {
+               
+                  // console.log('comment: {{comment.id}} ,Reply: '+element.id);
+                            $('#commentReplies_{{comment.id}}').append(`
+                            <div class="row w-100">
+                                <div class="col-md-2 img-comments col-4 w-100 pb-2 pr-1 pl-2">
+                                  <img src="`+element.image+`" class="w-100" alt="">
+                                </div>
+
+                                <div class="col-md-9 clint-name text-right col-7 m-0 p-0">
+                                  <p class="m-0" style=" font-size: 12px; ">`+element.username+`</p>
+                                  <div class="evaluation">
+                                    <p style=" font-size: 12px; padding:0; margin:0;">`+element.created+`</p>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-12 w-100 text-right col-12 m-0">
+                                  <p class="commentTextDetails" style="font-size:11px;">`+element.details+`</p>
+                                </div>
+                                
+                              </div>
+                              
+
+                            `)
+                
+                });
+
+
+              
+        
+               
+             
+               }
+
+            },error: function (xhr, ajaxOptions, thrownError) {
+                console.log(thrownError)
+                   }
+        });
+        
+        {% endfor %}
+
+
+
+        $('.commentEnter').keyup(function(e){
+              if(e.keyCode == 13)
+              {
+                  $(this).trigger("enterKey");
+              }
+          });
+    </script>
+
+
+
         
  <script>
 
@@ -662,8 +752,9 @@ $("#rateSend").rating({
                             // "readonly":true,
                             "value":0,
                             "click": function (e) {
-                                console.log(e);
-                               // $(".halfstarsInput").val(e.stars);
+                                // console.log(e);
+                               $("#mainRateFromUser").val(e.stars);
+                               $("#mainRateFromUser").attr('value',e.stars);
                             }
                         });
 
@@ -673,7 +764,7 @@ $("#halfstarsReview").rating({
                             "halfStar":"fas fa-star-half-alt fa-flip-horizontal",
                             "filledStar":"fas fa-star",
                             "readonly":true,
-                            "value":3.5,
+                            "value":{{rate}},
                             "click": function (e) {
                                 console.log(e);
                                // $(".halfstarsInput").val(e.stars);

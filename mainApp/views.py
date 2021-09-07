@@ -395,10 +395,27 @@ def CompanyPage(request):
     else:
         mainImage=None
 
-    print(mainImage)
+
+    allcomments = thisAdd.comments.all()
+    user =request.user
+    if user.is_authenticated:
+        userProfile = profile.objects.get(user=user)
+        if request.method=='POST':
+            typeOfForm = request.POST['typeOfForm']
+            if typeOfForm == 'feedBack':
+                mainRateFromUser = request.POST['mainRateFromUser']
+                subject = request.POST['subject']
+                commentNew = comment.objects.create(fromUser=userProfile,details=subject,rate=mainRateFromUser)
+                commentNew.save()
+                thisAdd.comments.add(commentNew)
+
+    
+
     data = {
         'thisAdd':thisAdd,
+        'rate':thisAdd.comments.aggregate(Avg('rate'))['rate__avg'],
         'allFiles':allFiles,
+        'allcomments':allcomments,
         'mainImage':mainImage,
         'numberOfFiles':numberOfFiles
     }
@@ -418,35 +435,70 @@ def loadMainPage(request):
 def getAllCategoriesJson(request):
     SearchQuery =request.GET['query'] 
 
-    print('-----------------------------------------------------------')
-    print(SearchQuery)
-    allJson=[ { "value": 1 , "text": "أحمد"   , "continent": "أحمد"    },
-            { "value": 2 , "text": "محمد"      , "continent": "محمد"    },
-            { "value": 3 , "text": "سيد"       , "continent": "سيد"    },
-            { "value": 4 , "text": "عباس"  , "continent": "عباس"   },
-            { "value": 5 , "text": "محمود" , "continent": "محمود"   },
-            { "value": 6 , "text": "متعب", "continent": "متعب"   },
-            { "value": 7 , "text": "فؤاد"      , "continent": "فؤاد" },
-            { "value": 8 , "text": "يوسف"  , "continent": "يوسف" },
-            { "value": 9 , "text": "عبدالرحمن"    , "continent": "عبدالرحمن" },
-            { "value": 10, "text": "معروف"     , "continent": "معروف"      }
-            ]
-    # allJson = [ { "value": 1 , "text": "Amsterdam"   , "continent": "Europe"    },
-    #             { "value": 2 , "text": "London"      , "continent": "Europe"    },
-    #             { "value": 3 , "text": "Paris"       , "continent": "Europe"    },
-    #             { "value": 4 , "text": "Washington"  , "continent": "America"   },
-    #             { "value": 5 , "text": "Mexico City" , "continent": "America"   },
-    #             { "value": 6 , "text": "Buenos Aires", "continent": "America"   },
-    #             { "value": 7 , "text": "Sydney"      , "continent": "Australia" },
-    #             { "value": 8 , "text": "Wellington"  , "continent": "Australia" },
-    #             { "value": 9 , "text": "Canberra"    , "continent": "Australia" },
-    #             { "value": 10, "text": "Beijing"     , "continent": "Asia"      },
-    #             { "value": 11, "text": "New Delhi"   , "continent": "Asia"      },
-    #             { "value": 12, "text": "Kathmandu"   , "continent": "Asia"      },
-    #             { "value": 13, "text": "Cairo"       , "continent": "Africa"    },
-    #             { "value": 14, "text": "Cape Town"   , "continent": "Africa"    },
-    #             { "value": 15, "text": "Kinshasa"    , "continent": "Africa"    }
-    #             ]
+    allCategories = category.objects.filter(Q(deleted=False)&Q(name__contains=SearchQuery))
+
+    allJson = []
+    for item in list(allCategories):
+        allJson.append({"value": item.id , "text": item.name   , "continent": item.name })
+
+    
+    return JsonResponse(allJson, safe=False)
+
+
+
+
+
+def sendReply(request):
+
+    commentid =request.POST['commentid'] 
+    profileid =request.POST['profileid'] 
+    replyDetails =request.POST['replyDetails'] 
+
+
+    profileData = profile.objects.get(id=profileid)
+    thiscomment = comment.objects.get(pk=commentid)
+    dataReply = reply.objects.create(fromUser=profileData,  details=replyDetails)
+    dataReply.save()
+    thiscomment.replies.add(dataReply)
+    
+    listResult = reply.objects.filter(Q(deleted=False)&Q(comment__id=commentid))
+    
+    allJson = {'Result':'Ok','data':[]}
+
+    for result in list(listResult):
+        allJson['data'].append(result.to_json())
+    # except:
+    #     allJson = {'Result':'Error'}
+
+    
+    return JsonResponse(allJson, safe=False)
+
+
+def getAllRepliesForComment(request):
+
+    id =request.POST['id'] 
+
+    listResult = reply.objects.filter(Q(deleted=False)&Q(comment__id=id))
+    
+    allJson = {'Result':'Ok','data':[]}
+
+    for result in list(listResult):
+        allJson['data'].append(result.to_json())
+    # except:
+    #     allJson = {'Result':'Error'}
+
+    
+    return JsonResponse(allJson, safe=False)
+
+def getAllExperiansesJson(request):
+    SearchQuery =request.GET['query'] 
+
+    allCategories = category.objects.filter(Q(deleted=False)&Q(name__contains=SearchQuery))
+
+    allJson = []
+    for item in list(allCategories):
+        allJson.append({"value": item.id , "text": item.name   , "continent": item.name })
+
     
     return JsonResponse(allJson, safe=False)
 

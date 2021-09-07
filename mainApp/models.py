@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.core.validators import int_list_validator
 from uuid import uuid4
 import os
+from django.db.models import Avg
 # Create your models here.
 
 
@@ -66,6 +67,34 @@ class role(models.Model):
     def __str__(self):
         return self.id
 
+
+
+
+class tag(models.Model):
+    name = models.CharField(max_length=500,default=None,null=True)
+    propertyType = models.IntegerField(blank=True, null=True)
+
+    created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    updated = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
+
+
+    class Meta:
+        db_table = "tag"
+
+
+    def to_json(self):
+        return {
+            'id' :self.id,
+            'name':self.name,
+            'propertyType':self.propertyType
+            }
+        
+
+    def __str__(self):
+        return self.name
+
+
 class profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     address = models.CharField(max_length=500,default=None,null=True)
@@ -73,6 +102,9 @@ class profile(models.Model):
     country = models.CharField(max_length=500,default=None,null=True)
     region = models.CharField(max_length=500,default=None,null=True)
     mobile = models.CharField(max_length=500,default=None,null=True)
+
+    
+    tags = models.ManyToManyField(tag)
     # normal 0
     #facebook 1
     #gmail  2
@@ -147,6 +179,58 @@ class category(models.Model):
 
 
 
+class reply(models.Model):
+    fromUser = models.ForeignKey(profile, on_delete=models.PROTECT,related_name='fromUser')
+    details = models.TextField(default=None)
+    created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    updated = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
+
+
+    class Meta:
+        db_table = "reply"
+
+
+    def to_json(self):
+        return {
+            'id' :self.id,
+            'details':self.details,
+            'username':self.fromUser.user.first_name,
+            
+            'image':self.fromUser.image.url if self.fromUser.image!=None else '/static/Img/blank-profile-picture-973460_640.png' ,
+            'created':self.created,
+            }
+    
+
+
+class comment(models.Model):
+    fromUser = models.ForeignKey(profile, on_delete=models.PROTECT,related_name='fromUserMainComment')
+    details = models.TextField(default=None)
+    replies = models.ManyToManyField(reply)
+    rate = models.FloatField(blank=True, null=True)
+
+
+    created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    updated = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
+
+
+    class Meta:
+        db_table = "comment"
+
+
+    def to_json(self):
+        return {
+            'id' :self.id,
+            'details':self.details,
+            'username':self.fromUser.user.first_name,
+            'rate':self.rate,
+            'image':self.fromUser.image.url,
+            'replies': [replyItem.to_json() for replyItem in self.replies.all()],
+            'created':self.created,
+            }
+    
+
 class theAdd(models.Model):
     owner = models.ForeignKey(profile, on_delete=models.PROTECT)
     name = models.CharField(max_length=500,default=None)
@@ -154,9 +238,9 @@ class theAdd(models.Model):
     moreDetails = models.TextField(default=None)
     category = models.ForeignKey(category, on_delete=models.PROTECT)
     images = models.ManyToManyField(attachmentTranscript)
-    averageRate = models.FloatField(blank=True, null=True)
     mainImage = models.ImageField(upload_to='attachments/mainImage/',null=True)
 
+    comments = models.ManyToManyField(comment)
     created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
     updated = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
@@ -172,7 +256,7 @@ class theAdd(models.Model):
             'name':self.name,
             'owner':self.owner.user.first_name,
             'phone':self.owner.phone,
-            'averageRate':self.averageRate,
+            'averageRate':self.comments.aggregate(Avg('rate'))['rate__avg'],
             'address':self.owner.address,
             'details':self.details,
             'mainImage':self.mainImage.url,
