@@ -21,7 +21,7 @@ def path_and_renameListing(instance, filename):
     return os.path.join(upload_to, filename)
 
 
-class permissionGeneral(models.Model):
+class permissiongeneral(models.Model):
     name = models.CharField(max_length=500,default=None)
     created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
     updated = models.BooleanField(default=False)
@@ -29,7 +29,7 @@ class permissionGeneral(models.Model):
 
 
     class Meta:
-        db_table = "permissionGeneral"
+        db_table = "permissiongeneral"
 
 
     def to_json(self):
@@ -44,7 +44,7 @@ class permissionGeneral(models.Model):
 
 
 class role(models.Model):
-    permissionGeneral = models.ManyToManyField(permissionGeneral)
+    permissiongeneral = models.ManyToManyField(permissiongeneral)
     name = models.CharField(max_length=500,default=None)
     created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
     updated = models.BooleanField(default=False)
@@ -60,7 +60,7 @@ class role(models.Model):
             'id' :self.id,
             'name': self.name,
             'created': self.created,
-            'numberOfPermissions': len(self.permissionGeneral.all())
+            'numberOfPermissions': len(self.permissiongeneral.all())
             }
         
 
@@ -135,7 +135,7 @@ class profile(models.Model):
         return self.user.username
 
 
-class attachmentTranscript(models.Model):
+class attachmenttranscript(models.Model):
     file = models.FileField('ListDoc', upload_to=path_and_renameListing)
     postDate = models.DateTimeField(auto_now_add=True,null=True,blank=True)
     content_type = models.CharField(max_length=500,default=None)
@@ -232,12 +232,12 @@ class comment(models.Model):
             }
     
 
-class theAdd(models.Model):
+class theadd(models.Model):
     owner = models.ForeignKey(profile, on_delete=models.PROTECT)
     name = models.CharField(max_length=500,default=None)
     details = models.TextField(default=None)
     category = models.ForeignKey(category, on_delete=models.PROTECT)
-    images = models.ManyToManyField(attachmentTranscript)
+    images = models.ManyToManyField(attachmenttranscript)
     videoUrl = models.TextField(default=None,null=True)
     mainImage = models.ImageField(upload_to='attachments/mainImage/',null=True)
     
@@ -250,7 +250,8 @@ class theAdd(models.Model):
 
 
     class Meta:
-        db_table = "theAdd"
+        db_table = "theadd"
+        ordering = ['-created']
 
 
     def to_json(self):

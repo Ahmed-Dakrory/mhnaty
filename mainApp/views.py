@@ -300,7 +300,7 @@ def getNewResultsForAds(request):
             else:
                 regionSearch = Q(id__isnull=False)
 
-            allElements = theAdd.objects.filter( Q(id__isnull=False)
+            allElements = theadd.objects.filter( Q(id__isnull=False)
             & (categorySearch
             & providerSearch
             & countrySearch
@@ -308,7 +308,7 @@ def getNewResultsForAds(request):
             & Q(deleted=False))
 
         else:
-            allElements = theAdd.objects.filter(Q(deleted=False) & 
+            allElements = theadd.objects.filter(Q(deleted=False) & 
             (Q(name__contains=searchKey) |
              Q(details__contains=searchKey) |
              Q(category__name__contains=searchKey) ))
@@ -340,7 +340,7 @@ def getNewResultsForAds(request):
 
 
 def SearchPage(request):
-    allAdds = theAdd.objects.filter(Q(deleted=False))
+    allAdds = theadd.objects.filter(Q(deleted=False))
 
     allMainCategories = category.objects.filter(Q(deleted=False))
 
@@ -387,7 +387,7 @@ def profileWeb(request):
 
 def CompanyPage(request):
     id = request.GET['id']
-    thisAdd = theAdd.objects.get(pk=id)
+    thisAdd = theadd.objects.get(pk=id)
     allFiles = thisAdd.images.all()
     allTags = thisAdd.owner.tags.all()
     numberOfFiles = len(allFiles)
