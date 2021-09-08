@@ -59,9 +59,9 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/">الرئيسية</a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" href="#">انواع الخدمات</a>
-              </li>
+              </li> -->
               
               {% if user.is_authenticated %}
               <li class="nav-item">
@@ -310,17 +310,7 @@ makeSelectDropDown();
 
 
 
-  function goToSearchPage(){
-    var category = $("#dataOfCategory").attr('value');
-      var provider = $("#dataOfProvider").attr('value');
-      var country = $("#dataOfCountry").attr('value');
-      var region = $("#dataOfRegion").attr('value');
-    url_Search = '/SearchPage/?category='+category+'&provider='+provider+'&country='+country+'&region='+region;
 
-
-    // console.log(url_Search);
-    window.location.href = url_Search;
-  }
  </script>
  {% endblock %}
 

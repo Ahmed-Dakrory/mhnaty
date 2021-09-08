@@ -161,6 +161,21 @@ function getListOfCountries(){
             
                 }
             
+
+
+                function goToSearchPage(){
+                    var category = $("#dataOfCategory").attr('value');
+                      var provider = $("#dataOfProvider").attr('value');
+                      var country = $("#dataOfCountry").attr('value');
+                      var region = $("#dataOfRegion").attr('value');
+                    url_Search = '/SearchPage/?category='+category+'&provider='+provider+'&country='+country+'&region='+region;
+                
+                
+                    // console.log(url_Search);
+                    window.location.href = url_Search;
+                  }
+
+                  
 function getListOfRegions(country){
 
         

@@ -42,35 +42,48 @@
     <div style=" max-width: 100%; background-color: #414242 !important; ">
 <div class="container p-0">
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid" style="direction:rtl">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">الرئيسية</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">انواع الخدمات</a>
-              </li>
-              
-              <li class="nav-item">
-                <a class="nav-link" href="#">من نحن</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/accounts/login/">دخول</a>
-              </li>
-              <li class="nav-item login">
-                <a class="nav-link" href="#">أنضم الان</a>
-              </li>
-            </ul>
-         </div>
-        <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-50" alt="logo"></a>
-      
-        </div>
-        </nav>
+     
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid" style="direction:rtl">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">الرئيسية</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">انواع الخدمات</a>
+          </li> -->
+          
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/profile/">ملفى</a>
+          </li>
+          {% endif %}
+
+          {% if not user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/accounts/login/">دخول</a>
+          </li>
+          <li class="nav-item login">
+            <a class="nav-link" href="/loadRegPage/">أنضم الان</a>
+          </li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/logout/">تسجيل خروج</a>
+          </li>
+          {% endif %}
+        
+        </ul>
+     </div>
+     
+     <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-50" alt="logo"></a>
+  
+    </div>
+    </nav>
       </div>
 
       </div>
@@ -528,15 +541,21 @@
    
     function getBlock(data){
       phoneStatment = '';
-              if(data.phone !='' || data.phone!=' '){
+              if(data.phone !='' && data.phone!=' '){
                 phoneStatment = '<p class="card-text pt-1">'+data.phone+'<i class="fas fa-phone pl-3"></i></p>';
               }
 
               addressStatment = '';
-              if(data.address !='' || data.address!=' '){
+              if(data.address !=''  && data.address!=' '){
                 addressStatment = '<p class="card-text pt-1">'+data.address+'<i class="fas fa-map-marker-alt pl-3"></i></p>';
               }
               
+
+          if(data.featureAddNumber>0){
+            featureType = '<i class="fa fa-cannabis text-info m-2"></i>';
+          }else{
+            featureType='';
+          }
 
         return  (`
 
@@ -578,7 +597,7 @@
                   <a href="/CompanyPage?id=`+data.id+`" class="card-title mb-0 nameOfService">`+data.name+`</a>
                   <p class="card-text mb-2">
                     `+data.details+`</p>
-                  <a class="card-text mb-1" style="direction: rtl;color: #88b334;" href="#"><i class="fa fa-cannabis text-info m-2"></i>`+data.category_name+` </a>
+                  <a class="card-text mb-1" style="direction: rtl;color: #88b334;" href="/{{LANGUAGE_CODE}}/SearchPage/?category=`+data.category_name+`&provider=&country=&region=">`+featureType+data.category_name+` </a>
                 </div>
               </div>
 
@@ -592,16 +611,13 @@
 
 
             </div>
-            <div class="row m-md-1">
+            <div class="row m-md-1 mb-2">
               
-              <div class="col-md-4 p-0 pr-1 col-6">
+              <div class="col-md-6 p-0 pr-1 col-6">
                 <a class="btn btn-warning w-100" style="direction: rtl;"><i class="fa fa-comments"></i> دردش </a>
               </div>
-              <div class="col-md-4 p-0 pr-1 col-6">
-                <a class="btn btn-warning w-100" style="direction: rtl;"><i class="fa fa-phone"></i> اتصل </a>
-              </div>
-              <div class="col-md-4 p-0 pr-1 col-12 pb-1 pb-md-0 pt-1 pt-md-0">
-                <a class="btn btn-warning w-100" style="direction: rtl;"><i class="fa fa-bookmark"></i> اضف الى المفضلة </a>
+              <div class="col-md-6 p-0 pr-1 col-6">
+                <a class="btn btn-warning w-100" href="tel:`+data.phone+`" style="direction: rtl;"><i class="fa fa-phone"></i> اتصل </a>
               </div>
               
             </div>

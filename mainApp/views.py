@@ -389,6 +389,7 @@ def CompanyPage(request):
     id = request.GET['id']
     thisAdd = theAdd.objects.get(pk=id)
     allFiles = thisAdd.images.all()
+    allTags = thisAdd.owner.tags.all()
     numberOfFiles = len(allFiles)
     if len(allFiles) > 0: 
         mainImage = thisAdd.images.first
@@ -412,6 +413,7 @@ def CompanyPage(request):
     
 
     data = {
+        'allTags':allTags,
         'thisAdd':thisAdd,
         'rate':thisAdd.comments.aggregate(Avg('rate'))['rate__avg'],
         'allFiles':allFiles,

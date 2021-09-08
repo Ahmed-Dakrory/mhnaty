@@ -41,6 +41,7 @@
 <div class="container p-0">
 
      
+
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid" style="direction:rtl">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,9 +52,9 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/">الرئيسية</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="#">انواع الخدمات</a>
-          </li>
+          </li> -->
           
           {% if user.is_authenticated %}
           <li class="nav-item">
@@ -85,20 +86,29 @@
       </div>
 
       </div>
+    
+      
+      
       <section id="Search" style="margin-top: 57px!important;">
         <div class="container">
           <h1>ابحث عن خدماتك الان</h1>
 
+          <input type="hidden" id="dataOfCategory" value="">
+          <input type="hidden" id="dataOfProvider" value="">
+          <input type="hidden" id="dataOfCountry" value="">
+          <input type="hidden" id="dataOfRegion" value="">
+
               <div class="row search-bar" style="direction:rtl">
                   <div class="col-md-3 col-12 w-100 mt-1 p-1">
                       <div class="dropdown w-100">
-                          <a class="btn btn-secondary dropdown-toggle w-100" href="#" type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <a class="btn btn-secondary dropdown-toggle w-100" mainName="الخدمات" href="#" type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           الخدمات
                           </a>
                         
                           <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <li><a class="dropdown-item categoryElementSelect" categoryId="">الكل</a></li>
                             {% for item in allMainCategories %}
-                            <li><a class="dropdown-item" href="#">{{item.name}}</a></li>
+                            <li><a class="dropdown-item categoryElementSelect" categoryId="{{item.name}}">{{item.name}}</a></li>
                             {% endfor %}
 
                           </ul>
@@ -106,42 +116,34 @@
                   </div>
                   <div class="col-md-3 col-12 w-100 mt-1 p-1">
                     <div class="dropdown w-100">
-                        <a class="btn btn-secondary dropdown-toggle w-100" href="#" type="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="btn btn-secondary dropdown-toggle w-100"  mainName="مقدم الخدمة" href="#" type="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           مقدم الخدمة
                         </a>
                       
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
-                          <li><a class="dropdown-item" href="#">حسن علام</a></li>
-                          <li><a class="dropdown-item" href="#">الاردنية للمقاولات</a></li>
-                          <li><a class="dropdown-item" href="#">مقاولات عامة وانشاءات</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink2" id="listOfProviders">
+                          
                         </ul>
                       </div>
                 </div>
 
                 <div class="col-md-3 col-12 w-100 mt-1 p-1">
                   <div class="dropdown w-100">
-                      <a class="btn btn-secondary dropdown-toggle w-100" href="#" type="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        المنطقة
+                      <a class="btn btn-secondary dropdown-toggle w-100" mainName="البلد" href="#" type="button" id="countryDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        البلد
                       </a>
                     
-                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
-                        <li><a class="dropdown-item" href="#">حسن علام</a></li>
-                        <li><a class="dropdown-item" href="#">الاردنية للمقاولات</a></li>
-                        <li><a class="dropdown-item" href="#">مقاولات عامة وانشاءات</a></li>
+                      <ul class="dropdown-menu" aria-labelledby="countryDropDown" id="listOfcountries">
                       </ul>
                     </div>
               </div>
 
                 <div class="col-md-3 col-12 w-100 mt-1 p-1">
                   <div class="dropdown w-100">
-                      <a class="btn btn-secondary dropdown-toggle w-100" href="#" type="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <a class="btn btn-secondary dropdown-toggle w-100" mainName="المنطقة" href="#" type="button" id="regionDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         المنطقة
                       </a>
                     
-                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
-                        <li><a class="dropdown-item" href="#">حسن علام</a></li>
-                        <li><a class="dropdown-item" href="#">الاردنية للمقاولات</a></li>
-                        <li><a class="dropdown-item" href="#">مقاولات عامة وانشاءات</a></li>
+                      <ul class="dropdown-menu" aria-labelledby="regionDropDown" id="listOfregions">
                       </ul>
                     </div>
               </div>
@@ -149,7 +151,7 @@
 
               <div class="col-md-3 w-100 mt-1 p-1 "></div>
               <div class="col-md-6 w-100 mt-1 p-1">
-                  <a href="/SearchPage/" class="btn btn-primary btn-lg w-100">ابحث<i class="fas fa-search"></i></a>
+                  <a onclick="goToSearchPage()" class="btn btn-primary btn-lg w-100">ابحث<i class="fas fa-search"></i></a>
 
               </div>
               <div class="col-md-3 w-100 mt-1 p-1"></div>
@@ -161,6 +163,7 @@
 
         
     </section>
+
 
     
   </div>
@@ -289,40 +292,37 @@
             </div>
 
             <div class="company-text-body pt-0">
+              {% if thisAdd.owner.aboutMe != None or thisAdd.owner.aboutMe != '' %}
               <h5>عن الشركة</h5>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                  Dignissimos fugiat culpa architecto dolorem quisquam. 
-                  Odio inventore saepe iure odit impedit!</p>
+              <p>{{thisAdd.owner.aboutMe}}</p>
+              {% endif %}
 
 
                   <p>خبرات الشركة</p>
                   <div class="row w-100 m-3">
-                    <a href="#" class="badge badge-primary">Primary</a>
-                    <a href="#" class="badge badge-secondary">Secondary</a>
-                    <a href="#" class="badge badge-success">Success</a>
-                    <a href="#" class="badge badge-danger">Danger</a>
-                    <a href="#" class="badge badge-warning">Warning</a>
-                    <a href="#" class="badge badge-info">Info</a>
-                    <a href="#" class="badge badge-light">Light</a>
-                    <a href="#" class="badge badge-dark">Dark</a>
+                    {% for item in allTags %}
+                    <a href="#" class="badge badge-primary">{{item.name}}</a>
+                    {% endfor %}
                   </div>
             </div>
+            {% if thisAdd.details != None %}
             <div class="company-text-body">
               <h5>خدمات الشركة</h5>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                  Dignissimos fugiat culpa architecto dolorem quisquam. 
-                  Odio inventore saepe iure odit impedit!</p>
+              <p>{{thisAdd.details}}</p>
             </div>
+            {% endif %}
 
 
+            {% if thisAdd.videoUrl != None %}
             <div class="company-text-body w-100 mb-3">
               <h5>فيديو خاص بالخدمة</h5>
               <div class="w-100">
                 <iframe style="width: 100%;height: 355px;"
-                src="https://www.youtube.com/embed/watch?v=Lex4NKotiw4&list=RDLex4NKotiw4&start_radio=1">
+                src="{{thisAdd.videoUrl}}">
                 </iframe>
               </div>
             </div>
+            {% endif %}
 
        
 
@@ -340,30 +340,35 @@
               <h5>اتصل بنا</h5>
               <div class="row">
                 
+
+                {% if thisAdd.owner.address != None and thisAdd.owner.address != '' and thisAdd.owner.address != ' ' %}
                 <div class="col-sm-10 order-2">
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                      Dignissimos fugiat culpa architecto dolorem quisquam.</p>
+                  <p>{{thisAdd.owner.address}}</p>
               </div>
               <div class="col-sm-2  order-1">
                   <i class="fas fa-map-marker-alt"></i>
               </div>
-
+              {% endif %}
 
             
-
+                  {% if thisAdd.owner.phone != None and thisAdd.owner.phone != '' and thisAdd.owner.phone != ' ' %}
                   <div class="col-sm-10  order-4">
-                      <p>0101010101010</p>
+                      <p>{{thisAdd.owner.phone}}</p>
                   </div>
                   <div class="col-sm-2  order-3">
                       <i class="fas fa-phone"></i>
                   </div>
+                  {% endif %}
 
+
+                  {% if thisAdd.owner.user.email != None and thisAdd.owner.user.email != '' and thisAdd.owner.user.email != ' ' %}
                   <div class="col-sm-10 order-6">
-                      <p>mail@gmail.com</p>
+                      <p>{{thisAdd.owner.user.email}}</p>
                   </div>
                   <div class="col-sm-2 mb-2 order-5">
                       <i class="fas fa-envelope"></i>
                   </div>
+                  {% endif %}
           </div>
               </div>
 
@@ -404,7 +409,7 @@
   <div class="container p-0">
     <div class="review-head">
     <h2 class="pb-2">أراء العملاء</h2>
-    <p class="pb-4">يمكنك الأطلاع على أراء العملاء لهذه الخدمة بما فى ذلك الرد على هذه الأراء من قبل عملاء أخرين
+    <p class="pb-4 pr-3 pl-3">يمكنك الأطلاع على أراء العملاء لهذه الخدمة بما فى ذلك الرد على هذه الأراء من قبل عملاء أخرين
       </p>
     </div>
   
@@ -588,11 +593,28 @@
  <script src="{% static 'js/mainFunctions.js' %}"></script>
        
  
+ <script>
 
+
+  getServiceProviders(null);
+  getListOfCountries();
+  getListOfRegions(null);
+  makeSelectDropDown();
+  
+  
+  
+  
+   </script>
+   
 
  
 
  <script>
+
+            {%  if numberOfFiles > 0 %}
+            var slideIndex = 1;
+              showSlides(slideIndex);
+            {% endif %}
 
           {% for comment in allcomments %}
 
@@ -764,7 +786,7 @@ $("#halfstarsReview").rating({
                             "halfStar":"fas fa-star-half-alt fa-flip-horizontal",
                             "filledStar":"fas fa-star",
                             "readonly":true,
-                            "value":{{rate}},
+                            "value":{{rate|default_if_none:0}},
                             "click": function (e) {
                                 console.log(e);
                                // $(".halfstarsInput").val(e.stars);

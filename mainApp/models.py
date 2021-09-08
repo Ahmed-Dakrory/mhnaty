@@ -97,6 +97,7 @@ class tag(models.Model):
 
 class profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
+    aboutMe = models.TextField(default=None,null=True)
     address = models.CharField(max_length=500,default=None,null=True)
     phone = models.CharField(max_length=500,default=None,null=True)
     country = models.CharField(max_length=500,default=None,null=True)
@@ -235,10 +236,12 @@ class theAdd(models.Model):
     owner = models.ForeignKey(profile, on_delete=models.PROTECT)
     name = models.CharField(max_length=500,default=None)
     details = models.TextField(default=None)
-    moreDetails = models.TextField(default=None)
     category = models.ForeignKey(category, on_delete=models.PROTECT)
     images = models.ManyToManyField(attachmentTranscript)
+    videoUrl = models.TextField(default=None,null=True)
     mainImage = models.ImageField(upload_to='attachments/mainImage/',null=True)
+    
+    featureAddNumber = models.IntegerField(default=0,null=True)
 
     comments = models.ManyToManyField(comment)
     created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
@@ -254,6 +257,7 @@ class theAdd(models.Model):
         return {
             'id' :self.id,
             'name':self.name,
+            'featureAddNumber':self.featureAddNumber,
             'owner':self.owner.user.first_name,
             'phone':self.owner.phone,
             'averageRate':self.comments.aggregate(Avg('rate'))['rate__avg'],
