@@ -181,4 +181,7 @@ print(home)
 MEDIA_DIR = os.path.join(home,'media')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(home , 'media')
+# this line uncomment
+# MEDIA_ROOT = os.path.join(home , 'media')
+
+MEDIA_ROOT = '/home/mhnatyco/public_html/media/'
