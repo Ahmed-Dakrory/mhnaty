@@ -24,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '9q#6$z_ohh_$#&&^anu2d_26p3=&!641tm3+yij@e!#xy^l)-h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mhnaty.com']
 
 
 # Application definition
@@ -79,27 +79,27 @@ WSGI_APPLICATION = 'ServiceSite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-    'ENGINE': 'django.db.backends.mysql', 
-    'NAME': 'services',                      
-    'USER': 'root',                      
-    'PASSWORD': '',          
-    'HOST': '127.0.0.1',                 
-    'PORT': '3306',                      
-        },
-    }
-
 # DATABASES = {
 #     'default': {
 #     'ENGINE': 'django.db.backends.mysql', 
-#     'NAME': 'mhnatyco_main',                      
-#     'USER': 'mhnatyco_ahmed',                      
-#     'PASSWORD': 'A@123456789`134679',          
+#     'NAME': 'services',                      
+#     'USER': 'root',                      
+#     'PASSWORD': '',          
 #     'HOST': '127.0.0.1',                 
 #     'PORT': '3306',                      
 #         },
 #     }
+
+DATABASES = {
+    'default': {
+    'ENGINE': 'django.db.backends.mysql', 
+    'NAME': 'mhnatyco_main',                      
+    'USER': 'mhnatyco_ahmed',                      
+    'PASSWORD': 'A@123456789`134679',          
+    'HOST': '127.0.0.1',                 
+    'PORT': '3306',                      
+        },
+    }
 
 
 # Password validation
@@ -161,8 +161,15 @@ STATIC_URL = '/static/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+
+## this line uncomment
+# STATIC_URL = '/static/'
+# STATIC_ROOT = '/mhnatyco/public_html/'#os.path.join(BASE_DIR, "static" , "static_root")
+
+
 STATIC_URL = '/static/'
-STATIC_ROOT = '/mhnatyco/public_html/'#os.path.join(BASE_DIR, "static" , "static_root")
+STATIC_ROOT = "/home/mhnatyco/public_html/static/"
+
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
