@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '9q#6$z_ohh_$#&&^anu2d_26p3=&!641tm3+yij@e!#xy^l)-h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['mhnaty.com','*']
 
@@ -79,29 +79,29 @@ WSGI_APPLICATION = 'ServiceSite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#     'ENGINE': 'django.db.backends.mysql', 
-#     'NAME': 'services',                      
-#     'USER': 'root',                      
-#     'PASSWORD': '',          
-#     'HOST': '127.0.0.1',                 
-#     'PORT': '3306',                      
-#         },
-#     }
-
-
-
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.mysql', 
-    'NAME': 'mhnatyco_main',                      
-    'USER': 'mhnatyco_ahmed',                      
-    'PASSWORD': 'A@123456789`134679',          
+    'NAME': 'services',                      
+    'USER': 'root',                      
+    'PASSWORD': '',          
     'HOST': '127.0.0.1',                 
     'PORT': '3306',                      
         },
     }
+
+
+
+# DATABASES = {
+#     'default': {
+#     'ENGINE': 'django.db.backends.mysql', 
+#     'NAME': 'mhnatyco_main',                      
+#     'USER': 'mhnatyco_ahmed',                      
+#     'PASSWORD': 'A@123456789`134679',          
+#     'HOST': '127.0.0.1',                 
+#     'PORT': '3306',                      
+#         },
+#     }
 
 
 # Password validation
@@ -184,6 +184,6 @@ MEDIA_DIR = os.path.join(home,'media')
 
 MEDIA_URL = '/media/'
 # this line uncomment
-# MEDIA_ROOT = os.path.join(home , 'media')
+MEDIA_ROOT = os.path.join(home , 'media')
 
-MEDIA_ROOT = '/home/mhnatyco/public_html/media/'
+# MEDIA_ROOT = '/home/mhnatyco/public_html/media/'

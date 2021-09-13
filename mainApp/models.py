@@ -21,6 +21,53 @@ def path_and_renameListing(instance, filename):
     return os.path.join(upload_to, filename)
 
 
+
+class city(models.Model):
+    name = models.CharField(max_length=500,default=None)
+    created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    updated = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
+
+
+    class Meta:
+        db_table = "city"
+
+
+    def to_json(self):
+        return {
+            'id' :self.id,
+            'name':self.name
+            }
+        
+
+    def __str__(self):
+        return self.name
+
+
+
+
+class region(models.Model):
+    cityOfRegion = models.ForeignKey(city, on_delete=models.PROTECT)
+    name = models.CharField(max_length=500,default=None)
+    created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    updated = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
+
+
+    class Meta:
+        db_table = "region"
+
+
+    def to_json(self):
+        return {
+            'id' :self.id,
+            'name':self.name
+            }
+        
+
+    def __str__(self):
+        return self.name
+
 class permissiongeneral(models.Model):
     name = models.CharField(max_length=500,default=None)
     created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
@@ -100,8 +147,7 @@ class profile(models.Model):
     aboutMe = models.TextField(default=None,null=True)
     address = models.CharField(max_length=500,default=None,null=True)
     phone = models.CharField(max_length=500,default=None,null=True)
-    country = models.CharField(max_length=500,default=None,null=True)
-    region = models.CharField(max_length=500,default=None,null=True)
+    region =  models.ForeignKey(region, on_delete=models.PROTECT,null=True)
     mobile = models.CharField(max_length=500,default=None,null=True)
 
     

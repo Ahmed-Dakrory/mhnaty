@@ -197,8 +197,8 @@
              </div>
 
 
-              <button class="accordion">البلد</button>
-                <div class="panel countrySearchMobile  mt-2">
+              <button class="accordion">المدينة</button>
+                <div class="panel citySearchMobile  mt-2">
                   
 
                  
@@ -319,7 +319,7 @@
 
 
                     <button class="accordion">البلد</button>
-                    <div class="panel countrySearch mt-2">
+                    <div class="panel citySearch mt-2">
                      
                     
     
@@ -427,7 +427,7 @@
 
       $.ajax({
                 type: 'POST',
-                url: '/en/getListOfCountries',
+                url: '/en/getlistOfcities',
                 data: { 
                    
                 },
@@ -441,21 +441,21 @@
             
                     result.data.forEach(element => {
                     
-                      $('.countrySearch').append(`
+                      $('.citySearch').append(`
 
                                 <div class="form-check">
-                                  <label for="country_`+element.id+`">`+element.name+`</label>
-                                    <input type="checkbox" id="country_`+element.id+`" name="country" value="`+element.name+`">
+                                  <label for="city_`+element.id+`">`+element.name+`</label>
+                                    <input type="checkbox" id="city_`+element.id+`" name="city" value="`+element.name+`">
                                 </div>
 
                                 `)
                       
 
-                                $('.countrySearchMobile').append(`
+                                $('.citySearchMobile').append(`
 
                                 <div class="form-check">
-                                    <label for="countryMobile_`+element.id+`">`+element.name+`</label>
-                                    <input type="checkbox" id="countryMobile_`+element.id+`" name="countryMobile" value="`+element.name+`">
+                                    <label for="cityMobile_`+element.id+`">`+element.name+`</label>
+                                    <input type="checkbox" id="cityMobile_`+element.id+`" name="cityMobile" value="`+element.name+`">
                                 </div>
 
                                 `)
@@ -480,7 +480,7 @@
                 type: 'POST',
                 url: '/en/getListOfRegions',
                 data: { 
-                    'country': ''
+                    'city': ''
                 },
                 headers:{
                     "X-CSRFToken": csrftoken
@@ -532,8 +532,7 @@
        
       var url = new URL(window.location);
       var category = url.searchParams.get("category");
-      var provider = url.searchParams.get("provider");
-      var country = url.searchParams.get("country");
+      var city = url.searchParams.get("city");
       var region = url.searchParams.get("region");
       // console.log(region);
 
@@ -598,7 +597,7 @@
                   <a href="/CompanyPage?id=`+data.id+`" class="card-title mb-0 nameOfService">`+data.name+`</a>
                   <p class="card-text mb-2">
                     `+data.details+`</p>
-                  <a class="card-text mb-1" style="direction: rtl;color: #88b334;" href="/{{LANGUAGE_CODE}}/SearchPage/?category=`+data.category_name+`&provider=&country=&region=">`+featureType+data.category_name+` </a>
+                  <a class="card-text mb-1" style="direction: rtl;color: #88b334;" href="/{{LANGUAGE_CODE}}/SearchPage/?category=`+data.category_name+`&provider=&city=&region=">`+featureType+data.category_name+` </a>
                 </div>
               </div>
 
@@ -694,10 +693,9 @@
                       'draw':$('#currentDraw').attr('numberOFResultView'),
                       'search[value]':'',
                       'category':category,
-                      'provider':provider,
-                      'country':country,
+                      'city':city,
                       'region':region,
-                      'countriesSearch':'',
+                      'citiesSearch':'',
                       'regionsSearch':'',
                       'categoriesSearch':'',
                       'experiensesSearch':'',

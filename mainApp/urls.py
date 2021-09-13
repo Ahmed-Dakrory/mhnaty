@@ -22,9 +22,8 @@ urlpatterns = [
     
     path('getNewResultsForAds',views.getNewResultsForAds,name = 'getNewResultsForAds'),
     path('AuthOutSide',views.AuthOutSide,name = 'AuthOutSide'),
-    path('getServiceProviders',views.getServiceProviders,name = 'getServiceProviders'),
     path('getListOfRegions',views.getListOfRegions,name = 'getListOfRegions'),
-    path('getListOfCountries',views.getListOfCountries,name = 'getListOfCountries'),
+    path('getlistOfcities',views.getlistOfcities,name = 'getlistOfcities'),
     path('checkemail',views.checkemail,name = 'checkemail'),
     path('checkusername',views.checkusername,name = 'checkusername'),
     

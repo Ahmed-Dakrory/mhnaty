@@ -86,7 +86,6 @@ def loadRegPage(request):
         roleId = 2
         regionData = request.POST['region']
         addressData = request.POST['address']
-        countryData = request.POST['country']
         phoneData = request.POST['phone']
         phone2Data = request.POST['phone2']
         usernameData = request.POST['username']
@@ -98,6 +97,10 @@ def loadRegPage(request):
         else:
             roleData = None
 
+
+        regionData = region.objects.get(pk=region)
+        
+
         if len(findLastUser) == 0:
             
             usernew = User.objects.create_user(username=usernameData,  password=passwordData,email=emailData,first_name=firstNameData,
@@ -105,7 +108,7 @@ def loadRegPage(request):
             usernew.save()
 
             dataToInsert = profile.objects.create(user=usernew,role=roleData,typeOfRegisteration=typeOfRegisterationData
-            ,region=regionData,country=countryData,address=addressData
+            ,region=regionData,address=addressData
             ,phone=phoneData,mobile=phone2Data)
             dataToInsert.save()
 
@@ -120,59 +123,8 @@ def loadRegPage(request):
     return render(request,'index_reg.html',None)
 
 
-def getServiceProviders(request):
-    
-    with connection.cursor() as cursorLast:
-    
-        try:
-            category = request.POST['category']
-            
-            if category !='':
-                sql_query = """
 
-                        select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
-                        as output 
-                        from (
-                        SELECT  profile.id,auth_user.first_name as name FROM theadd
-                        left join profile on profile.id = theadd.owner_id
-                        left join auth_user on profile.user_id = auth_user.id
-                        left join category on category.id = theadd.category_id
-                        where category.name = '"""+str(category)+"""' and auth_user.first_name !='' and auth_user.first_name !=' '
-                        group by profile.id) x;
-
-
-
-                    """
-            else:
-                sql_query = """
-
-                        select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
-                        as output 
-                        from (
-                        SELECT  profile.id,auth_user.first_name as name FROM theadd
-                        left join profile on profile.id = theadd.owner_id
-                        left join auth_user on profile.user_id = auth_user.id
-                         where  auth_user.first_name !='' and auth_user.first_name !=' '
-                        group by profile.id) x;
-
-
-
-                    """
-
-
-            cursorLast.execute(sql_query)
-            cursorAllData = cursorLast.fetchone()
-            y=cursorAllData[0].replace('\r\n','')
-            # print(y)
-            return HttpResponse(y,content_type='application/json')
-        except Exception as e:
-            print(e)
-            allJson = {"Result": "Fail"}
-            return JsonResponse(allJson, safe=False)
-
-
-
-def getListOfCountries(request):
+def getlistOfcities(request):
     
     with connection.cursor() as cursorLast:
     
@@ -182,10 +134,9 @@ def getListOfCountries(request):
                     select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
                     as output 
                     from (
-                    SELECT  profile.id,profile.country as name FROM theadd
-                    left join profile on profile.id = theadd.owner_id
-                    where profile.country !='' and profile.country !=' '
-                    group by profile.country) x;
+                    SELECT  id,name FROM city
+                    where deleted!=1
+                    ) x;
 
 
                 """
@@ -209,18 +160,17 @@ def getListOfRegions(request):
     with connection.cursor() as cursorLast:
     
         try:
-            country = request.POST['country']
+            city = request.POST['city']
             
-            if country !='':
+            if city !='':
                 sql_query = """
 
                         select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
                     as output 
                     from (
-                    SELECT  profile.id,profile.region as name FROM theadd
-                    left join profile on profile.id = theadd.owner_id
-                    where LOWER(profile.country)=LOWER('"""+country+"""') and profile.region !='' and profile.region !=' '
-                    group by profile.region) x;
+                    SELECT  region.id,region.name as name FROM region
+                    left join city on city.id = region.cityOfRegion_id
+                    where LOWER(city.name)=LOWER('"""+city+"""') ) x;
 
 
 
@@ -228,13 +178,13 @@ def getListOfRegions(request):
             else:
                 sql_query = """
 
-                        select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
+                         select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
                     as output 
                     from (
-                    SELECT  profile.id,profile.region as name FROM theadd
-                    left join profile on profile.id = theadd.owner_id
-                    where  profile.region !='' and profile.region !=' '
-                    group by profile.region) x;
+                    SELECT  region.id,region.name as name FROM region
+                    left join city on city.id = region.cityOfRegion_id
+                    ) x;
+
 
 
 
@@ -267,15 +217,13 @@ def getNewResultsForAds(request):
     
 
     category = request.POST['category']
-    provider = request.POST['provider']
-    country = request.POST['country']
+    city = request.POST['city']
     region = request.POST['region']
 
 
     print(pageNumber)
     print(category)
-    print(provider)
-    print(country)
+    print(city)
     print(region)
     try:
         if searchKey == '':
@@ -285,25 +233,21 @@ def getNewResultsForAds(request):
             else:
                 categorySearch = Q(id__isnull=False)
 
-            if provider!='':
-                providerSearch = Q(owner__user__first_name__contains=provider)
-            else:
-                providerSearch = Q(id__isnull=False)
+            
 
-            if country!='':
-                countrySearch = Q(owner__country__contains=country)
+            if city!='':
+                citySearch = Q(owner__region__cityOfRegion__name__contains=city)
             else:
-                countrySearch = Q(id__isnull=False)
+                citySearch = Q(id__isnull=False)
 
             if region!='':
-                regionSearch =  Q(owner__region__contains=region)
+                regionSearch =  Q(owner__region__name__contains=region)
             else:
                 regionSearch = Q(id__isnull=False)
 
             allElements = theadd.objects.filter( Q(id__isnull=False)
             & (categorySearch
-            & providerSearch
-            & countrySearch
+            & citySearch
             & regionSearch)
             & Q(deleted=False))
 

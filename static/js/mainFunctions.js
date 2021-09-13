@@ -28,10 +28,8 @@ function makeSelectDropDown(){
         varSelect = $(this).parents('.dropdown').find('.dropdown-toggle').attr('id');
         if(varSelect == 'dropdownMenuLink'){
             $('#dataOfCategory').attr('value',$(this).attr('categoryid'));
-        }else if(varSelect == 'dropdownMenuLink2'){
-            $('#dataOfProvider').attr('value',$(event.target).html());
-        }else if(varSelect == 'countryDropDown'){
-            $('#dataOfCountry').attr('value',$(event.target).html());
+        }else if(varSelect == 'cityDropDown'){
+            $('#dataOfcity').attr('value',$(event.target).html());
         }else if(varSelect == 'regionDropDown'){
             $('#dataOfRegion').attr('value',$(event.target).html());
         }
@@ -52,73 +50,25 @@ function hideLoader(){
 }
 
 
-$('.categoryElementSelect').click(function(){
-    //Some code
-
-    console.log("Ok");
-    $('#dataOfProvider').attr('value','');
-    category = $(this).attr('categoryId');
-    getServiceProviders(category);
-});
 
 
-
-$('.countryElementSelect').click(function(){
+$('.cityElementSelect').click(function(){
     //Some code
 
     $('#dataOfRegion').attr('value','');
-    console.log("OkCountry");
-    country = $(this).attr('country');
-    getListOfRegions(country);
+    console.log("Okcity");
+    city = $(this).attr('city');
+    getListOfRegions(city);
 });
 
 
-function getServiceProviders(category){
 
-        
-    $.ajax({
-        type: 'POST',
-        url: '/en/getServiceProviders',
-        data: { 
-            'category': category
-        },
-        headers:{
-            "X-CSRFToken": csrftoken
-             },
-        dataType: 'json',
-        cache: false,
-        success: function(result) {
-            console.log(result);
-            $('#dropdownMenuLink2').html($('#dropdownMenuLink2').attr('mainName'));
-            $('#listOfProviders').empty();
-           if(result['Result']=='Ok'){
-    
-            result.data.forEach(element => {
-                $('#listOfProviders').append('<li><a class="dropdown-item" provider="'+element.id+'">'+element.name+'</a></li>');
-            });
-           
-    
-    
-            makeSelectDropDown();
-           }else{
-            $('#listOfProviders').append('<li><a class="dropdown-item" provider=""></a></li>');
-           }
-        },error: function (xhr, ajaxOptions, thrownError) {
-            console.log(thrownError)
-               }
-    });
-    
-        }
-
-        
-
-
-function getListOfCountries(){
+function getlistOfcities(){
 
         
             $.ajax({
                 type: 'POST',
-                url: '/en/getListOfCountries',
+                url: '/en/getlistOfcities',
                 data: { 
                    
                 },
@@ -129,29 +79,29 @@ function getListOfCountries(){
                 cache: false,
                 success: function(result) {
                     console.log(result);
-                    $('#countryDropDown').html($('#countryDropDown').attr('mainName'));
-                    $('#listOfcountries').empty();
+                    $('#cityDropDown').html($('#cityDropDown').attr('mainName'));
+                    $('#listOfcities').empty();
                    if(result['Result']=='Ok'){
             
                     result.data.forEach(element => {
-                        $('#listOfcountries').append('<li><a class="dropdown-item countryElementSelect" country="'+element.name+'">'+element.name+'</a></li>');
+                        $('#listOfcities').append('<li><a class="dropdown-item cityElementSelect" city="'+element.name+'">'+element.name+'</a></li>');
                     });
                    
             
             
                     makeSelectDropDown();
                    }else{
-                    $('#listOfcountries').append('<li><a class="dropdown-item countryElementSelect" country=""></a></li>');
+                    $('#listOfcities').append('<li><a class="dropdown-item cityElementSelect" city=""></a></li>');
                    }
 
                    
-                    $('.countryElementSelect').click(function(){
+                    $('.cityElementSelect').click(function(){
                         //Some code
 
                         $('#dataOfRegion').attr('value','');
                         console.log("Ok");
-                        country = $(this).attr('country');
-                        getListOfRegions(country);
+                        city = $(this).attr('city');
+                        getListOfRegions(city);
                     });
 
 
@@ -166,10 +116,9 @@ function getListOfCountries(){
 
                 function goToSearchPage(){
                     var category = $("#dataOfCategory").attr('value');
-                      var provider = $("#dataOfProvider").attr('value');
-                      var country = $("#dataOfCountry").attr('value');
+                      var city = $("#dataOfcity").attr('value');
                       var region = $("#dataOfRegion").attr('value');
-                    url_Search = '/SearchPage/?category='+category+'&provider='+provider+'&country='+country+'&region='+region;
+                    url_Search = '/SearchPage/?category='+category+'&city='+city+'&region='+region;
                 
                 
                     // console.log(url_Search);
@@ -177,14 +126,14 @@ function getListOfCountries(){
                   }
 
                   
-function getListOfRegions(country){
+function getListOfRegions(city){
 
         
                     $.ajax({
                         type: 'POST',
                         url: '/en/getListOfRegions',
                         data: { 
-                            'country': country
+                            'city': city
                         },
                         headers:{
                             "X-CSRFToken": csrftoken
