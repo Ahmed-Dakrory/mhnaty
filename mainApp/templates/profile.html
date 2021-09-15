@@ -1,5 +1,8 @@
+<!DOCTYPE html>
+
 {%load static%}
 {% load i18n %}
+
 {% get_current_language as LANGUAGE_CODE %}
 
 <html>
@@ -15,7 +18,7 @@
         
         <link rel="icon" type="image/png" sizes="32x32" href="/static/img/Logo 2.png"> 
 
-        
+
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
@@ -24,6 +27,13 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-slider.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
 
+
+
+        
+<link rel="stylesheet" type="text/css" href="{% static 'css/filepond20201101.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/filepond-plugin-image-preview.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/filepond-plugin-image-overlay.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/filepond-plugin-get-file.css' %}">
 
 
 <title>بحث</title>
@@ -113,9 +123,7 @@
                 <div class="card overflow-hidden">
                   <div class="row no-gutters row-bordered row-border-light">
                     <div class="col-md-3 pt-0">
-                      <div class="list-group list-group-flush account-settings-links" style="
-    text-align: right;
-">
+                      <div class="list-group list-group-flush account-settings-links" style="    text-align: right;">
                         <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">بيانات عامة</a>
                         {% if userProfile.typeOfRegisteration == 'Normal' %}
                         <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">تغيير كلمة المرور</a>
@@ -130,7 +138,7 @@
                         <div class="tab-pane fade active show" id="account-general">
                            
                           <div class="card-body media align-items-center">
-                            {% if userProfile.image != None %}
+                            {% if userProfile.image != None and userProfile.image != '' %}
                             <img src="{{userProfile.image.url}}" alt="" class="d-block ui-w-80">
                             {% endif %}
 
@@ -176,6 +184,35 @@
                                 {% trans "Please fill this field" %}
                               </div> 
                             </div>
+
+                            
+
+                            <div class="form-group">
+                              <label class="form-label" for="city" style=" text-align: right; width: 100%; ">اسم المدينة</label>
+                              <select  id="city" name="city" required="" value="{{userProfile.region.cityOfRegion.id}}" class="form-control mb-1 required">
+                                  <option value="">{% trans "Select one item" %}</option>
+                                  {% for item in allCities %}
+                                  <option value="{{item.id}}">{{item.name}}</option>
+                                  {% endfor %}
+                              </select>
+                              <div class="invalid-feedback" style=" text-align: right; ">
+                                {% trans "Please select from this field" %}
+                              </div> 
+                            </div>
+
+
+                          <div class="form-group">
+                              <label class="form-label" for="region" style=" text-align: right; width: 100%; ">المنطقة</label>
+                              <select  id="region" name="region" value="{{userProfile.region.id}}" required=""  class="form-control mb-1 required">
+                                <option value="">{% trans "Select one item" %}</option>
+                              </select>
+                            <div class="invalid-feedback" style=" text-align: right; ">
+                              {% trans "Please select from this field" %}
+                            </div> 
+                            </div>
+
+
+
                             <div class="form-group">
                                 <label class="form-label" for="phone">رقم الهاتف</label>
                                 <input type="tel" id="phone" name="phone" class="form-control" value="{{userProfile.phone}}">
@@ -207,9 +244,7 @@
 
 
                         <div class="tab-pane fade" id="account-change-password">
-                          <div class="card-body pb-2" style="
-    text-align: right;
-">
+                          <div class="card-body pb-2" style="    text-align: right;">
             
                             <div class="form-group">
                               <label class="form-label">Current password</label>
@@ -228,48 +263,158 @@
             
                           </div>
                         </div>
+                        
                         <div class="tab-pane fade" id="account-info">
-                          <div class="card-body pb-2" style="
-    text-align: right;
-">
+
+
+                          <div class="card-body media align-items-center">
+                            {% if getMyAdd.mainImage != None and getMyAdd.mainImage != '' %}
+                            <img src="{{getMyAdd.mainImage.url}}" alt="" class="d-block w-50" style=" border-radius: 19px; ">
+                            {% endif %}
+
+                            <div class="media-body mr-4" style="text-align: right;">
+                              <label class="btn btn-outline-primary" for="file-inputAddImage" >
+                                أختر صورة جديدة
+                                <form  method="POST" enctype="multipart/form-data" id="formAddImage" class="needs-validation form-horizontal" novalidate style="display: none;">
+                                  {% csrf_token %}
+                                  
+                                  <input type="hidden"  name="typeOfForm" value="addMainImage">
+                                  <input id="file-inputAddImage" class="account-settings-fileinput" accept="image/x-png,image/gif,image/jpeg" type="file" name="file-inputAddImage" onchange="document.getElementById('formAddImage').submit();" />
             
-                            <div class="form-group">
-                              <label class="form-label">Bio</label>
-                              <textarea class="form-control" rows="5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nunc arcu, dignissim sit amet sollicitudin iaculis, vehicula id urna. Sed luctus urna nunc. Donec fermentum, magna sit amet rutrum pretium, turpis dolor molestie diam, ut lacinia diam risus eleifend sapien. Curabitur ac nibh nulla. Maecenas nec augue placerat, viverra tellus non, pulvinar risus.</textarea>
+                                </form>
+
+                              </label> &nbsp;
+            
+                              <div class="text-light small mt-1">المتاح JPG, GIF or PNG. بحجم أقصى 800K</div>
                             </div>
-                            <div class="form-group">
-                              <label class="form-label">Birthday</label>
-                              <input type="text" class="form-control" value="May 3, 1995">
+                          </div>
+
+
+
+                          <form method="POST"  class="needs-validation form-horizontal" novalidate>
+                            {% csrf_token %}
+                            <input type="hidden"  name="typeOfForm" value="AddData">
+                          <div class="card-body pb-2" style="   text-align: right;">
+            
+                           
+
+
+                             <div class="form-group">
+                              <label class="form-label" for="name">اسم الخدمة</label>
+                              <input type="text" id="name" name="name" required=""  class="form-control mb-1 required" value="{{getMyAdd.name}}">
+                              <div class="invalid-feedback">
+                                {% trans "Please fill this field" %}
+                              </div> 
                             </div>
+
+
+
+
                             <div class="form-group">
-                              <label class="form-label">Country</label>
-                              <select class="custom-select">
-                                <option>USA</option>
-                                <option selected="">Canada</option>
-                                <option>UK</option>
-                                <option>Germany</option>
-                                <option>France</option>
+                              <!---------------------------------------------------------------------------------------------------------------------------------------->
+        
+                                <div class="card"> 
+                                  <div class="card-header">
+                                      <h4>{% trans "Additional files" %}</h4>
+                                  </div>
+                                  
+                                  <div class="card-body bg-white p-3">
+                                      <div class="form-row row ">
+                                          <div class="container" style="width:100%">
+                                            
+                                            <input type="file"
+                                            id="AllImagesOfAdd" 
+                                            class="filepond"
+                                            name="imagesAddFiles" 
+                                            multiple 
+                                            accept="image/*"
+                                            data-allow-reorder="true"
+                                            data-max-file-size="3MB"
+                                            data-max-files="20">
+        
+                                          </div>
+                                        </div>
+        
+                                  </div>
+        
+                                </div>
+                                <!---------------------------------------------------------------------------------------------------------------------------------------->
+        
+                            </div>
+
+                            <div class="form-group">
+                              <input type="hidden" value="" name="experienses" id="experienses"/>
+                              <label class="form-label">خبراتى</label>
+                              <div class="panel " style="padding-top: 10px;padding-bottom: 10px;">
+                                <div class="bs-example w-100 " style="max-height: 150px;">
+                                  <input type="text" class="ServiceTag" data-role="tagsinput" />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="form-group">
+                              <label class="form-label">ماذا عنا</label>
+                              <textarea class="form-control" name="aboutMe" rows="5">{{userProfile.aboutMe}}</textarea>
+                            </div>
+
+
+
+                            <div class="form-group">
+                              <label class="form-label">تفاصيل عن الخدمة</label>
+                              <textarea class="form-control" name="details" rows="5">{{getMyAdd.details}}</textarea>
+                            </div>
+
+
+
+                            <div class="form-group">
+                              <label class="form-label" for="mainCategory" style=" text-align: right; width: 100%; ">التخصص الرئيسى</label>
+                              <select  id="mainCategory" name="mainCategory" required="" value="{{parentCategory.id}}" class="form-control mb-1 required">
+                                  <option value="">{% trans "Select one item" %}</option>
+                                  {% for item in allparentCategory %}
+                                  <option value="{{item.id}}">{{item.name}}</option>
+                                  {% endfor %}
                               </select>
+                              <div class="invalid-feedback" style=" text-align: right; ">
+                                {% trans "Please select from this field" %}
+                              </div> 
                             </div>
+
+
+                          <div class="form-group">
+                              <label class="form-label" for="category" style=" text-align: right; width: 100%; ">المنطقة</label>
+                              <select  id="category" name="category" value="{{getMyAdd.category.id}}" required=""  class="form-control mb-1 required">
+                                <option value="">{% trans "Select one item" %}</option>
+                              </select>
+                            <div class="invalid-feedback" style=" text-align: right; ">
+                              {% trans "Please select from this field" %}
+                            </div> 
+                            </div>
+
+
+
+                            <div class="form-group">
+                              <label class="form-label" for="video">فيديو للخدمة</label>
+                              <input type="text" id="video" name="video"   class="form-control mb-1 " value="{{getMyAdd.videoUrl}}">
+                              <div class="invalid-feedback">
+                                {% trans "Please fill this field" %}
+                              </div> 
+                            </div>
+
+                            <div class="text-right mt-3 mb-3">
+                              <button type="submit" class="btn btn-primary">حفظ</button>&nbsp;
+                            </div>
+                            
             
             
                           </div>
-                          <hr class="border-light m-0">
-                          <div class="card-body pb-2">
-            
-                            <h6 class="mb-4">Contacts</h6>
-                            <div class="form-group">
-                              <label class="form-label">Phone</label>
-                              <input type="text" class="form-control" value="+0 (123) 456 7891">
-                            </div>
-                            <div class="form-group">
-                              <label class="form-label">Website</label>
-                              <input type="text" class="form-control" value="">
-                            </div>
-            
-                          </div>
-                  
+
+                          </form>
+
                         </div>
+
+
+
+
                         <div class="tab-pane fade" id="account-social-links">
                           <div class="card-body pb-2" style="
     text-align: right;
@@ -441,6 +586,15 @@
 
     <script src="{% static 'js/mainFunctions.js' %}"></script>
 
+    
+    <script src="{% static 'js/typeahead.bundle.min.js' %}"></script> 
+    <script src="{% static 'js/bootstrap-tagsinput.min.js' %}"></script> 
+
+    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+    <script src="{% static 'js/filepond-plugin-get-file.js' %}"></script>
+    <script src="{% static 'js/filepond-plugin-image-preview.js' %}"></script> 
+    <script src="{% static 'js/filepond.js' %}"></script>
+
 
 <script>
     
@@ -461,6 +615,229 @@
     });
     }, false);
     })();
+
+
+
+
+
+    
+
+
+
+    
+
+    function fill_categoryAndSelect(isfirstTime){
+  showLoader();
+  $.ajax({ 
+        type: 'POST',
+        url: '/en/getListOfcategoriesByparentOneId',
+                      data: { 
+                          'mainCategory': $('#mainCategory').val()
+          },
+        headers:{
+            "X-CSRFToken": csrftoken
+                },
+        async: true,
+        cache: true,
+        success: function(result) {
+            
+            
+          $('#category')
+                        .find('option')
+                        .remove()
+                        .end()
+                        .append('<option value="">{% trans "Select One" %}</option>')
+                        .val('')
+                        ;
+
+                        var $category = $('#category');
+                        console.log(result);
+                         if(result['Result']=='Ok'){
+                  
+                          result.data.forEach(element => {
+                            $category.append($("<option />").val(element.id).text(element.name));
+                          });
+                         
+                  
+                         }
+
+            if(isfirstTime){
+              $('#category').val($('#category').attr('value'));
+            }
+            hideLoader();
+        },error: function (xhr, ajaxOptions, thrownError) {
+            hideLoader();
+           }
+    });
+
+    hideLoader();
+}
+
+
+
+
+$('#mainCategory').on('change', function() {
+    
+  fill_categoryAndSelect(false);
+  });
+
+  $('#mainCategory').val($('#mainCategory').attr('value'));
+  fill_categoryAndSelect(true);
+
+
+    function fill_regionAndSelect(isfirstTime){
+  showLoader();
+  $.ajax({ 
+        type: 'POST',
+        url: '/en/getListOfRegionsByCityId',
+                      data: { 
+                          'city': $('#city').val()
+          },
+        headers:{
+            "X-CSRFToken": csrftoken
+                },
+        async: true,
+        cache: true,
+        success: function(result) {
+            
+            
+          $('#region')
+                        .find('option')
+                        .remove()
+                        .end()
+                        .append('<option value="">{% trans "Select One" %}</option>')
+                        .val('')
+                        ;
+
+                        var $region = $('#region');
+                        console.log(result);
+                         if(result['Result']=='Ok'){
+                  
+                          result.data.forEach(element => {
+                            $region.append($("<option />").val(element.id).text(element.name));
+                          });
+                         
+                  
+                         }
+
+            if(isfirstTime){
+              $('#region').val($('#region').attr('value'));
+            }
+            hideLoader();
+        },error: function (xhr, ajaxOptions, thrownError) {
+            hideLoader();
+           }
+    });
+
+    hideLoader();
+}
+
+
+
+$('#city').on('change', function() {
+    
+    fill_regionAndSelect(false);
+  });
+
+  $('#city').val($('#city').attr('value'));
+  fill_regionAndSelect(true);
+
+</script>
+
+
+<script>
+
+
+var serviceTag = $('.ServiceTag');
+
+var ServiceData = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  // prefetch: '/getAllCategoriesJson.json?query=Null',
+  remote: {
+    url: '/getAllTagsJson?query=%QUERY',
+    wildcard: '%QUERY'
+  }
+});
+ServiceData.initialize();
+
+serviceTag.tagsinput({
+  typeaheadjs: {
+    name: 'ServiceData',
+    
+    displayKey: 'text',
+    valueKey: 'text',
+    source: ServiceData
+  }
+});
+
+data = []
+
+serviceTag.tagsinput('add', { "value": 4 , "text": "محمد"  , "continent": "محمد"   });
+serviceTag.on('itemAdded', function(event) {
+  // event.item: contains the item
+  data.push((event.item).toString());
+  
+  $('#experienses').attr('value',data);
+  $('#experienses').value(data);
+});
+
+
+serviceTag.on('beforeItemRemove', function(event) {
+  // event.item: contains the item
+  // event.cancel: set to true to prevent the item getting removed
+  data.splice(data.indexOf((event.item).toString()), 1); 
+  $('#experienses').attr('value',data);
+  $('#experienses').value(data);
+});
+
+{% for item in tags %}
+
+//serviceTag.tagsinput('add', { "value": "{{item.name}}" , "text": "{{item.name}}"  , "continent": "{{item.name}}"   });
+
+{% endfor %}
+FilePond.registerPlugin(FilePondPluginImagePreview,FilePondPluginGetFile,FilePondPluginFileValidateType);
+        const inputElement = document.querySelector('#AllImagesOfAdd');
+        const pond = FilePond.create( inputElement );
+        
+        file = [
+        {% for item in allFiles %}        
+            {source: "{{item.file}}",
+              options: {
+                type: "local",
+                }
+            },
+        {% endfor %}
+        ];
+        
+        FilePond.setOptions({
+            
+            
+            server: {
+                url: '/{{LANGUAGE_CODE}}/uploadFiles_ForAdd',
+                
+                process: {
+                    headers:{
+                        "X-CSRFToken": csrftoken
+                            }
+                },
+                revert:{
+                    headers:{
+                        "X-CSRFToken": csrftoken
+                            }
+                },
+                withCredentials: false,
+                onload: (response) => response.key,
+                onerror: (response) => response.data,
+                load:'?load='
+            },
+            files:file,
+            acceptedFileTypes: ['image/png','image/jpg','image/jpeg'],
+        });
+
+
+
+
 
 
 </script>

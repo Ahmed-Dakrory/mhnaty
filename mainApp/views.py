@@ -10,6 +10,14 @@ from django.views.decorators.csrf import csrf_protect
 from datetime import datetime, timedelta,date,time
 
 
+from django.core.files.storage import default_storage
+from uuid import uuid4
+import os
+from django.http import HttpResponse
+from django.core.files import File
+from django.conf import settings
+import mimetypes
+
 
 from django.shortcuts import get_object_or_404
 from django.http import Http404
@@ -23,7 +31,6 @@ import urllib.request
 from django.core.files.uploadedfile import SimpleUploadedFile
 import uuid
 from django.shortcuts import HttpResponseRedirect   
-from django.http import HttpResponse
 from django.db import connection
 import math
 
@@ -79,12 +86,13 @@ def loadLoginPage(request):
 
 
 def loadRegPage(request):
+    allCities = city.objects.filter(Q(deleted=False))
     if request.method=='POST':
         firstNameData = request.POST['first_name']
         emailData = request.POST['email']
         passwordData = request.POST['password']
         roleId = 2
-        regionData = request.POST['region']
+        regionId = request.POST['region']
         addressData = request.POST['address']
         phoneData = request.POST['phone']
         phone2Data = request.POST['phone2']
@@ -98,7 +106,7 @@ def loadRegPage(request):
             roleData = None
 
 
-        regionData = region.objects.get(pk=region)
+        regionData = region.objects.get(pk=regionId)
         
 
         if len(findLastUser) == 0:
@@ -117,10 +125,13 @@ def loadRegPage(request):
                 login(request, user)
                 return HttpResponseRedirect('/'+get_language()+'/')
 
-        
+    
+    data = {
+        'allCities':allCities
+    }
 
 
-    return render(request,'index_reg.html',None)
+    return render(request,'index_reg.html',data)
 
 
 
@@ -152,6 +163,107 @@ def getlistOfcities(request):
             allJson = {"Result": "Fail"}
             return JsonResponse(allJson, safe=False)
 
+
+
+def getListOfcategoriesByparentOneId(request):
+    
+    with connection.cursor() as cursorLast:
+    
+        try:
+            mainCategory = request.POST['mainCategory']
+            
+            if city !='':
+                sql_query = """
+
+                        select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
+                    as output 
+                    from (
+                    SELECT  category.id,category.name as name FROM category
+                    where LOWER(category.parentCategory)=LOWER('"""+mainCategory+"""') ) x;
+
+
+
+                    """
+            else:
+                sql_query = """
+
+                         select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
+                    as output 
+                    from (
+                    SELECT  category.id,category.name as name FROM category
+                    where category.isFirstHead=0
+                    ) x;
+
+
+
+
+
+                    """
+
+
+            cursorLast.execute(sql_query)
+            cursorAllData = cursorLast.fetchone()
+            y=cursorAllData[0].replace('\r\n','')
+            # print(y)
+            return HttpResponse(y,content_type='application/json')
+        except Exception as e:
+            print(e)
+            allJson = {"Result": "Fail"}
+            return JsonResponse(allJson, safe=False)
+
+       
+
+
+
+
+def getListOfRegionsByCityId(request):
+    
+    with connection.cursor() as cursorLast:
+    
+        try:
+            city = request.POST['city']
+            
+            if city !='':
+                sql_query = """
+
+                        select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
+                    as output 
+                    from (
+                    SELECT  region.id,region.name as name FROM region
+                    left join city on city.id = region.cityOfRegion_id
+                    where LOWER(city.id)=LOWER('"""+city+"""') ) x;
+
+
+
+                    """
+            else:
+                sql_query = """
+
+                         select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
+                    as output 
+                    from (
+                    SELECT  region.id,region.name as name FROM region
+                    left join city on city.id = region.cityOfRegion_id
+                    ) x;
+
+
+
+
+
+                    """
+
+
+            cursorLast.execute(sql_query)
+            cursorAllData = cursorLast.fetchone()
+            y=cursorAllData[0].replace('\r\n','')
+            # print(y)
+            return HttpResponse(y,content_type='application/json')
+        except Exception as e:
+            print(e)
+            allJson = {"Result": "Fail"}
+            return JsonResponse(allJson, safe=False)
+
+       
 
 
 
@@ -229,7 +341,7 @@ def getNewResultsForAds(request):
         if searchKey == '':
 
             if category!='':
-                categorySearch = Q(category__name__contains=category)
+                categorySearch = Q(category__parentCategory=category)
             else:
                 categorySearch = Q(id__isnull=False)
 
@@ -258,6 +370,7 @@ def getNewResultsForAds(request):
              Q(category__name__contains=searchKey) ))
 
 
+        
         if pageLength == -1:
             if allElements !=None:
                 pageLength = len(allElements)
@@ -300,10 +413,30 @@ def profileWeb(request):
     user =request.user
     userobject = User.objects.filter(pk=user.id)
     userProfile = profile.objects.filter(user=user)
+    userProfileMe = profile.objects.get(user__id=user.id)
 
+    allCities = city.objects.filter(Q(deleted=False))
    
+    getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id))
+    
+    allparentCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=True))
 
 
+    if len(getMyAdd)==0:
+        categoryNow = category.objects.get(pk=1)
+        getMyAdd = theadd.objects.create(name="",details="",category=categoryNow,owner=userProfileMe,mainImage=None,
+        videoUrl="",featureAddNumber=0)
+        try:
+            parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+        except:
+            parentCategory = None
+    else:
+        getMyAdd = theadd.objects.get(owner__id=userProfileMe.id)
+        try:
+            parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+        except:
+            parentCategory = None
+    allFiles = getMyAdd.images.all()
     if request.method=='POST':
         typeOfForm = request.POST['typeOfForm']  
 
@@ -314,18 +447,119 @@ def profileWeb(request):
             phoneData = request.POST['phone']
             addressData = request.POST['address']
             mobileData = request.POST['mobile'] 
+            regionId = request.POST['region']
 
+            regionData = region.objects.get(pk=regionId)
             userobject.update(first_name=nameData)
-            userProfile.update(phone=phoneData,mobile=mobileData,address=addressData)
+            userProfile.update(phone=phoneData,region=regionData,mobile=mobileData,address=addressData)
+        elif typeOfForm == 'AddData':   
+            print(request.POST)
+            nameData = request.POST['name'] 
+            
+            aboutMeData = request.POST['aboutMe']
+            detailsData = request.POST['details']
+            categoryData = request.POST['category'] 
+            videoData = request.POST['video']
+            experienses = request.POST['experienses']
+
+            allExperienses = experienses.split(",")
+            for itemExp in allExperienses:
+                newTag = tag.objects.create(name=itemExp,propertyType=0)
+                newTag.save()
+                userProfileMe.tags.add(newTag)
+
+            categoryData = category.objects.get(pk=categoryData)
+            # userobject.update(first_name=nameData)
+            userProfile.update(aboutMe=aboutMeData)
+            getMyAdd = theadd.objects.filter(Q(owner__id=userProfileMe.id))
+            getMyAdd.update(name=nameData,details=detailsData,category=categoryData,videoUrl=videoData)
+            getMyAdd = theadd.objects.get(owner__id=userProfileMe.id)
+
+            try:
+                parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+            except:
+                parentCategory = None
+
+
+            attachments = request.POST.getlist('imagesAddFiles')
+            for item_att in attachments:
+                if item_att!='' and item_att!=None:
+                    fileOld = attachmenttranscript.objects.filter(file = item_att).count()
+                    if fileOld==0:
+                        file_path = os.path.join(settings.MEDIA_ROOT, item_att)
+                        file_type, file_encoding = mimetypes.guess_type(file_path)
+                        fi = open(file_path, 'rb')
+                        local_file = File(fi)
+                        fileName = os.path.basename(local_file.name).split('``__``')[0]
+                        
+                        attachmetToAdd = attachmenttranscript.objects.create(file=local_file,content_type=file_type,name = fileName)
+                        attachmetToAdd.save()
+                        
+                        local_file.close()
+                        getMyAdd.images.add(attachmetToAdd)
+                        default_storage.delete(item_att)
+
+            allFiles = getMyAdd.images.all()
         elif typeOfForm == 'mainImage':
             userProfile = profile.objects.get(user=user)
             userProfile.image = request.FILES['file-input']
             
             userProfile.save()
 
+        elif typeOfForm == 'addMainImage':
+            getMyAdd = theadd.objects.get(owner__id=userProfileMe.id)
+            getMyAdd.mainImage = request.FILES['file-inputAddImage']
             
+            getMyAdd.save()
+
+    
+    data = {
+        'allparentCategory':allparentCategory,
+        'allCities':allCities,
+        'getMyAdd':getMyAdd,
+        'allFiles':allFiles,
+        'parentCategory':parentCategory
+    }
         
-    return render(request,'profile.html',None)
+    return render(request,'profile.html',data)
+
+
+
+
+
+
+@login_required
+def uploadFiles_ForAdd(request):
+    if request.method=='POST':
+        if request.FILES:
+            for f in request.FILES.getlist('imagesAddFiles'):
+                upload_to = 'docs/temp/'
+                ext = f.name.split('.')[-1]
+                filename = '{}.{}'.format(f.name.split('.')[0]+'.'+ext+'``__``'+uuid4().hex, ext)
+                default_storage.save(os.path.join(upload_to, filename), f)
+        response = HttpResponse(os.path.join(upload_to, filename))
+
+    elif request.method=='DELETE':
+        data_bytes = request.body
+        data_string = data_bytes.decode('utf-8')
+        try:
+            attachmenttranscript.objects.filter(file = data_string).delete()
+        except:
+            pass
+        response = HttpResponse(str(data_string))
+    
+    elif request.method=='GET':
+        file = request.GET['load']
+        fileNew = attachmenttranscript.objects.filter(file=file)[0]
+        response = HttpResponse(fileNew.file)
+        response['Content-Disposition'] = 'attachment; filename="'+str(fileNew.name)+'"'
+        response['Content-Type'] = fileNew.content_type
+        response['Access-Control-Expose-Headers'] = 'Content-Disposition, Content-Length, X-Content-Transfer-Id'
+        response['X-Content-Transfer-Id'] = str(fileNew.file.name)
+        
+        
+    return response
+
 
 
 
@@ -386,6 +620,19 @@ def getAllCategoriesJson(request):
     allJson = []
     for item in list(allCategories):
         allJson.append({"value": item.id , "text": item.name   , "continent": item.name })
+
+    
+    return JsonResponse(allJson, safe=False)
+
+
+def getAllTagsJson(request):
+    SearchQuery =request.GET['query'] 
+
+    allTags = tag.objects.filter(Q(deleted=False)&Q(name__contains=SearchQuery))
+
+    allJson = []
+    for item in list(allTags):
+        allJson.append({"value": item.name , "text": item.name   , "continent": item.name })
 
     
     return JsonResponse(allJson, safe=False)

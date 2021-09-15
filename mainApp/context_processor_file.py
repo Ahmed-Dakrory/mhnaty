@@ -21,13 +21,16 @@ def defaultContextProcessor(request):
     user =request.user
     if user.is_authenticated:
         userProfile = profile.objects.get(user=user)
+        tags = userProfile.tags.all()
     else:
         userProfile = None
+        tags=None
     
-    allMainCategories = category.objects.filter(Q(isFirstHead=0) & Q(deleted=False))
+    allMainCategories = category.objects.filter(Q(isFirstHead=1) & Q(deleted=False))
 
     return dict(
         userProfile = userProfile,
         allMainCategories=allMainCategories,
-        current_date = datetime.now()    
+        current_date = datetime.now() ,
+        tags=tags
     )

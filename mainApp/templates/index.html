@@ -111,7 +111,7 @@
                               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <li><a class="dropdown-item categoryElementSelect" categoryId="">الكل</a></li>
                                 {% for item in allMainCategories %}
-                                <li><a class="dropdown-item categoryElementSelect" categoryId="{{item.name}}">{{item.name}}</a></li>
+                                <li><a class="dropdown-item categoryElementSelect" categoryId="{{item.id}}">{{item.name}}</a></li>
                                 {% endfor %}
   
                               </ul>
@@ -121,8 +121,8 @@
 
                     <div class="col-md-3 col-12 w-100 mt-1 p-1">
                       <div class="dropdown w-100">
-                          <a class="btn btn-secondary dropdown-toggle w-100" mainName="البلد" href="#" type="button" id="cityDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            البلد
+                          <a class="btn btn-secondary dropdown-toggle w-100" mainName="المدينة" href="#" type="button" id="cityDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            المدينة
                           </a>
                         
                           <ul class="dropdown-menu" aria-labelledby="cityDropDown" id="listOfcities">

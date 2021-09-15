@@ -94,20 +94,27 @@
 
 
                                             <div class="form-group">
-                                                <label class="form-label" for="country" style=" text-align: right; width: 100%; ">اسم البلد</label>
-                                                <input type="text" id="country" name="country" required=""  class="form-control mb-1 required">
+                                                <label class="form-label" for="city" style=" text-align: right; width: 100%; ">اسم المدينة</label>
+                                                <select  id="city" name="city" required=""  class="form-control mb-1 required">
+                                                    <option value="">{% trans "Select one item" %}</option>
+                                                    {% for item in allCities %}
+                                                    <option value="{{item.id}}">{{item.name}}</option>
+                                                    {% endfor %}
+                                                </select>
                                                 <div class="invalid-feedback" style=" text-align: right; ">
-                                                  {% trans "Please fill this field" %}
+                                                  {% trans "Please select from this field" %}
                                                 </div> 
                                               </div>
 
 
                                             <div class="form-group">
                                                 <label class="form-label" for="region" style=" text-align: right; width: 100%; ">المنطقة</label>
-                                                <input type="text" id="region" name="region" required=""  class="form-control mb-1 required">
-                                                <div class="invalid-feedback" style=" text-align: right; ">
-                                                  {% trans "Please fill this field" %}
-                                                </div> 
+                                                <select  id="region" name="region" required=""  class="form-control mb-1 required">
+                                                  <option value="">{% trans "Select one item" %}</option>
+                                                </select>
+                                              <div class="invalid-feedback" style=" text-align: right; ">
+                                                {% trans "Please select from this field" %}
+                                              </div> 
                                               </div>
 
 
@@ -206,6 +213,46 @@
     });
     }, false);
     })();
+
+
+    $('#city').on('change', function() {
+    
+      console.log($('#city').val())
+      $.ajax({
+                        type: 'POST',
+                        url: '/en/getListOfRegionsByCityId',
+                        data: { 
+                            'city': $('#city').val()
+                        },
+                        headers:{
+                            "X-CSRFToken": csrftoken
+                             },
+                        dataType: 'json',
+                        cache: false,
+                        success: function(result) {
+                          $('#region')
+                          .find('option')
+                          .remove()
+                          .end()
+                          .append('<option value="">{% trans "Select One" %}</option>')
+                          .val('')
+                          ;
+
+                          var $region = $('#region');
+                          console.log(result);
+                           if(result['Result']=='Ok'){
+                    
+                            result.data.forEach(element => {
+                              $region.append($("<option />").val(element.id).text(element.name));
+                            });
+                           
+                    
+                           }
+                        },error: function (xhr, ajaxOptions, thrownError) {
+                            console.log(thrownError)
+                               }
+                    });
+  });
 
 
 
@@ -316,22 +363,7 @@ $('input[name=password2]').keyup(function () {
 });
 
 
-function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    var csrftoken = getCookie('csrftoken');
+var csrftoken = $("input[name='csrfmiddlewaretoken']").val();
 
 
              
