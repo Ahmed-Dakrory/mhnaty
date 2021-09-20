@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-20 22:31+0200\n"
+"POT-Creation-Date: 2021-09-21 00:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr "انجليزية"
 #: .\mainApp\templates\index_company.html:53
 #: .\mainApp\templates\index_company.html:568
 #: .\mainApp\templates\index_search.html:55
-#: .\mainApp\templates\index_search.html:409
+#: .\mainApp\templates\index_search.html:407
 #: .\mainApp\templates\profile.html:68 .\mainApp\templates\profile.html:571
 msgid "Home"
 msgstr "الرئيسية"
@@ -70,7 +70,7 @@ msgstr "البحث عن خدماتك"
 #: .\mainApp\templates\index_company.html:118
 #: .\mainApp\templates\index_company.html:119
 #: .\mainApp\templates\index_search.html:206
-#: .\mainApp\templates\index_search.html:327
+#: .\mainApp\templates\index_search.html:326
 msgid "Services"
 msgstr "الخدمات كلها"
 
@@ -82,7 +82,7 @@ msgstr "الكل"
 #: .\mainApp\templates\index.html:139 .\mainApp\templates\index.html:140
 #: .\mainApp\templates\index_company.html:135
 #: .\mainApp\templates\index_company.html:136
-#: .\mainApp\templates\index_search.html:215
+#: .\mainApp\templates\index_search.html:216
 #: .\mainApp\templates\index_search.html:336
 msgid "City"
 msgstr "مدينة"
@@ -90,7 +90,7 @@ msgstr "مدينة"
 #: .\mainApp\templates\index.html:150 .\mainApp\templates\index.html:151
 #: .\mainApp\templates\index_company.html:146
 #: .\mainApp\templates\index_company.html:147
-#: .\mainApp\templates\index_search.html:224
+#: .\mainApp\templates\index_search.html:225
 #: .\mainApp\templates\index_search.html:344
 #: .\mainApp\templates\profile.html:220
 msgid "Region"
@@ -123,28 +123,28 @@ msgstr "المزيد"
 
 #: .\mainApp\templates\index.html:267
 #: .\mainApp\templates\index_company.html:559
-#: .\mainApp\templates\index_search.html:400
+#: .\mainApp\templates\index_search.html:398
 #: .\mainApp\templates\profile.html:562
 msgid "Contact Info"
 msgstr "بيانات الأتصال"
 
 #: .\mainApp\templates\index.html:268
 #: .\mainApp\templates\index_company.html:560
-#: .\mainApp\templates\index_search.html:401
+#: .\mainApp\templates\index_search.html:399
 #: .\mainApp\templates\profile.html:246 .\mainApp\templates\profile.html:563
 msgid "Address"
 msgstr "العنوان"
 
 #: .\mainApp\templates\index.html:274
 #: .\mainApp\templates\index_company.html:566
-#: .\mainApp\templates\index_search.html:407
+#: .\mainApp\templates\index_search.html:405
 #: .\mainApp\templates\profile.html:569
 msgid "Our Info"
 msgstr "بياناتنا"
 
 #: .\mainApp\templates\index.html:277
 #: .\mainApp\templates\index_company.html:569
-#: .\mainApp\templates\index_search.html:410
+#: .\mainApp\templates\index_search.html:408
 #: .\mainApp\templates\profile.html:572
 msgid "All Services"
 msgstr "الخدمات كلها"
@@ -188,79 +188,79 @@ msgid "Select One"
 msgstr "اختر احد الخيارات"
 
 #: .\mainApp\templates\index_search.html:200
-#: .\mainApp\templates\index_search.html:322
+#: .\mainApp\templates\index_search.html:321
 msgid "Detailed Search"
 msgstr "بحث مفصل"
 
-#: .\mainApp\templates\index_search.html:229
+#: .\mainApp\templates\index_search.html:230
 #: .\mainApp\templates\index_search.html:349
 msgid "Experienses"
 msgstr "خبرات"
 
-#: .\mainApp\templates\index_search.html:237
-#: .\mainApp\templates\index_search.html:241
-#: .\mainApp\templates\index_search.html:357
-#: .\mainApp\templates\index_search.html:361
+#: .\mainApp\templates\index_search.html:236
+#: .\mainApp\templates\index_search.html:240
+#: .\mainApp\templates\index_search.html:355
+#: .\mainApp\templates\index_search.html:359
 msgid "Rate"
 msgstr "التقييم"
 
-#: .\mainApp\templates\index_search.html:274
+#: .\mainApp\templates\index_search.html:273
 msgid "Most View"
 msgstr "أكثر مشاهدة"
 
-#: .\mainApp\templates\index_search.html:278
+#: .\mainApp\templates\index_search.html:277
 msgid "New"
 msgstr "الجديد"
 
-#: .\mainApp\templates\index_search.html:279
+#: .\mainApp\templates\index_search.html:278
 msgid "Less Prices"
 msgstr "أقل سعرا"
 
-#: .\mainApp\templates\index_search.html:288
+#: .\mainApp\templates\index_search.html:287
 msgid "Arrange"
 msgstr "ترتيب"
 
-#: .\mainApp\templates\index_search.html:305
+#: .\mainApp\templates\index_search.html:304
 msgid "Next"
 msgstr "التالى"
 
-#: .\mainApp\templates\index_search.html:307
+#: .\mainApp\templates\index_search.html:306
 msgid "Show"
 msgstr "اظهر"
 
-#: .\mainApp\templates\index_search.html:307
+#: .\mainApp\templates\index_search.html:306
 msgid "From Results"
 msgstr "من النتائج"
 
-#: .\mainApp\templates\index_search.html:309
+#: .\mainApp\templates\index_search.html:308
 msgid "Last"
 msgstr "السابق"
 
-#: .\mainApp\templates\index_search.html:559
+#: .\mainApp\templates\index_search.html:664
 msgid "Show the Number"
 msgstr "اظهر الرقم"
 
-#: .\mainApp\templates\index_search.html:581
+#: .\mainApp\templates\index_search.html:686
 msgid "Details or Service Provider"
 msgstr "بيانات مقدم الخدمة"
 
-#: .\mainApp\templates\index_search.html:586
+#: .\mainApp\templates\index_search.html:691
 msgid "Service Provider Rating"
 msgstr "تقييم مقدم الخدمة"
 
-#: .\mainApp\templates\index_search.html:632
+#: .\mainApp\templates\index_search.html:737
 msgid "chat"
 msgstr "دردش"
 
-#: .\mainApp\templates\index_search.html:635
+#: .\mainApp\templates\index_search.html:740
 msgid "Call"
 msgstr "اتصل"
 
-#: .\mainApp\templates\index_search.html:767
+#: .\mainApp\templates\index_search.html:872
 msgid "Error"
 msgstr "مشكلة"
 
-#: .\mainApp\templates\index_search.html:767
+#: .\mainApp\templates\index_search.html:872
 msgid "Problem While Loading"
 msgstr "مشلكة عند التحميل"
 
