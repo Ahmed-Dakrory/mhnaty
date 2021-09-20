@@ -35,7 +35,7 @@ from django.db import connection
 import math
 
 from django.utils.translation import activate, get_language
-
+from django.db.models import Count
 from .models import *
 # Create your views here.
 
@@ -399,11 +399,9 @@ def getNewResultsForAds(request):
 def SearchPage(request):
     allAdds = theadd.objects.filter(Q(deleted=False))
 
-    allMainCategories = category.objects.filter(Q(deleted=False))
 
     data = {
         'allAdds':allAdds,
-        'allMainCategories':allMainCategories
     }
     return render(request,'index_search.html',data)
 
@@ -436,7 +434,8 @@ def profileWeb(request):
             parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
         except:
             parentCategory = None
-    allFiles = getMyAdd.images.all()
+    
+
     if request.method=='POST':
         typeOfForm = request.POST['typeOfForm']  
 
@@ -453,7 +452,8 @@ def profileWeb(request):
             userobject.update(first_name=nameData)
             userProfile.update(phone=phoneData,region=regionData,mobile=mobileData,address=addressData)
         elif typeOfForm == 'AddData':   
-            print(request.POST)
+            # print(request.POST)
+            userProfileMe.tags.all().delete()
             nameData = request.POST['name'] 
             
             aboutMeData = request.POST['aboutMe']
@@ -464,9 +464,10 @@ def profileWeb(request):
 
             allExperienses = experienses.split(",")
             for itemExp in allExperienses:
-                newTag = tag.objects.create(name=itemExp,propertyType=0)
-                newTag.save()
-                userProfileMe.tags.add(newTag)
+                if itemExp != '':
+                    newTag = tag.objects.create(name=itemExp,propertyType=0)
+                    newTag.save()
+                    userProfileMe.tags.add(newTag)
 
             categoryData = category.objects.get(pk=categoryData)
             # userobject.update(first_name=nameData)
@@ -512,12 +513,20 @@ def profileWeb(request):
             
             getMyAdd.save()
 
-    
+    allFiles = getMyAdd.images.all()
+    allTags = getMyAdd.owner.tags.all()
+    allTagsArray = list(allTags)
+    allTagsDelemited = ','.join(map(str, allTagsArray))
+    print(allTagsDelemited)
+
+
     data = {
         'allparentCategory':allparentCategory,
         'allCities':allCities,
         'getMyAdd':getMyAdd,
         'allFiles':allFiles,
+        'allTags':allTags,
+        'allTagsDelemited':allTagsDelemited,
         'parentCategory':parentCategory
     }
         
@@ -605,37 +614,91 @@ def CompanyPage(request):
 
 def loadMainPage(request):
 
-    allMainCategories = category.objects.filter(Q(deleted=False))
 
     data = {
-        'allMainCategories':allMainCategories
     }
     return render(request,'index.html',data)
 
 def getAllCategoriesJson(request):
-    SearchQuery =request.GET['query'] 
+    with connection.cursor() as cursorLast:
 
-    allCategories = category.objects.filter(Q(deleted=False)&Q(name__contains=SearchQuery))
+        try:
+            category = request.POST['category']
+            
+            if category !='':
+                sql_query = """
 
-    allJson = []
-    for item in list(allCategories):
-        allJson.append({"value": item.id , "text": item.name   , "continent": item.name })
+                        select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
+                    as output 
+                    from (
+                    SELECT  category.id,category.name as name FROM category
+                    where  isFirstHead=1 and deleted=0 and LOWER(category.name) like LOWER('%"""+category+"""%') ) x;
 
-    
-    return JsonResponse(allJson, safe=False)
+
+
+                    """
+            else:
+                sql_query = """
+
+                            select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
+                    as output 
+                    from (
+                    SELECT  category.id,category.name as name FROM category
+                    where isFirstHead=1 and deleted=0
+                    ) x;
+
+
+
+
+
+                    """
+            
+            # print(sql_query)
+
+            cursorLast.execute(sql_query)
+            cursorAllData = cursorLast.fetchone()
+            y=cursorAllData[0].replace('\r\n','')
+            # print(y)
+            return HttpResponse(y,content_type='application/json')
+        except Exception as e:
+            print(e)
+            allJson = {"Result": "Fail"}
+            return JsonResponse(allJson, safe=False)
+
+
+
+
 
 
 def getAllTagsJson(request):
     SearchQuery =request.GET['query'] 
 
-    allTags = tag.objects.filter(Q(deleted=False)&Q(name__contains=SearchQuery))
+    try:
+        sql_query = """
 
-    allJson = []
-    for item in list(allTags):
-        allJson.append({"value": item.name , "text": item.name   , "continent": item.name })
+                select concat('[',group_concat(concat('{"value":"',x.name,'","text":"',x.name,'","continent":"',x.name,'"}')),']')
+                        as output 
+                        from (
+                        SELECT  tag.id,tag.name as name FROM tag
+                        where tag.deleted=0 and tag.name like '%"""+SearchQuery+"""%'
+                        group by tag.name 
+                        ) x;
 
-    
-    return JsonResponse(allJson, safe=False)
+
+                """
+
+        # print(sql_query)
+        with connection.cursor() as cursorLast:
+            cursorLast.execute(sql_query)
+            cursorAllData = cursorLast.fetchone()
+            y=cursorAllData[0].replace('\r\n','')
+            # print(y)
+        return HttpResponse(y,content_type='application/json')
+    except Exception as e:
+            print(e)
+            allJson = {"Result": "Fail"}
+            return JsonResponse(allJson, safe=False)
+
 
 
 
@@ -683,17 +746,61 @@ def getAllRepliesForComment(request):
     
     return JsonResponse(allJson, safe=False)
 
-def getAllExperiansesJson(request):
-    SearchQuery =request.GET['query'] 
 
-    allCategories = category.objects.filter(Q(deleted=False)&Q(name__contains=SearchQuery))
 
-    allJson = []
-    for item in list(allCategories):
-        allJson.append({"value": item.id , "text": item.name   , "continent": item.name })
+def mainBeforeLanguage(request):
 
     
-    return JsonResponse(allJson, safe=False)
+    return HttpResponseRedirect('/ar')
+
+def getAllExperiansesJson(request):
+    with connection.cursor() as cursorLast:
+
+        try:
+            tag = request.POST['tag']
+            
+            if tag !='':
+                sql_query = """
+
+                        select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
+                    as output 
+                    from (
+                    SELECT  tag.id,tag.name as name FROM tag
+                    where deleted=0 and LOWER(tag.name) like LOWER('%"""+tag+"""%') 
+                    group by tag.name) x;
+
+
+
+                    """
+            else:
+                sql_query = """
+
+                            select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
+                    as output 
+                    from (
+                    SELECT  tag.id,tag.name as name FROM tag
+                    where  deleted=0
+                    group by tag.name
+                    ) x;
+
+
+
+
+
+                    """
+            
+            # print(sql_query)
+
+            cursorLast.execute(sql_query)
+            cursorAllData = cursorLast.fetchone()
+            y=cursorAllData[0].replace('\r\n','')
+            # print(y)
+            return HttpResponse(y,content_type='application/json')
+        except Exception as e:
+            print(e)
+            allJson = {"Result": "Fail"}
+            return JsonResponse(allJson, safe=False)
+
 
 
 

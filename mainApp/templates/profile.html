@@ -36,7 +36,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/filepond-plugin-get-file.css' %}">
 
 
-<title>بحث</title>
+<title>{% trans "My Page" %}</title>
 
 
     </head>
@@ -65,7 +65,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">الرئيسية</a>
+            <a class="nav-link active" aria-current="page" href="/{{LANGUAGE_CODE}}">{% trans "Home" %}</a>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">انواع الخدمات</a>
@@ -73,21 +73,36 @@
           
           {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="/profile/">ملفى</a>
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/profile/">{% trans "Profile" %}</a>
+          </li>
+          {% endif %}
+
+         
+          
+          {% if LANGUAGE_CODE == 'en' %}
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" onclick="addReplaceLangCode('ar')">عربى</a>
+          </li>
+          {% endif %}
+
+
+          {% if LANGUAGE_CODE != 'en' %}
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" onclick="addReplaceLangCode('en')" >English</a>
           </li>
           {% endif %}
 
           {% if not user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="/accounts/login/">دخول</a>
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/accounts/login/">{% trans "Login" %}</a>
           </li>
           <li class="nav-item login">
-            <a class="nav-link" href="/loadRegPage/">أنضم الان</a>
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/loadRegPage/">{% trans "Register" %}</a>
           </li>
           {% endif %}
           {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="/logout/">تسجيل خروج</a>
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/logout/">{% trans "SignOut" %}</a>
           </li>
           {% endif %}
         
@@ -117,20 +132,20 @@
 ">
 
                 <h4 class="font-weight-bold py-3 mb-4" style="text-align: right;">
-                  صفحة التحكم
+                  {% trans "My Control Page" %}
                 </h4>
             
                 <div class="card overflow-hidden">
                   <div class="row no-gutters row-bordered row-border-light">
                     <div class="col-md-3 pt-0">
                       <div class="list-group list-group-flush account-settings-links" style="    text-align: right;">
-                        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">بيانات عامة</a>
+                        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">{% trans "General Data" %}</a>
                         {% if userProfile.typeOfRegisteration == 'Normal' %}
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">تغيير كلمة المرور</a>
+                        <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Change Password</a> -->
                         {% endif %}
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">بيانات خدمتى</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links">الرسائل</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-notifications">الاعدادات</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">{% trans "My Service Details" %}</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links">{% trans "Messages" %}</a>
+                        <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-notifications">{% trans "Settings" %}</a> -->
                       </div>
                     </div>
                     <div class="col-md-9">
@@ -144,7 +159,7 @@
 
                             <div class="media-body mr-4" style="text-align: right;">
                               <label class="btn btn-outline-primary" for="file-input" >
-                                أختر صورة جديدة
+                                {% trans "Select New Image" %}
                                 <form  method="POST" enctype="multipart/form-data" id="formImage" class="needs-validation form-horizontal" novalidate style="display: none;">
                                   {% csrf_token %}
                                   
@@ -155,7 +170,7 @@
 
                               </label> &nbsp;
             
-                              <div class="text-light small mt-1">المتاح JPG, GIF or PNG. بحجم أقصى 800K</div>
+                              <div class="text-light small mt-1"> JPG, GIF or PNG. {% trans "Maximum Limit" %}</div>
                             </div>
                           </div>
                           <hr class="border-light m-0">
@@ -164,21 +179,21 @@
                             <input type="hidden"  name="typeOfForm" value="mainData">
                           <div class="card-body" style="  text-align: right;">
                             <div class="form-group">
-                              <label class="form-label" for="username">اسم المستخدم</label>
+                              <label class="form-label" for="username">{% trans "Username" %}</label>
                               <input type="text" id="username" name="username" required="" disabled class="form-control mb-1 required" value="{{userProfile.user.username}}">
                               <div class="invalid-feedback">
                                 {% trans "Please fill this field" %}
                               </div> 
                             </div>
                             <div class="form-group">
-                              <label class="form-label" for="name">اسمى(وهو الأسم المستخدم فى الخدمة)</label>
+                              <label class="form-label" for="name">{% trans "Your name (The used one if you have a service)" %}</label>
                               <input type="text" id="name" name="name" required="" class="form-control mb-1 required"  value="{{userProfile.user.first_name}}">
                               <div class="invalid-feedback">
                                 {% trans "Please fill this field" %}
                               </div> 
                             </div>
                             <div class="form-group">
-                              <label class="form-label" for="email">البريد الالكترونى</label>
+                              <label class="form-label" for="email">{% trans "Mail Address" %}</label>
                               <input type="text" id="email" name="email" required="" disabled class="form-control mb-1 required"  value="{{userProfile.user.email}}">
                               <div class="invalid-feedback">
                                 {% trans "Please fill this field" %}
@@ -188,7 +203,7 @@
                             
 
                             <div class="form-group">
-                              <label class="form-label" for="city" style=" text-align: right; width: 100%; ">اسم المدينة</label>
+                              <label class="form-label" for="city" style=" text-align: right; width: 100%; ">{% trans "City Name" %}</label>
                               <select  id="city" name="city" required="" value="{{userProfile.region.cityOfRegion.id}}" class="form-control mb-1 required">
                                   <option value="">{% trans "Select one item" %}</option>
                                   {% for item in allCities %}
@@ -202,7 +217,7 @@
 
 
                           <div class="form-group">
-                              <label class="form-label" for="region" style=" text-align: right; width: 100%; ">المنطقة</label>
+                              <label class="form-label" for="region" style=" text-align: right; width: 100%; ">{% trans "Region" %}</label>
                               <select  id="region" name="region" value="{{userProfile.region.id}}" required=""  class="form-control mb-1 required">
                                 <option value="">{% trans "Select one item" %}</option>
                               </select>
@@ -214,28 +229,28 @@
 
 
                             <div class="form-group">
-                                <label class="form-label" for="phone">رقم الهاتف</label>
+                                <label class="form-label" for="phone">{% trans "Phone Number" %}</label>
                                 <input type="tel" id="phone" name="phone" class="form-control" value="{{userProfile.phone}}">
   
                               </div>
 
 
                               <div class="form-group">
-                                <label class="form-label" for="mobile">رقم المحمول</label>
+                                <label class="form-label" for="mobile">{% trans "Mobile Number" %}</label>
                                 <input type="tel" id="mobile" name="mobile" class="form-control" value="{{userProfile.mobile}}">
   
                               </div>
 
 
                               <div class="form-group">
-                                <label class="form-label" for="address">العنوان </label>
+                                <label class="form-label" for="address">{% trans "Address" %} </label>
                                 <input type="text" id="address" name="address" class="form-control" value="{{userProfile.address}}">
   
                               </div>
                           </div>
 
                           <div class="text-right mt-3 mb-3">
-                            <button type="submit" class="btn btn-primary">حفظ</button>&nbsp;
+                            <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>&nbsp;
                           </div>
                       
                         </form>
@@ -274,7 +289,7 @@
 
                             <div class="media-body mr-4" style="text-align: right;">
                               <label class="btn btn-outline-primary" for="file-inputAddImage" >
-                                أختر صورة جديدة
+                                {% trans "Select New Image" %}
                                 <form  method="POST" enctype="multipart/form-data" id="formAddImage" class="needs-validation form-horizontal" novalidate style="display: none;">
                                   {% csrf_token %}
                                   
@@ -285,7 +300,7 @@
 
                               </label> &nbsp;
             
-                              <div class="text-light small mt-1">المتاح JPG, GIF or PNG. بحجم أقصى 800K</div>
+                              <div class="text-light small mt-1"> JPG, GIF or PNG.{% trans "Maximum Limit" %}</div>
                             </div>
                           </div>
 
@@ -300,7 +315,7 @@
 
 
                              <div class="form-group">
-                              <label class="form-label" for="name">اسم الخدمة</label>
+                              <label class="form-label" for="name">{% trans "Service Name" %}</label>
                               <input type="text" id="name" name="name" required=""  class="form-control mb-1 required" value="{{getMyAdd.name}}">
                               <div class="invalid-feedback">
                                 {% trans "Please fill this field" %}
@@ -343,8 +358,8 @@
                             </div>
 
                             <div class="form-group">
-                              <input type="hidden" value="" name="experienses" id="experienses"/>
-                              <label class="form-label">خبراتى</label>
+                              <input type="hidden" value="{{allTagsDelemited}}" name="experienses" id="experienses"/>
+                              <label class="form-label">{% trans "My Experienses" %}</label>
                               <div class="panel " style="padding-top: 10px;padding-bottom: 10px;">
                                 <div class="bs-example w-100 " style="max-height: 150px;">
                                   <input type="text" class="ServiceTag" data-role="tagsinput" />
@@ -353,21 +368,21 @@
                             </div>
 
                             <div class="form-group">
-                              <label class="form-label">ماذا عنا</label>
+                              <label class="form-label">{% trans "About US" %}</label>
                               <textarea class="form-control" name="aboutMe" rows="5">{{userProfile.aboutMe}}</textarea>
                             </div>
 
 
 
                             <div class="form-group">
-                              <label class="form-label">تفاصيل عن الخدمة</label>
+                              <label class="form-label">{% trans "Service Details" %}</label>
                               <textarea class="form-control" name="details" rows="5">{{getMyAdd.details}}</textarea>
                             </div>
 
 
 
                             <div class="form-group">
-                              <label class="form-label" for="mainCategory" style=" text-align: right; width: 100%; ">التخصص الرئيسى</label>
+                              <label class="form-label" for="mainCategory" style=" text-align: right; width: 100%; ">{% trans "Main Category" %}</label>
                               <select  id="mainCategory" name="mainCategory" required="" value="{{parentCategory.id}}" class="form-control mb-1 required">
                                   <option value="">{% trans "Select one item" %}</option>
                                   {% for item in allparentCategory %}
@@ -381,7 +396,7 @@
 
 
                           <div class="form-group">
-                              <label class="form-label" for="category" style=" text-align: right; width: 100%; ">المنطقة</label>
+                              <label class="form-label" for="category" style=" text-align: right; width: 100%; ">{% trans "branch category" %}</label>
                               <select  id="category" name="category" value="{{getMyAdd.category.id}}" required=""  class="form-control mb-1 required">
                                 <option value="">{% trans "Select one item" %}</option>
                               </select>
@@ -393,7 +408,7 @@
 
 
                             <div class="form-group">
-                              <label class="form-label" for="video">فيديو للخدمة</label>
+                              <label class="form-label" for="video">{% trans "Video About the Service" %}</label>
                               <input type="text" id="video" name="video"   class="form-control mb-1 " value="{{getMyAdd.videoUrl}}">
                               <div class="invalid-feedback">
                                 {% trans "Please fill this field" %}
@@ -401,14 +416,14 @@
                             </div>
 
                             <div class="text-right mt-3 mb-3">
-                              <button type="submit" class="btn btn-primary">حفظ</button>&nbsp;
+                              <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>&nbsp;
                             </div>
                             
             
             
                           </div>
 
-                          </form>
+                        </form>
 
                         </div>
 
@@ -416,9 +431,7 @@
 
 
                         <div class="tab-pane fade" id="account-social-links">
-                          <div class="card-body pb-2" style="
-    text-align: right;
-">
+                          <div class="card-body pb-2" style="text-align: right;">
             
                             <div class="form-group">
                               <label class="form-label">Twitter</label>
@@ -535,37 +548,35 @@
 
 
     <section id="footer-contact">
-        <div class="layout">
-        <div class="container">
+      <div class="layout">
+      <div class="container">
     
-            <div class="row m-auto">
+          <div class="row m-auto">
     
-                <div class="col-md-4">
-                    <img src="/static/img/Logo 2.png"  alt="footer-logo">
+              <div class="col-md-4">
+                  <img src="/static/img/Logo 2.png"  alt="footer-logo">
     
-                </div>
+              </div>
     
-                <div class="col-md-4">
-                    <h5 class="ml-4">Contact Info</h5>
-                    <p class="ml-4">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit, labore.
-                        </p>
+              <div class="col-md-4">
+                  <h5 class="ml-4">{% trans "Contact Info" %}</h5>
+                  <p class="ml-4">{% trans "Address" %}
+                      </p>
     
-                </div>
+              </div>
     
-                <div class="col-md-4 Info">
-                    <h5>Our Info</h5>
-                    <ul>
-                        <li><a href="#">About Us </a></li>
-                        <li><a href="#">Our Services </a></li>
-                        <li><a href="#">Contact Us </a></li>
-                    </ul>
+              <div class="col-md-4 Info">
+                  <h5>{% trans "Our Info" %}</h5>
+                  <ul>
+                      <li><a href="#">{% trans "Home" %} </a></li>
+                      <li><a href="#">{% trans "All Services" %} </a></li>
+                  </ul>
     
-                </div>
-            </div>
-            </div>
-        </div>
+              </div>
+          </div>
+          </div>
+      </div>
     </section>
-
 
 
 
@@ -762,33 +773,49 @@ var ServiceData = new Bloodhound({
 ServiceData.initialize();
 
 serviceTag.tagsinput({
+  
+  itemValue: 'value',
+  itemText: 'text',
   typeaheadjs: {
     name: 'ServiceData',
-    
     displayKey: 'text',
-    valueKey: 'text',
     source: ServiceData
   }
 });
 
-data = []
 
-serviceTag.tagsinput('add', { "value": 4 , "text": "محمد"  , "continent": "محمد"   });
+
+data = $('#experienses').attr('value').split(",")
+{% for item in allTags %}
+serviceTag.tagsinput('add', { "value": '{{item.name}}' , "text": "{{item.name}}"  , "continent": "{{item.name}}"   });
+{% endfor %}
 serviceTag.on('itemAdded', function(event) {
   // event.item: contains the item
-  data.push((event.item).toString());
-  
+  data.push((event.item.value).toString());
+  // console.log(event)
+  // console.log(event.item.value)
   $('#experienses').attr('value',data);
-  $('#experienses').value(data);
+  $('#experienses').val(data);
 });
 
+
+serviceTag.on('itemAddedOnInit', function(event) {
+  // event.item: contains the item
+  // event.item: contains the item
+  console.log("Ahmed");
+  data.push((event.item.value).toString());
+  // console.log(event)
+  // console.log(event.item.value)
+  $('#experienses').attr('value',data);
+  $('#experienses').val(data);
+});
 
 serviceTag.on('beforeItemRemove', function(event) {
   // event.item: contains the item
   // event.cancel: set to true to prevent the item getting removed
-  data.splice(data.indexOf((event.item).toString()), 1); 
+  data.splice(data.indexOf((event.item.value).toString()), 1); 
   $('#experienses').attr('value',data);
-  $('#experienses').value(data);
+  $('#experienses').val(data);
 });
 
 {% for item in tags %}

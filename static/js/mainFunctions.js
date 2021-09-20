@@ -114,18 +114,47 @@ function getlistOfcities(){
             
 
 
-                function goToSearchPage(){
+                function goToSearchPage(language){
                     var category = $("#dataOfCategory").attr('value');
                       var city = $("#dataOfcity").attr('value');
                       var region = $("#dataOfRegion").attr('value');
-                    url_Search = '/SearchPage/?category='+category+'&city='+city+'&region='+region;
+                    url_Search = '/'+language+'/SearchPage/?category='+category+'&city='+city+'&region='+region;
                 
                 
                     // console.log(url_Search);
                     window.location.href = url_Search;
                   }
 
+                
                   
+
+
+
+                  function addReplaceLangCode( langCode) {
+                    url = document.location.href;
+                    
+                        var a = document.createElement('a');
+                        a.href = url; // or document.location.href;
+            
+                        var paths = a.pathname.split('/');
+                        paths.shift();
+            
+                        if(paths[0].length == 2) {
+                            paths[0] = langCode;
+                        }else{
+                            paths.unshift(langCode);
+                        }
+                        urlNew =  a.protocol + '//' +
+                            a.host + '/' + paths.join('/') + 
+                            (a.search != '' ?  a.search : '') + 
+                            (a.hash != '' ?  a.hash : '');
+            
+                            window.location.href = urlNew;
+                    }
+
+                    
+
+
 function getListOfRegions(city){
 
         
@@ -162,6 +191,15 @@ function getListOfRegions(city){
                     });
                     
                         }
+
+
+
+
+
+
+
+
+                        
 
 
 

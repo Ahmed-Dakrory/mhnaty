@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'mainApp.context_processor_file.defaultContextProcessor',
+                'django.template.context_processors.i18n',
             ],
         },
     },
@@ -144,6 +145,7 @@ MULTILINGUAL_LANGUAGES = (
     "ar",
     "en",
 )
+
 
 
 TIME_ZONE = 'UTC'

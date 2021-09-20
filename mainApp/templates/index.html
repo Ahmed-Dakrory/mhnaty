@@ -26,7 +26,7 @@
        
        
         {% block title %}
-          <title>الرئيسية</title>
+          <title>{% trans "Home" %}</title>
           
           {% endblock %}
         <!--End of the imports css-->
@@ -57,7 +57,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">الرئيسية</a>
+                <a class="nav-link active" aria-current="page" href="/{{LANGUAGE_CODE}}">{% trans "Home" %}</a>
               </li>
               <!-- <li class="nav-item">
                 <a class="nav-link" href="#">انواع الخدمات</a>
@@ -65,21 +65,36 @@
               
               {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="/profile/">ملفى</a>
+                <a class="nav-link" href="/{{LANGUAGE_CODE}}/profile/">{% trans "Profile" %}</a>
+              </li>
+              {% endif %}
+
+             
+              
+              {% if LANGUAGE_CODE == 'en' %}
+              <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)" onclick="addReplaceLangCode('ar')">عربى</a>
+              </li>
+              {% endif %}
+
+
+              {% if LANGUAGE_CODE != 'en' %}
+              <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)" onclick="addReplaceLangCode('en')" >English</a>
               </li>
               {% endif %}
 
               {% if not user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="/accounts/login/">دخول</a>
+                <a class="nav-link" href="/{{LANGUAGE_CODE}}/accounts/login/">{% trans "Login" %}</a>
               </li>
               <li class="nav-item login">
-                <a class="nav-link" href="/loadRegPage/">أنضم الان</a>
+                <a class="nav-link" href="/{{LANGUAGE_CODE}}/loadRegPage/">{% trans "Register" %}</a>
               </li>
               {% endif %}
               {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="/logout/">تسجيل خروج</a>
+                <a class="nav-link" href="/{{LANGUAGE_CODE}}/logout/">{% trans "SignOut" %}</a>
               </li>
               {% endif %}
             
@@ -95,7 +110,7 @@
 
         <section id="Search" style="margin-top: 57px!important;">
             <div class="container">
-              <h1>ابحث عن خدماتك الان</h1>
+              <h1>{% trans "Search For Your Services" %}</h1>
 
               <input type="hidden" id="dataOfCategory" value="">
               <input type="hidden" id="dataOfcity" value="">
@@ -104,12 +119,12 @@
                   <div class="row search-bar" style="direction:rtl">
                       <div class="col-md-3 col-12 w-100 mt-1 p-1">
                           <div class="dropdown w-100">
-                              <a class="btn btn-secondary dropdown-toggle w-100" mainName="الخدمات" href="#" type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              الخدمات
+                              <a class="btn btn-secondary dropdown-toggle w-100" mainName='{% trans "Services" %}' href="#" type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% trans "Services" %}
                               </a>
                             
                               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <li><a class="dropdown-item categoryElementSelect" categoryId="">الكل</a></li>
+                                <li><a class="dropdown-item categoryElementSelect" categoryId="">{% trans "All" %}</a></li>
                                 {% for item in allMainCategories %}
                                 <li><a class="dropdown-item categoryElementSelect" categoryId="{{item.id}}">{{item.name}}</a></li>
                                 {% endfor %}
@@ -121,8 +136,8 @@
 
                     <div class="col-md-3 col-12 w-100 mt-1 p-1">
                       <div class="dropdown w-100">
-                          <a class="btn btn-secondary dropdown-toggle w-100" mainName="المدينة" href="#" type="button" id="cityDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            المدينة
+                          <a class="btn btn-secondary dropdown-toggle w-100" mainName='{% trans "City" %}' href="#" type="button" id="cityDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% trans "City" %}
                           </a>
                         
                           <ul class="dropdown-menu" aria-labelledby="cityDropDown" id="listOfcities">
@@ -132,8 +147,8 @@
 
                     <div class="col-md-3 col-12 w-100 mt-1 p-1">
                       <div class="dropdown w-100">
-                          <a class="btn btn-secondary dropdown-toggle w-100" mainName="المنطقة" href="#" type="button" id="regionDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            المنطقة
+                          <a class="btn btn-secondary dropdown-toggle w-100" mainName='{% trans "Region" %}' href="#" type="button" id="regionDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% trans "Region" %}
                           </a>
                         
                           <ul class="dropdown-menu" aria-labelledby="regionDropDown" id="listOfregions">
@@ -144,7 +159,7 @@
 
                   <!-- <div class="col-md-3 w-100 mt-1 p-1 "></div> -->
                   <div class="col-md-3 w-100 mt-1 p-1">
-                      <a onclick="goToSearchPage()" class="btn btn-primary btn-lg w-100">ابحث<i class="fas fa-search"></i></a>
+                      <a onclick="goToSearchPage('{{LANGUAGE_CODE}}')" class="btn btn-primary btn-lg w-100">{% trans "Search" %}<i class="fas fa-search"></i></a>
 
                   </div>
                   <!-- <div class="col-md-3 w-100 mt-1 p-1"></div> -->
@@ -182,7 +197,7 @@
         </div>        
        </div>
       <div class="col-md-6 about-text">
-          <h2>من نحن</h2>
+          <h2>{% trans "Who us" %}</h2>
           <div id="borders">
             <div class="border"></div>
             <div class="border1"></div>
@@ -190,10 +205,9 @@
           </div>
 
 <p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, officiis nostrum odio itaque
-   ducimus molestias iure modi, ab quia eum laboriosam voluptatum voluptate aperiam. Animi accusamus vero dolorem ducimus molestiae.
+  {% trans "Word about us" %}
 </p>
-<a href="index_services.html"><button class="btn">اقرا المزيد</button></a>
+<a href="index_services.html"><button class="btn">{% trans "See More" %}</button></a>
 
 
 </div>
@@ -205,7 +219,7 @@
 <section id="services">
 <div class="layer">
   <div class="container">
-      <h2>خدماتنا</h2>
+      <h2>{% trans "Our Services" %}</h2>
       <div id="borders">
         <div class="border"></div>
         <div class="border1"></div>
@@ -221,7 +235,7 @@
                 <div class="overlay">
             
             <h4>{{item.name}}</h4>
-                <a href="/{{LANGUAGE_CODE}}/SearchPage/?category={{item.name}}&provider=&city=&region="><button class="btn">Read More</button></a>
+                <a href="/{{LANGUAGE_CODE}}/SearchPage/?category={{item.name}}&provider=&city=&region="><button class="btn">{% trans "Read More" %}</button></a>
             
             </div>
           </div>
@@ -250,18 +264,17 @@
           </div>
 
           <div class="col-md-4">
-              <h5 class="ml-4">Contact Info</h5>
-              <p class="ml-4">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit, labore.
+              <h5 class="ml-4">{% trans "Contact Info" %}</h5>
+              <p class="ml-4">{% trans "Address" %}
                   </p>
 
           </div>
 
           <div class="col-md-4 Info">
-              <h5>Our Info</h5>
+              <h5>{% trans "Our Info" %}</h5>
               <ul>
-                  <li><a href="#">About Us </a></li>
-                  <li><a href="#">Our Services </a></li>
-                  <li><a href="#">Contact Us </a></li>
+                  <li><a href="#">{% trans "Home" %} </a></li>
+                  <li><a href="#">{% trans "All Services" %} </a></li>
               </ul>
 
           </div>

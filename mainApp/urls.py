@@ -12,8 +12,8 @@ urlpatterns = [
     path('profile/',views.profileWeb,name = 'profileWeb'),
     path('accounts/login/',views.loadLoginPage,name = 'loadLoginPage'),
     path('loadRegPage/',views.loadRegPage,name = 'loadRegPage'),
-    path('getAllCategoriesJson.json',views.getAllCategoriesJson,name = 'getAllCategoriesJson'),
-    path('getAllExperiansesJson.json',views.getAllExperiansesJson,name = 'getAllExperiansesJson'),
+    path('getAllCategoriesJson',views.getAllCategoriesJson,name = 'getAllCategoriesJson'),
+    path('getAllExperiansesJson',views.getAllExperiansesJson,name = 'getAllExperiansesJson'),
     path('getAllTagsJson',views.getAllTagsJson,name = 'getAllTagsJson'),
 
 

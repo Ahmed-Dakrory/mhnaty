@@ -52,7 +52,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">الرئيسية</a>
+            <a class="nav-link active" aria-current="page" href="/{{LANGUAGE_CODE}}">{% trans "Home" %}</a>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">انواع الخدمات</a>
@@ -60,21 +60,36 @@
           
           {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="/profile/">ملفى</a>
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/profile/">{% trans "Profile" %}</a>
+          </li>
+          {% endif %}
+
+         
+          
+          {% if LANGUAGE_CODE == 'en' %}
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" onclick="addReplaceLangCode('ar')">عربى</a>
+          </li>
+          {% endif %}
+
+
+          {% if LANGUAGE_CODE != 'en' %}
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" onclick="addReplaceLangCode('en')" >English</a>
           </li>
           {% endif %}
 
           {% if not user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="/accounts/login/">دخول</a>
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/accounts/login/">{% trans "Login" %}</a>
           </li>
           <li class="nav-item login">
-            <a class="nav-link" href="/loadRegPage/">أنضم الان</a>
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/loadRegPage/">{% trans "Register" %}</a>
           </li>
           {% endif %}
           {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="/logout/">تسجيل خروج</a>
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/logout/">{% trans "SignOut" %}</a>
           </li>
           {% endif %}
         
@@ -182,22 +197,23 @@
             
           <div class="row services mb-5 d-block d-md-none m-1">
             <div class="services-title">
-              <h4>بحث مفصل</h4>
+              <h4>{% trans "Detailed Search" %}</h4>
             </div>
             
             <div class="services-body container">
 
              
-              <button class="accordion">الخدمات</button>
+              <button class="accordion">{% trans "Services" %}</button>
 
-              <div class="panel" style="padding-top: 10px;padding-bottom: 10px;">
-              <div class="bs-example w-100 " style="max-height: 150px;">
-                <input type="text" class="ServiceTag" data-role="tagsinput" />
+              <div class="panel CategoriesSearchMobile  mt-2">
+                  
+
+                 
+
               </div>
-             </div>
 
 
-              <button class="accordion">المدينة</button>
+              <button class="accordion">{% trans "City" %}</button>
                 <div class="panel citySearchMobile  mt-2">
                   
 
@@ -206,24 +222,22 @@
                 </div>
 
 
-              <button class="accordion">المنطقة</button>
+              <button class="accordion">{% trans "Region" %}</button>
                 <div class="panel regionSearchMobile  mt-2">
                  
                 </div>
                 
-                <button class="accordion">الخبرات</button>
+                <button class="accordion">{% trans "Experienses" %}</button>
 
-                <div class="panel" style="padding-top: 10px;padding-bottom: 10px;">
-                <div class="bs-example w-100 " style="max-height: 150px;">
-                  <input type="text" id="experiensesTag" data-role="tagsinput" />
+                <div class="panel expSearchMobile  mt-2">
+                      
                 </div>
-               </div>
 
-               <button class="accordion">التقييم</button>
+               <button class="accordion">{% trans "Rate" %}</button>
 
                 <div class="panel" style="padding-top: 10px;padding-bottom: 10px;">
                   <div class="row mt-4 mb-3" style="direction: rtl;max-height: 87px;">
-                    التقييم: <b class="ml-3">0</b> 
+                    {% trans "Rate" %}: <b class="ml-3">0</b> 
                     <input  type="text" class="span2 ex2" value="" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="[0,5]"/>
                      <b class="mr-3">5</b>
                   </div>
@@ -256,12 +270,12 @@
 
                     <div class="dropdown col-6 col-md-3">
                       <a class="btn btn-secondary dropdown-toggle " href="#" type="button" id="orderButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      الأكثر تطابقا
+                        {% trans "Most View" %}
                       </a>
                     
                       <ul class="dropdown-menu" aria-labelledby="orderButton">
-                        <li><a class="dropdown-item" href="javascript:void(0)" >الأحدث</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)">الأقل سعر</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" >{% trans "New" %}</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)">{% trans "Less Prices" %}</a></li>
 
                       </ul>
                     </div>
@@ -270,7 +284,7 @@
                   
                   
                     <div class="col-6 text-right col-md-1">
-                      <p>:ترتيب</p>
+                      <p>:{% trans "Arrange" %}</p>
                     </div>
                   </div>
 
@@ -287,11 +301,11 @@
                     <div class="row w-100">
                       <div class="col-1 p-0 m-0"></div>
                       <div class="page-item  col-3 text-center col-md-2 m-0 " id="goNextButton" onclick="getNextPage();">
-                        <a class="page-link" href="javascript:void(0)"  style="border-top-left-radius: 8px;border-bottom-left-radius: 8px;">التالي</a>
+                        <a class="page-link" href="javascript:void(0)"  style="border-top-left-radius: 8px;border-bottom-left-radius: 8px;">{% trans "Next" %}</a>
                       </div>
-                        <div class="pt-1 col-5 text-center col-md-6  m-0 p-0">عرض <span id="currentNumber">1</span> من نتائج <span id="AllRecords">5464546</span></div>                  
+                        <div class="pt-1 col-5 text-center col-md-6  m-0 p-0">{% trans "Show" %} <span id="currentNumber">---</span> {% trans "From Results" %} <span id="AllRecords">---</span></div>                  
                         <div class="page-item  col-3 text-center col-md-2 disabled m-0" id="goBackButton" onclick="getLastPage();">
-                          <a class="page-link" href="javascript:void(0)"   tabindex="-1" aria-disabled="true" style="border-top-right-radius: 8px;border-bottom-right-radius: 8px;">السابق</a>
+                          <a class="page-link" href="javascript:void(0)"   tabindex="-1" aria-disabled="true" style="border-top-right-radius: 8px;border-bottom-right-radius: 8px;">{% trans "Last" %}</a>
                         </div>
                     </div>
                   </div>
@@ -304,21 +318,22 @@
 
                 <div class="col-md-3 services mb-5 d-md-block d-none">
                   <div class="services-title">
-                    <h4>بحث مفصل</h4>
+                    <h4>{% trans "Detailed Search" %}</h4>
                   </div>
                   
                   <div class="services-body">
 
-                    <button class="accordion">الخدمات</button>
+                    <button class="accordion">{% trans "Services" %}</button>
 
-                    <div class="panel" style="padding-top: 10px;padding-bottom: 10px;">
-                    <div class="bs-example w-100 " style="max-height: 150px;">
-                      <input type="text" class="ServiceTag" data-role="tagsinput" />
+                    <div class="panel CategoriesSearch  mt-2">
+                  
+
+                 
+
                     </div>
-                   </div>
 
 
-                    <button class="accordion">البلد</button>
+                    <button class="accordion">{% trans "City" %}</button>
                     <div class="panel citySearch mt-2">
                      
                     
@@ -326,24 +341,22 @@
                     </div>
     
     
-                  <button class="accordion">المنطقة</button>
+                  <button class="accordion">{% trans "Region" %}</button>
                     <div class="panel regionSearch  mt-2">
                       
                     </div>
                     
-                    <button class="accordion">الخبرات</button>
+                    <button class="accordion">{% trans "Experienses" %}</button>
     
-                    <div class="panel" style="padding-top: 10px;padding-bottom: 10px;">
-                    <div class="bs-example w-100 " style="max-height: 150px;">
-                      <input type="text" class="experiensesTag" data-role="tagsinput" />
+                    <div class="panel expSearch  mt-2">
+                      
                     </div>
-                   </div>
     
-                   <button class="accordion">التقييم</button>
+                   <button class="accordion">{% trans "Rate" %}</button>
     
                     <div class="panel" style="padding-top: 10px;padding-bottom: 10px;">
                       <div class="row mt-4 mb-3" style="direction: rtl;max-height: 87px;">
-                        التقييم: <b class="ml-3">0</b> 
+                        {% trans "Rate" %}: <b class="ml-3">0</b> 
                         <input  type="text" class="span2 ex2" value="" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="[0,5]"/>
                          <b class="mr-3">5</b>
                       </div>
@@ -371,37 +384,35 @@
 
 
     <section id="footer-contact">
-        <div class="layout">
-        <div class="container">
+      <div class="layout">
+      <div class="container">
     
-            <div class="row m-auto">
+          <div class="row m-auto">
     
-                <div class="col-md-4">
-                    <img src="/static/img/Logo 2.png"  alt="footer-logo">
+              <div class="col-md-4">
+                  <img src="/static/img/Logo 2.png"  alt="footer-logo">
     
-                </div>
+              </div>
     
-                <div class="col-md-4">
-                    <h5 class="ml-4">Contact Info</h5>
-                    <p class="ml-4">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit, labore.
-                        </p>
+              <div class="col-md-4">
+                  <h5 class="ml-4">{% trans "Contact Info" %}</h5>
+                  <p class="ml-4">{% trans "Address" %}
+                      </p>
     
-                </div>
+              </div>
     
-                <div class="col-md-4 Info">
-                    <h5>Our Info</h5>
-                    <ul>
-                        <li><a href="#">About Us </a></li>
-                        <li><a href="#">Our Services </a></li>
-                        <li><a href="#">Contact Us </a></li>
-                    </ul>
+              <div class="col-md-4 Info">
+                  <h5>{% trans "Our Info" %}</h5>
+                  <ul>
+                      <li><a href="#">{% trans "Home" %} </a></li>
+                      <li><a href="#">{% trans "All Services" %} </a></li>
+                  </ul>
     
-                </div>
-            </div>
-            </div>
-        </div>
+              </div>
+          </div>
+          </div>
+      </div>
     </section>
-
 
 
 
@@ -527,6 +538,113 @@
             
 
 
+
+            
+      
+      $.ajax({
+                type: 'POST',
+                url: '/en/getAllCategoriesJson',
+                data: { 
+                    'category': ''
+                },
+                headers:{
+                    "X-CSRFToken": csrftoken
+                     },
+                dataType: 'json',
+                cache: false,
+                success: function(result) {
+                   if(result['Result']=='Ok'){
+            
+                    result.data.forEach(element => {
+                    
+                      $('.CategoriesSearch').append(`
+
+                                <div class="form-check">
+                                  <label for="Categories_`+element.id+`">`+element.name+`</label>
+                                    <input type="checkbox" id="Categories_`+element.id+`" name="Categories" value="`+element.name+`">
+                                </div>
+
+                                `)
+                      
+
+                                $('.CategoriesSearchMobile').append(`
+
+                                <div class="form-check">
+                                    <label for="CategoriesMobile_`+element.id+`">`+element.name+`</label>
+                                    <input type="checkbox" id="CategoriesMobile_`+element.id+`" name="CategoriesMobile" value="`+element.name+`">
+                                </div>
+
+                                `)
+                    
+                    });
+
+
+                  
+            
+                   
+                 
+                   }
+
+                },error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError)
+                       }
+            });
+            
+
+
+
+              
+      
+      $.ajax({
+                type: 'POST',
+                url: '/en/getAllExperiansesJson',
+                data: { 
+                    'tag': ''
+                },
+                headers:{
+                    "X-CSRFToken": csrftoken
+                     },
+                dataType: 'json',
+                cache: false,
+                success: function(result) {
+                   if(result['Result']=='Ok'){
+            
+                    result.data.forEach(element => {
+                    
+                      $('.expSearch').append(`
+
+                                <div class="form-check">
+                                  <label for="exp_`+element.id+`">`+element.name+`</label>
+                                    <input type="checkbox" id="exp_`+element.id+`" name="exp" value="`+element.name+`">
+                                </div>
+
+                                `)
+                      
+
+                                $('.expSearchMobile').append(`
+
+                                <div class="form-check">
+                                    <label for="expMobile_`+element.id+`">`+element.name+`</label>
+                                    <input type="checkbox" id="expMobile_`+element.id+`" name="expMobile" value="`+element.name+`">
+                                </div>
+
+                                `)
+                    
+                    });
+
+
+                  
+            
+                   
+                 
+                   }
+
+                },error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError)
+                       }
+            });
+            
+
     </script>
     <script>
        
@@ -542,7 +660,9 @@
     function getBlock(data){
       phoneStatment = '';
               if(data.phone !='' && data.phone!=' '){
-                phoneStatment = '<p class="card-text pt-1">'+data.phone+'<i class="fas fa-phone pl-3"></i></p>';
+
+                phoneStatment =' <div style=" text-align: center; " class="phone mb-3" datatel="'+data.phone+'"><a href="#"> {% trans "Show the Number" %}  <i class="fas fa-phone pl-3"></i> </a> </div>';
+                // phoneStatment = '<p class="card-text pt-1">'+data.phone+'</p>';
               }
 
               addressStatment = '';
@@ -563,12 +683,12 @@
         <div class="row m-0">
 
           <div class="col-md-4 contacts order-md-1 order-3 ">
-            <h4>بيانات مقدم الخدمه</h4>
+            <h4>{% trans "Details or Service Provider" %}</h4>
             `+phoneStatment+addressStatment+`
            
             <div class="evaluate w-100">
 
-              <h5>تقييم الشركة</h5>
+              <h5>{% trans "Service Provider Rating" %}</h5>
               <div class="evaluate-clints">
                
                 
@@ -614,10 +734,10 @@
             <div class="row m-md-1 mb-2">
               
               <div class="col-md-6 p-0 pr-1 col-6">
-                <a class="btn btn-warning w-100" style="direction: rtl;"><i class="fa fa-comments"></i> دردش </a>
+                <a class="btn btn-warning w-100" style="direction: rtl;"><i class="fa fa-comments"></i> {% trans "chat" %} </a>
               </div>
               <div class="col-md-6 p-0 pr-1 col-6">
-                <a class="btn btn-warning w-100" href="tel:`+data.phone+`" style="direction: rtl;"><i class="fa fa-phone"></i> اتصل </a>
+                <a class="btn btn-warning w-100 {% if not user.is_authenticated %} disabled {% endif %}"  href="tel:`+data.phone+`" style="direction: rtl;"><i class="fa fa-phone"></i> {% trans "Call" %} </a>
               </div>
               
             </div>
@@ -732,7 +852,7 @@
                             "half": true,
                             "halfStar":"fas fa-star-half-alt fa-flip-horizontal",
                             "filledStar":"fas fa-star",
-                            // "readonly":true,
+                            "readonly":true,
                             "value":element.averageRate,
                             "click": function (e) {
                                 // console.log(e);
@@ -741,13 +861,15 @@
                         });
 
                         });
+                        
+                        $('.phone').hidePhoneNum();
 
 
                         
                   },
                   error: function (xhr, ajaxOptions, thrownError) {
                     hideLoader();
-                    swal("مشكلة", "حدثت مشكلة عند التحميل!", "error");
+                    swal('{% trans "Error" %}', '{% trans "Problem While Loading" %}', "error");
                   }
               });
 
@@ -762,70 +884,6 @@
     </script>
 
  <script>
-
-
-var experiensesTag = $('.experiensesTag');
-
-var experiensesData = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  // prefetch: '/getAllCategoriesJson.json?query=Null',
-  remote: {
-    url: '/getAllExperiansesJson.json?query=%QUERY',
-    wildcard: '%QUERY'
-  }
-});
-experiensesData.initialize();
-
-experiensesTag.tagsinput({
-  // itemValue: 'value',
-  // itemText: 'text',
-  typeaheadjs: {
-    name: 'experiensesData',
-    
-    displayKey: 'text',
-    valueKey: 'text',
-    source: experiensesData
-  }
-});
-
-// experiensesTag.tagsinput('add', { "value": 1 , "text": "أحمد"   , "continent": "أحمد"    });
-// experiensesTag.tagsinput('add', { "value": 4 , "text": "محمد"  , "continent": "محمد"   });
-// experiensesTag.tagsinput('add', { "value": 7 , "text": "طاقة"      , "continent": "طاقة" });
-// experiensesTag.tagsinput('add', { "value": 10, "text": "انشاء"     , "continent": "انشاء"      });
-// experiensesTag.tagsinput('add', { "value": 13, "text": "محاسبة"       , "continent": "محاسبة"    });
-            
-
-experiensesTag.on('itemAdded', function(event) {
-  // event.item: contains the item
-
-  // console.log($(event));
-});
-
-
-
-var serviceTag = $('.ServiceTag');
-
-var ServiceData = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  // prefetch: '/getAllCategoriesJson.json?query=Null',
-  remote: {
-    url: '/getAllCategoriesJson.json?query=%QUERY',
-    wildcard: '%QUERY'
-  }
-});
-ServiceData.initialize();
-
-serviceTag.tagsinput({
-  typeaheadjs: {
-    name: 'ServiceData',
-    
-    displayKey: 'text',
-    valueKey: 'text',
-    source: ServiceData
-  }
-});
 
 
 
@@ -844,6 +902,47 @@ $(".ex2").slider({});
   </script>
 
 
+
+
+
+<script>
+    
+
+  (function($) {
+                          $.fn.hidePhoneNum = function(options) {
+                      
+                              var settings = $.extend({
+                                  showNumber: 3,
+                                  linkClass: 'tel-link'
+                              }, options);
+                      
+                              return this.each(function() {
+                                  var telNum = $(this).attr("datatel"),
+                                          htmlNum = $(this).html(),
+                                          myRegex = /[\s-\(\()]/g,
+                                          telNewNum = telNum.replace(myRegex, '');
+                      
+                                          console.log(telNum);
+                                  $(this).html(telNum.substr(0, settings.showNumber) + " " + htmlNum);
+                                  
+                                  $(this).find('a').on('click', function(e) {
+                                      e.preventDefault();
+                                      if("{{userProfile.user.is_authenticated}}"=="True"){
+                                      $(this).parent().html("<a href='tel:"+telNewNum+"' class='"+settings.linkClass+"'>"+telNum+" <i class='fas fa-phone pl-3'></i></a>");
+                                      }else{
+                                        swal("تنبيه", "لا يمكنك القيام بذلك برجاء تسجيل الدخول", "warning");
+                                      }
+                                  })
+                      
+                              });
+                          };
+                      }(jQuery));
+
+
+
+
+
+  </script>
 
 </body>
 

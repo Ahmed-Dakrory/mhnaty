@@ -1,0 +1,356 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-20 22:31+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\ServiceSite\settings.py:140
+msgid "Arabic"
+msgstr "Arabic"
+
+#: .\ServiceSite\settings.py:141
+msgid "English"
+msgstr "English"
+
+#: .\mainApp\templates\index.html:29 .\mainApp\templates\index.html:60
+#: .\mainApp\templates\index.html:276
+#: .\mainApp\templates\index_company.html:53
+#: .\mainApp\templates\index_company.html:568
+#: .\mainApp\templates\index_search.html:55
+#: .\mainApp\templates\index_search.html:409
+#: .\mainApp\templates\profile.html:68 .\mainApp\templates\profile.html:571
+msgid "Home"
+msgstr "Home"
+
+#: .\mainApp\templates\index.html:68 .\mainApp\templates\index_company.html:61
+#: .\mainApp\templates\index_search.html:63
+#: .\mainApp\templates\profile.html:76
+msgid "Profile"
+msgstr "Profile"
+
+#: .\mainApp\templates\index.html:89 .\mainApp\templates\index_company.html:82
+#: .\mainApp\templates\index_search.html:84
+#: .\mainApp\templates\profile.html:97
+msgid "Login"
+msgstr "Login"
+
+#: .\mainApp\templates\index.html:92 .\mainApp\templates\index_company.html:85
+#: .\mainApp\templates\index_search.html:87
+#: .\mainApp\templates\profile.html:100
+msgid "Register"
+msgstr "Register"
+
+#: .\mainApp\templates\index.html:97 .\mainApp\templates\index_company.html:90
+#: .\mainApp\templates\index_search.html:92
+#: .\mainApp\templates\profile.html:105
+msgid "SignOut"
+msgstr "SignOut"
+
+#: .\mainApp\templates\index.html:113
+#: .\mainApp\templates\index_company.html:109
+msgid "Search For Your Services"
+msgstr "Search For Your Services"
+
+#: .\mainApp\templates\index.html:122 .\mainApp\templates\index.html:123
+#: .\mainApp\templates\index_company.html:118
+#: .\mainApp\templates\index_company.html:119
+#: .\mainApp\templates\index_search.html:206
+#: .\mainApp\templates\index_search.html:327
+msgid "Services"
+msgstr "Services"
+
+#: .\mainApp\templates\index.html:127
+#: .\mainApp\templates\index_company.html:123
+msgid "All"
+msgstr "All"
+
+#: .\mainApp\templates\index.html:139 .\mainApp\templates\index.html:140
+#: .\mainApp\templates\index_company.html:135
+#: .\mainApp\templates\index_company.html:136
+#: .\mainApp\templates\index_search.html:215
+#: .\mainApp\templates\index_search.html:336
+msgid "City"
+msgstr "City"
+
+#: .\mainApp\templates\index.html:150 .\mainApp\templates\index.html:151
+#: .\mainApp\templates\index_company.html:146
+#: .\mainApp\templates\index_company.html:147
+#: .\mainApp\templates\index_search.html:224
+#: .\mainApp\templates\index_search.html:344
+#: .\mainApp\templates\profile.html:220
+msgid "Region"
+msgstr "Region"
+
+#: .\mainApp\templates\index.html:162
+#: .\mainApp\templates\index_company.html:158
+msgid "Search"
+msgstr "Search"
+
+#: .\mainApp\templates\index.html:200
+msgid "Who us"
+msgstr "Who us"
+
+#: .\mainApp\templates\index.html:208
+msgid "Word about us"
+msgstr "Word about us"
+
+#: .\mainApp\templates\index.html:210
+msgid "See More"
+msgstr "See More"
+
+#: .\mainApp\templates\index.html:222
+msgid "Our Services"
+msgstr "Our Services"
+
+#: .\mainApp\templates\index.html:238
+msgid "Read More"
+msgstr "Read More"
+
+#: .\mainApp\templates\index.html:267
+#: .\mainApp\templates\index_company.html:559
+#: .\mainApp\templates\index_search.html:400
+#: .\mainApp\templates\profile.html:562
+msgid "Contact Info"
+msgstr "Contact Info"
+
+#: .\mainApp\templates\index.html:268
+#: .\mainApp\templates\index_company.html:560
+#: .\mainApp\templates\index_search.html:401
+#: .\mainApp\templates\profile.html:246 .\mainApp\templates\profile.html:563
+msgid "Address"
+msgstr "Address"
+
+#: .\mainApp\templates\index.html:274
+#: .\mainApp\templates\index_company.html:566
+#: .\mainApp\templates\index_search.html:407
+#: .\mainApp\templates\profile.html:569
+msgid "Our Info"
+msgstr "Our Info"
+
+#: .\mainApp\templates\index.html:277
+#: .\mainApp\templates\index_company.html:569
+#: .\mainApp\templates\index_search.html:410
+#: .\mainApp\templates\profile.html:572
+msgid "All Services"
+msgstr "All Services"
+
+#: .\mainApp\templates\index_reg.html:76
+msgid "Please fill this field with not existing username"
+msgstr "Please fill this field with not existing username"
+
+#: .\mainApp\templates\index_reg.html:84
+#: .\mainApp\templates\index_reg.html:138 .\mainApp\templates\profile.html:185
+#: .\mainApp\templates\profile.html:192 .\mainApp\templates\profile.html:199
+#: .\mainApp\templates\profile.html:321 .\mainApp\templates\profile.html:414
+msgid "Please fill this field"
+msgstr "Please fill this field"
+
+#: .\mainApp\templates\index_reg.html:99
+#: .\mainApp\templates\index_reg.html:113 .\mainApp\templates\profile.html:208
+#: .\mainApp\templates\profile.html:222 .\mainApp\templates\profile.html:387
+#: .\mainApp\templates\profile.html:401
+msgid "Select one item"
+msgstr "Select one item"
+
+#: .\mainApp\templates\index_reg.html:105
+#: .\mainApp\templates\index_reg.html:116 .\mainApp\templates\profile.html:214
+#: .\mainApp\templates\profile.html:225 .\mainApp\templates\profile.html:393
+#: .\mainApp\templates\profile.html:404
+msgid "Please select from this field"
+msgstr "Please select from this field"
+
+#: .\mainApp\templates\index_reg.html:129
+msgid "Please fill this field with not existing email"
+msgstr "Please fill this field with not existing email"
+
+#: .\mainApp\templates\index_reg.html:147
+msgid "Please fill this field with the same password"
+msgstr "Please fill this field with the same password"
+
+#: .\mainApp\templates\index_reg.html:237 .\mainApp\templates\profile.html:660
+#: .\mainApp\templates\profile.html:719
+msgid "Select One"
+msgstr "Select One"
+
+#: .\mainApp\templates\index_search.html:200
+#: .\mainApp\templates\index_search.html:322
+msgid "Detailed Search"
+msgstr "Detailed Search"
+
+#: .\mainApp\templates\index_search.html:229
+#: .\mainApp\templates\index_search.html:349
+msgid "Experienses"
+msgstr "Experienses"
+
+#: .\mainApp\templates\index_search.html:237
+#: .\mainApp\templates\index_search.html:241
+#: .\mainApp\templates\index_search.html:357
+#: .\mainApp\templates\index_search.html:361
+msgid "Rate"
+msgstr "Rate"
+
+#: .\mainApp\templates\index_search.html:274
+msgid "Most View"
+msgstr "Most Viewed"
+
+#: .\mainApp\templates\index_search.html:278
+msgid "New"
+msgstr "New"
+
+#: .\mainApp\templates\index_search.html:279
+msgid "Less Prices"
+msgstr "Less Prices"
+
+#: .\mainApp\templates\index_search.html:288
+msgid "Arrange"
+msgstr "Arrange"
+
+#: .\mainApp\templates\index_search.html:305
+msgid "Next"
+msgstr "Next"
+
+#: .\mainApp\templates\index_search.html:307
+msgid "Show"
+msgstr "Show"
+
+#: .\mainApp\templates\index_search.html:307
+msgid "From Results"
+msgstr "From Results"
+
+#: .\mainApp\templates\index_search.html:309
+msgid "Last"
+msgstr "Last"
+
+#: .\mainApp\templates\index_search.html:559
+msgid "Show the Number"
+msgstr "Show the Number"
+
+#: .\mainApp\templates\index_search.html:581
+msgid "Details or Service Provider"
+msgstr "Details of Service Provider"
+
+#: .\mainApp\templates\index_search.html:586
+msgid "Service Provider Rating"
+msgstr "Service Provider Rating"
+
+#: .\mainApp\templates\index_search.html:632
+msgid "chat"
+msgstr "Chat"
+
+#: .\mainApp\templates\index_search.html:635
+msgid "Call"
+msgstr "Call"
+
+#: .\mainApp\templates\index_search.html:767
+msgid "Error"
+msgstr "Error"
+
+#: .\mainApp\templates\index_search.html:767
+msgid "Problem While Loading"
+msgstr "Problem While Loading"
+
+#: .\mainApp\templates\profile.html:39
+msgid "My Page"
+msgstr "My Page"
+
+#: .\mainApp\templates\profile.html:135
+msgid "My Control Page"
+msgstr "My Control Page"
+
+#: .\mainApp\templates\profile.html:142
+msgid "General Data"
+msgstr "General Data"
+
+#: .\mainApp\templates\profile.html:146
+msgid "My Service Details"
+msgstr "My Service Details"
+
+#: .\mainApp\templates\profile.html:147
+msgid "Messages"
+msgstr "Messages"
+
+#: .\mainApp\templates\profile.html:148
+msgid "Settings"
+msgstr "Settings"
+
+#: .\mainApp\templates\profile.html:162 .\mainApp\templates\profile.html:292
+msgid "Select New Image"
+msgstr "Select New Image"
+
+#: .\mainApp\templates\profile.html:173 .\mainApp\templates\profile.html:303
+msgid "Maximum Limit"
+msgstr "Maximum Limit"
+
+#: .\mainApp\templates\profile.html:182
+msgid "Username"
+msgstr "Username"
+
+#: .\mainApp\templates\profile.html:189
+msgid "Your name (The used one if you have a service)"
+msgstr "Your name (The used one if you have a service)"
+
+#: .\mainApp\templates\profile.html:196
+msgid "Mail Address"
+msgstr "Mail Address"
+
+#: .\mainApp\templates\profile.html:206
+msgid "City Name"
+msgstr "City Name"
+
+#: .\mainApp\templates\profile.html:232
+msgid "Phone Number"
+msgstr "Phone Number"
+
+#: .\mainApp\templates\profile.html:239
+msgid "Mobile Number"
+msgstr "Mobile Number"
+
+#: .\mainApp\templates\profile.html:253 .\mainApp\templates\profile.html:419
+msgid "Save"
+msgstr "Save"
+
+#: .\mainApp\templates\profile.html:318
+msgid "Service Name"
+msgstr "Service Name"
+
+#: .\mainApp\templates\profile.html:333
+msgid "Additional files"
+msgstr "Additional files"
+
+#: .\mainApp\templates\profile.html:362
+msgid "My Experienses"
+msgstr "My Experienses"
+
+#: .\mainApp\templates\profile.html:371
+msgid "About US"
+msgstr "About US"
+
+#: .\mainApp\templates\profile.html:378
+msgid "Service Details"
+msgstr "Service Details"
+
+#: .\mainApp\templates\profile.html:385
+msgid "Main Category"
+msgstr "Main Category"
+
+#: .\mainApp\templates\profile.html:399
+msgid "branch category"
+msgstr "Branch category"
+
+#: .\mainApp\templates\profile.html:411
+msgid "Video About the Service"
+msgstr "Video About the Service"

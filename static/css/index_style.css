@@ -1441,3 +1441,9 @@ p.commentTextDetails {
 ::-webkit-scrollbar-thumb {
     background: #ffbf30;
 }
+
+
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+  }
