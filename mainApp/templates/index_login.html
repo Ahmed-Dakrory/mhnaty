@@ -28,7 +28,7 @@
        
      
 
-        <title>تسجيل الدخول </title>
+        <title>{% trans "Login" %}</title>
         <style>
             body {
                  background: #4f4d4d;
@@ -67,8 +67,8 @@
                                 <div class="col-md-3 col-1"></div>
                                 <div class="col-md-6 col-10" style=" background: #ffffffd6;padding: 18px;border-radius: 35px;box-shadow: 0px 1px 5px 5px #c0bcbc;">
                                     <div class="login-block col-sm-12">
-                                        <h1 style=" text-align: center; ">تسجيل الدخول</h1>
-                                        <p style=" text-align: center; "> برجاء ادخل البيانات الخاصة بك</p>
+                                        <h1 style=" text-align: center; ">{% trans "Login" %}</h1>
+                                        <p style=" text-align: center; ">{% trans "Please Enter your Credentials" %}</p>
                                         <form id="formLogin" class="ng-untouched ng-pristine ng-valid container">
                                             {% csrf_token %}
                                             <hr class="hr-xs">
@@ -77,7 +77,7 @@
                                                     <span class="input-group-addon mt-1 ml-2">
                                                         <i class="fa fa-user ti-email"></i>
                                                     </span>
-                                                    <input type="text" value="admin" placeholder="ادخل اسم المستخدم " name="username" class="form-control" id="Username" placeholder="Username" style="padding-right: 10px;">
+                                                    <input type="text" value="admin" placeholder='{% trans "Please Enter the user name" %}' name="username" class="form-control" id="Username" placeholder="Username" style="padding-right: 10px;">
                                                 </div>
                                             </div>
                                             <hr class="hr-xs">
@@ -86,16 +86,16 @@
                                                     <span class="input-group-addon mt-1 ml-2">
                                                         <i class="fa fa-lock ti-unlock"></i>
                                                     </span>
-                                                    <input type="password" value="Aaa123456789" placeholder="الرقم السري " name="password" id="password" class="form-control" style="padding-right: 10px;">
+                                                    <input type="password" value="Aaa123456789" placeholder='{% trans "Secret Number " %}' name="password" id="password" class="form-control" style="padding-right: 10px;">
                                                 </div>
                                             </div>
                                             <div class=" row mt-3">
-                                                <a  id="loginButton" href="javascript:void(0)" class="btn btn-block" style="background-color: #e6aa32d9;font-family: system-ui;font-size: 17px;font-weight: 500;">تسجيل الدخول </a>
+                                                <a  id="loginButton" href="javascript:void(0)" class="btn btn-block" style="background-color: #e6aa32d9;font-family: system-ui;font-size: 17px;font-weight: 500;">{% trans "Login" %}  </a>
                                             </div>
                                             <hr class="hr-xs mt-4 mb-0">
                                             <div class="row">
                                                        
-                                                        <p id="text2">او سجل دخول ب</p>
+                                                        <p id="text2">{% trans "OR Login with" %}</p>
                                                        
                                                         
                                                         
@@ -121,11 +121,11 @@
 
                                             <div class=" row">
                                                 <div class="col-6 p-0">
-                                                <p id="text3">لست عضوا؟</p> 
+                                                <p id="text3">{% trans "Not a Memeber?" %} </p> 
                                                 </div>
                                                 <div class="col-6 p-0 pr-2">
                                                     <p style="text-align: right;">
-                                                        <a id="signup" href="/loadRegPage/">انضم الأن</a>
+                                                        <a id="signup" href="/loadRegPage/">{% trans "Join Us" %}</a>
                                                     </p>
                                                 </div>
                                             </div>
@@ -241,17 +241,18 @@ function fb_login(){
                                 window.location.href = result.RedirectUrl;
                             }else{
                                 
-                                swal("مشكلة",result.Error, "error");
+                                // swal("مشكلة",result.Error, "error");
+                        swal('{% trans "Error" %}', result.Error, "error");
                             }
 
                       }else{
-                        swal("مشكلة", "حدثت مشكلة عند الدخول!", "error");
+                        swal('{% trans "Error" %}', '{% trans "Error while Login" %}', "error");
                       }
                     
                   },
                   error: function (xhr, ajaxOptions, thrownError) {
                     hideLoader();
-                    swal("مشكلة", "حدثت مشكلة عند الدخول!", "error");
+                        swal('{% trans "Error" %}', '{% trans "Error while Login" %}', "error");
                   }
               });
 
@@ -277,7 +278,9 @@ function fb_login(){
                 profile.getImageUrl(),2,'Gmail');
 
             }, function(error) {
-                swal("مشكلة", "حدثت مشكلة عند الدخول!", "error");
+                
+                swal('{% trans "Error While Login" %}', '{% trans "Problem" %}', "error");
+                
             }
             );
         });
@@ -306,8 +309,9 @@ var username = $('#Username').val();
 var password = $('#password').val();
 
 if (username==""||password==""){
-    swal("مشكلة", " برجاء مراجعة الأسم والرقم السرى !", "error");
+    // swal("مشكلة", " برجاء مراجعة الأسم والرقم السرى !", "error");
        
+    swal('{% trans "Please Revies Username or Password" %}', '{% trans "Problem" %}', "error");
     
 }else{
 
@@ -341,7 +345,9 @@ $.ajax({
        }else{
 
         $('#loginButton').html('SIGN IN');
-        swal("مشكلة", "لايوجد شخص مسجل بهذه البيانات برجاء مراجعة الأسم والرقم السرى !", "error");
+        
+        swal('{% trans "No one registered with this username or password" %}', '{% trans "Problem" %}', "error");
+        // swal("مشكلة", "لايوجد شخص مسجل بهذه البيانات برجاء مراجعة الأسم والرقم السرى !", "error");
        
        }
     },error: function (xhr, ajaxOptions, thrownError) {
