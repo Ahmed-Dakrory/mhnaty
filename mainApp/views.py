@@ -274,7 +274,9 @@ def getListOfRegions(request):
         try:
             city = request.POST['city']
             
-            if city !='':
+
+            # print(city)
+            if city !="''":
                 sql_query = """
 
                         select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
@@ -282,7 +284,7 @@ def getListOfRegions(request):
                     from (
                     SELECT  region.id,region.name as name FROM region
                     left join city on city.id = region.cityOfRegion_id
-                    where LOWER(city.name)=LOWER('"""+city+"""') ) x;
+                    where LOWER(city.name) in ("""+city+""") ) x;
 
 
 
@@ -303,7 +305,7 @@ def getListOfRegions(request):
 
                     """
 
-
+            # print(sql_query)
             cursorLast.execute(sql_query)
             cursorAllData = cursorLast.fetchone()
             y=cursorAllData[0].replace('\r\n','')
@@ -332,8 +334,15 @@ def getNewResultsForAds(request):
     city = request.POST['city']
     region = request.POST['region']
 
+    citiesSearch = request.POST['citiesSearch']
+    categoriesSearch = request.POST['categoriesSearch']
+    experiensesSearch = request.POST['experiensesSearch']
+    regionsSearch = request.POST['regionsSearch']
+    rateMax = request.POST['rateMax']
+    rateMin = request.POST['rateMin']
 
-    print(pageNumber)
+
+    print(categoriesSearch)
     print(category)
     print(city)
     print(region)

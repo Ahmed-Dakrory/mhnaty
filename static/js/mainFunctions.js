@@ -162,7 +162,7 @@ function getListOfRegions(city){
                         type: 'POST',
                         url: '/en/getListOfRegions',
                         data: { 
-                            'city': city
+                            'city':  "'"+city+"'"
                         },
                         headers:{
                             "X-CSRFToken": csrftoken

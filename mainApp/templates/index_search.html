@@ -195,61 +195,7 @@
 
 
             
-          <div class="row services mb-5 d-block d-md-none m-1">
-            <div class="services-title">
-              <h4>{% trans "Detailed Search" %}</h4>
-            </div>
-            
-            <div class="services-body container">
-
-             
-              <button class="accordion">{% trans "Services" %}</button>
-
-              <div class="panel CategoriesSearchMobile  mt-2">
-                  
-
-                 
-
-              </div>
-
-
-              <button class="accordion">{% trans "City" %}</button>
-                <div class="panel citySearchMobile  mt-2">
-                  
-
-                 
-
-                </div>
-
-
-              <button class="accordion">{% trans "Region" %}</button>
-                <div class="panel regionSearchMobile  mt-2">
-                 
-                </div>
-                
-                <button class="accordion">{% trans "Experienses" %}</button>
-
-                <div class="panel expSearchMobile  mt-2">
-                      
-                </div>
-
-               <button class="accordion">{% trans "Rate" %}</button>
-
-                <div class="panel" style="padding-top: 10px;padding-bottom: 10px;">
-                  <div class="row mt-4 mb-3" style="direction: rtl;max-height: 87px;">
-                    {% trans "Rate" %}: <b class="ml-3">0</b> 
-                    <input  type="text" class="span2 ex2" value="" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="[0,5]"/>
-                     <b class="mr-3">5</b>
-                  </div>
-               </div>
-
-
-
-        </div>
-
-
-      </div>
-
+         
 
       
             <div class="row">
@@ -262,116 +208,114 @@
                   </a>
                 </div>
 
-          </div>
+              </div>
 
-                <div class="col-md-7 results col-12">
-                  <div class="sort row w-100  p-0 m-0 mb-3">
-
-
-                    <div class="dropdown col-6 col-md-3">
-                      <a class="btn btn-secondary dropdown-toggle " href="#" type="button" id="orderButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {% trans "Most View" %}
-                      </a>
-                    
-                      <ul class="dropdown-menu" aria-labelledby="orderButton">
-                        <li><a class="dropdown-item" href="javascript:void(0)" >{% trans "New" %}</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)">{% trans "Less Prices" %}</a></li>
-
-                      </ul>
-                    </div>
+              <div class="col-md-7 results col-12 order-1">
+                <div class="sort row w-100  p-0 m-0 mb-3">
 
 
+                  <div class="dropdown col-6 col-md-3">
+                    <a class="btn btn-secondary dropdown-toggle " href="#" type="button" id="orderButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {% trans "Most View" %}
+                    </a>
                   
-                  
-                    <div class="col-6 text-right col-md-1">
-                      <p>:{% trans "Arrange" %}</p>
-                    </div>
+                    <ul class="dropdown-menu" aria-labelledby="orderButton">
+                      <li><a class="dropdown-item" href="javascript:void(0)" >{% trans "New" %}</a></li>
+                      <li><a class="dropdown-item" href="javascript:void(0)">{% trans "Less Prices" %}</a></li>
+
+                    </ul>
                   </div>
 
 
-                  
-                  <div id="ListOfAdds"></div>
-                  
-
-
-                  
-                  <div aria-label="..." class="my-4 row mt-5">
-                    
-                    <input type="hidden" numberOFResultView="1" id="currentDraw"/>
-                    <div class="row w-100">
-                      <div class="col-1 p-0 m-0"></div>
-                      <div class="page-item  col-3 text-center col-md-2 m-0 " id="goNextButton" onclick="getNextPage();">
-                        <a class="page-link" href="javascript:void(0)"  style="border-top-left-radius: 8px;border-bottom-left-radius: 8px;">{% trans "Next" %}</a>
-                      </div>
-                        <div class="pt-1 col-5 text-center col-md-6  m-0 p-0">{% trans "Show" %} <span id="currentNumber">---</span> {% trans "From Results" %} <span id="AllRecords">---</span></div>                  
-                        <div class="page-item  col-3 text-center col-md-2 disabled m-0" id="goBackButton" onclick="getLastPage();">
-                          <a class="page-link" href="javascript:void(0)"   tabindex="-1" aria-disabled="true" style="border-top-right-radius: 8px;border-bottom-right-radius: 8px;">{% trans "Last" %}</a>
-                        </div>
-                    </div>
+                
+                
+                  <div class="col-6 text-right col-md-1">
+                    <p>:{% trans "Arrange" %}</p>
                   </div>
-
-
                 </div>
 
+
                 
+                <div id="ListOfAdds"></div>
                 
 
-                <div class="col-md-3 services mb-5 d-md-block d-none">
-                  <div class="services-title">
-                    <h4>{% trans "Detailed Search" %}</h4>
-                  </div>
+
+                
+                <div aria-label="..." class="my-4 row mt-5">
                   
-                  <div class="services-body">
-
-                    <button class="accordion">{% trans "Services" %}</button>
-
-                    <div class="panel CategoriesSearch  mt-2">
-                  
-
-                 
-
+                  <input type="hidden" numberOFResultView="1" id="currentDraw"/>
+                  <div class="row w-100">
+                    <div class="col-1 p-0 m-0"></div>
+                    <div class="page-item  col-3 text-center col-md-2 m-0 " id="goNextButton" onclick="getNextPage();">
+                      <a class="page-link" href="javascript:void(0)"  style="border-top-left-radius: 8px;border-bottom-left-radius: 8px;">{% trans "Next" %}</a>
                     </div>
-
-
-                    <button class="accordion">{% trans "City" %}</button>
-                    <div class="panel citySearch mt-2">
-                     
-                    
-    
-                    </div>
-    
-    
-                  <button class="accordion">{% trans "Region" %}</button>
-                    <div class="panel regionSearch  mt-2">
-                      
-                    </div>
-                    
-                    <button class="accordion">{% trans "Experienses" %}</button>
-    
-                    <div class="panel expSearch  mt-2">
-                      
-                    </div>
-    
-                   <button class="accordion">{% trans "Rate" %}</button>
-    
-                    <div class="panel" style="padding-top: 10px;padding-bottom: 10px;">
-                      <div class="row mt-4 mb-3" style="direction: rtl;max-height: 87px;">
-                        {% trans "Rate" %}: <b class="ml-3">0</b> 
-                        <input  type="text" class="span2 ex2" value="" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="[0,5]"/>
-                         <b class="mr-3">5</b>
+                      <div class="pt-1 col-5 text-center col-md-6  m-0 p-0">{% trans "Show" %} <span id="currentNumber">---</span> {% trans "From Results" %} <span id="AllRecords">---</span></div>                  
+                      <div class="page-item  col-3 text-center col-md-2 disabled m-0" id="goBackButton" onclick="getLastPage();">
+                        <a class="page-link" href="javascript:void(0)"   tabindex="-1" aria-disabled="true" style="border-top-right-radius: 8px;border-bottom-right-radius: 8px;">{% trans "Last" %}</a>
                       </div>
-                   </div>
-    
+                  </div>
+                </div>
 
+
+              </div>
+
+
+              <div class="col-md-3 services mb-5 d-md-block order-0 order-md-1">
+                <div class="services-title">
+                  <h4>{% trans "Detailed Search" %}</h4>
+                </div>
+                
+                <div class="services-body">
+
+                  <button class="accordion">{% trans "Services" %}</button>
+
+                  <div class="panel CategoriesSearch  mt-2">
+                
+
+                
 
                   </div>
-                  <div class="services-body mt-3" style=" border-style: solid; border-radius: 7px; border-width: 1px; ">
-                    <a href="/"> 
-                     <img src="/media/attachments/allImages/1.jpg"  alt="logo" style="width: 100%;height: 550px;">
-                    </a>
-                  </div>
 
-            </div>
+
+                  <button class="accordion">{% trans "City" %}</button>
+                  <div class="panel citySearch mt-2">
+                    
+                  
+  
+                  </div>
+  
+  
+                <button class="accordion">{% trans "Region" %}</button>
+                  <div class="panel regionSearch  mt-2">
+                    
+                  </div>
+                  
+                  <button class="accordion">{% trans "Experienses" %}</button>
+  
+                  <div class="panel expSearch  mt-2">
+                    
+                  </div>
+  
+                  <button class="accordion">{% trans "Rate" %}</button>
+  
+                  <div class="panel" style="padding-top: 10px;padding-bottom: 10px;">
+                    <div class="row mt-4 mb-3" style="direction: rtl;max-height: 87px;">
+                      {% trans "Rate" %}: <b class="ml-3">0</b> 
+                      <input  type="text" class="span2 ex2" value="" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="[0,5]"/>
+                        <b class="mr-3">5</b>
+                    </div>
+                  </div>
+                  <div  style="padding: 10px;">
+                  <a class="btn btn-warning w-100 " onclick="getAdds();" style="direction: rtl;"><i class="fa fa-search"></i> {% trans "Search" %} </a>
+                    </div>
+                </div>
+
+                <div class="services-body mt-3 d-md-block d-none" style=" border-style: solid; border-radius: 7px; border-width: 1px; ">
+                  <a href="/"> 
+                    <img src="/media/attachments/allImages/1.jpg"  alt="logo" style="width: 100%;height: 550px;">
+                  </a>
+                </div>
+              </div>
 
             </div>
 
@@ -435,6 +379,12 @@
 
 
     <script>
+      var citiesSearch="";
+      var categoriesSearch="";
+      var experiensesSearch="";
+      var regionsSearch="";
+      var rateMax="";
+      var rateMin="";
 
       $.ajax({
                 type: 'POST',
@@ -462,19 +412,27 @@
                                 `)
                       
 
-                                $('.citySearchMobile').append(`
-
-                                <div class="form-check">
-                                    <label for="cityMobile_`+element.id+`">`+element.name+`</label>
-                                    <input type="checkbox" id="cityMobile_`+element.id+`" name="cityMobile" value="`+element.name+`">
-                                </div>
-
-                                `)
+                               
                     
                     });
 
 
-                  
+                    $('input[name="city"]').click(function() {
+                        // console.log(this.value);
+                        citiesSearch = $("input[name='city']:checked").map(function() {
+                          return "'"+$(this).attr('value')+"'";
+                        })
+                        .get() //returns basic array
+                        .join(','); //create a string
+                        // console.log(cityData);
+                        if(cityData==""){
+                          handleTheRegionsForList("''");
+                        }else{
+                          handleTheRegionsForList(cityData);
+                        }
+                        
+                    });
+                   
             
                    
                  
@@ -486,12 +444,12 @@
             });
             
 
-      
-      $.ajax({
+      function handleTheRegionsForList(city){
+        $.ajax({
                 type: 'POST',
                 url: '/en/getListOfRegions',
                 data: { 
-                    'city': ''
+                    'city': city
                 },
                 headers:{
                     "X-CSRFToken": csrftoken
@@ -500,9 +458,9 @@
                 cache: false,
                 success: function(result) {
                    if(result['Result']=='Ok'){
-            
+                    $('.regionSearch').empty();
                     result.data.forEach(element => {
-                    
+                    // console.log(element.id)
                       $('.regionSearch').append(`
 
                                 <div class="form-check">
@@ -512,15 +470,15 @@
 
                                 `)
                       
-
-                                $('.regionSearchMobile').append(`
-
-                                <div class="form-check">
-                                    <label for="regionMobile_`+element.id+`">`+element.name+`</label>
-                                    <input type="checkbox" id="regionMobile_`+element.id+`" name="regionMobile" value="`+element.name+`">
-                                </div>
-
-                                `)
+                                $('input[name="region"]').click(function() {
+                        // console.log(this.value);
+                        regionsSearch = $("input[name='region']:checked").map(function() {
+                          return "'"+$(this).attr('value')+"'";
+                        })
+                        .get() //returns basic array
+                        .join(','); //create a string
+                    });
+                                
                     
                     });
 
@@ -538,6 +496,8 @@
             
 
 
+      }
+    
 
             
       
@@ -567,20 +527,20 @@
                                 `)
                       
 
-                                $('.CategoriesSearchMobile').append(`
-
-                                <div class="form-check">
-                                    <label for="CategoriesMobile_`+element.id+`">`+element.name+`</label>
-                                    <input type="checkbox" id="CategoriesMobile_`+element.id+`" name="CategoriesMobile" value="`+element.name+`">
-                                </div>
-
-                                `)
+                               
                     
                     });
 
 
                   
-            
+                    $('input[name="Categories"]').click(function() {
+                        // console.log(this.value);
+                        categoriesSearch = $("input[name='Categories']:checked").map(function() {
+                          return "'"+$(this).attr('value')+"'";
+                        })
+                        .get() //returns basic array
+                        .join(','); //create a string
+                    });
                    
                  
                    }
@@ -620,15 +580,15 @@
 
                                 `)
                       
-
-                                $('.expSearchMobile').append(`
-
-                                <div class="form-check">
-                                    <label for="expMobile_`+element.id+`">`+element.name+`</label>
-                                    <input type="checkbox" id="expMobile_`+element.id+`" name="expMobile" value="`+element.name+`">
-                                </div>
-
-                                `)
+                    $('input[name="exp"]').click(function() {
+                        // console.log(this.value);
+                        experiensesSearch = $("input[name='exp']:checked").map(function() {
+                          return "'"+$(this).attr('value')+"'";
+                        })
+                        .get() //returns basic array
+                        .join(','); //create a string
+                    });
+                              
                     
                     });
 
@@ -645,7 +605,10 @@
             });
             
 
+            handleTheRegionsForList('');
     </script>
+
+    <!-- Block of the Main Add handler -->
     <script>
        
       var url = new URL(window.location);
@@ -815,12 +778,12 @@
                       'category':category,
                       'city':city,
                       'region':region,
-                      'citiesSearch':'',
-                      'regionsSearch':'',
-                      'categoriesSearch':'',
-                      'experiensesSearch':'',
-                      'rateMin':'',
-                      'rateMax':'',
+                      'citiesSearch':citiesSearch,
+                      'regionsSearch':regionsSearch,
+                      'categoriesSearch':categoriesSearch,
+                      'experiensesSearch':experiensesSearch,
+                      'rateMin':rateMin,
+                      'rateMax':rateMax,
                   },
                   headers:{
                       "X-CSRFToken": csrftoken
@@ -897,6 +860,9 @@
 
 // With JQuery
 $(".ex2").slider({});
+
+
+
 
 
   </script>
