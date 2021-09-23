@@ -43,7 +43,6 @@
     <div style=" max-width: 100%; background-color: #414242 !important; ">
 <div class="container p-0">
 
-     
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid" style="direction:rtl">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +63,18 @@
           </li>
           {% endif %}
 
-         
+
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/showUserMessages/{{id_of_Admin}}">{% trans "Customer Services" %}</a>
+          </li>
+          {% endif %}
+
+          {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/controlpanel/">{% trans "Control Panel" %}</a>
+          </li>
+          {% endif %}
           
           {% if LANGUAGE_CODE == 'en' %}
           <li class="nav-item">
@@ -96,7 +106,7 @@
         </ul>
      </div>
      
-     <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-50" alt="logo"></a>
+     <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-100" alt="logo"></a>
   
     </div>
     </nav>
@@ -216,12 +226,12 @@
 
                   <div class="dropdown col-6 col-md-3">
                     <a class="btn btn-secondary dropdown-toggle " href="#" type="button" id="orderButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      {% trans "Most View" %}
+                      {% trans "New First" %}
                     </a>
                   
                     <ul class="dropdown-menu" aria-labelledby="orderButton">
-                      <li><a class="dropdown-item" href="javascript:void(0)" >{% trans "New" %}</a></li>
-                      <li><a class="dropdown-item" href="javascript:void(0)">{% trans "Less Prices" %}</a></li>
+                      <li><a class="dropdown-item" href="javascript:void(0)" >{% trans "New First" %}</a></li>
+                      <li><a class="dropdown-item" href="javascript:void(0)">{% trans "Old First" %}</a></li>
 
                     </ul>
                   </div>
@@ -301,12 +311,12 @@
                   <div class="panel" style="padding-top: 10px;padding-bottom: 10px;">
                     <div class="row mt-4 mb-3" style="direction: rtl;max-height: 87px;">
                       {% trans "Rate" %}: <b class="ml-3">0</b> 
-                      <input  type="text" class="span2 ex2" value="" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="[0,5]"/>
+                      <input  id="sliderMain" type="text" class="span2 ex2" value="" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="[0,5]"/>
                         <b class="mr-3">5</b>
                     </div>
                   </div>
                   <div  style="padding: 10px;">
-                  <a class="btn btn-warning w-100 " onclick="getAdds();" style="direction: rtl;"><i class="fa fa-search"></i> {% trans "Search" %} </a>
+                  <a class="btn btn-warning w-100 " onclick="getAddsNew();" style="direction: rtl;"><i class="fa fa-search"></i> {% trans "Search" %} </a>
                     </div>
                 </div>
 
@@ -420,10 +430,17 @@
                     $('input[name="city"]').click(function() {
                         // console.log(this.value);
                         citiesSearch = $("input[name='city']:checked").map(function() {
+                          return $(this).attr('value');
+                        })
+                        .get() //returns basic array
+                        .join(','); //create a string
+
+                        cityData = $("input[name='city']:checked").map(function() {
                           return "'"+$(this).attr('value')+"'";
                         })
                         .get() //returns basic array
                         .join(','); //create a string
+
                         // console.log(cityData);
                         if(cityData==""){
                           handleTheRegionsForList("''");
@@ -473,7 +490,7 @@
                                 $('input[name="region"]').click(function() {
                         // console.log(this.value);
                         regionsSearch = $("input[name='region']:checked").map(function() {
-                          return "'"+$(this).attr('value')+"'";
+                          return $(this).attr('value');
                         })
                         .get() //returns basic array
                         .join(','); //create a string
@@ -521,7 +538,7 @@
 
                                 <div class="form-check">
                                   <label for="Categories_`+element.id+`">`+element.name+`</label>
-                                    <input type="checkbox" id="Categories_`+element.id+`" name="Categories" value="`+element.name+`">
+                                    <input type="checkbox" id="Categories_`+element.id+`" name="Categories" value="`+element.id+`">
                                 </div>
 
                                 `)
@@ -536,7 +553,7 @@
                     $('input[name="Categories"]').click(function() {
                         // console.log(this.value);
                         categoriesSearch = $("input[name='Categories']:checked").map(function() {
-                          return "'"+$(this).attr('value')+"'";
+                          return $(this).attr('value');
                         })
                         .get() //returns basic array
                         .join(','); //create a string
@@ -583,7 +600,7 @@
                     $('input[name="exp"]').click(function() {
                         // console.log(this.value);
                         experiensesSearch = $("input[name='exp']:checked").map(function() {
-                          return "'"+$(this).attr('value')+"'";
+                          return $(this).attr('value');
                         })
                         .get() //returns basic array
                         .join(','); //create a string
@@ -605,11 +622,40 @@
             });
             
 
-            handleTheRegionsForList('');
+            handleTheRegionsForList("''");
     </script>
 
     <!-- Block of the Main Add handler -->
     <script>
+
+if($('#orderButton').html()=='{% trans "New First" %}'){
+      typeOfOrder = '-';
+    }else{
+      typeOfOrder = '';
+    }
+
+  $(".dropdown-item").click(function(event) {
+      $(this).parents('.dropdown').find('.dropdown-toggle').html($(event.target).html());
+
+      if($('#orderButton').html()=='{% trans "New First" %}'){
+      typeOfOrder = '-';
+    }else{
+      typeOfOrder = '';
+    }
+
+
+    getAdds();
+    
+  });
+
+
+  function getAddsNew(){
+    
+       category = '';
+       city ='';
+       region = '';
+      getAdds();
+  }
        
       var url = new URL(window.location);
       var category = url.searchParams.get("category");
@@ -695,9 +741,9 @@
 
             </div>
             <div class="row m-md-1 mb-2">
-              
+               
               <div class="col-md-6 p-0 pr-1 col-6">
-                <a class="btn btn-warning w-100" style="direction: rtl;"><i class="fa fa-comments"></i> {% trans "chat" %} </a>
+                <a href="/showUserMessages/`+data.id+`" target="add" class="btn btn-warning w-100" style="direction: rtl;"><i class="fa fa-comments"></i> {% trans "chat" %} </a>
               </div>
               <div class="col-md-6 p-0 pr-1 col-6">
                 <a class="btn btn-warning w-100 {% if not user.is_authenticated %} disabled {% endif %}"  href="tel:`+data.phone+`" style="direction: rtl;"><i class="fa fa-phone"></i> {% trans "Call" %} </a>
@@ -713,6 +759,11 @@
         `);
     }
     
+    
+
+  
+
+
     
     getAdds();
 
@@ -784,6 +835,7 @@
                       'experiensesSearch':experiensesSearch,
                       'rateMin':rateMin,
                       'rateMax':rateMax,
+                      'typeOfOrder':typeOfOrder
                   },
                   headers:{
                       "X-CSRFToken": csrftoken
@@ -850,9 +902,6 @@
 
 
 
-  $(".dropdown-item").click(function(event) {
-      $(this).parents('.dropdown').find('.dropdown-toggle').html($(event.target).html());
-  });
  
 
   
@@ -860,6 +909,15 @@
 
 // With JQuery
 $(".ex2").slider({});
+
+$(".ex2").on("slide", function(slideEvt) {
+  rateMax=slideEvt.value[1];
+  rateMin=slideEvt.value[0];
+  if(rateMin==0){
+    rateMin = '';
+  }
+	// $("#ex6SliderVal").text(slideEvt.value);
+});
 
 
 

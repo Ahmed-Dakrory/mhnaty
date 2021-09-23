@@ -18,7 +18,7 @@ from django.core.files import File
 from django.conf import settings
 import mimetypes
 
-
+from django.db.models import F, Func
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 from django.core.exceptions import SuspiciousOperation
@@ -340,13 +340,19 @@ def getNewResultsForAds(request):
     regionsSearch = request.POST['regionsSearch']
     rateMax = request.POST['rateMax']
     rateMin = request.POST['rateMin']
+    typeOfOrder = request.POST['typeOfOrder']
 
 
-    print(categoriesSearch)
-    print(category)
-    print(city)
-    print(region)
+    # print("KO:",citiesSearch)
+    # print(rateMin)
+    # print(city)
+    # print(region)
     try:
+        if citiesSearch!='' or categoriesSearch!='' or experiensesSearch!='' or regionsSearch!='' or rateMax!='' or rateMin!='':
+            searchKey = 'Exists'
+
+
+        print(searchKey)
         if searchKey == '':
 
             if category!='':
@@ -370,13 +376,65 @@ def getNewResultsForAds(request):
             & (categorySearch
             & citySearch
             & regionSearch)
-            & Q(deleted=False))
+            & Q(deleted=False)).order_by(typeOfOrder+'created')
 
         else:
-            allElements = theadd.objects.filter(Q(deleted=False) & 
-            (Q(name__contains=searchKey) |
-             Q(details__contains=searchKey) |
-             Q(category__name__contains=searchKey) ))
+
+
+            if categoriesSearch!='':
+                categorySearch = Q(id__isnull=True) 
+                for item in categoriesSearch.split(','):
+                    categorySearch = categorySearch | Q(category__parentCategory=item)
+            else:
+                categorySearch = Q(id__isnull=False)
+
+
+            if citiesSearch!='':
+                citySearch = Q(id__isnull=True) 
+                for item in citiesSearch.split(','):
+                    citySearch = citySearch | Q(owner__region__cityOfRegion__name=item)
+            else:
+                citySearch = Q(id__isnull=False)
+
+
+            
+            if regionsSearch!='':
+                regionSearch = Q(id__isnull=True) 
+                for item in regionsSearch.split(','):
+                    regionSearch = regionSearch | Q(owner__region__name=item)
+            else:
+                regionSearch = Q(id__isnull=False)
+
+
+            if experiensesSearch!='':
+                expSearch = Q(id__isnull=True) 
+                for item in experiensesSearch.split(','):
+                    expSearch = expSearch | Q(owner__tags__name__icontains = item)
+            else:
+                expSearch = Q(id__isnull=False)
+
+            
+            rateExpression = Avg(F('comments__rate'))
+            if rateMax!='':
+                rateMaxSearch = Q(rateFilter__lt = rateMax)
+            else:
+                rateMaxSearch = Q(id__isnull=False)
+
+
+            if rateMin!='':
+                rateMinSearch = Q(rateFilter__gt = rateMin)
+            else:
+                rateMinSearch = Q(id__isnull=False)
+
+
+            # print(rateMaxSearch)
+            allElements = theadd.objects.prefetch_related('comments').annotate(rateFilter = rateExpression).filter(Q(deleted=False) & 
+            (categorySearch &
+             citySearch     &
+             regionSearch   &
+             expSearch      &
+             rateMaxSearch  &
+             rateMinSearch)).order_by(typeOfOrder+'created')
 
 
         
@@ -406,13 +464,8 @@ def getNewResultsForAds(request):
 
 
 def SearchPage(request):
-    allAdds = theadd.objects.filter(Q(deleted=False))
-
-
-    data = {
-        'allAdds':allAdds,
-    }
-    return render(request,'index_search.html',data)
+    
+    return render(request,'index_search.html',None)
 
 
 @login_required
@@ -421,11 +474,21 @@ def profileWeb(request):
     userobject = User.objects.filter(pk=user.id)
     userProfile = profile.objects.filter(user=user)
     userProfileMe = profile.objects.get(user__id=user.id)
-
+    userLastProfile = user.profile_set.last()
     allCities = city.objects.filter(Q(deleted=False))
    
     getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id))
     
+
+    try:
+        theAddObj = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id)).last()
+    except:
+        theAddObj = None
+        
+    profilesOfTheAdd_ids = message.objects.filter(theadd=theAddObj).values_list('from_user',flat=True)
+    profilesOfTheAdd = profile.objects.filter(id__in=profilesOfTheAdd_ids)
+
+
     allparentCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=True))
 
 
@@ -438,7 +501,7 @@ def profileWeb(request):
         except:
             parentCategory = None
     else:
-        getMyAdd = theadd.objects.get(owner__id=userProfileMe.id)
+        getMyAdd = theadd.objects.filter(Q(owner__id=userProfileMe.id)&Q(deleted=False)).last()
         try:
             parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
         except:
@@ -448,10 +511,9 @@ def profileWeb(request):
     if request.method=='POST':
         typeOfForm = request.POST['typeOfForm']  
 
-        print(typeOfForm)
         if typeOfForm == 'mainData':
+
             nameData = request.POST['name'] 
-            
             phoneData = request.POST['phone']
             addressData = request.POST['address']
             mobileData = request.POST['mobile'] 
@@ -483,7 +545,7 @@ def profileWeb(request):
             userProfile.update(aboutMe=aboutMeData)
             getMyAdd = theadd.objects.filter(Q(owner__id=userProfileMe.id))
             getMyAdd.update(name=nameData,details=detailsData,category=categoryData,videoUrl=videoData)
-            getMyAdd = theadd.objects.get(owner__id=userProfileMe.id)
+            getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id)).last()
 
             try:
                 parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
@@ -517,7 +579,7 @@ def profileWeb(request):
             userProfile.save()
 
         elif typeOfForm == 'addMainImage':
-            getMyAdd = theadd.objects.get(owner__id=userProfileMe.id)
+            getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id)).last()
             getMyAdd.mainImage = request.FILES['file-inputAddImage']
             
             getMyAdd.save()
@@ -536,11 +598,40 @@ def profileWeb(request):
         'allFiles':allFiles,
         'allTags':allTags,
         'allTagsDelemited':allTagsDelemited,
-        'parentCategory':parentCategory
+        'parentCategory':parentCategory,
+        'theAddObj': theAddObj,
+        'profilesOfTheAdd':profilesOfTheAdd,
     }
         
     return render(request,'profile.html',data)
 
+
+
+
+@login_required
+def controlpanel(request):
+    user =request.user
+    userobject = User.objects.filter(pk=user.id)
+    userProfile = profile.objects.filter(user=user)
+    userProfileMe = profile.objects.get(user__id=user.id)
+    userLastProfile = user.profile_set.last()
+   
+    
+    try:
+        theAddObj = theadd.objects.get( id=settings.ID_ADD_ADMIN)
+    except:
+        theAddObj = None
+        
+    profilesOfTheAdd_ids = message.objects.filter(theadd=theAddObj).values_list('from_user',flat=True)
+    profilesOfTheAdd = profile.objects.filter(id__in=profilesOfTheAdd_ids).exclude(id=userProfileMe.id)
+
+    data = {
+        'theAddObj': theAddObj,
+        'profilesOfTheAdd':profilesOfTheAdd,
+    }
+        
+
+    return render(request,'controlpanel.html',data)
 
 
 
@@ -1007,3 +1098,104 @@ def checkemail(request):
             }
     
     return JsonResponse(response, safe=False)
+
+
+
+
+@login_required
+def showUserMessages(request, id):
+    theaddObj  = get_object_or_404(theadd,id=id) 
+    # print(theaddObj.owner.id)
+    user =request.user
+    userProfile = profile.objects.filter(user=user).last()
+    if userProfile.id == theaddObj.owner.id:
+        allowSend = False
+    else:
+        allowSend = True
+    # print(user.first_name)
+    if request.method == 'POST':
+        message_text = request.POST.get('input_message')
+
+        messageobj = message.objects.create( from_user = user.profile_set.last(), to_user = theaddObj.owner, theadd = theaddObj, message= message_text)
+   
+    messages = message.objects.filter(
+        Q(deleted=False) &  
+        (Q(from_user = user.profile_set.last().id ) | Q(from_user = theaddObj.owner.id)) & 
+        (Q(to_user =  theaddObj.owner.id) | Q(to_user =  user.profile_set.last().id)) &
+        (Q(theadd = theaddObj))
+        ).order_by('created')
+
+    context = {
+        'messages' : messages,
+        'theaddObj':theaddObj,
+        'imageOFImageOwner':theaddObj.owner.image.url if theaddObj.owner.image!=None else '/static/Img/blank-profile-picture-973460_640.png' ,
+        'imageOFImageMe':user.profile_set.last().image.url if user.profile_set.last().image!=None else '/static/Img/blank-profile-picture-973460_640.png' ,
+        'allowSend':allowSend
+    }
+    return render(request, 'showUserMessages.html', context)
+
+
+
+@login_required
+def getProfileMessages(request):
+    idOfFromUserProfile = request.POST['idOfFromUserProfile']
+    userProfile = get_object_or_404(profile,id=idOfFromUserProfile)
+
+    idOfProfileOfTheAdd = request.POST['idOfProfileOfTheAdd']
+    theaddObj  = get_object_or_404(theadd,id=idOfProfileOfTheAdd) 
+
+    messages = message.objects.filter(
+        Q(deleted=False) &  
+        (Q(from_user = userProfile.id ) | Q(from_user = theaddObj.owner.id)) & 
+        (Q(to_user =  theaddObj.owner.id) | Q(to_user =  userProfile.id)) &
+        (Q(theadd = theaddObj))
+        ).order_by('created')
+   
+    messagesData = []
+    for item in list(messages):
+        messagesData.append(item.to_json())
+
+    response={
+      'imageOfCurrentChat':userProfile.image.url if userProfile.image!=None else '/static/Img/blank-profile-picture-973460_640.png' ,
+      'nameOfCurrentChat':userProfile.user.first_name,
+      'numberOfCurrentChat':str(len(messages)),
+      'messagesData':messagesData, 
+
+    }
+
+    # print(response)
+    return JsonResponse(response, safe=False)
+
+   
+@login_required
+def sendMessage(request):
+    messageContent = request.POST['messageContent']
+    theaddId       = request.POST['theaddId']
+    fromProfileId  = request.POST['fromProfileId']
+    idOfToUserProfile = request.POST['idOfToUserProfile']
+
+
+    toUserProfile = profile.objects.get(id=idOfToUserProfile)
+    theaddObj      = theadd.objects.get(id = theaddId)
+    fromProfileObj = profile.objects.get(id = fromProfileId )
+
+    user = request.user
+    profileobj=user.profile_set.last()
+
+    messageObj = message.objects.create(message = messageContent, to_user = toUserProfile, theadd = theaddObj, from_user = theaddObj.owner)
+    
+    message_queryset = message.objects.filter(id=messageObj.id)
+    messagesData = []
+    for item in list(message_queryset):
+        messagesData.append(item.to_json())
+
+    response={
+      'messagesData':messagesData,  
+
+    }
+
+    # print(response)
+    return JsonResponse(response, safe=False)
+
+
+    

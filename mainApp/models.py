@@ -322,3 +322,39 @@ class theadd(models.Model):
 
 
 
+class message(models.Model):
+    from_user = models.ForeignKey(profile, on_delete=models.PROTECT,related_name='messageFromUser')
+    to_user   = models.ForeignKey(profile, on_delete=models.PROTECT,related_name='messageToUser')
+    theadd    = models.ForeignKey(theadd, on_delete=models.PROTECT,related_name='messageTheadd')
+
+    message   = models.TextField(max_length=500,default=None,null=True)
+
+    created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    updated = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
+
+
+    class Meta:
+        db_table = "messages"
+
+
+    # def to_json(self):
+    #     return {
+    #         'id' :self.id,
+    #         'from_user':self.from_user.user.name,
+    #         'to_user':self.to_user.owner.user.name,
+    #         'messages':self.messages,
+    #         'sendDate':self.created
+    #         }
+
+    def to_json(self):
+        return {
+            'id' :self.id,
+            'from_user__id':self.from_user.id,
+            'from_user__user__username':self.from_user.user.first_name,
+            'theadd__owner__user__username':self.theadd.owner.user.first_name,
+            'message':self.message,
+            'created':self.created,
+            'from_user_image':self.from_user.image.url if self.from_user.image!=None else '/static/Img/blank-profile-picture-973460_640.png' ,
+            }
+        

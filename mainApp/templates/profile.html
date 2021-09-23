@@ -49,14 +49,14 @@
       </div>
 
       
-        
+       
 <section id="company" >
         
   <div class="layer">
     <div style=" max-width: 100%; background-color: #414242 !important; ">
 <div class="container p-0">
 
-      
+      <input type="hidden" id="idOfProfile" value="{{request.user.profile_set.last.id}}">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid" style="direction:rtl">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,7 +77,18 @@
           </li>
           {% endif %}
 
-         
+
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/showUserMessages/{{id_of_Admin}}">{% trans "Customer Services" %}</a>
+          </li>
+          {% endif %}
+
+          {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/controlpanel/">{% trans "Control Panel" %}</a>
+          </li>
+          {% endif %}
           
           {% if LANGUAGE_CODE == 'en' %}
           <li class="nav-item">
@@ -109,7 +120,7 @@
         </ul>
      </div>
      
-     <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-50" alt="logo"></a>
+     <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-100" alt="logo"></a>
   
     </div>
     </nav>
@@ -127,9 +138,7 @@
     <section id="searchResults">
         <div class="container w-100">
 
-            <div class="container light-style flex-grow-1 container-p-y" style="
-    direction: rtl;
-">
+            <div class="container-fluid light-style" style="direction: rtl; ;">
 
                 <h4 class="font-weight-bold py-3 mb-4" style="text-align: right;">
                   {% trans "My Control Page" %}
@@ -137,18 +146,18 @@
             
                 <div class="card overflow-hidden">
                   <div class="row no-gutters row-bordered row-border-light">
-                    <div class="col-md-3 pt-0">
+                    <div class="col-md-2 pt-0">
                       <div class="list-group list-group-flush account-settings-links" style="    text-align: right;">
                         <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">{% trans "General Data" %}</a>
                         {% if userProfile.typeOfRegisteration == 'Normal' %}
                         <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Change Password</a> -->
                         {% endif %}
                         <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">{% trans "My Service Details" %}</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links">{% trans "Messages" %}</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-chat-links">{% trans "MailBox" %}</a>
                         <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-notifications">{% trans "Settings" %}</a> -->
                       </div>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-10">
                       <div class="tab-content">
                         <div class="tab-pane fade active show" id="account-general">
                            
@@ -430,109 +439,70 @@
 
 
 
-                        <div class="tab-pane fade" id="account-social-links">
-                          <div class="card-body pb-2" style="text-align: right;">
-            
-                            <div class="form-group">
-                              <label class="form-label">Twitter</label>
-                              <input type="text" class="form-control" value="https://twitter.com/user">
-                            </div>
-                            <div class="form-group">
-                              <label class="form-label">Facebook</label>
-                              <input type="text" class="form-control" value="https://www.facebook.com/user">
-                            </div>
-                            <div class="form-group">
-                              <label class="form-label">Google+</label>
-                              <input type="text" class="form-control" value="">
-                            </div>
-                            <div class="form-group">
-                              <label class="form-label">LinkedIn</label>
-                              <input type="text" class="form-control" value="">
-                            </div>
-                            <div class="form-group">
-                              <label class="form-label">Instagram</label>
-                              <input type="text" class="form-control" value="https://www.instagram.com/user">
-                            </div>
-            
-                          </div>
-                        </div>
+
+                        <!-- ---chat--- -->
+                        <div class="tab-pane fade" id="account-chat-links">
+                          <div class="card-body pb-2" style=" text-align: right;">
+                            
+                            <div class="row">
+                              <div class="col-md-4 col-xl-4 chat">
+                                <div class="card" >
+                                    <div class="card-header msg_head w-100">
+                                        <div class="d-flex bd-highlight" >
+                                        
+                                            <div class="user_info w-100" >
+                                                <button id="theadd" value="{{theAddObj.id}}" class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                                  {{theAddObj.name}}- {{theAddObj.category.name}}
+                                                </button>
+                                                <div class="collapse" id="collapseExample">
+                                                  <div class="card card-body" style=" height: 369px; overflow-y: auto; ">
+                                                      {%for profile in profilesOfTheAdd %}
+                                                         <a href="javascript:void(0)"  id="{{profile.id}}" value="{{profile.id}}" class="profile"   > {{profile.user.first_name}} </a>
+                                                      {%endfor%}
+                                                  </div>
+                                                </div>
+                                            
+                                            </div>
+                            
+                                        </div>
+                                        
+                                    </div>
+                                 
+                                
+                                    </div>
+                                </div>
+                            
+
+                            <div class="col-md-8 col-xl-8 chat">
+                              <div class="card">
+                                  <div class="card-header msg_head">
+                                      <div class="d-flex bd-highlight">
+                                          <div class="img_cont">
+                                              <img width="50" height="50" id="imageOfCurrentChat" style="display: none;" src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+                                              <span class="online_icon"></span>
+                                          </div>
+                                          <div class="user_info">
+                                              <span id="nameOfCurrentChat">messages </span>
+                                              <p id="numberOfCurrentChat"></p>
+                                          </div>
+                                       
+                                          </div> 
+                                      </div>
+                                  </div>
+                                  <div class="card-body msg_card_body" id="append-messages">
+                                   
+                                  </div>
+                                  <div  class="card-footer mb-4" id="messageControl" style="display: none;">
+                                      <div class="input-group">
+                                   
+                                   
+        
+                                              <input name ="input_message" id="message-text"/>
+                                              <button class="btn btn-primary btn-lg" style="width: 100%;" type="submit" id="sendMessage" >Send</button>
+                                         
+                                      </div>
                        
-                        <div class="tab-pane fade" id="account-notifications" style="
-    text-align: right;
-">
-                          <div class="card-body pb-2">
-            
-                            <h6 class="mb-4">Activity</h6>
-            
-                            <div class="form-group">
-                              <label class="switcher">
-                                <input type="checkbox" class="switcher-input" checked="">
-                                <span class="switcher-indicator">
-                                  <span class="switcher-yes"></span>
-                                  <span class="switcher-no"></span>
-                                </span>
-                                <span class="switcher-label">Email me when someone comments on my article</span>
-                              </label>
-                            </div>
-                            <div class="form-group">
-                              <label class="switcher">
-                                <input type="checkbox" class="switcher-input" checked="">
-                                <span class="switcher-indicator">
-                                  <span class="switcher-yes"></span>
-                                  <span class="switcher-no"></span>
-                                </span>
-                                <span class="switcher-label">Email me when someone answers on my forum thread</span>
-                              </label>
-                            </div>
-                            <div class="form-group">
-                              <label class="switcher">
-                                <input type="checkbox" class="switcher-input">
-                                <span class="switcher-indicator">
-                                  <span class="switcher-yes"></span>
-                                  <span class="switcher-no"></span>
-                                </span>
-                                <span class="switcher-label">Email me when someone follows me</span>
-                              </label>
-                            </div>
-                          </div>
-                          <hr class="border-light m-0">
-                          <div class="card-body pb-2">
-            
-                            <h6 class="mb-4">Application</h6>
-            
-                            <div class="form-group">
-                              <label class="switcher">
-                                <input type="checkbox" class="switcher-input" checked="">
-                                <span class="switcher-indicator">
-                                  <span class="switcher-yes"></span>
-                                  <span class="switcher-no"></span>
-                                </span>
-                                <span class="switcher-label">News and announcements</span>
-                              </label>
-                            </div>
-                            <div class="form-group">
-                              <label class="switcher">
-                                <input type="checkbox" class="switcher-input">
-                                <span class="switcher-indicator">
-                                  <span class="switcher-yes"></span>
-                                  <span class="switcher-no"></span>
-                                </span>
-                                <span class="switcher-label">Weekly product updates</span>
-                              </label>
-                            </div>
-                            <div class="form-group">
-                              <label class="switcher">
-                                <input type="checkbox" class="switcher-input" checked="">
-                                <span class="switcher-indicator">
-                                  <span class="switcher-yes"></span>
-                                  <span class="switcher-no"></span>
-                                </span>
-                                <span class="switcher-label">Weekly blog digest</span>
-                              </label>
-                            </div>
-            
-                          </div>
-                        </div>
+                      
                       </div>
                     </div>
                   </div>
@@ -630,12 +600,146 @@
 
 
 
+    var idOfToUserProfile = ''
 
+
+    $('#sendMessage').on('click', function(e){
+      e.preventDefault()
+ 
+      var messageContent = $("#message-text").val();
+      var theaddId =  $("#theadd").attr('value')
+      var fromProfileId  = $('#idOfProfile').val()
+
+      $.ajax({ 
+        type: 'POST',
+        url: '/ar/sendMessage',
+        data: { 
+            'messageContent': messageContent,
+            'theaddId':theaddId,
+            'fromProfileId':fromProfileId,
+            'idOfToUserProfile':idOfToUserProfile,
+
+          },
+        headers:{
+            "X-CSRFToken": csrftoken
+                },
+        async: true,
+        cache: true,
+        success: function(data) {
+
+        messageData = data['messagesData']
+        var profileId  = $('#idOfProfile').val()
+
+
+            // if (messageData.from_user__id == profileId){
+              $.each(messageData, function(index, value){
+                date = value.created
+                formatedDate=date.replace("T", " ").split('.')[0];
+                console.log(formatedDate,"date")
+            
+                
+                $('#append-messages').append(
+              `<div class="d-flex justify-content-start mb-4">
+                <div class="img_cont_msg">
+                  <img width="50" height="50" src="`+value.from_user_image+`" class="rounded-circle user_img_msg"/>
+                </div>
+              <div class="msg_cotainer"> `+value.message+`<br>
+                <span class="msg_time_send">`+formatedDate+`</span>
+                </div>
+              </div>`);
+            
+
+              })
+
+          
+
+          }
     
+        })
+     
 
 
 
+
+
+    })
+
+
+
+
+    $('.profile').on('click', function(e) {
+          e.preventDefault()
+          console.log("clicked")
+          idOfFromUserProfile = $(this).attr('id')
+          idOfToUserProfile = idOfFromUserProfile
+          idOfProfileOfTheAdd = $("#theadd").attr('value')
+          console.log(idOfFromUserProfile,"//",idOfProfileOfTheAdd)
+          $.ajax({ 
+        type: 'POST',
+        url: '/ar/getProfileMessages',
+        data: { 
+            'idOfFromUserProfile': idOfFromUserProfile,
+            'idOfProfileOfTheAdd':idOfProfileOfTheAdd,
+
+          },
+        headers:{
+            "X-CSRFToken": csrftoken
+                },
+        async: true,
+        cache: true,
+        success: function(data) {
+          
+          $('#imageOfCurrentChat').attr('src',data['imageOfCurrentChat']);
+          $('#imageOfCurrentChat').css("display", "block")
+          $('#messageControl').css("display", "block")
+          
+          $('#nameOfCurrentChat').html("Messages From "+data['nameOfCurrentChat']);
+          
+          $('#numberOfCurrentChat').html(data['numberOfCurrentChat']+" Message");
+            var messages = data['messagesData']
+            // var profileId = "{{request.user.getUserLastProfile}}"
+            var profileId  = $('#idOfProfile').val()
+
+            $('#append-messages').empty()
+            $.each(messages, function(index, value){
+              console.log(value)
+            var date = value.created
+            formatedDate=date.replace("T", " ").split('.')[0];
+
+            if ((value.from_user__id).toString() == (profileId).toString()){
+            $('#append-messages').append(
+              `<div class="d-flex justify-content-start mb-4">
+                <div class="img_cont_msg">
+                  <img width="50" height="50" src="`+value.from_user_image+`" class="rounded-circle user_img_msg"/>
+                </div>
+              <div class="msg_cotainer"> `+value.message+`<br>
+                <span class="msg_time_send">`+formatedDate+`</span>
+                </div>
+              </div>`)
+            
+          }
+          else {
+            $('#append-messages').append(
+              `<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">`+value.message+`
+                <br><span" class="msg_time_send">`+formatedDate+`</span>
+                </div>
+                <div class="img_cont_msg">
+                  <img width="50" height="50" src="`+value.from_user_image+`" class="rounded-circle user_img_msg">
+                </div>
+              </div>`)
+          }
+        
+        });
+            
+          
+
+          }
     
+        })
+     
+
+    });
+  
 
     function fill_categoryAndSelect(isfirstTime){
   showLoader();
@@ -662,7 +766,7 @@
                         ;
 
                         var $category = $('#category');
-                        console.log(result);
+
                          if(result['Result']=='Ok'){
                   
                           result.data.forEach(element => {
@@ -683,8 +787,6 @@
 
     hideLoader();
 }
-
-
 
 
 $('#mainCategory').on('change', function() {
@@ -792,8 +894,7 @@ serviceTag.tagsinput('add', { "value": '{{item.name}}' , "text": "{{item.name}}"
 serviceTag.on('itemAdded', function(event) {
   // event.item: contains the item
   data.push((event.item.value).toString());
-  // console.log(event)
-  // console.log(event.item.value)
+
   $('#experienses').attr('value',data);
   $('#experienses').val(data);
 });

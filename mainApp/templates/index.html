@@ -47,64 +47,76 @@
 <header>
 
   <div class="layer">
+
+
 <div class="container">
-
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid" style="direction:rtl">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/{{LANGUAGE_CODE}}">{% trans "Home" %}</a>
-              </li>
-              <!-- <li class="nav-item">
-                <a class="nav-link" href="#">انواع الخدمات</a>
-              </li> -->
-              
-              {% if user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link" href="/{{LANGUAGE_CODE}}/profile/">{% trans "Profile" %}</a>
-              </li>
-              {% endif %}
-
-             
-              
-              {% if LANGUAGE_CODE == 'en' %}
-              <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)" onclick="addReplaceLangCode('ar')">عربى</a>
-              </li>
-              {% endif %}
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid" style="direction:rtl">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/{{LANGUAGE_CODE}}">{% trans "Home" %}</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">انواع الخدمات</a>
+          </li> -->
+          
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/profile/">{% trans "Profile" %}</a>
+          </li>
+          {% endif %}
 
 
-              {% if LANGUAGE_CODE != 'en' %}
-              <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)" onclick="addReplaceLangCode('en')" >English</a>
-              </li>
-              {% endif %}
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/showUserMessages/{{id_of_Admin}}">{% trans "Customer Services" %}</a>
+          </li>
+          {% endif %}
 
-              {% if not user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link" href="/{{LANGUAGE_CODE}}/accounts/login/">{% trans "Login" %}</a>
-              </li>
-              <li class="nav-item login">
-                <a class="nav-link" href="/{{LANGUAGE_CODE}}/loadRegPage/">{% trans "Register" %}</a>
-              </li>
-              {% endif %}
-              {% if user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link" href="/{{LANGUAGE_CODE}}/logout/">{% trans "SignOut" %}</a>
-              </li>
-              {% endif %}
-            
-            </ul>
-         </div>
-         
-         <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-50" alt="logo"></a>
-      
-        </div>
-        </nav>
+          {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/controlpanel/">{% trans "Control Panel" %}</a>
+          </li>
+          {% endif %}
+          
+          {% if LANGUAGE_CODE == 'en' %}
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" onclick="addReplaceLangCode('ar')">عربى</a>
+          </li>
+          {% endif %}
+
+
+          {% if LANGUAGE_CODE != 'en' %}
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" onclick="addReplaceLangCode('en')" >English</a>
+          </li>
+          {% endif %}
+
+          {% if not user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/accounts/login/">{% trans "Login" %}</a>
+          </li>
+          <li class="nav-item login">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/loadRegPage/">{% trans "Register" %}</a>
+          </li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/logout/">{% trans "SignOut" %}</a>
+          </li>
+          {% endif %}
+        
+        </ul>
+     </div>
+     
+     <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-100" alt="logo"></a>
+  
+    </div>
+    </nav>
       </div>
 
 
@@ -235,7 +247,7 @@
                 <div class="overlay">
             
             <h4>{{item.name}}</h4>
-                <a href="/{{LANGUAGE_CODE}}/SearchPage/?category={{item.name}}&provider=&city=&region="><button class="btn">{% trans "Read More" %}</button></a>
+                <a href="/{{LANGUAGE_CODE}}/SearchPage/?category={{item.id}}&provider=&city=&region="><button class="btn">{% trans "Read More" %}</button></a>
             
             </div>
           </div>

@@ -20,7 +20,7 @@ urlpatterns = [
     
     path('getAllRepliesForComment',views.getAllRepliesForComment,name = 'getAllRepliesForComment'),
     path('sendReply',views.sendReply,name = 'sendReply'),
-    
+    path('controlpanel/',views.controlpanel,name='controlpanel'),
     path('uploadFiles_ForAdd',views.uploadFiles_ForAdd,name = 'uploadFiles_ForAdd'),
     path('getNewResultsForAds',views.getNewResultsForAds,name = 'getNewResultsForAds'),
     path('AuthOutSide',views.AuthOutSide,name = 'AuthOutSide'),
@@ -30,6 +30,9 @@ urlpatterns = [
     path('getlistOfcities',views.getlistOfcities,name = 'getlistOfcities'),
     path('checkemail',views.checkemail,name = 'checkemail'),
     path('checkusername',views.checkusername,name = 'checkusername'),
+    path('showUserMessages/<int:id>/',views.showUserMessages,name = 'showUserMessages'),
+    path('getProfileMessages',views.getProfileMessages,name = 'getProfileMessages'),
+    path('sendMessage',views.sendMessage,name = 'sendMessage'),
     
 
 

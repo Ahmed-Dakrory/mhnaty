@@ -33,7 +33,7 @@ header .layer{
 }
 .navbar-light .navbar-brand {
     color: rgba(0,0,0,.9);
-    width: 30%;
+    width: 15%;
 }
 
 #navbar{
@@ -858,11 +858,10 @@ border-top: 4px solid #f7ae14;
 }
 
   #searchResults .results .sort{
-      float: left;
-      width: 100%;
-      display: flex;
-      padding-bottom: 2rem;
-
+      /* float: left; */
+      /* width: 100%; */
+      /* display: flex; */
+      /* padding-bottom: 2rem; */
   }
 
 
@@ -875,8 +874,8 @@ border-top: 4px solid #f7ae14;
   }
 
   #searchResults .results .sort p{
-      font-size: 1.2rem;
-      padding-left: 0.8rem;
+      /* font-size: 1.2rem; */
+      /* padding-left: 0.8rem; */
       padding-top: 0.4rem;
   }
 
@@ -1447,3 +1446,32 @@ a.disabled {
     pointer-events: none;
     cursor: default;
   }
+
+
+  .msg_time_send{
+    font-size: 10px;
+  }
+
+
+  #append-messages {
+    height: 354px;
+    overflow-y: auto;
+}
+
+
+
+#message-text {
+    width: 100%;
+    border-radius: 3px;
+    margin-bottom: 9px;
+    border-width: 1px;
+}
+
+
+.profile {
+    background: beige;
+    margin: 1px;
+    padding: 7px;
+    border-radius: 5px;
+}
+

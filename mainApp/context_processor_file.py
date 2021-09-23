@@ -32,5 +32,6 @@ def defaultContextProcessor(request):
         userProfile = userProfile,
         allMainCategories=allMainCategories,
         current_date = datetime.now() ,
-        tags=tags
+        tags=tags,
+        id_of_Admin = settings.ID_ADD_ADMIN
     )
