@@ -1198,4 +1198,41 @@ def sendMessage(request):
     return JsonResponse(response, safe=False)
 
 
+
+
+
+   
+@login_required
+def sendMessageToTheAdd(request):
+    messageContent = request.POST['messageContent']
+    theaddId       = request.POST['theaddId']
+    fromProfileId  = request.POST['fromProfileId']
+    idOfToUserProfile = request.POST['idOfToUserProfile']
+
+
+    toUserProfile = profile.objects.get(id=idOfToUserProfile)
+    theaddObj      = theadd.objects.get(id = theaddId)
+    fromProfileObj = profile.objects.get(id = fromProfileId )
+
+    user = request.user
+    profileobj=user.profile_set.last()
+
+    messageObj = message.objects.create(message = messageContent, from_user = toUserProfile, theadd = theaddObj, to_user = theaddObj.owner)
+    
+    message_queryset = message.objects.filter(id=messageObj.id)
+    messagesData = []
+    for item in list(message_queryset):
+        messagesData.append(item.to_json())
+
+    response={
+      'messagesData':messagesData,  
+
+    }
+
+    # print(response)
+    return JsonResponse(response, safe=False)
+
+
+
+
     

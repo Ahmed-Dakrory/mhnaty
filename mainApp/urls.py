@@ -33,6 +33,7 @@ urlpatterns = [
     path('showUserMessages/<int:id>/',views.showUserMessages,name = 'showUserMessages'),
     path('getProfileMessages',views.getProfileMessages,name = 'getProfileMessages'),
     path('sendMessage',views.sendMessage,name = 'sendMessage'),
+    path('sendMessageToTheAdd',views.sendMessageToTheAdd,name='sendMessageToTheAdd'),
     
 
 

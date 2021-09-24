@@ -165,46 +165,19 @@
                                                        
                                                     </div>
                                                     <div class="card-body msg_card_body " id="append-messages">
-                                                        {%for message in messages%}
-                                                        <!-- {{message.from_user.user.profile.id}} / {{message.user_to.id}} -->
-                                                        <!-- {{message.from_user.user.id}} / {{request.user.id}} -->
-                                                        {%if message.from_user.id == request.user.profile_set.last.id%}
-                                                        <hr>
-                                                        <div class="d-flex justify-content-start mb-4">
-                                                            <div class="img_cont_msg">
-                                                                <img width="50" height="50" src="{{imageOFImageMe}}" class="rounded-circle user_img_msg">
-                                                            </div>
-                                                            
-                                                            <div class="msg_cotainer">
-                                                                {{message.message}}<br>
-                                                                <span class="msg_time_send">{{message.created|date:'Y-m-d H:i:A'}}</span>
-                                                            </div>
-                                                        </div>
-                                                        {%else%}
-                                                        <hr>
-                                                        <div class="d-flex justify-content-end mb-4">
-                                                            <div class="msg_cotainer_send">
-                                                                {{message.message}}<br>
-                                                                <span class="msg_time_send">{{message.created|date:'Y-m-d H:i:A'}}</span>
-                                                            </div>
-                                                            <div class="img_cont_msg">
-                                                        <img width="50" height="50" src="{{imageOFImageOwner}}" class="rounded-circle user_img_msg">
-                                                            </div>
-                                                        </div>
-                                                        {%endif%}
-                                                        {%endfor%}
+
 
                                                     </div>
                                                     <div class="card-footer mb-4">
                                                         <div class="input-group">
                                                            
-                                                            <form  class="form-horizontal row" style="width: 100%;" method="POST">
+                                                            <div  class="form-horizontal row" style="width: 100%;" >
                                                                 {% csrf_token %}
                           
-                                                                <input style="width: 100%; " class="mb-2" name ="input_message"/>
-                                                                <button class="btn btn-primary btn-block" {%if not allowSend %}disabled{% endif %} type="submit">{% trans "Send" %}</button>
+                                                                <textarea style="width: 100%;height: 34px;" id="message-text" class="mb-2" name ="input_message"></textarea>
+                                                                <button class="btn btn-primary btn-block" {%if not allowSend %}disabled{% endif %} type="button" id="sendMessage">{% trans "Send" %}</button>
 
-                                                            </form>
+                                                            </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -285,6 +258,199 @@ $('#action_menu_btn').click(function(){
 	$('.action_menu').toggle();
 });
 	});
+
+
+
+
+
+
+function loadAllMessages(stateDrop){
+  idOfFromUserProfile = '{{userProfile.id}}'
+          idOfToUserProfile = idOfFromUserProfile
+          idOfProfileOfTheAdd = '{{theaddObj.id}}'
+          console.log(idOfFromUserProfile,"//",idOfProfileOfTheAdd)
+          $.ajax({ 
+        type: 'POST',
+        url: '/ar/getProfileMessages',
+        data: { 
+            'idOfFromUserProfile': idOfFromUserProfile,
+            'idOfProfileOfTheAdd':idOfProfileOfTheAdd,
+
+          },
+        headers:{
+            "X-CSRFToken": csrftoken
+                },
+        async: true,
+        cache: true,
+        success: function(data) {
+          
+          $('#imageOfCurrentChat').attr('src',data['imageOfCurrentChat']);
+          $('#imageOfCurrentChat').css("display", "block")
+          $('#messageControl').css("display", "block")
+          
+          $('#nameOfCurrentChat').html("Messages From "+data['nameOfCurrentChat']);
+          
+          $('#numberOfCurrentChat').html(data['numberOfCurrentChat']+" Message");
+            var messages = data['messagesData']
+            // var profileId = "{{request.user.getUserLastProfile}}"
+            var profileId  = $('#idOfProfile').val()
+
+            $('#append-messages').empty()
+            $.each(messages, function(index, value){
+              console.log(value)
+            var date = value.created
+            formatedDate=date.replace("T", " ").split('.')[0];
+
+            if ((value.from_user__id).toString() == (profileId).toString()){
+            $('#append-messages').append(
+              `<div class="d-flex justify-content-start mb-4">
+                <div class="img_cont_msg">
+                  <img width="50" height="50" src="`+value.from_user_image+`" class="rounded-circle user_img_msg"/>
+                </div>
+              <div class="msg_cotainer"> `+value.message+`<br>
+                <span class="msg_time_send">`+formatedDate+`</span>
+                </div>
+              </div>`)
+            
+          }
+          else {
+            $('#append-messages').append(
+              `<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">`+value.message+`
+                <br><span" class="msg_time_send">`+formatedDate+`</span>
+                </div>
+                <div class="img_cont_msg">
+                  <img width="50" height="50" src="`+value.from_user_image+`" class="rounded-circle user_img_msg">
+                </div>
+              </div>`)
+          }
+        
+        });
+            
+          
+
+
+          
+        
+if(stateDrop){
+  
+  objDiv = document.getElementById("append-messages");
+          objDiv.scrollTop = objDiv.scrollHeight;
+}
+
+          }
+    
+        })
+     
+
+}
+  
+
+
+
+  objDiv = document.getElementById("append-messages");
+  objDiv.scrollTop = objDiv.scrollHeight;
+
+
+
+  var intervalId = window.setInterval(function(){
+  /// call your function here
+  loadAllMessages(false);
+}, 2000);
+
+
+
+$('#message-text').bind("enterKey",function(e){
+   //do stuff here
+   console.log("Ahmed");
+   sendMessage();
+});
+$('#message-text').keyup(function(e){
+    if(e.keyCode == 13)
+    {
+        $(this).trigger("enterKey");
+    }
+});
+
+
+$('#sendMessage').on('click', function(e){
+     sendMessage();
+
+    });
+
+
+
+    function sendMessage(){
+
+ 
+
+ var messageContent = $("#message-text").val();
+ var theaddId =  '{{theaddObj.id}}';
+ var fromProfileId  = $('#idOfProfile').val()
+
+ $.ajax({ 
+   type: 'POST',
+   url: '/ar/sendMessageToTheAdd',
+   data: { 
+       'messageContent': messageContent,
+       'theaddId':theaddId,
+       'fromProfileId':fromProfileId,
+       'idOfToUserProfile':'{{userProfile.id}}',
+
+     },
+   headers:{
+       "X-CSRFToken": csrftoken
+           },
+   async: true,
+   cache: true,
+   success: function(data) {
+
+   messageData = data['messagesData']
+   var profileId  = $('#idOfProfile').val()
+
+
+       // if (messageData.from_user__id == profileId){
+         $.each(messageData, function(index, value){
+           date = value.created
+           formatedDate=date.replace("T", " ").split('.')[0];
+           console.log(formatedDate,"date")
+       
+           
+           $('#append-messages').append(
+         `<div class="d-flex justify-content-start mb-4">
+           <div class="img_cont_msg">
+             <img width="50" height="50" src="`+value.from_user_image+`" class="rounded-circle user_img_msg"/>
+           </div>
+         <div class="msg_cotainer"> `+value.message+`<br>
+           <span class="msg_time_send">`+formatedDate+`</span>
+           </div>
+         </div>`);
+       
+
+         })
+
+     
+
+
+         objDiv = document.getElementById("append-messages");
+         objDiv.scrollTop = objDiv.scrollHeight;
+             
+
+         $('#message-text').val('');
+
+     }
+
+   })
+
+
+
+
+
+    }
+
+  
+
+  
+    loadAllMessages(true);
 </script>
 
 

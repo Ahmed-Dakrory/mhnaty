@@ -497,7 +497,7 @@
                                    
                                    
         
-                                              <input name ="input_message" id="message-text"/>
+                                        <textarea style="width: 100%;height: 34px;" id="message-text" class="mb-2" name ="input_message"></textarea>
                                               <button class="btn btn-primary btn-lg" style="width: 100%;" type="submit" id="sendMessage" >Send</button>
                                          
                                       </div>
@@ -599,12 +599,38 @@
 
 
 
-
+    
     var idOfToUserProfile = ''
 
 
-    $('#sendMessage').on('click', function(e){
-      e.preventDefault()
+
+
+
+
+    
+$('#message-text').bind("enterKey",function(e){
+   //do stuff here
+   console.log("Ahmed");
+   sendMessage();
+});
+$('#message-text').keyup(function(e){
+    if(e.keyCode == 13)
+    {
+        $(this).trigger("enterKey");
+    }
+});
+
+
+$('#sendMessage').on('click', function(e){
+     sendMessage();
+
+    });
+
+
+
+
+    function sendMessage(){
+      
  
       var messageContent = $("#message-text").val();
       var theaddId =  $("#theadd").attr('value')
@@ -653,18 +679,22 @@
 
           
 
+
+              objDiv = document.getElementById("append-messages");
+              objDiv.scrollTop = objDiv.scrollHeight;
+                  
+
+              $('#message-text').val('');
+
           }
     
         })
      
 
 
+    }
 
-
-
-    })
-
-
+    idOfProfileOfTheAdd = null;
 
 
     $('.profile').on('click', function(e) {
@@ -674,7 +704,26 @@
           idOfToUserProfile = idOfFromUserProfile
           idOfProfileOfTheAdd = $("#theadd").attr('value')
           console.log(idOfFromUserProfile,"//",idOfProfileOfTheAdd)
-          $.ajax({ 
+         
+
+          updateMessages(true);
+    });
+  
+
+    
+
+  var intervalId = window.setInterval(function(){
+  /// call your function here
+  if(idOfProfileOfTheAdd!=null){
+      updateMessages(false);
+    }
+}, 2000);
+    
+
+
+
+    function updateMessages(stateDrop){
+      $.ajax({ 
         type: 'POST',
         url: '/ar/getProfileMessages',
         data: { 
@@ -731,15 +780,24 @@
         
         });
             
-          
+
+
+        
+if(stateDrop){
+  
+  objDiv = document.getElementById("append-messages");
+          objDiv.scrollTop = objDiv.scrollHeight;
+}
+
+                  
 
           }
     
         })
      
 
-    });
-  
+    }
+
 
     function fill_categoryAndSelect(isfirstTime){
   showLoader();
