@@ -80,7 +80,7 @@ header .layer{
     margin-right: 1rem;
 }
 
-#Search{margin-top: 6rem;}
+#Search{margin-top: 6.5%;padding-top: 9%;}
 #Search h1{font-size: 4rem;font-weight: 600;text-align: center;margin-bottom: 3rem;}
 
 #Search .search-bar{
@@ -249,35 +249,51 @@ padding-top: 3rem;
 
 #services .single-service {
    
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+text-align: center;
+   
+position: relative;
+   
+overflow: hidden;
 }
 #services .single-service img{
     background-size: cover;
-    height: 40%;
-  border-radius: 50% 50%;
+    height: 33%;
+    border-radius: 50% 50%;
 }
 
 #services .single-service .overlay{
-    width: 100%;
-    padding: 1.2rem 2rem;
-    background-color: #f7ae1436;
+    padding: 0.5rem 0rem;
     border-radius: 50% 50%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
     transition: 1s all;
+    font-size: 2px;
 }
 
-#services .single-service:hover .overlay{
-    background-color: #f7af1479;
+
+#services .single-service:hover  .img-fluid {
+    
+transition: height cubic-bezier(0.25, 0.1, 0.33, 1.41) 1.0s;
+
+height: 37%;
 }
 
+
+#services .single-service:hover  .mainNameScroll {
+    
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg);
+    -o-transform:rotate(360deg);
+
+}
+
+
+#services .single-service:hover  .mainNameScroll {
+    
+    transition: font-size cubic-bezier(0.25, 0.1, 0.33, 1.41) 1.0s;
+    font-size: 25px;
+
+}
 
 
 #services .owl-prev, #services .owl-next {
@@ -288,11 +304,12 @@ padding-top: 3rem;
 }
 
 #services .single-service h4{
+    font-size: 19px;
     font-family: 'Jost', sans-serif;
     font-weight: 600;
     margin-bottom: 1rem;
     transition: all 1s;
-    color: white !important;
+    color: #000000 !important;
 }
 
 
@@ -778,7 +795,7 @@ padding-top: 1.5rem;
   }
 
   #searchResults {
-      margin-top: 2rem;
+      margin-top: 7rem;
   }
 
   #searchResults .services{
@@ -1084,6 +1101,7 @@ nav .pagination{
     }
 
     #Search{
+    margin-top: 56px!important;
     }
     #Search h1{
     font-size: 2rem;

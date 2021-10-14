@@ -39,6 +39,31 @@ from django.db.models import Count
 from .models import *
 # Create your views here.
 
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils import six
+
+# send email
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+
+
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
+
+
+
+class TokenGenerator(PasswordResetTokenGenerator):
+    def _make_hash_value(self, user, timestamp):
+        return (
+            six.text_type(user.pk) + six.text_type(timestamp) +
+            six.text_type(user.is_active)
+        )
+account_activation_token = TokenGenerator()
+
+dEnc = urlsafe_base64_encode(force_bytes(37)).decode()
+print((dEnc))
+
+print(force_text(urlsafe_base64_decode(dEnc)))
 
 
 def customError400(request, exception):
@@ -111,7 +136,7 @@ def loadRegPage(request):
 
         if len(findLastUser) == 0:
             
-            usernew = User.objects.create_user(username=usernameData,  password=passwordData,email=emailData,first_name=firstNameData,
+            usernew = User.objects.create_user(username=usernameData,is_active=False,  password=passwordData,email=emailData,first_name=firstNameData,
             last_name='')
             usernew.save()
 
@@ -120,10 +145,36 @@ def loadRegPage(request):
             ,phone=phoneData,mobile=phone2Data)
             dataToInsert.save()
 
+
+            contextMail = {
+                'nameReceiver':dataToInsert.user.first_name,
+                'uid':urlsafe_base64_encode(force_bytes(usernew.pk)).decode(),
+                'new_uuidOfProfile':str(account_activation_token.make_token(usernew))
+                }
+            subject = "Mhnaty Activation Link"
+            html_content = render_to_string('mailTemplateActivateSendingNewCredentials.html', contextMail)
+            email = EmailMessage(subject, html_content, to=[dataToInsert.user.email])
+            try:
+                email.content_subtype = 'html'
+                email.send()
+                Message = """An Email sent to your mailbox please check it
+                برجاء مراجعة ايميلك لتفعيل الحساب
+                """
+                
+            except Exception as e:
+                Message = """Message not Sent Please Send the admin
+                برجاء التواصل مع الادارة لوجود مشكلة ولم يتم ارسال ايميل التفعيل
+                """
+                print('-----------------------------------')
+                print(e)
+
             user = authenticate(username=usernameData, password=passwordData)
             if user is not None:
                 login(request, user)
                 return HttpResponseRedirect('/'+get_language()+'/')
+            else:
+                return HttpResponseRedirect('/'+get_language()+'/activation?Message='+Message)
+
 
     
     data = {
@@ -134,6 +185,29 @@ def loadRegPage(request):
     return render(request,'index_reg.html',data)
 
 
+
+def activateNow(request,token):
+    uidb64 = request.GET['uitoken']
+    try:
+        
+        uid = force_text(urlsafe_base64_decode(bytes(uidb64,encoding='utf8')))
+
+        user = User.objects.get(pk=uid)
+    except Exception as ex:
+        user = None
+        print(ex)
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        # return redirect('home')
+        return HttpResponseRedirect('/'+get_language()+'/')
+    else:
+        return HttpResponseRedirect('/'+get_language()+'/')
+
+def activation(request):
+
+    return render(request,'activation.html',None)
 
 def getlistOfcities(request):
     
