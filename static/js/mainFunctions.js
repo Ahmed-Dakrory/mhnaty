@@ -210,7 +210,7 @@ function getListOfRegions(city){
                                 source: function( request, response ) {
                                 $.ajax( {
                                     type: 'POST',
-                                    url: "/en/getAllِAdsByCategoriesJson",
+                                    url: "/en/getAllAdsByCategoriesJson",
                                     dataType: "json",
                                     headers:{
                                         "X-CSRFToken": csrftoken

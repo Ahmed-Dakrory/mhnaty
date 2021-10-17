@@ -839,7 +839,7 @@ def getAllCategoriesJson(request):
 
 
 
-def getAllِAdsByCategoriesJson(request):
+def getAllAdsByCategoriesJson(request):
     with connection.cursor() as cursorLast:
 
         try:

@@ -4,7 +4,7 @@ body{
 }
 header{
     background-image: url(../img/diverse-friends-using-digital-devices.jpg);
-    height: 100vh;
+    height: 65vh;
     width: 100%;
     background-size: cover;
     background-repeat: no-repeat;
@@ -33,7 +33,7 @@ header .layer{
 }
 .navbar-light .navbar-brand {
     color: rgba(0,0,0,.9);
-    width: 11%;
+    width: 7%;
 }
 
 #navbar{
@@ -53,7 +53,7 @@ header .layer{
 
 .navbar-light .navbar-nav .nav-link{
     color: rgb(248, 245, 245);
-    font-size: 1.5rem;
+    font-size: 0.9rem;
     font-weight: 600;
     transition: 1s all;
 }
@@ -80,8 +80,8 @@ header .layer{
     margin-right: 1rem;
 }
 
-#Search{margin-top: 6.3%;padding-top: 9%;}
-#Search h1{font-size: 4rem;font-weight: 600;text-align: center;margin-bottom: 3rem;}
+#Search{margin-top: 4.7%;padding-top: 9%;}
+#Search h1{font-size: 2rem;font-weight: 600;text-align: center;margin-bottom: 3rem;}
 
 #Search .search-bar{
     border: 1px solid white;
@@ -95,8 +95,8 @@ header .layer{
     background-color: white;
     border: none;
     overflow: hidden;
-    font-size: 1.8rem;
-    height: 58px;
+    height: 47px;
+    font-size: 1.3rem;
     width: 100%!important;
 }
 
@@ -108,10 +108,9 @@ header .layer{
 #Search .search-bar .btn-primary {
     color: #fff;
     background-color: #f7ae14;
-     border: none; 
-     font-size: 1.8rem;
-     font-weight: 600;
-     
+    border: none;
+    font-size: 1.3rem;
+    font-weight: 600;
 }
 
 #Search .search-bar .btn-primary:hover {
@@ -126,8 +125,7 @@ header .layer{
 
 #about{
     text-align: right;
-    margin-top: 7rem;
-
+    margin-top: 9rem;
 }
 
 #about .about-text{
@@ -234,11 +232,11 @@ background-attachment: fixed;
 }
 
 #services h2 {
-    font-size: 3rem;
+    font-size: 1.7rem;
     font-weight: 600;
-margin-bottom: 1rem;
-color: white;
-padding-top: 3rem;
+    margin-bottom: 1rem;
+    color: white;
+    padding-top: 3rem;
 }
 
 
@@ -346,9 +344,8 @@ right: -5%;
 }
 
 #footer-contact .container img{
-    width: 70%;
-    margin: 2rem 0 1rem;
-
+    width: 90%;
+    margin: 0rem 0 2rem;
 }
 
 #footer-contact .container h5{
@@ -370,7 +367,7 @@ right: -5%;
 }
 
 #footer-contact ul li a:hover{
-    color:black;
+    color: #e7990b;
 }
 
 /* About company */
@@ -1041,6 +1038,12 @@ nav .pagination{
 
 @media only screen and (max-width: 768px){
 
+    .new_footer_top .footer_bg {
+        
+        background-position: 0px 26px!important;
+    }
+
+
     .navbar-light .navbar-brand {
         color: rgba(0,0,0,.9);
         width: 25%;
@@ -1108,7 +1111,7 @@ nav .pagination{
     margin-top: 56px!important;
     }
     #Search h1{
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 2rem;
     }
     #Search .row{
@@ -1121,8 +1124,7 @@ nav .pagination{
     }
     
     #Search .search-bar .btn-secondary {
-        font-size: 1.2rem;
-    
+        font-size: 1.1rem;
     }   
 
     #Search .search-bar .btn-primary {
@@ -1137,14 +1139,13 @@ nav .pagination{
 
     header{
         background-image: url(../img/diverse-friends-using-digital-devices.jpg);
-        /* height: 60vh; */
+        height: 60vh;
     }
 
 
     #about{
         text-align: right;
-        margin-top: 7rem;
-    
+        margin-top: 5rem;
     }
     
     #about .about-text{
@@ -1158,10 +1159,9 @@ nav .pagination{
     }
     
     #about .about-text h2{
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 600;
     color: #f7ae14;
-    
     }
     
    
@@ -1519,14 +1519,14 @@ a.disabled {
 
 
 .new_footer_area {
-    background: #d7cec7;
+    background: #cfcfcf;
 }
 
 
 .new_footer_top {
-    padding: 120px 0px 270px;
+    padding: 57px 0px 270px;
     position: relative;
-      overflow-x: hidden;
+    overflow-x: hidden;
 }
 .new_footer_area .footer_bottom {
     padding-top: 5px;
@@ -1588,9 +1588,10 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
     width: 44px;
     height: 44px;
     line-height: 43px;
-    background: transparent;
-    border: 1px solid #e2e2eb;
+    background: #4ea3eb;
+    border: 0px solid #e2e2eb;
     font-size: 24px;
+    padding-top: 1px;
 }
 .f_social_icon a {
     width: 46px;
@@ -1598,7 +1599,7 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
     border-radius: 50%;
     font-size: 14px;
     line-height: 45px;
-    color: #858da8;
+    color: #ffffff;
     display: inline-block;
     background: #ebeef5;
     text-align: center;
@@ -1652,7 +1653,7 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
 }
 
 .new_footer_top .f_widget.about-widget .f_list li a {
-    color: #3352a3;
+    color: #36588b;
     font-weight: 400;
 }
 
@@ -1721,4 +1722,17 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
 }
 
 /*************footer End*****************/
+.aOfFooterLi{
+    height: 33px;
+    padding: 5px 0px 0px 11px;
+}
 
+li.divider {
+    height: 1px;
+    background: #fff9db;
+}
+
+.aOfFooter{
+    color:white;
+    font-weight: 600;
+}
