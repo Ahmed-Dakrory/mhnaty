@@ -36,6 +36,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/filepond-plugin-get-file.css' %}">
 
 
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
 <title>{% trans "My Page" %}</title>
 
 
@@ -53,81 +54,68 @@
 <section id="company" >
         
   <div class="layer">
-    <div style=" max-width: 100%; background-color: #414242 !important; ">
-<div class="container p-0">
+   
+<div  style="background: #232f3e;position: fixed;top: 0px;z-index: 9999;">
+  <input type="hidden" id="LANGUAGE_CODE" value="{{LANGUAGE_CODE}}"/>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid" style="direction:{% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %}">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/{{LANGUAGE_CODE}}">{% trans "Home" %}</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">انواع الخدمات</a>
+          </li> -->
+          
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/profile/">{% trans "Profile" %}</a>
+          </li>
+          {% endif %}
 
-      <input type="hidden" id="idOfProfile" value="{{request.user.profile_set.last.id}}">
-  
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid" style="direction:rtl">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/{{LANGUAGE_CODE}}">{% trans "Home" %}</a>
-              </li>
-              <!-- <li class="nav-item">
-                <a class="nav-link" href="#">انواع الخدمات</a>
-              </li> -->
-              
-              {% if user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link" href="/{{LANGUAGE_CODE}}/profile/">{% trans "Profile" %}</a>
-              </li>
-              {% endif %}
-    
-    
-              {% if user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link" href="/{{LANGUAGE_CODE}}/showUserMessages/{{id_of_Admin}}">{% trans "Customer Services" %}</a>
-              </li>
-              {% endif %}
-    
-              {% if user.is_superuser %}
-              <li class="nav-item">
-                <a class="nav-link" href="/{{LANGUAGE_CODE}}/controlpanel/">{% trans "Control Panel" %}</a>
-              </li>
-              {% endif %}
-              
-              {% if LANGUAGE_CODE == 'en' %}
-              <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)" onclick="addReplaceLangCode('ar')">عربى</a>
-              </li>
-              {% endif %}
-    
-    
-              {% if LANGUAGE_CODE != 'en' %}
-              <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)" onclick="addReplaceLangCode('en')" >English</a>
-              </li>
-              {% endif %}
-    
-              {% if not user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link" href="/{{LANGUAGE_CODE}}/accounts/login/">{% trans "Login" %}</a>
-              </li>
-              <li class="nav-item login">
-                <a class="nav-link" href="/{{LANGUAGE_CODE}}/loadRegPage/">{% trans "Register" %}</a>
-              </li>
-              {% endif %}
-              {% if user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link" href="/{{LANGUAGE_CODE}}/logout/">{% trans "SignOut" %}</a>
-              </li>
-              {% endif %}
-            
-            </ul>
-         </div>
+
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/showUserMessages/{{id_of_Admin}}">{% trans "Customer Services" %}</a>
+          </li>
+          {% endif %}
+
+          {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/controlpanel/">{% trans "Control Panel" %}</a>
+          </li>
+          {% endif %}
+          
          
-         <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-100" alt="logo"></a>
-      
-        </div>
-        </nav>
-
+          {% if not user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/accounts/login/">{% trans "Login" %}</a>
+          </li>
+          <li class="nav-item login">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/loadRegPage/">{% trans "Register" %}</a>
+          </li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/logout/">{% trans "SignOut" %}</a>
+          </li>
+          {% endif %}
+        
+        </ul>
+     </div>
+  
+     <div class=" w-100 m-md-1 p-1  ml-md-5 mt-md-2 col-6 mr-2">
+      <input type="text" class="w-100 p-3 border rounded" id="searchInputMhnaty" placeholder='{% trans "Search For Your Services" %}' style="height: 37px;font-size: 1.1rem;background: #f2f2f2;box-shadow: 2px 2px 4px 1px grey;"/>
       </div>
-
+     
+     <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-100" alt="logo"></a>
+  
+    </div>
+    </nav>
       </div>
     
   </div>
@@ -388,43 +376,112 @@
         </div>
     </section>
 
-
-
     <section id="footer-contact">
-      <div class="layout">
-      <div class="container">
+
+
+
+
+      <footer class="new_footer_area bg_color">
+        <div class="new_footer_top">
+            <div class="container w-95 " style="direction:{% if LANGUAGE_CODE == 'ar' %} ltr {% else %} rtl {% endif %}">
+                <div class="row text-center text-md-left">
+                    <div class="col-lg-3 col-md-6 col-6">
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
+                            
+                              <img src="/static/img/Logo 2.png" alt="footer-logo">
+                
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-6">
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
+                          <h3 class="f-title f_600 t_color f_size_18">{% trans "Our Info" %}</h3>
+                          <ul class="list-unstyled f_list">
+                              <li><a href="#">{% trans "Home" %} </a></li>
+                              <li><a href="#">{% trans "All Services" %} </a></li>
+                          </ul>  
+                          
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-6 mt-5 mt-md-0">
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">{% trans "Contact Info" %}</h3>
+                            <ul class="list-unstyled f_list">
+                                <li><a href="#">{% trans "Address" %}</a></li>
+                                <li><a href="#">Term &amp; conditions</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-6 mt-5 mt-md-0">
+                        <div class="f_widget social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Team Solutions</h3>
+                            <div class="f_social_icon">
+                                <a href="#" class="fab fa-facebook"></a>
+                                <a href="#" class="fab fa-twitter"></a>
+                                <a href="#" class="fab fa-linkedin"></a>
+                                <a href="#" class="fab fa-pinterest"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer_bg">
+                <div class="footer_bg_one"></div>
+                <div class="footer_bg_two"></div>
+            </div>
+        </div>
+        <div class="footer_bottom" style="direction:{% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %}">
+            <div class="container">
+                <div class="row align-items-center p-1">
+                  <div class="col-md-3 text-center text-md-left mt-1">
     
-          <div class="row m-auto">
+                    <div class="dropdown" style=" height: 27px; ">
+                      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" style=" height: 100%; vertical-align: middle; color: white; padding: 0px; " data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        
     
-              <div class="col-md-4">
-                  <img src="/static/img/Logo 2.png"  alt="footer-logo">
+                                    
     
-              </div>
+                          {% if LANGUAGE_CODE == 'en' %}
+                          English
+                          {% endif %}
     
-              <div class="col-md-4">
-                  <h5 class="ml-4">{% trans "Contact Info" %}</h5>
-                  <p class="ml-4">{% trans "Address" %}
-                      </p>
+                          
     
-              </div>
+                          {% if LANGUAGE_CODE == 'ar' %}
+                          عربى
+                          {% endif %}
     
-              <div class="col-md-4 Info">
-                  <h5>{% trans "Our Info" %}</h5>
-                  <ul>
-                      <li><a href="#">{% trans "Home" %} </a></li>
-                      <li><a href="#">{% trans "All Services" %} </a></li>
-                  </ul>
     
-              </div>
-          </div>
-          </div>
-      </div>
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1"  style="padding: 1px 0px;width: fit-content;background: #232f3e;">
+                        <li class="aOfFooterLi"  onclick="addReplaceLangCode('en')" {% if LANGUAGE_CODE == 'en' %} style=" background: orange; " {% endif %}><a href="javascript:void(0)" class="aOfFooter">English</a></li>
+                        
+                        <li role="separator" class="divider"></li>
+                        <li class="aOfFooterLi"  onclick="addReplaceLangCode('ar')" {% if LANGUAGE_CODE == 'ar' %} style=" background: orange; " {% endif %}><a href="javascript:void(0)"  class="aOfFooter">عربى</a></li>
+                      </ul>
+                    </div>
+                    
+                  </div>
+                  <div class="col-lg-5 col-sm-12 text-center text-md-left mt-1">
+                      <p class="mb-0 f_400">© Mhnaty Inc.. 2021 All rights reserved.</p>
+                  </div>
+                  <div class="col-lg-4 col-sm-12 text-center {% if LANGUAGE_CODE == 'ar' %} text-md-left {% else %} text-md-right {% endif %} mt-1">
+                      <p class="mb-0 f_400">Made By <i class="icon_heart"></i> in <a href="#">Orspra</a></p>
+                  </div>
+    
+                </div>
+            </div>
+        </div>
+      </footer>
+    
+    
+    
     </section>
-
-
+    
 
 
     <script src="{% static 'js/jquery-3.5.1.js' %}"></script> 
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script> 
     <script src="{% static 'js/popper.min.js' %}"></script> 
     <script src="{% static 'js/bootstrap.min.js' %}"></script> 
     

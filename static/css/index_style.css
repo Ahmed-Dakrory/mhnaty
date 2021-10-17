@@ -272,8 +272,8 @@ overflow: hidden;
 #services .single-service:hover  .img-fluid {
     
 transition: height cubic-bezier(0.25, 0.1, 0.33, 1.41) 1.0s;
-
-height: 37%;
+    
+height: 34%;
 }
 
 
@@ -792,7 +792,7 @@ padding-top: 1.5rem;
   }
 
   #searchResults {
-      margin-top: 7rem;
+      margin-top: 6rem;
   }
 
   #searchResults .services{
@@ -1708,7 +1708,7 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
     left: 100%;
   }
   100% {
-    left: 0%;
+    left: -25%;
   }
 }
 
@@ -1717,7 +1717,7 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
     left: 100%;
   }
   100% {
-    left: 0%;
+    left: -25%;
   }
 }
 
@@ -1731,6 +1731,12 @@ li.divider {
     height: 1px;
     background: #fff9db;
 }
+
+
+li.aOfFooterLi:hover {
+    background: #d29b37;
+}
+
 
 .aOfFooter{
     color:white;

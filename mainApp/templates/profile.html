@@ -35,6 +35,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/filepond-plugin-image-overlay.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/filepond-plugin-get-file.css' %}">
 
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
 
 <title>{% trans "My Page" %}</title>
 
@@ -53,12 +54,11 @@
 <section id="company" >
         
   <div class="layer">
-    <div style=" max-width: 100%; background-color: #414242 !important; ">
-<div class="container p-0">
-
-      <input type="hidden" id="idOfProfile" value="{{request.user.profile_set.last.id}}">
+    
+<div  style="background: #232f3e;position: fixed;top: 0px;z-index: 9999;">
+  <input type="hidden" id="LANGUAGE_CODE" value="{{LANGUAGE_CODE}}"/>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid" style="direction:rtl">
+    <div class="container-fluid" style="direction:{% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %}">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -90,19 +90,7 @@
           </li>
           {% endif %}
           
-          {% if LANGUAGE_CODE == 'en' %}
-          <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)" onclick="addReplaceLangCode('ar')">عربى</a>
-          </li>
-          {% endif %}
-
-
-          {% if LANGUAGE_CODE != 'en' %}
-          <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)" onclick="addReplaceLangCode('en')" >English</a>
-          </li>
-          {% endif %}
-
+         
           {% if not user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link" href="/{{LANGUAGE_CODE}}/accounts/login/">{% trans "Login" %}</a>
@@ -119,13 +107,15 @@
         
         </ul>
      </div>
+  
+     <div class=" w-100 m-md-1 p-1  ml-md-5 mt-md-2 col-6 mr-2">
+      <input type="text" class="w-100 p-3 border rounded" id="searchInputMhnaty" placeholder='{% trans "Search For Your Services" %}' style="height: 37px;font-size: 1.1rem;background: #f2f2f2;box-shadow: 2px 2px 4px 1px grey;"/>
+      </div>
      
      <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-100" alt="logo"></a>
   
     </div>
     </nav>
-      </div>
-
       </div>
     
   </div>
@@ -136,18 +126,20 @@
   
 
     <section id="searchResults">
+      
+      <input type="hidden" id="idOfProfile" value="{{request.user.profile_set.last.id}}">
         <div class="container w-100">
 
-            <div class="container-fluid light-style" style="direction: rtl; ;">
+            <div class="container-fluid light-style" style="direction: {% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %};">
 
-                <h4 class="font-weight-bold py-3 mb-4" style="text-align: right;">
+                <h4 class="font-weight-bold py-3 mb-4" style="text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %};">
                   {% trans "My Control Page" %}
                 </h4>
             
                 <div class="card overflow-hidden">
                   <div class="row no-gutters row-bordered row-border-light">
                     <div class="col-md-2 pt-0">
-                      <div class="list-group list-group-flush account-settings-links" style="    text-align: right;">
+                      <div class="list-group list-group-flush account-settings-links" style="    text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %};">
                         <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">{% trans "General Data" %}</a>
                         {% if userProfile.typeOfRegisteration == 'Normal' %}
                         <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Change Password</a> -->
@@ -166,7 +158,7 @@
                             <img src="{{userProfile.image.url}}" alt="" class="d-block ui-w-80">
                             {% endif %}
 
-                            <div class="media-body mr-4" style="text-align: right;">
+                            <div class="media-body {% if LANGUAGE_CODE == 'ar' %} mr-4 {% else %} ml-4 {% endif %}" style="text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %};">
                               <label class="btn btn-outline-primary" for="file-input" >
                                 {% trans "Select New Image" %}
                                 <form  method="POST" enctype="multipart/form-data" id="formImage" class="needs-validation form-horizontal" novalidate style="display: none;">
@@ -186,7 +178,7 @@
                           <form method="POST" id="mainform" class="needs-validation form-horizontal" novalidate>
                             {% csrf_token %}
                             <input type="hidden"  name="typeOfForm" value="mainData">
-                          <div class="card-body" style="  text-align: right;">
+                          <div class="card-body" style="  text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %};">
                             <div class="form-group">
                               <label class="form-label" for="username">{% trans "Username" %}</label>
                               <input type="text" id="username" name="username" required="" disabled class="form-control mb-1 required" value="{{userProfile.user.username}}">
@@ -212,25 +204,25 @@
                             
 
                             <div class="form-group">
-                              <label class="form-label" for="city" style=" text-align: right; width: 100%; ">{% trans "City Name" %}</label>
-                              <select  id="city" name="city" required="" value="{{userProfile.region.cityOfRegion.id}}" class="form-control mb-1 required">
+                              <label class="form-label" for="city" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; width: 100%; ">{% trans "City Name" %}</label>
+                              <select  id="city" name="city" required="" value="{{userProfile.region.cityOfRegion.id}}" class="form-control mb-1 required {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}">
                                   <option value="">{% trans "Select one item" %}</option>
                                   {% for item in allCities %}
                                   <option value="{{item.id}}">{{item.name}}</option>
                                   {% endfor %}
                               </select>
-                              <div class="invalid-feedback" style=" text-align: right; ">
+                              <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; ">
                                 {% trans "Please select from this field" %}
                               </div> 
                             </div>
 
 
                           <div class="form-group">
-                              <label class="form-label" for="region" style=" text-align: right; width: 100%; ">{% trans "Region" %}</label>
-                              <select  id="region" name="region" value="{{userProfile.region.id}}" required=""  class="form-control mb-1 required">
+                              <label class="form-label" for="region" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; width: 100%; ">{% trans "Region" %}</label>
+                              <select  id="region" name="region" value="{{userProfile.region.id}}" required=""  class="form-control mb-1 required {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}">
                                 <option value="">{% trans "Select one item" %}</option>
                               </select>
-                            <div class="invalid-feedback" style=" text-align: right; ">
+                            <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; ">
                               {% trans "Please select from this field" %}
                             </div> 
                             </div>
@@ -268,7 +260,7 @@
 
 
                         <div class="tab-pane fade" id="account-change-password">
-                          <div class="card-body pb-2" style="    text-align: right;">
+                          <div class="card-body pb-2" style="    text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %};">
             
                             <div class="form-group">
                               <label class="form-label">Current password</label>
@@ -296,7 +288,7 @@
                             <img src="{{getMyAdd.mainImage.url}}" alt="" class="d-block w-50" style=" border-radius: 19px; ">
                             {% endif %}
 
-                            <div class="media-body mr-4" style="text-align: right;">
+                            <div class="media-body {% if LANGUAGE_CODE == 'ar' %} mr-4 {% else %} ml-4 {% endif %}" style="text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %};">
                               <label class="btn btn-outline-primary" for="file-inputAddImage" >
                                 {% trans "Select New Image" %}
                                 <form  method="POST" enctype="multipart/form-data" id="formAddImage" class="needs-validation form-horizontal" novalidate style="display: none;">
@@ -318,7 +310,7 @@
                           <form method="POST"  class="needs-validation form-horizontal" novalidate>
                             {% csrf_token %}
                             <input type="hidden"  name="typeOfForm" value="AddData">
-                          <div class="card-body pb-2" style="   text-align: right;">
+                          <div class="card-body pb-2" style="   text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %};">
             
                            
 
@@ -370,7 +362,7 @@
                               <input type="hidden" value="{{allTagsDelemited}}" name="experienses" id="experienses"/>
                               <label class="form-label">{% trans "My Experienses" %}</label>
                               <div class="panel " style="padding-top: 10px;padding-bottom: 10px;">
-                                <div class="bs-example w-100 " style="max-height: 150px;">
+                                <div class="bs-example w-100 " style="max-height: 150px; direction:{% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %};">
                                   <input type="text" class="ServiceTag" data-role="tagsinput" />
                                 </div>
                               </div>
@@ -378,38 +370,38 @@
 
                             <div class="form-group">
                               <label class="form-label">{% trans "About US" %}</label>
-                              <textarea class="form-control" name="aboutMe" rows="5">{{userProfile.aboutMe}}</textarea>
+                              <textarea class="form-control {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}" name="aboutMe" rows="5">{{userProfile.aboutMe}}</textarea>
                             </div>
 
 
 
                             <div class="form-group">
                               <label class="form-label">{% trans "Service Details" %}</label>
-                              <textarea class="form-control" name="details" rows="5">{{getMyAdd.details}}</textarea>
+                              <textarea class="form-control {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}" name="details" rows="5">{{getMyAdd.details}}</textarea>
                             </div>
 
 
 
                             <div class="form-group">
-                              <label class="form-label" for="mainCategory" style=" text-align: right; width: 100%; ">{% trans "Main Category" %}</label>
-                              <select  id="mainCategory" name="mainCategory" required="" value="{{parentCategory.id}}" class="form-control mb-1 required">
+                              <label class="form-label" for="mainCategory" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; width: 100%; ">{% trans "Main Category" %}</label>
+                              <select  id="mainCategory" name="mainCategory" required="" value="{{parentCategory.id}}" class="form-control mb-1 required {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}">
                                   <option value="">{% trans "Select one item" %}</option>
                                   {% for item in allparentCategory %}
                                   <option value="{{item.id}}">{{item.name}}</option>
                                   {% endfor %}
                               </select>
-                              <div class="invalid-feedback" style=" text-align: right; ">
+                              <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; ">
                                 {% trans "Please select from this field" %}
                               </div> 
                             </div>
 
 
                           <div class="form-group">
-                              <label class="form-label" for="category" style=" text-align: right; width: 100%; ">{% trans "branch category" %}</label>
-                              <select  id="category" name="category" value="{{getMyAdd.category.id}}" required=""  class="form-control mb-1 required">
+                              <label class="form-label" for="category" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; width: 100%; ">{% trans "branch category" %}</label>
+                              <select  id="category" name="category" value="{{getMyAdd.category.id}}" required=""  class="form-control mb-1 required {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}">
                                 <option value="">{% trans "Select one item" %}</option>
                               </select>
-                            <div class="invalid-feedback" style=" text-align: right; ">
+                            <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; ">
                               {% trans "Please select from this field" %}
                             </div> 
                             </div>
@@ -442,7 +434,7 @@
 
                         <!-- ---chat--- -->
                         <div class="tab-pane fade" id="account-chat-links">
-                          <div class="card-body pb-2" style=" text-align: right;">
+                          <div class="card-body pb-2" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %};">
                             
                             <div class="row">
                               <div class="col-md-4 col-xl-4 chat">
@@ -497,7 +489,7 @@
                                    
                                    
         
-                                        <textarea style="width: 100%;height: 34px;" id="message-text" class="mb-2" name ="input_message"></textarea>
+                                        <textarea style="width: 100%;height: 34px;" id="message-text" class="mb-2 {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}" name ="input_message"></textarea>
                                               <button class="btn btn-primary btn-lg" style="width: 100%;" type="submit" id="sendMessage" >Send</button>
                                          
                                       </div>
@@ -516,42 +508,112 @@
     </section>
 
 
-
     <section id="footer-contact">
-      <div class="layout">
-      <div class="container">
+
+
+
+
+      <footer class="new_footer_area bg_color">
+        <div class="new_footer_top">
+            <div class="container w-95 " style="direction:{% if LANGUAGE_CODE == 'ar' %} ltr {% else %} rtl {% endif %}">
+                <div class="row text-center text-md-left">
+                    <div class="col-lg-3 col-md-6 col-6">
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
+                            
+                              <img src="/static/img/Logo 2.png" alt="footer-logo">
+                
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-6">
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
+                          <h3 class="f-title f_600 t_color f_size_18">{% trans "Our Info" %}</h3>
+                          <ul class="list-unstyled f_list">
+                              <li><a href="#">{% trans "Home" %} </a></li>
+                              <li><a href="#">{% trans "All Services" %} </a></li>
+                          </ul>  
+                          
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-6 mt-5 mt-md-0">
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">{% trans "Contact Info" %}</h3>
+                            <ul class="list-unstyled f_list">
+                                <li><a href="#">{% trans "Address" %}</a></li>
+                                <li><a href="#">Term &amp; conditions</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-6 mt-5 mt-md-0">
+                        <div class="f_widget social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Team Solutions</h3>
+                            <div class="f_social_icon">
+                                <a href="#" class="fab fa-facebook"></a>
+                                <a href="#" class="fab fa-twitter"></a>
+                                <a href="#" class="fab fa-linkedin"></a>
+                                <a href="#" class="fab fa-pinterest"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer_bg">
+                <div class="footer_bg_one"></div>
+                <div class="footer_bg_two"></div>
+            </div>
+        </div>
+        <div class="footer_bottom" style="direction:{% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %}">
+            <div class="container">
+                <div class="row align-items-center p-1">
+                  <div class="col-md-3 text-center text-md-left mt-1">
     
-          <div class="row m-auto">
+                    <div class="dropdown" style=" height: 27px; ">
+                      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" style=" height: 100%; vertical-align: middle; color: white; padding: 0px; " data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        
     
-              <div class="col-md-4">
-                  <img src="/static/img/Logo 2.png"  alt="footer-logo">
+                                    
     
-              </div>
+                          {% if LANGUAGE_CODE == 'en' %}
+                          English
+                          {% endif %}
     
-              <div class="col-md-4">
-                  <h5 class="ml-4">{% trans "Contact Info" %}</h5>
-                  <p class="ml-4">{% trans "Address" %}
-                      </p>
+                          
     
-              </div>
+                          {% if LANGUAGE_CODE == 'ar' %}
+                          عربى
+                          {% endif %}
     
-              <div class="col-md-4 Info">
-                  <h5>{% trans "Our Info" %}</h5>
-                  <ul>
-                      <li><a href="#">{% trans "Home" %} </a></li>
-                      <li><a href="#">{% trans "All Services" %} </a></li>
-                  </ul>
     
-              </div>
-          </div>
-          </div>
-      </div>
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1"  style="padding: 1px 0px;width: fit-content;background: #232f3e;">
+                        <li class="aOfFooterLi"  onclick="addReplaceLangCode('en')" {% if LANGUAGE_CODE == 'en' %} style=" background: orange; " {% endif %}><a href="javascript:void(0)" class="aOfFooter">English</a></li>
+                        
+                        <li role="separator" class="divider"></li>
+                        <li class="aOfFooterLi"  onclick="addReplaceLangCode('ar')" {% if LANGUAGE_CODE == 'ar' %} style=" background: orange; " {% endif %}><a href="javascript:void(0)"  class="aOfFooter">عربى</a></li>
+                      </ul>
+                    </div>
+                    
+                  </div>
+                  <div class="col-lg-5 col-sm-12 text-center text-md-left mt-1">
+                      <p class="mb-0 f_400">© Mhnaty Inc.. 2021 All rights reserved.</p>
+                  </div>
+                  <div class="col-lg-4 col-sm-12 text-center {% if LANGUAGE_CODE == 'ar' %} text-md-left {% else %} text-md-right {% endif %} mt-1">
+                      <p class="mb-0 f_400">Made By <i class="icon_heart"></i> in <a href="#">Orspra</a></p>
+                  </div>
+    
+                </div>
+            </div>
+        </div>
+      </footer>
+    
+    
+    
     </section>
-
-
+    
 
 
     <script src="{% static 'js/jquery-3.5.1.js' %}"></script> 
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script> 
     <script src="{% static 'js/popper.min.js' %}"></script> 
     <script src="{% static 'js/bootstrap.min.js' %}"></script> 
     
