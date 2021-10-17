@@ -60,10 +60,7 @@ class TokenGenerator(PasswordResetTokenGenerator):
         )
 account_activation_token = TokenGenerator()
 
-dEnc = urlsafe_base64_encode(force_bytes(37)).decode()
-print((dEnc))
 
-print(force_text(urlsafe_base64_decode(dEnc)))
 
 
 def customError400(request, exception):
@@ -246,7 +243,7 @@ def getListOfcategoriesByparentOneId(request):
         try:
             mainCategory = request.POST['mainCategory']
             
-            if city !='':
+            if mainCategory !='':
                 sql_query = """
 
                         select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
@@ -261,7 +258,7 @@ def getListOfcategoriesByparentOneId(request):
             else:
                 sql_query = """
 
-                         select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
+                            select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.name,'"}')),']}')
                     as output 
                     from (
                     SELECT  category.id,category.name as name FROM category
@@ -274,9 +271,10 @@ def getListOfcategoriesByparentOneId(request):
 
                     """
 
-
+            # print(sql_query)
             cursorLast.execute(sql_query)
             cursorAllData = cursorLast.fetchone()
+        
             y=cursorAllData[0].replace('\r\n','')
             # print(y)
             return HttpResponse(y,content_type='application/json')
@@ -828,6 +826,62 @@ def getAllCategoriesJson(request):
                     """
             
             # print(sql_query)
+
+            cursorLast.execute(sql_query)
+            cursorAllData = cursorLast.fetchone()
+            y=cursorAllData[0].replace('\r\n','')
+            # print(y)
+            return HttpResponse(y,content_type='application/json')
+        except Exception as e:
+            print(e)
+            allJson = {"Result": "Fail"}
+            return JsonResponse(allJson, safe=False)
+
+
+
+def getAllِAdsByCategoriesJson(request):
+    with connection.cursor() as cursorLast:
+
+        try:
+            category = request.POST['category']
+            
+            if category !='':
+                sql_query = """
+
+
+
+
+                        select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.nametheadd,' (',namecategory,')"}')),']}')
+                    as output
+                    from (
+                    select theadd.id,theadd.name as nametheadd,category.name as namecategory FROM theadd
+                    LEFT join  category on category.id=theadd.category_id
+                    where  theadd.deleted=0 and LOWER(category.name) like LOWER('%"""+category+"""%') ) x;
+
+
+
+
+
+                    """
+            else:
+                sql_query = """
+
+                     
+                        select concat('{"Result":"Ok","Number":',count(*),',"data":[',group_concat(concat('{"id":',x.id,',"name":"',x.nametheadd,' (',namecategory,')"}')),']}')
+                    as output
+                    from (
+                    select theadd.id,theadd.name as nametheadd,category.name as namecategory FROM theadd
+                    LEFT join  category on category.id=theadd.category_id
+                    where  theadd.deleted=0 and LOWER(category.name) like LOWER('%ط%') ) x;
+
+
+
+
+
+
+                    """
+            
+            print(sql_query)
 
             cursorLast.execute(sql_query)
             cursorAllData = cursorLast.fetchone()

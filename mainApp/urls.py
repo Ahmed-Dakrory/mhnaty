@@ -25,6 +25,7 @@ urlpatterns = [
     path('getNewResultsForAds',views.getNewResultsForAds,name = 'getNewResultsForAds'),
     path('AuthOutSide',views.AuthOutSide,name = 'AuthOutSide'),
     path('getListOfcategoriesByparentOneId',views.getListOfcategoriesByparentOneId,name = 'getListOfcategoriesByparentOneId'),
+    path('getAllِAdsByCategoriesJson',views.getAllِAdsByCategoriesJson,name = 'getAllِAdsByCategoriesJson'),
     path('getListOfRegions',views.getListOfRegions,name = 'getListOfRegions'),
     path('getListOfRegionsByCityId',views.getListOfRegionsByCityId,name = 'getListOfRegionsByCityId'),
     path('getlistOfcities',views.getlistOfcities,name = 'getlistOfcities'),

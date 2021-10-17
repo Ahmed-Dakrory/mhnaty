@@ -203,3 +203,41 @@ function getListOfRegions(city){
 
 
 
+
+
+                        $( function() { 
+                            $( "#searchInputMhnaty" ).autocomplete({
+                                source: function( request, response ) {
+                                $.ajax( {
+                                    type: 'POST',
+                                    url: "/en/getAllِAdsByCategoriesJson",
+                                    dataType: "json",
+                                    headers:{
+                                        "X-CSRFToken": csrftoken
+                                         },
+                                    data: {
+                                    'category': request.term
+                                    },
+                                    success: function( data ) {
+                                    response( $.map(data.data,function(item){
+                                        console.log(data);
+                                        return {
+                                            id: item.id,
+                                            value:item.name
+                                        }
+                                    }));
+                                    }
+                                } );
+                                },
+                                minLength: 1,
+                                select: function( event, ui ) {
+                                    LANGUAGE_CODE = $('#LANGUAGE_CODE').val();
+                                window.location = "/"+LANGUAGE_CODE+"/CompanyPage/?id="+ ui.item.id; 
+                    
+                    
+                                }
+                            } );
+                            } );
+                
+
+
