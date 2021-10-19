@@ -1,0 +1,75 @@
+
+{%load static%}
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+
+
+
+
+<div class="card-body pb-2" style=" text-align: right;">
+                            
+    <div class="row">
+      <div class="col-md-4 col-xl-4 chat">
+        <div class="card" >
+            <div class="card-header msg_head w-100">
+                <div class="d-flex bd-highlight" >
+                
+                    <div class="user_info w-100" >
+                        <button id="theadd" value="{{theAddObj.id}}" class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                          {{theAddObj.name}}- {{theAddObj.category.name}}
+                        </button>
+                        <div class="collapse" id="collapseExample">
+                          <div class="card card-body" style=" height: 369px; overflow-y: auto; ">
+                              {%for profile in profilesOfTheAdd %}
+                                 <a href="javascript:void(0)"  id="{{profile.id}}" value="{{profile.id}}" class="profile"   > {{profile.user.first_name}} </a>
+                              {%endfor%}
+                          </div>
+                        </div>
+                    
+                    </div>
+    
+                </div>
+                
+            </div>
+         
+        
+            </div>
+        </div>
+    
+
+    <div class="col-md-8 col-xl-8 chat">
+      <div class="card">
+          <div class="card-header msg_head">
+              <div class="d-flex bd-highlight">
+                  <div class="img_cont">
+                      <img width="50" height="50" id="imageOfCurrentChat" style="display: none;" src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+                      <span class="online_icon"></span>
+                  </div>
+                  <div class="user_info">
+                      <span id="nameOfCurrentChat">messages </span>
+                      <p id="numberOfCurrentChat"></p>
+                  </div>
+               
+                  </div> 
+              </div>
+          </div>
+          <div class="card-body msg_card_body" id="append-messages">
+           
+          </div>
+          <div  class="card-footer mb-4" id="messageControl" style="display: none;">
+              <div class="input-group">
+           
+           
+
+                <textarea style="width: 100%;height: 34px;" id="message-text" class="mb-2" name ="input_message"></textarea>
+                      <button class="btn btn-primary btn-lg" style="width: 100%;" type="submit" id="sendMessage" >Send</button>
+                 
+              </div>
+
+
+</div>
+</div>
+</div>
+</div>

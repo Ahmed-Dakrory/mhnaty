@@ -694,16 +694,103 @@ def controlpanel(request):
     except:
         theAddObj = None
         
+    CurrentTab = 1
     profilesOfTheAdd_ids = message.objects.filter(theadd=theAddObj).values_list('from_user',flat=True)
     profilesOfTheAdd = profile.objects.filter(id__in=profilesOfTheAdd_ids).exclude(id=userProfileMe.id)
 
+    
+    allparentCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=True))
+    
+    mainSelectedCategory = None
+    allBranchCategory = None
+    branchSelectedCategory = None
+    if request.method=='POST':
+        
+        typeOfForm = request.POST['typeOfForm']
+        if typeOfForm == 'mainData':
+            CurrentTab = 2
+            actionOfFormNow = request.POST['actionOfFormNow']
+            if actionOfFormNow == 'add':
+                newMainCategoryName = request.POST['newMainCategoryName']
+                detailsMain = request.POST['detailsMain']
+                newCategory = category.objects.create(name=newMainCategoryName,isFirstHead=True,details=detailsMain)
+                mainSelectedCategory = category.objects.get(id = newCategory.id)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=newCategory.id))
+                
+            
+            elif actionOfFormNow == 'edit':
+                mainCategoryId = request.POST['mainCategory']
+                newMainCategoryName = request.POST['newMainCategoryName']
+                detailsMain = request.POST['detailsMain']
+                print('---------------------------------------------------')
+                print(request.POST)
+                category.objects.filter(id = mainCategoryId).update(name=newMainCategoryName,details=detailsMain)
+                mainSelectedCategory = category.objects.get(id = mainCategoryId)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategoryId))
+                
+
+
+            elif actionOfFormNow == 'delete':
+                mainCategoryId = request.POST['mainCategory']
+                category.objects.filter(id = mainCategoryId).update(deleted=True)
+
+            elif actionOfFormNow == 'show':
+                mainCategoryId = request.POST['mainCategory']
+                mainSelectedCategory = category.objects.get(id = mainCategoryId)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategoryId))
+        elif typeOfForm == 'BranchData':
+            CurrentTab = 3
+            actionOfFormNow = request.POST['actionOfFormNow']
+            if actionOfFormNow == 'add':
+                categoryId = request.POST['category']
+                mainCategory2Id = request.POST['mainCategory2']
+                newBranchCategoryName = request.POST['newBranchCategoryName']
+                detailsSecondary = request.POST['detailsSecondary']
+                newCategory = category.objects.create(name=newBranchCategoryName,isFirstHead=True,details=detailsSecondary,parentCategory=mainCategory2Id)
+                mainSelectedCategory = category.objects.get(id = mainCategory2Id)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategory2Id))
+                branchSelectedCategory = category.objects.get(id = newCategory.id)
+                
+            
+            elif actionOfFormNow == 'edit':
+                mainCategory2Id = request.POST['mainCategory2']
+                categoryId = request.POST['category']
+                newBranchCategoryName = request.POST['newBranchCategoryName']
+                detailsSecondary = request.POST['detailsSecondary']
+                category.objects.filter(id = categoryId).update(name=newBranchCategoryName,details=detailsSecondary)
+                mainSelectedCategory = category.objects.get(id = mainCategory2Id)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategory2Id))
+                branchSelectedCategory = category.objects.get(id = categoryId)
+
+
+            elif actionOfFormNow == 'delete':
+                categoryId = request.POST['category']
+                category.objects.filter(id = categoryId).update(deleted=True)
+
+            elif actionOfFormNow == 'show':
+                mainCategory2Id = request.POST['mainCategory2']
+                categoryId = request.POST['category']
+                newBranchCategoryName = request.POST['newBranchCategoryName']
+                detailsSecondary = request.POST['detailsSecondary']
+                mainSelectedCategory = category.objects.get(id = mainCategory2Id)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategory2Id))
+                branchSelectedCategory = category.objects.get(id = categoryId)
+                
+
+
+
     data = {
+        'branchSelectedCategory':branchSelectedCategory,
+        'allBranchCategory':allBranchCategory,
+        'mainSelectedCategory':mainSelectedCategory,
+        'CurrentTab':CurrentTab,
         'theAddObj': theAddObj,
         'profilesOfTheAdd':profilesOfTheAdd,
+        'allparentCategory':allparentCategory
     }
         
 
-    return render(request,'controlpanel.html',data)
+    return render(request,'Admin/controlpanel.html',data)
 
 
 

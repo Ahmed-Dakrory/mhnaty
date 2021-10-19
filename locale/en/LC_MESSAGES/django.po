@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-23 22:58+0200\n"
+"POT-Creation-Date: 2021-10-19 20:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,253 +26,328 @@ msgstr "Arabic"
 msgid "English"
 msgstr "English"
 
-#: .\mainApp\templates\controlpanel.html:39
-#: .\mainApp\templates\profile.html:39
+#: .\mainApp\templates\Admin\ads.html:30 .\mainApp\templates\Admin\ads.html:34
+#: .\mainApp\templates\Admin\controlpanel.html:811
+#: .\mainApp\templates\Admin\controlpanel.html:820
+#: .\mainApp\templates\index_search.html:142
+#: .\mainApp\templates\index_search.html:146
+#: .\mainApp\templates\index_search.html:613
+#: .\mainApp\templates\index_search.html:622
+msgid "New First"
+msgstr "New First"
+
+#: .\mainApp\templates\Admin\ads.html:35
+#: .\mainApp\templates\index_search.html:147
+msgid "Old First"
+msgstr "Old First"
+
+#: .\mainApp\templates\Admin\ads.html:44
+#: .\mainApp\templates\index_search.html:156
+msgid "Arrange"
+msgstr "Arrange"
+
+#: .\mainApp\templates\Admin\ads.html:61
+#: .\mainApp\templates\index_search.html:173
+msgid "Next"
+msgstr "Next"
+
+#: .\mainApp\templates\Admin\ads.html:63
+#: .\mainApp\templates\index_search.html:175
+msgid "Show"
+msgstr "Show"
+
+#: .\mainApp\templates\Admin\ads.html:63
+#: .\mainApp\templates\index_search.html:175
+msgid "From Results"
+msgstr "From Results"
+
+#: .\mainApp\templates\Admin\ads.html:65
+#: .\mainApp\templates\index_search.html:177
+msgid "Last"
+msgstr "Last"
+
+#: .\mainApp\templates\Admin\ads.html:76
+#: .\mainApp\templates\index_search.html:188
+msgid "Detailed Search"
+msgstr "Detailed Search"
+
+#: .\mainApp\templates\Admin\ads.html:81
+#: .\mainApp\templates\activation.html:128
+#: .\mainApp\templates\activation.html:129 .\mainApp\templates\index.html:129
+#: .\mainApp\templates\index.html:130
+#: .\mainApp\templates\index_company.html:120
+#: .\mainApp\templates\index_company.html:121
+#: .\mainApp\templates\index_search.html:193
+msgid "Services"
+msgstr "Services"
+
+#: .\mainApp\templates\Admin\ads.html:91
+#: .\mainApp\templates\activation.html:145
+#: .\mainApp\templates\activation.html:146 .\mainApp\templates\index.html:146
+#: .\mainApp\templates\index.html:147
+#: .\mainApp\templates\index_company.html:137
+#: .\mainApp\templates\index_company.html:138
+#: .\mainApp\templates\index_reg.html:97
+#: .\mainApp\templates\index_search.html:203
+msgid "City"
+msgstr "City"
+
+#: .\mainApp\templates\Admin\ads.html:99
+#: .\mainApp\templates\activation.html:156
+#: .\mainApp\templates\activation.html:157 .\mainApp\templates\index.html:157
+#: .\mainApp\templates\index.html:158
+#: .\mainApp\templates\index_company.html:148
+#: .\mainApp\templates\index_company.html:149
+#: .\mainApp\templates\index_reg.html:111
+#: .\mainApp\templates\index_search.html:211
+#: .\mainApp\templates\profile.html:221
+msgid "Region"
+msgstr "Region"
+
+#: .\mainApp\templates\Admin\ads.html:104
+#: .\mainApp\templates\index_search.html:216
+msgid "Experienses"
+msgstr "Experienses"
+
+#: .\mainApp\templates\Admin\ads.html:110
+#: .\mainApp\templates\Admin\ads.html:114
+#: .\mainApp\templates\index_search.html:222
+#: .\mainApp\templates\index_search.html:226
+msgid "Rate"
+msgstr "Rate"
+
+#: .\mainApp\templates\Admin\ads.html:120
+#: .\mainApp\templates\activation.html:168 .\mainApp\templates\index.html:169
+#: .\mainApp\templates\index_company.html:160
+#: .\mainApp\templates\index_search.html:232
+msgid "Search"
+msgstr "Search"
+
+#: .\mainApp\templates\Admin\controlBranchCategories.html:25
+#: .\mainApp\templates\Admin\controlCategories.html:25
+#: .\mainApp\templates\profile.html:386
+msgid "Main Category"
+msgstr "Main Category"
+
+#: .\mainApp\templates\Admin\controlBranchCategories.html:27
+#: .\mainApp\templates\Admin\controlBranchCategories.html:39
+#: .\mainApp\templates\Admin\controlCategories.html:27
+#: .\mainApp\templates\index_reg.html:99
+#: .\mainApp\templates\index_reg.html:113 .\mainApp\templates\profile.html:209
+#: .\mainApp\templates\profile.html:223 .\mainApp\templates\profile.html:388
+#: .\mainApp\templates\profile.html:402
+msgid "Select one item"
+msgstr "Select one item"
+
+#: .\mainApp\templates\Admin\controlBranchCategories.html:35
+#: .\mainApp\templates\profile.html:400
+msgid "branch category"
+msgstr "Branch category"
+
+#: .\mainApp\templates\Admin\controlBranchCategories.html:46
+#: .\mainApp\templates\index_reg.html:105
+#: .\mainApp\templates\index_reg.html:116 .\mainApp\templates\profile.html:215
+#: .\mainApp\templates\profile.html:226 .\mainApp\templates\profile.html:394
+#: .\mainApp\templates\profile.html:405
+msgid "Please select from this field"
+msgstr "Please select from this field"
+
+#: .\mainApp\templates\Admin\controlBranchCategories.html:53
+msgid "Secondary Category New Name"
+msgstr "Secondary Category Name"
+
+#: .\mainApp\templates\Admin\controlBranchCategories.html:60
+msgid "Secondary Category New details"
+msgstr "Secondary Category details"
+
+#: .\mainApp\templates\Admin\controlCategories.html:35
+msgid "Main Category New Name"
+msgstr "Main Category Name"
+
+#: .\mainApp\templates\Admin\controlCategories.html:42
+msgid "Main Category New details"
+msgstr "Main Category Details"
+
+#: .\mainApp\templates\Admin\controlpanel.html:40
+#: .\mainApp\templates\profile.html:40
 msgid "My Page"
 msgstr "My Page"
 
-#: .\mainApp\templates\controlpanel.html:69
-#: .\mainApp\templates\controlpanel.html:414 .\mainApp\templates\index.html:29
-#: .\mainApp\templates\index.html:61 .\mainApp\templates\index.html:288
-#: .\mainApp\templates\index_company.html:54
-#: .\mainApp\templates\index_company.html:581
-#: .\mainApp\templates\index_search.html:54
-#: .\mainApp\templates\index_search.html:361
-#: .\mainApp\templates\profile.html:68 .\mainApp\templates\profile.html:541
-#: .\mainApp\templates\showUserMessages.html:66
-#: .\mainApp\templates\showUserMessages.html:241
+#: .\mainApp\templates\Admin\controlpanel.html:68
+#: .\mainApp\templates\Admin\controlpanel.html:221
+#: .\mainApp\templates\activation.html:30
+#: .\mainApp\templates\activation.html:63
+#: .\mainApp\templates\activation.html:284 .\mainApp\templates\index.html:31
+#: .\mainApp\templates\index.html:64 .\mainApp\templates\index.html:292
+#: .\mainApp\templates\index_company.html:55
+#: .\mainApp\templates\index_company.html:568
+#: .\mainApp\templates\index_search.html:55
+#: .\mainApp\templates\index_search.html:272
+#: .\mainApp\templates\profile.html:68 .\mainApp\templates\profile.html:531
+#: .\mainApp\templates\showUserMessages.html:67
+#: .\mainApp\templates\showUserMessages.html:207
 msgid "Home"
 msgstr "Home"
 
-#: .\mainApp\templates\controlpanel.html:77 .\mainApp\templates\index.html:69
-#: .\mainApp\templates\index_company.html:62
-#: .\mainApp\templates\index_search.html:62
+#: .\mainApp\templates\Admin\controlpanel.html:76
+#: .\mainApp\templates\activation.html:71 .\mainApp\templates\index.html:72
+#: .\mainApp\templates\index_company.html:63
+#: .\mainApp\templates\index_search.html:63
 #: .\mainApp\templates\profile.html:76
-#: .\mainApp\templates\showUserMessages.html:74
+#: .\mainApp\templates\showUserMessages.html:75
 msgid "Profile"
 msgstr "Profile"
 
-#: .\mainApp\templates\controlpanel.html:84 .\mainApp\templates\index.html:76
-#: .\mainApp\templates\index_company.html:69
-#: .\mainApp\templates\index_search.html:69
+#: .\mainApp\templates\Admin\controlpanel.html:83
+#: .\mainApp\templates\activation.html:78 .\mainApp\templates\index.html:79
+#: .\mainApp\templates\index_company.html:70
+#: .\mainApp\templates\index_search.html:70
 #: .\mainApp\templates\profile.html:83
-#: .\mainApp\templates\showUserMessages.html:81
+#: .\mainApp\templates\showUserMessages.html:82
 msgid "Customer Services"
 msgstr "Customer Services"
 
-#: .\mainApp\templates\controlpanel.html:90 .\mainApp\templates\index.html:82
-#: .\mainApp\templates\index_company.html:75
-#: .\mainApp\templates\index_search.html:75
+#: .\mainApp\templates\Admin\controlpanel.html:89
+#: .\mainApp\templates\activation.html:84 .\mainApp\templates\index.html:85
+#: .\mainApp\templates\index_company.html:76
+#: .\mainApp\templates\index_search.html:76
 #: .\mainApp\templates\profile.html:89
-#: .\mainApp\templates\showUserMessages.html:87
+#: .\mainApp\templates\showUserMessages.html:88
 msgid "Control Panel"
 msgstr "Control Panel"
 
-#: .\mainApp\templates\controlpanel.html:109
-#: .\mainApp\templates\index.html:101
-#: .\mainApp\templates\index_company.html:94
+#: .\mainApp\templates\Admin\controlpanel.html:96
+#: .\mainApp\templates\activation.html:91 .\mainApp\templates\index.html:92
+#: .\mainApp\templates\index_company.html:83
 #: .\mainApp\templates\index_login.html:31
 #: .\mainApp\templates\index_login.html:70
 #: .\mainApp\templates\index_login.html:93
 #: .\mainApp\templates\index_reg.html:164
-#: .\mainApp\templates\index_search.html:94
-#: .\mainApp\templates\profile.html:108
-#: .\mainApp\templates\showUserMessages.html:106
+#: .\mainApp\templates\index_search.html:83
+#: .\mainApp\templates\profile.html:96
+#: .\mainApp\templates\showUserMessages.html:95
 msgid "Login"
 msgstr "Login"
 
-#: .\mainApp\templates\controlpanel.html:112
-#: .\mainApp\templates\index.html:104
-#: .\mainApp\templates\index_company.html:97
-#: .\mainApp\templates\index_search.html:97
-#: .\mainApp\templates\profile.html:111
-#: .\mainApp\templates\showUserMessages.html:109
+#: .\mainApp\templates\Admin\controlpanel.html:99
+#: .\mainApp\templates\activation.html:94 .\mainApp\templates\index.html:95
+#: .\mainApp\templates\index_company.html:86
+#: .\mainApp\templates\index_search.html:86
+#: .\mainApp\templates\profile.html:99
+#: .\mainApp\templates\showUserMessages.html:98
 msgid "Register"
 msgstr "Register"
 
-#: .\mainApp\templates\controlpanel.html:117
-#: .\mainApp\templates\index.html:109
-#: .\mainApp\templates\index_company.html:102
-#: .\mainApp\templates\index_search.html:102
-#: .\mainApp\templates\profile.html:116
-#: .\mainApp\templates\showUserMessages.html:114
+#: .\mainApp\templates\Admin\controlpanel.html:104
+#: .\mainApp\templates\activation.html:99 .\mainApp\templates\index.html:100
+#: .\mainApp\templates\index_company.html:91
+#: .\mainApp\templates\index_search.html:91
+#: .\mainApp\templates\profile.html:104
+#: .\mainApp\templates\showUserMessages.html:103
 msgid "SignOut"
 msgstr "SignOut"
 
-#: .\mainApp\templates\controlpanel.html:146
-#: .\mainApp\templates\profile.html:144
+#: .\mainApp\templates\Admin\controlpanel.html:112
+#: .\mainApp\templates\activation.html:107 .\mainApp\templates\index.html:108
+#: .\mainApp\templates\index.html:120
+#: .\mainApp\templates\index_company.html:99
+#: .\mainApp\templates\index_company.html:111
+#: .\mainApp\templates\index_search.html:99
+#: .\mainApp\templates\profile.html:112
+#: .\mainApp\templates\showUserMessages.html:111
+msgid "Search For Your Services"
+msgstr "Search For Your Services"
+
+#: .\mainApp\templates\Admin\controlpanel.html:134
+#: .\mainApp\templates\profile.html:136
 msgid "My Control Page"
 msgstr "My Control Page"
 
-#: .\mainApp\templates\controlpanel.html:156
+#: .\mainApp\templates\Admin\controlpanel.html:144
 msgid "Add Details"
 msgstr "Add Details"
 
-#: .\mainApp\templates\controlpanel.html:157
-#: .\mainApp\templates\profile.html:156
+#: .\mainApp\templates\Admin\controlpanel.html:145
+msgid "Control Categories"
+msgstr "Main Categories"
+
+#: .\mainApp\templates\Admin\controlpanel.html:146
+msgid "Control Branch Categories"
+msgstr "Branch Categories"
+
+#: .\mainApp\templates\Admin\controlpanel.html:147
+#: .\mainApp\templates\profile.html:148
 msgid "MailBox"
 msgstr "MailBox"
 
-#: .\mainApp\templates\controlpanel.html:158
-#: .\mainApp\templates\profile.html:157
+#: .\mainApp\templates\Admin\controlpanel.html:148
+#: .\mainApp\templates\profile.html:149
 msgid "Settings"
 msgstr "Settings"
 
-#: .\mainApp\templates\controlpanel.html:190
-#: .\mainApp\templates\controlpanel.html:194
-#: .\mainApp\templates\controlpanel.html:874
-#: .\mainApp\templates\controlpanel.html:883
-#: .\mainApp\templates\index_search.html:229
-#: .\mainApp\templates\index_search.html:233
-#: .\mainApp\templates\index_search.html:631
-#: .\mainApp\templates\index_search.html:640
-msgid "New First"
-msgstr "New First"
-
-#: .\mainApp\templates\controlpanel.html:195
-#: .\mainApp\templates\index_search.html:234
-msgid "Old First"
-msgstr "Old First"
-
-#: .\mainApp\templates\controlpanel.html:204
-#: .\mainApp\templates\index_search.html:243
-msgid "Arrange"
-msgstr "Arrange"
-
-#: .\mainApp\templates\controlpanel.html:221
-#: .\mainApp\templates\index_search.html:260
-msgid "Next"
-msgstr "Next"
-
-#: .\mainApp\templates\controlpanel.html:223
-#: .\mainApp\templates\index_search.html:262
-msgid "Show"
-msgstr "Show"
-
-#: .\mainApp\templates\controlpanel.html:223
-#: .\mainApp\templates\index_search.html:262
-msgid "From Results"
-msgstr "From Results"
-
-#: .\mainApp\templates\controlpanel.html:225
-#: .\mainApp\templates\index_search.html:264
-msgid "Last"
-msgstr "Last"
-
-#: .\mainApp\templates\controlpanel.html:236
-#: .\mainApp\templates\index_search.html:275
-msgid "Detailed Search"
-msgstr "Detailed Search"
-
-#: .\mainApp\templates\controlpanel.html:241
-#: .\mainApp\templates\index.html:134 .\mainApp\templates\index.html:135
-#: .\mainApp\templates\index_company.html:131
-#: .\mainApp\templates\index_company.html:132
-#: .\mainApp\templates\index_search.html:280
-msgid "Services"
-msgstr "Services"
-
-#: .\mainApp\templates\controlpanel.html:251
-#: .\mainApp\templates\index.html:151 .\mainApp\templates\index.html:152
-#: .\mainApp\templates\index_company.html:148
-#: .\mainApp\templates\index_company.html:149
-#: .\mainApp\templates\index_reg.html:97
-#: .\mainApp\templates\index_search.html:290
-msgid "City"
-msgstr "City"
-
-#: .\mainApp\templates\controlpanel.html:259
-#: .\mainApp\templates\index.html:162 .\mainApp\templates\index.html:163
-#: .\mainApp\templates\index_company.html:159
-#: .\mainApp\templates\index_company.html:160
-#: .\mainApp\templates\index_reg.html:111
-#: .\mainApp\templates\index_search.html:298
-#: .\mainApp\templates\profile.html:229
-msgid "Region"
-msgstr "Region"
-
-#: .\mainApp\templates\controlpanel.html:264
-#: .\mainApp\templates\index_search.html:303
-msgid "Experienses"
-msgstr "Experienses"
-
-#: .\mainApp\templates\controlpanel.html:270
-#: .\mainApp\templates\controlpanel.html:274
-#: .\mainApp\templates\index_search.html:309
-#: .\mainApp\templates\index_search.html:313
-msgid "Rate"
-msgstr "Rate"
-
-#: .\mainApp\templates\controlpanel.html:280
-#: .\mainApp\templates\index.html:174
-#: .\mainApp\templates\index_company.html:171
-#: .\mainApp\templates\index_search.html:319
-msgid "Search"
-msgstr "Search"
-
-#: .\mainApp\templates\controlpanel.html:405
-#: .\mainApp\templates\index.html:279
-#: .\mainApp\templates\index_company.html:572
-#: .\mainApp\templates\index_search.html:352
-#: .\mainApp\templates\profile.html:532
-#: .\mainApp\templates\showUserMessages.html:232
-msgid "Contact Info"
-msgstr "Contact Info"
-
-#: .\mainApp\templates\controlpanel.html:406
-#: .\mainApp\templates\index.html:280
-#: .\mainApp\templates\index_company.html:573
-#: .\mainApp\templates\index_reg.html:91
-#: .\mainApp\templates\index_search.html:353
-#: .\mainApp\templates\profile.html:255 .\mainApp\templates\profile.html:533
-#: .\mainApp\templates\showUserMessages.html:233
-msgid "Address"
-msgstr "Address"
-
-#: .\mainApp\templates\controlpanel.html:412
-#: .\mainApp\templates\index.html:286
-#: .\mainApp\templates\index_company.html:579
-#: .\mainApp\templates\index_search.html:359
-#: .\mainApp\templates\profile.html:539
-#: .\mainApp\templates\showUserMessages.html:239
+#: .\mainApp\templates\Admin\controlpanel.html:219
+#: .\mainApp\templates\activation.html:282 .\mainApp\templates\index.html:290
+#: .\mainApp\templates\index_company.html:566
+#: .\mainApp\templates\index_search.html:270
+#: .\mainApp\templates\profile.html:529
+#: .\mainApp\templates\showUserMessages.html:205
 msgid "Our Info"
 msgstr "Our Info"
 
-#: .\mainApp\templates\controlpanel.html:415
-#: .\mainApp\templates\index.html:289
-#: .\mainApp\templates\index_company.html:582
-#: .\mainApp\templates\index_search.html:362
-#: .\mainApp\templates\profile.html:542
-#: .\mainApp\templates\showUserMessages.html:242
+#: .\mainApp\templates\Admin\controlpanel.html:222
+#: .\mainApp\templates\activation.html:285 .\mainApp\templates\index.html:293
+#: .\mainApp\templates\index_company.html:569
+#: .\mainApp\templates\index_search.html:273
+#: .\mainApp\templates\profile.html:532
+#: .\mainApp\templates\showUserMessages.html:208
 msgid "All Services"
 msgstr "All Services"
 
-#: .\mainApp\templates\controlpanel.html:908
-#: .\mainApp\templates\index_search.html:665
+#: .\mainApp\templates\Admin\controlpanel.html:229
+#: .\mainApp\templates\activation.html:292 .\mainApp\templates\index.html:300
+#: .\mainApp\templates\index_company.html:576
+#: .\mainApp\templates\index_search.html:280
+#: .\mainApp\templates\profile.html:539
+#: .\mainApp\templates\showUserMessages.html:215
+msgid "Contact Info"
+msgstr "Contact Info"
+
+#: .\mainApp\templates\Admin\controlpanel.html:231
+#: .\mainApp\templates\activation.html:294 .\mainApp\templates\index.html:302
+#: .\mainApp\templates\index_company.html:578
+#: .\mainApp\templates\index_reg.html:91
+#: .\mainApp\templates\index_search.html:282
+#: .\mainApp\templates\profile.html:247 .\mainApp\templates\profile.html:541
+#: .\mainApp\templates\showUserMessages.html:217
+msgid "Address"
+msgstr "Address"
+
+#: .\mainApp\templates\Admin\controlpanel.html:855
+#: .\mainApp\templates\index_search.html:655
 msgid "Show the Number"
 msgstr "Show the Number"
 
-#: .\mainApp\templates\controlpanel.html:930
-#: .\mainApp\templates\index_search.html:687
+#: .\mainApp\templates\Admin\controlpanel.html:877
+#: .\mainApp\templates\index_search.html:677
 msgid "Details or Service Provider"
 msgstr "Details of Service Provider"
 
-#: .\mainApp\templates\controlpanel.html:935
-#: .\mainApp\templates\index_search.html:692
+#: .\mainApp\templates\Admin\controlpanel.html:882
+#: .\mainApp\templates\index_search.html:682
 msgid "Service Provider Rating"
 msgstr "Service Provider Rating"
 
-#: .\mainApp\templates\controlpanel.html:981
-#: .\mainApp\templates\index_search.html:738
+#: .\mainApp\templates\Admin\controlpanel.html:928
+#: .\mainApp\templates\index_search.html:728
 msgid "chat"
 msgstr "Chat"
 
-#: .\mainApp\templates\controlpanel.html:984
-#: .\mainApp\templates\index_search.html:741
+#: .\mainApp\templates\Admin\controlpanel.html:931
+#: .\mainApp\templates\index_search.html:731
 msgid "Call"
 msgstr "Call"
 
-#: .\mainApp\templates\controlpanel.html:1122
+#: .\mainApp\templates\Admin\controlpanel.html:1069
 #: .\mainApp\templates\index_login.html:245
 #: .\mainApp\templates\index_login.html:249
 #: .\mainApp\templates\index_login.html:255
@@ -280,112 +355,117 @@ msgstr "Call"
 #: .\mainApp\templates\index_reg.html:294
 #: .\mainApp\templates\index_reg.html:335
 #: .\mainApp\templates\index_reg.html:342
-#: .\mainApp\templates\index_search.html:879
+#: .\mainApp\templates\index_search.html:869
 msgid "Error"
 msgstr "Error"
 
-#: .\mainApp\templates\controlpanel.html:1122
-#: .\mainApp\templates\index_search.html:879
+#: .\mainApp\templates\Admin\controlpanel.html:1069
+#: .\mainApp\templates\index_search.html:869
 msgid "Problem While Loading"
 msgstr "Problem While Loading"
 
-#: .\mainApp\templates\index.html:125
-#: .\mainApp\templates\index_company.html:122
-msgid "Search For Your Services"
-msgstr "Search For Your Services"
+#: .\mainApp\templates\Admin\controlpanel.html:1179
+#: .\mainApp\templates\index_reg.html:237 .\mainApp\templates\profile.html:884
+#: .\mainApp\templates\profile.html:941
+msgid "Select One"
+msgstr "Select One"
 
-#: .\mainApp\templates\index.html:139
-#: .\mainApp\templates\index_company.html:136
+#: .\mainApp\templates\activation.html:119
+msgid "Please check your Email to Activate your account"
+msgstr "Please check your Email to Activate your account"
+
+#: .\mainApp\templates\activation.html:133 .\mainApp\templates\index.html:134
+#: .\mainApp\templates\index_company.html:125
 msgid "All"
 msgstr "All"
 
-#: .\mainApp\templates\index.html:212
+#: .\mainApp\templates\activation.html:207 .\mainApp\templates\index.html:214
 msgid "Who us"
 msgstr "Who us"
 
-#: .\mainApp\templates\index.html:220
+#: .\mainApp\templates\activation.html:215 .\mainApp\templates\index.html:222
 msgid "Word about us"
 msgstr "Mhnety is the first website server for connect the services with the needs of who ask about it, and this is done by a simple and efficient way"
 
-#: .\mainApp\templates\index.html:222
+#: .\mainApp\templates\activation.html:217 .\mainApp\templates\index.html:224
 msgid "See More"
 msgstr "See More"
 
-#: .\mainApp\templates\index.html:234
+#: .\mainApp\templates\activation.html:229 .\mainApp\templates\index.html:236
 msgid "Our Services"
 msgstr "Our Services"
 
-#: .\mainApp\templates\index.html:250
+#: .\mainApp\templates\activation.html:248 .\mainApp\templates\index.html:255
 msgid "Read More"
 msgstr "Read More"
 
-#: .\mainApp\templates\index_company.html:25
-#: .\mainApp\templates\profile.html:387
+#: .\mainApp\templates\index_company.html:26
+#: .\mainApp\templates\profile.html:379
 msgid "Service Details"
 msgstr "Service Details"
 
-#: .\mainApp\templates\index_company.html:305
+#: .\mainApp\templates\index_company.html:294
 msgid "Company Rating"
 msgstr "Company Rating"
 
-#: .\mainApp\templates\index_company.html:313
+#: .\mainApp\templates\index_company.html:302
 msgid "About the Company"
 msgstr "About the Company"
 
-#: .\mainApp\templates\index_company.html:318
+#: .\mainApp\templates\index_company.html:307
 msgid "Company Experiences"
 msgstr "Company Experienses"
 
-#: .\mainApp\templates\index_company.html:327
+#: .\mainApp\templates\index_company.html:316
 msgid "Company Services"
 msgstr "Company Services"
 
-#: .\mainApp\templates\index_company.html:335
+#: .\mainApp\templates\index_company.html:324
 msgid "Video for the Service"
 msgstr "Video for the Service"
 
-#: .\mainApp\templates\index_company.html:357
+#: .\mainApp\templates\index_company.html:346
 msgid "Call us"
 msgstr "Call us"
 
-#: .\mainApp\templates\index_company.html:374
+#: .\mainApp\templates\index_company.html:363
 msgid "Show More"
 msgstr "Show More"
 
-#: .\mainApp\templates\index_company.html:409
+#: .\mainApp\templates\index_company.html:398
 msgid "Your Comment is a matter for us"
 msgstr "Your Comment is a matter for us"
 
-#: .\mainApp\templates\index_company.html:412
+#: .\mainApp\templates\index_company.html:401
 msgid "Leave your Message"
 msgstr "Leave your Message"
 
-#: .\mainApp\templates\index_company.html:414
-#: .\mainApp\templates\showUserMessages.html:205
+#: .\mainApp\templates\index_company.html:403
+#: .\mainApp\templates\showUserMessages.html:171
 msgid "Send"
 msgstr "Send"
 
-#: .\mainApp\templates\index_company.html:417
+#: .\mainApp\templates\index_company.html:406
 msgid "Please Login to be Able to Make Comment"
 msgstr "Please Login to be Able to Make Comment"
 
-#: .\mainApp\templates\index_company.html:430
+#: .\mainApp\templates\index_company.html:419
 msgid "Customer Comments"
 msgstr "Customer Comments"
 
-#: .\mainApp\templates\index_company.html:431
+#: .\mainApp\templates\index_company.html:420
 msgid "You can see Customer and other comments"
 msgstr "You can see Customer and other comments"
 
-#: .\mainApp\templates\index_company.html:706
+#: .\mainApp\templates\index_company.html:764
 msgid "Alert"
 msgstr "Alert"
 
-#: .\mainApp\templates\index_company.html:706
+#: .\mainApp\templates\index_company.html:764
 msgid "You have to Login to be able to make this action"
 msgstr "You have to Login to be able to make this action"
 
-#: .\mainApp\templates\index_company.html:850
+#: .\mainApp\templates\index_company.html:908
 msgid "You have to login to make this action"
 msgstr "You have to login to make this action"
 
@@ -444,7 +524,7 @@ msgstr "Register new Memeber"
 msgid "Please Enter your details"
 msgstr "Please Enter your details"
 
-#: .\mainApp\templates\index_reg.html:73 .\mainApp\templates\profile.html:191
+#: .\mainApp\templates\index_reg.html:73 .\mainApp\templates\profile.html:183
 msgid "Username"
 msgstr "Username"
 
@@ -457,25 +537,11 @@ msgid "Name"
 msgstr "Name"
 
 #: .\mainApp\templates\index_reg.html:84
-#: .\mainApp\templates\index_reg.html:138 .\mainApp\templates\profile.html:194
-#: .\mainApp\templates\profile.html:201 .\mainApp\templates\profile.html:208
-#: .\mainApp\templates\profile.html:330 .\mainApp\templates\profile.html:423
+#: .\mainApp\templates\index_reg.html:138 .\mainApp\templates\profile.html:186
+#: .\mainApp\templates\profile.html:193 .\mainApp\templates\profile.html:200
+#: .\mainApp\templates\profile.html:322 .\mainApp\templates\profile.html:415
 msgid "Please fill this field"
 msgstr "Please fill this field"
-
-#: .\mainApp\templates\index_reg.html:99
-#: .\mainApp\templates\index_reg.html:113 .\mainApp\templates\profile.html:217
-#: .\mainApp\templates\profile.html:231 .\mainApp\templates\profile.html:396
-#: .\mainApp\templates\profile.html:410
-msgid "Select one item"
-msgstr "Select one item"
-
-#: .\mainApp\templates\index_reg.html:105
-#: .\mainApp\templates\index_reg.html:116 .\mainApp\templates\profile.html:223
-#: .\mainApp\templates\profile.html:234 .\mainApp\templates\profile.html:402
-#: .\mainApp\templates\profile.html:413
-msgid "Please select from this field"
-msgstr "Please select from this field"
 
 #: .\mainApp\templates\index_reg.html:126
 msgid "Mail"
@@ -505,86 +571,73 @@ msgstr "Home Phone Number"
 msgid "Your Own Phone"
 msgstr "Your Own Phone"
 
-#: .\mainApp\templates\index_reg.html:237 .\mainApp\templates\profile.html:764
-#: .\mainApp\templates\profile.html:821
-msgid "Select One"
-msgstr "Select One"
-
-#: .\mainApp\templates\profile.html:151
+#: .\mainApp\templates\profile.html:143
 msgid "General Data"
 msgstr "General Data"
 
-#: .\mainApp\templates\profile.html:155
+#: .\mainApp\templates\profile.html:147
 msgid "My Service Details"
 msgstr "My Service Details"
 
-#: .\mainApp\templates\profile.html:171 .\mainApp\templates\profile.html:301
+#: .\mainApp\templates\profile.html:163 .\mainApp\templates\profile.html:293
 msgid "Select New Image"
 msgstr "Select New Image"
 
-#: .\mainApp\templates\profile.html:182 .\mainApp\templates\profile.html:312
+#: .\mainApp\templates\profile.html:174 .\mainApp\templates\profile.html:304
 msgid "Maximum Limit"
 msgstr "Maximum Limit"
 
-#: .\mainApp\templates\profile.html:198
+#: .\mainApp\templates\profile.html:190
 msgid "Your name (The used one if you have a service)"
 msgstr "Your name (The used one if you have a service)"
 
-#: .\mainApp\templates\profile.html:205
+#: .\mainApp\templates\profile.html:197
 msgid "Mail Address"
 msgstr "Mail Address"
 
-#: .\mainApp\templates\profile.html:215
+#: .\mainApp\templates\profile.html:207
 msgid "City Name"
 msgstr "City Name"
 
-#: .\mainApp\templates\profile.html:241
+#: .\mainApp\templates\profile.html:233
 msgid "Phone Number"
 msgstr "Phone Number"
 
-#: .\mainApp\templates\profile.html:248
+#: .\mainApp\templates\profile.html:240
 msgid "Mobile Number"
 msgstr "Mobile Number"
 
-#: .\mainApp\templates\profile.html:262 .\mainApp\templates\profile.html:428
+#: .\mainApp\templates\profile.html:254 .\mainApp\templates\profile.html:420
 msgid "Save"
 msgstr "Save"
 
-#: .\mainApp\templates\profile.html:327
+#: .\mainApp\templates\profile.html:319
 msgid "Service Name"
 msgstr "Service Name"
 
-#: .\mainApp\templates\profile.html:342
+#: .\mainApp\templates\profile.html:334
 msgid "Additional files"
 msgstr "Additional files"
 
-#: .\mainApp\templates\profile.html:371
+#: .\mainApp\templates\profile.html:363
 msgid "My Experienses"
 msgstr "My Experienses"
 
-#: .\mainApp\templates\profile.html:380
+#: .\mainApp\templates\profile.html:372
 msgid "About US"
 msgstr "About US"
 
-#: .\mainApp\templates\profile.html:394
-msgid "Main Category"
-msgstr "Main Category"
-
-#: .\mainApp\templates\profile.html:408
-msgid "branch category"
-msgstr "Branch category"
-
-#: .\mainApp\templates\profile.html:420
+#: .\mainApp\templates\profile.html:412
 msgid "Video About the Service"
 msgstr "Video About the Service"
 
-#: .\mainApp\templates\showUserMessages.html:39
-#: .\mainApp\templates\showUserMessages.html:141
-#: .\mainApp\templates\showUserMessages.html:159
+#: .\mainApp\templates\showUserMessages.html:40
+#: .\mainApp\templates\showUserMessages.html:134
+#: .\mainApp\templates\showUserMessages.html:152
 msgid "Messages"
 msgstr "Messages"
 
-#: .\mainApp\templates\showUserMessages.html:158
+#: .\mainApp\templates\showUserMessages.html:151
 msgid "Messages with"
 msgstr "Messages with"
 

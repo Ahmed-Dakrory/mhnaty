@@ -1,0 +1,93 @@
+
+{%load static%}
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+
+                                
+
+
+    <section id="ControlCategories" style="direction: {% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %};">
+          <div class="card m-4">
+
+            <div class="card-header">
+              <h3 style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; width: 100%; "> {% trans "Control Categories" %}</h3>
+            </div>
+            <div class="card-body">
+              <div class="container w-100">
+                <form method="POST" id="mainform" class="needs-validation form-horizontal" novalidate>
+                  {% csrf_token %}
+                  <input type="hidden"  name="typeOfForm" value="mainData">
+                  <input type="hidden"  name="actionOfFormNow" id="actionOfFormNow" value="">
+                <div class="row">
+                  <div class="form-group col-md-12">
+                    <label class="form-label" for="mainCategory" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; width: 100%; ">{% trans "Main Category" %}</label>
+                    <select  id="mainCategory" name="mainCategory"  value="{{parentCategory.id}}" class="form-control mb-1  {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}">
+                        <option value="">{% trans "Select one item" %}</option>
+                        {% for item in allparentCategory %}
+                        <option value="{{item.id}}">{{item.name}}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-12">
+                    <label class="form-label" for="newMainCategoryName" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; width: 100%; ">{% trans "Main Category New Name" %}</label>
+                    <input id="newMainCategoryName" value="{{mainSelectedCategory.name}}" name="newMainCategoryName" class="form-control mt-1 mb-1 required {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}"/>
+                  </div>
+
+
+
+                  <div class="form-group col-md-12">
+                    <label class="form-label" for="detailsMain" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; width: 100%; ">{% trans "Main Category New details" %}</label>
+                    <textarea id="detailsMain" name="detailsMain" class="form-control mt-1 mb-1 required {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}"> {{mainSelectedCategory.details}} </textarea>
+                  </div>
+
+                 
+
+
+                </div>
+
+
+                <div class="row">
+                  <div class="form-group col-md-2 text-center pt-3">
+                    <button id="addMainCategory" onclick="addNewMain()" type="button" style="height: 66%;background-color: rgb(218 218 218 / 84%);" class="btn w-100  required mt-3 text-center">
+                      <span class="fa fa-plus-square"></span>
+                      </button>
+                  </div>
+
+                  <div class="form-group col-md-2 text-center pt-3">
+                    <button id="EditMainCategory" onclick="editMain()" type="button" style="height: 66%;background-color: rgb(218 218 218 / 84%);" class="btn w-100  required mt-3  text-center">
+                      <span class="fa fa-edit"></span>
+                      </button>
+                  </div>
+
+                  <div class="form-group col-md-2 text-center pt-3">
+                    <button id="DeleteMainCategory" onclick="deleteMain()" type="button" style="height: 66%;background-color: rgb(208 5 5 / 84%);" class="btn w-100 required mt-3 text-center">
+                      <span class="fa fa-trash"></span>
+                      </button>
+                  </div>
+                </div>
+                </form>
+
+
+                
+          
+      
+              </div>
+      
+            </div>
+          </div>
+          
+  
+              
+      </section>
+  
+  
+  
+  
+  
+  
+  
+  
+  

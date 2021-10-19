@@ -141,238 +141,58 @@
                         {% if userProfile.typeOfRegisteration == 'Normal' %}
                         <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Change Password</a> -->
                         {% endif %}
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">{% trans "Add Details" %}</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-chat-links">{% trans "MailBox" %}</a>
+                        <a class="list-group-item list-group-item-action {% if CurrentTab == 1 %} active show {% endif %}" data-toggle="list" href="#account-info">{% trans "Add Details" %}</a>
+                        <a class="list-group-item list-group-item-action {% if CurrentTab == 2 %} active show {% endif %}" data-toggle="list" href="#account-ControlCategories">{% trans "Control Categories" %}</a>
+                        <a class="list-group-item list-group-item-action {% if CurrentTab == 3 %} active show {% endif %}" data-toggle="list" href="#account-ControlBranchCategories">{% trans "Control Branch Categories" %}</a>
+                        <a class="list-group-item list-group-item-action {% if CurrentTab == 4 %} active show {% endif %}" data-toggle="list" href="#account-chat-links">{% trans "MailBox" %}</a>
                         <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-notifications">{% trans "Settings" %}</a> -->
                       </div>
                     </div>
                     <div class="col-md-10">
                       <div class="tab-content">
-                        <div class="tab-pane fade active show" id="account-info">
+                        <div class="tab-pane fade  {% if CurrentTab == 1 %} active show {% endif %}" id="account-info">
                            
                                 <!-- Add Details List -->
 
-
-
-
-                                
-
-    <section id="searchResults" style="direction: ltr;">
-      
-      <input type="hidden" id="idOfProfile" value="{{request.user.profile_set.last.id}}">
-        <div class="container w-100">
-
-
-            
-         
-
-      
-            <div class="row">
-          
-            
-
-              <div class="col-md-9 results col-12 order-1">
-                <div class="sort row w-100  p-0 m-0 mb-3">
-
-
-                  <div class="dropdown col-6 col-md-3">
-                    <a class="btn btn-secondary dropdown-toggle " href="#" type="button" id="orderButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      {% trans "New First" %}
-                    </a>
-                  
-                    <ul class="dropdown-menu" aria-labelledby="orderButton">
-                      <li><a class="dropdown-item" href="javascript:void(0)" >{% trans "New First" %}</a></li>
-                      <li><a class="dropdown-item" href="javascript:void(0)">{% trans "Old First" %}</a></li>
-
-                    </ul>
-                  </div>
-
-
-                
-                
-                  <div class="col-6 text-right col-md-1">
-                    <p>:{% trans "Arrange" %}</p>
-                  </div>
-                </div>
-
-
-                
-                <div id="ListOfAdds"></div>
-                
-
-
-                
-                <div aria-label="..." class="my-4 row mt-5">
-                  
-                  <input type="hidden" numberOFResultView="1" id="currentDraw"/>
-                  <div class="row w-100">
-                    <div class="col-1 p-0 m-0"></div>
-                    <div class="page-item  col-3 text-center col-md-2 m-0 " id="goNextButton" onclick="getNextPage();">
-                      <a class="page-link" href="javascript:void(0)"  style="border-top-left-radius: 8px;border-bottom-left-radius: 8px;">{% trans "Next" %}</a>
-                    </div>
-                      <div class="pt-1 col-5 text-center col-md-6  m-0 p-0">{% trans "Show" %} <span id="currentNumber">---</span> {% trans "From Results" %} <span id="AllRecords">---</span></div>                  
-                      <div class="page-item  col-3 text-center col-md-2 disabled m-0" id="goBackButton" onclick="getLastPage();">
-                        <a class="page-link" href="javascript:void(0)"   tabindex="-1" aria-disabled="true" style="border-top-right-radius: 8px;border-bottom-right-radius: 8px;">{% trans "Last" %}</a>
-                      </div>
-                  </div>
-                </div>
-
-
-              </div>
-
-
-              <div class="col-md-3 services mb-5 d-md-block order-0 order-md-1">
-                <div class="services-title">
-                  <h4>{% trans "Detailed Search" %}</h4>
-                </div>
-                
-                <div class="services-body">
-
-                  <button class="accordion">{% trans "Services" %}</button>
-
-                  <div class="panel CategoriesSearch  mt-2">
-                
-
-                
-
-                  </div>
-
-
-                  <button class="accordion">{% trans "City" %}</button>
-                  <div class="panel citySearch mt-2">
-                    
-                  
-  
-                  </div>
-  
-  
-                <button class="accordion">{% trans "Region" %}</button>
-                  <div class="panel regionSearch  mt-2">
-                    
-                  </div>
-                  
-                  <button class="accordion">{% trans "Experienses" %}</button>
-  
-                  <div class="panel expSearch  mt-2">
-                    
-                  </div>
-  
-                  <button class="accordion">{% trans "Rate" %}</button>
-  
-                  <div class="panel" style="padding-top: 10px;padding-bottom: 10px;">
-                    <div class="row mt-4 mb-3" style="direction: rtl;max-height: 87px;">
-                      {% trans "Rate" %}: <b class="ml-3">0</b> 
-                      <input  id="sliderMain" type="text" class="span2 ex2" value="" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="[0,5]"/>
-                        <b class="mr-3">5</b>
-                    </div>
-                  </div>
-                  <div  style="padding: 10px;">
-                  <a class="btn btn-warning w-100 " onclick="getAddsNew();" style="direction: rtl;"><i class="fa fa-search"></i> {% trans "Search" %} </a>
-                    </div>
-                </div>
-
-                <div class="services-body mt-3 d-md-block d-none" style=" border-style: solid; border-radius: 7px; border-width: 1px; ">
-                  <a href="/"> 
-                    <img src="/media/attachments/allImages/1.jpg"  alt="logo" style="width: 100%;height: 550px;">
-                  </a>
-                </div>
-              </div>
-
-            </div>
-
-
-            
-
-        </div>
-    </section>
-
-
-
-
-
-
-
-
-
+                                {% include "Admin/ads.html" %}
 
                          
                         </div>
 
 
 
+                        <div class="tab-pane fade  {% if CurrentTab == 2 %} active show {% endif %}" id="account-ControlCategories">
+                           
+                          <!-- Add Details List -->
+
+                          {% include "Admin/controlCategories.html" %}
+
+                   
+                  </div>
+
+
+
+                  <div class="tab-pane fade  {% if CurrentTab == 3 %} active show {% endif %}" id="account-ControlBranchCategories">
+                           
+                    <!-- Add Details List -->
+
+                    {% include "Admin/controlBranchCategories.html" %}
+
+             
+            </div>
+
 
 
 
                         <!-- ---chat--- -->
-                        <div class="tab-pane fade" id="account-chat-links">
-                          <div class="card-body pb-2" style=" text-align: right;">
-                            
-                            <div class="row">
-                              <div class="col-md-4 col-xl-4 chat">
-                                <div class="card" >
-                                    <div class="card-header msg_head w-100">
-                                        <div class="d-flex bd-highlight" >
-                                        
-                                            <div class="user_info w-100" >
-                                                <button id="theadd" value="{{theAddObj.id}}" class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                                  {{theAddObj.name}}- {{theAddObj.category.name}}
-                                                </button>
-                                                <div class="collapse" id="collapseExample">
-                                                  <div class="card card-body" style=" height: 369px; overflow-y: auto; ">
-                                                      {%for profile in profilesOfTheAdd %}
-                                                         <a href="javascript:void(0)"  id="{{profile.id}}" value="{{profile.id}}" class="profile"   > {{profile.user.first_name}} </a>
-                                                      {%endfor%}
-                                                  </div>
-                                                </div>
-                                            
-                                            </div>
-                            
-                                        </div>
-                                        
-                                    </div>
-                                 
-                                
-                                    </div>
-                                </div>
-                            
+                        <div class="tab-pane fade  {% if CurrentTab == 4 %} active show {% endif %}" id="account-chat-links">
+                         
 
-                            <div class="col-md-8 col-xl-8 chat">
-                              <div class="card">
-                                  <div class="card-header msg_head">
-                                      <div class="d-flex bd-highlight">
-                                          <div class="img_cont">
-                                              <img width="50" height="50" id="imageOfCurrentChat" style="display: none;" src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
-                                              <span class="online_icon"></span>
-                                          </div>
-                                          <div class="user_info">
-                                              <span id="nameOfCurrentChat">messages </span>
-                                              <p id="numberOfCurrentChat"></p>
-                                          </div>
-                                       
-                                          </div> 
-                                      </div>
-                                  </div>
-                                  <div class="card-body msg_card_body" id="append-messages">
-                                   
-                                  </div>
-                                  <div  class="card-footer mb-4" id="messageControl" style="display: none;">
-                                      <div class="input-group">
-                                   
-                                   
-        
-                                        <textarea style="width: 100%;height: 34px;" id="message-text" class="mb-2" name ="input_message"></textarea>
-                                              <button class="btn btn-primary btn-lg" style="width: 100%;" type="submit" id="sendMessage" >Send</button>
-                                         
-                                      </div>
-                       
-                      
-                      </div>
-                    </div>
-                  </div>
-                </div>
-            
+                          {% include "Admin/chat.html" %}
+
+
              
-              </div>
+                        </div>
             
 
         </div>
@@ -510,7 +330,6 @@
 
 
 <script>
-    
 (function() {
     'use strict';
     window.addEventListener('load', function() {
@@ -537,6 +356,7 @@
 
 
 
+    showLoader();
 
 
     
@@ -1328,6 +1148,142 @@ if(rateMin==0){
 
 
 
+
+
+
+
+
+
+                    
+
+    function fill_categoryAndSelect(isfirstTime){
+  showLoader();
+  $.ajax({ 
+        type: 'POST',
+        url: '/en/getListOfcategoriesByparentOneId',
+                      data: { 
+                          'mainCategory': $('#mainCategory2').val()
+          },
+        headers:{
+            "X-CSRFToken": csrftoken
+                },
+        async: true,
+        cache: true,
+        success: function(result) {
+            console.log(result)
+            
+          $('#category')
+                        .find('option')
+                        .remove()
+                        .end()
+                        .append('<option value="">{% trans "Select One" %}</option>')
+                        .val('')
+                        ;
+
+                        var $category = $('#category');
+
+                         if(result['Result']=='Ok'){
+                  
+                          result.data.forEach(element => {
+                            $category.append($("<option />").val(element.id).text(element.name));
+                          });
+                         
+                  
+                         }
+
+            if(isfirstTime){
+              $('#category').val($('#category').attr('value'));
+            }
+            hideLoader();
+        },error: function (xhr, ajaxOptions, thrownError) {
+            hideLoader();
+           }
+    });
+
+    hideLoader();
+}
+
+
+$('#mainCategory').on('change', function() {
+    
+  
+  $('#actionOfFormNow').val('show');
+  $('#actionOfFormNow').attr('value','show');
+  $('#mainform').submit();
+
+});
+
+  $('#mainCategory').val({{mainSelectedCategory.id}});
+  $('#category').val($('#category').attr('value'));
+
+  
+  // $('#mainCategory').val($('#mainCategory').attr('value'));
+  // fill_categoryAndSelect(true);
+
+
+  $('#category').on('change', function() {
+   
+  $('#actionOfFormNowSecondary').val('show');
+  $('#actionOfFormNowSecondary').attr('value','show');
+  $('#mainBranchform').submit();
+
+    });
+
+
+
+
+  $('#mainCategory2').on('change', function() {
+    
+    fill_categoryAndSelect(false);
+  
+    });
+    
+    $('#mainCategory2').val($('#mainCategory2').attr('value'));
+    fill_categoryAndSelect(true);
+
+
+function addNewMain(){
+  $('#actionOfFormNow').val('add');
+  $('#actionOfFormNow').attr('value','add');
+  $('#mainform').submit();
+  
+}
+
+function deleteMain(){
+  $('#actionOfFormNow').val('delete');
+  $('#actionOfFormNow').attr('value','delete');
+  $('#mainform').submit();
+}
+
+function editMain(){
+  $('#actionOfFormNow').val('edit');
+  $('#actionOfFormNow').attr('value','edit');
+  $('#mainform').submit();
+}
+
+
+
+
+function addNewSecondary(){
+  $('#actionOfFormNowSecondary').val('add');
+  $('#actionOfFormNowSecondary').attr('value','add');
+  $('#mainBranchform').submit();
+  
+}
+
+function deleteSecondary(){
+  $('#actionOfFormNowSecondary').val('delete');
+  $('#actionOfFormNowSecondary').attr('value','delete');
+  $('#mainBranchform').submit();
+}
+
+function editSecondary(){
+  $('#actionOfFormNowSecondary').val('edit');
+  $('#actionOfFormNowSecondary').attr('value','edit');
+  $('#mainBranchform').submit();
+}
+
+hideLoader();
 </script>
 
 </body>
