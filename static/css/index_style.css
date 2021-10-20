@@ -1519,12 +1519,13 @@ a.disabled {
 
 
 .new_footer_area {
-    background: #cfcfcf;
+    background: #a6a7a8;
+    box-shadow: 25px 23px 13px 25px grey;
 }
 
 
 .new_footer_top {
-    padding: 57px 0px 270px;
+    padding: 78px 0px 55px;
     position: relative;
     overflow-x: hidden;
 }
