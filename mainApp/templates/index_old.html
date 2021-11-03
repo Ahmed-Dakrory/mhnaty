@@ -1,0 +1,418 @@
+{%load static%}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<html lang="ar">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="-1" />
+       
+   
+        
+        <link rel="icon" type="image/png" sizes="32x32" href="/static/img/Logo 2.png">
+        <!--Start of the imports css-->
+        {% block importsData %}
+        
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/owl.carousel.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/index_style.css' %}">
+       
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
+
+        {% endblock %}
+       
+       
+        {% block title %}
+          <title>{% trans "Home" %}</title>
+          
+          {% endblock %}
+        <!--End of the imports css-->
+    
+
+    </head>
+
+
+    <body>
+
+
+      {% csrf_token %}
+      <div id="loading">
+        <div id="loadingImg"></div>
+      </div>
+
+
+<header>
+
+  <div class="layer">
+
+
+<div  style="background: #232f3e;position: fixed;top: 0px;z-index: 9999;">
+  <input type="hidden" id="LANGUAGE_CODE" value="{{LANGUAGE_CODE}}"/>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid" style="direction:{% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %}">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/{{LANGUAGE_CODE}}">{% trans "Home" %}</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">انواع الخدمات</a>
+          </li> -->
+          
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/profile/">{% trans "Profile" %}</a>
+          </li>
+          {% endif %}
+
+
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/showUserMessages/{{id_of_Admin}}">{% trans "Customer Services" %}</a>
+          </li>
+          {% endif %}
+
+          {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/controlpanel/">{% trans "Control Panel" %}</a>
+          </li>
+          {% endif %}
+          
+         
+          {% if not user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/accounts/login/">{% trans "Login" %}</a>
+          </li>
+          <li class="nav-item login">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/loadRegPage/">{% trans "Register" %}</a>
+          </li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{LANGUAGE_CODE}}/logout/">{% trans "SignOut" %}</a>
+          </li>
+          {% endif %}
+        
+        </ul>
+     </div>
+  
+     <div class=" w-100 m-md-1 p-1  ml-md-5 mt-md-2 col-6 mr-2">
+      <input type="text" class="w-100 p-3 border rounded" id="searchInputMhnaty" placeholder='{% trans "Search For Your Services" %}' style="height: 37px;font-size: 1.1rem;background: #f2f2f2;box-shadow: 2px 2px 4px 1px grey;"/>
+      </div>
+     
+     <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-100" alt="logo"></a>
+  
+    </div>
+    </nav>
+      </div>
+
+
+        <section id="Search">
+            <div class="container">
+              <h1>{% trans "Search For Your Services" %}</h1>
+
+              <input type="hidden" id="dataOfCategory" value="">
+              <input type="hidden" id="dataOfcity" value="">
+              <input type="hidden" id="dataOfRegion" value="">
+
+                  <div class="row search-bar" style="direction:{% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %}">
+                      <div class="col-md-3 col-12 w-100 mt-1 p-1">
+                          <div class="dropdown w-100">
+                              <a class="btn btn-secondary dropdown-toggle w-100" mainName='{% trans "Services" %}' href="#" type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% trans "Services" %}
+                              </a>
+                            
+                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item categoryElementSelect" categoryId="">{% trans "All" %}</a></li>
+                                {% for item in allMainCategories %}
+                                <li><a class="dropdown-item categoryElementSelect" categoryId="{{item.id}}">{{item.name}}</a></li>
+                                {% endfor %}
+  
+                              </ul>
+                            </div>
+                      </div>
+                     
+
+                    <div class="col-md-3 col-12 w-100 mt-1 p-1">
+                      <div class="dropdown w-100">
+                          <a class="btn btn-secondary dropdown-toggle w-100" mainName='{% trans "City" %}' href="#" type="button" id="cityDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% trans "City" %}
+                          </a>
+                        
+                          <ul class="dropdown-menu" aria-labelledby="cityDropDown" id="listOfcities">
+                          </ul>
+                        </div>
+                  </div>
+
+                    <div class="col-md-3 col-12 w-100 mt-1 p-1">
+                      <div class="dropdown w-100">
+                          <a class="btn btn-secondary dropdown-toggle w-100" mainName='{% trans "Region" %}' href="#" type="button" id="regionDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% trans "Region" %}
+                          </a>
+                        
+                          <ul class="dropdown-menu" aria-labelledby="regionDropDown" id="listOfregions">
+                          </ul>
+                        </div>
+                  </div>
+
+
+                  
+                  <div class="col-md-3 w-100 mt-1 p-1">
+                      <a onclick="goToSearchPage('{{LANGUAGE_CODE}}')" class="btn btn-primary btn-lg w-100">{% trans "Search" %}<i class="fas fa-search"></i></a>
+
+                  </div>
+                  
+
+                <div class="col-md-2"></div>
+                <!-- <div class="col-md-8 w-100 mt-1 p-1">
+                <input type="text" class="w-100 p-3 border rounded" id="searchInputMhnaty" style=" height: 51px;background: #f2f2f2;box-shadow: 2px 2px 4px 1px grey;"/>
+                </div> -->
+                <div class="col-md-2"></div>
+
+                  
+                  </div>    
+      
+
+            </div>
+    
+            
+        </section>
+
+    
+  </div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+    <defs>
+      <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:rgb(248, 174, 21);stop-opacity:1" />
+        <stop offset="100%" style="stop-color:rgba(248, 172, 21, 0);stop-opacity:1" />
+      </linearGradient>
+    </defs>
+    <path fill="url(#grad1)" fill-opacity="1" d="M0,192L34.3,176C68.6,160,137,128,206,144C274.3,160,343,224,411,218.7C480,213,549,139,617,128C685.7,117,754,171,823,176C891.4,181,960,139,1029,117.3C1097.1,96,1166,96,1234,117.3C1302.9,139,1371,181,1406,202.7L1440,224L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
+</header>
+
+
+
+<section id="about">
+<div class="container">
+  <div class="row">
+      <div class="col-md-6 about-img">
+        <div class="border">
+          <div class="profile-pic">
+          <img src="/static/img/man-with-magnifying-glass-train-station.jpg">
+          </div>
+        </div>        
+       </div>
+      <div class="col-md-6 about-text">
+          <h2>{% trans "Who us" %}</h2>
+          <div id="borders">
+            <div class="border"></div>
+            <div class="border1"></div>
+            <div class="border"></div>
+          </div>
+
+<p>
+  {% trans "Word about us" %}
+</p>
+<a href="index_services.html"><button class="btn">{% trans "See More" %}</button></a>
+
+
+</div>
+  </div>
+</div>
+</section>
+
+
+<section id="services">
+<div class="layer">
+  <div class="container">
+      <h2>{% trans "Our Services" %}</h2>
+      <div id="borders">
+        <div class="border"></div>
+        <div class="border1"></div>
+        <div class="border"></div>
+      </div>
+      <div class="owl-carousel owl-theme">
+        
+        
+        {% for item in allMainCategories%}
+        <div>
+              <div class="single-service">
+                <img class="img-fluid" src="{{item.image}}">
+               
+          </div>
+          <div class="single-service">
+          <div class="overlay">
+            
+            <h4 class="mainNameScroll">{{item.name}}</h4>
+                <a href="/{{LANGUAGE_CODE}}/SearchPage/?category={{item.id}}&provider=&city=&region="><button class="btn">{% trans "Read More" %}</button></a>
+            
+            </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+
+
+        </div>
+      </div>
+  </div>
+</section>
+
+
+
+<section id="footer-contact">
+
+
+
+
+  <footer class="new_footer_area bg_color">
+    <div class="new_footer_top">
+        <div class="container w-95 " style="direction:{% if LANGUAGE_CODE == 'ar' %} ltr {% else %} rtl {% endif %}">
+            <div class="row text-center text-md-left">
+                <div class="col-lg-3 col-md-6 col-6">
+                    <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
+                        
+                          <img src="/static/img/Logo 2.png" alt="footer-logo">
+            
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-6">
+                    <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
+                      <h3 class="f-title f_600 t_color f_size_18">{% trans "Our Info" %}</h3>
+                      <ul class="list-unstyled f_list">
+                          <li><a href="#">{% trans "Home" %} </a></li>
+                          <li><a href="#">{% trans "All Services" %} </a></li>
+                      </ul>  
+                      
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-6 mt-5 mt-md-0">
+                    <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInLeft;">
+                        <h3 class="f-title f_600 t_color f_size_18">{% trans "Contact Info" %}</h3>
+                        <ul class="list-unstyled f_list">
+                            <li><a href="#">{% trans "Address" %}</a></li>
+                            <li><a href="#">Term &amp; conditions</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-6 mt-5 mt-md-0">
+                    <div class="f_widget social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInLeft;">
+                        <h3 class="f-title f_600 t_color f_size_18">Team Solutions</h3>
+                        <div class="f_social_icon">
+                            <a href="#" class="fab fa-facebook"></a>
+                            <a href="#" class="fab fa-twitter"></a>
+                            <a href="#" class="fab fa-linkedin"></a>
+                            <a href="#" class="fab fa-pinterest"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="footer_bg">
+            <div class="footer_bg_one"></div>
+            <div class="footer_bg_two"></div>
+        </div> -->
+    </div>
+    <div class="footer_bottom" style="direction:{% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %}">
+        <div class="container">
+            <div class="row align-items-center p-1">
+              <div class="col-md-3 text-center text-md-left mt-1">
+
+                <div class="dropdown" style=" height: 27px; ">
+                  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" style=" height: 100%; vertical-align: middle; color: white; padding: 0px; " data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    
+
+                                
+
+                      {% if LANGUAGE_CODE == 'en' %}
+                      English
+                      {% endif %}
+
+                      
+
+                      {% if LANGUAGE_CODE == 'ar' %}
+                      عربى
+                      {% endif %}
+
+
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1"  style="padding: 1px 0px;width: fit-content;background: #232f3e;">
+                    <li class="aOfFooterLi"  onclick="addReplaceLangCode('en')" {% if LANGUAGE_CODE == 'en' %} style=" background: orange; " {% endif %}><a href="javascript:void(0)" class="aOfFooter">English</a></li>
+                    
+                    <li role="separator" class="divider"></li>
+                    <li class="aOfFooterLi"  onclick="addReplaceLangCode('ar')" {% if LANGUAGE_CODE == 'ar' %} style=" background: orange; " {% endif %}><a href="javascript:void(0)"  class="aOfFooter">عربى</a></li>
+                  </ul>
+                </div>
+                
+              </div>
+              <div class="col-lg-5 col-sm-12 text-center text-md-left mt-1">
+                  <p class="mb-0 f_400">© Mhnaty Inc.. 2021 All rights reserved.</p>
+              </div>
+              <div class="col-lg-4 col-sm-12 text-center {% if LANGUAGE_CODE == 'ar' %} text-md-left {% else %} text-md-right {% endif %} mt-1">
+                  <p class="mb-0 f_400">Made By <i class="icon_heart"></i> in <a href="domainjo.com">DomainCom Web Solutions..</a></p>
+              </div>
+
+            </div>
+        </div>
+    </div>
+  </footer>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+ <!--Start of the imports js-->
+ {% block javascripts %}
+
+
+
+ <script src="{% static 'js/jquery-3.5.1.js' %}"></script> 
+ <script src="{% static 'js/jquery-ui.min.js' %}"></script> 
+ <script src="{% static 'js/popper.min.js' %}"></script> 
+ <script src="{% static 'js/bootstrap.min.js' %}"></script> 
+
+ 
+ <script src="{% static 'js/jquery.easing.1.3.js' %}"></script> 
+ <script src="{% static 'js/owl.carousel.min.js' %}"></script> 
+ <script src="{% static 'js/index.js' %}"></script> 
+
+ <script src="{% static 'js/mainFunctions.js' %}"></script>
+ <script>
+
+
+getlistOfcities();
+getListOfRegions("");
+makeSelectDropDown();
+
+
+
+
+ </script>
+ {% endblock %}
+
+ {% block Extrajavascripts %}
+
+ {% endblock %}
+
+
+    </body>
+
+        </html>

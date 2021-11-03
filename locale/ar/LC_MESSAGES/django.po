@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-19 20:29+0200\n"
+"POT-Creation-Date: 2021-11-03 21:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,20 +74,23 @@ msgstr "بحث مفصل"
 
 #: .\mainApp\templates\Admin\ads.html:81
 #: .\mainApp\templates\activation.html:128
-#: .\mainApp\templates\activation.html:129 .\mainApp\templates\index.html:129
-#: .\mainApp\templates\index.html:130
+#: .\mainApp\templates\activation.html:129 .\mainApp\templates\index.html:186
+#: .\mainApp\templates\index.html:531
 #: .\mainApp\templates\index_company.html:120
 #: .\mainApp\templates\index_company.html:121
+#: .\mainApp\templates\index_old.html:129
+#: .\mainApp\templates\index_old.html:130
 #: .\mainApp\templates\index_search.html:193
 msgid "Services"
 msgstr "الخدمات كلها"
 
 #: .\mainApp\templates\Admin\ads.html:91
 #: .\mainApp\templates\activation.html:145
-#: .\mainApp\templates\activation.html:146 .\mainApp\templates\index.html:146
-#: .\mainApp\templates\index.html:147
+#: .\mainApp\templates\activation.html:146 .\mainApp\templates\index.html:194
 #: .\mainApp\templates\index_company.html:137
 #: .\mainApp\templates\index_company.html:138
+#: .\mainApp\templates\index_old.html:146
+#: .\mainApp\templates\index_old.html:147
 #: .\mainApp\templates\index_reg.html:97
 #: .\mainApp\templates\index_search.html:203
 msgid "City"
@@ -95,10 +98,11 @@ msgstr "مدينة"
 
 #: .\mainApp\templates\Admin\ads.html:99
 #: .\mainApp\templates\activation.html:156
-#: .\mainApp\templates\activation.html:157 .\mainApp\templates\index.html:157
-#: .\mainApp\templates\index.html:158
+#: .\mainApp\templates\activation.html:157 .\mainApp\templates\index.html:201
 #: .\mainApp\templates\index_company.html:148
 #: .\mainApp\templates\index_company.html:149
+#: .\mainApp\templates\index_old.html:157
+#: .\mainApp\templates\index_old.html:158
 #: .\mainApp\templates\index_reg.html:111
 #: .\mainApp\templates\index_search.html:211
 #: .\mainApp\templates\profile.html:221
@@ -118,11 +122,17 @@ msgid "Rate"
 msgstr "التقييم"
 
 #: .\mainApp\templates\Admin\ads.html:120
-#: .\mainApp\templates\activation.html:168 .\mainApp\templates\index.html:169
+#: .\mainApp\templates\activation.html:168 .\mainApp\templates\index.html:207
 #: .\mainApp\templates\index_company.html:160
+#: .\mainApp\templates\index_old.html:169
 #: .\mainApp\templates\index_search.html:232
 msgid "Search"
 msgstr "بحث"
+
+#: .\mainApp\templates\Admin\controlBranchCategories.html:15
+#: .\mainApp\templates\Admin\controlpanel.html:146
+msgid "Control Branch Categories"
+msgstr "التخصصات الفرعى"
 
 #: .\mainApp\templates\Admin\controlBranchCategories.html:25
 #: .\mainApp\templates\Admin\controlCategories.html:25
@@ -161,6 +171,11 @@ msgstr "اسم التخصص الثانوى"
 msgid "Secondary Category New details"
 msgstr "بيانات التخصص الثانوى"
 
+#: .\mainApp\templates\Admin\controlCategories.html:15
+#: .\mainApp\templates\Admin\controlpanel.html:145
+msgid "Control Categories"
+msgstr "التخصصات الرئيسية"
+
 #: .\mainApp\templates\Admin\controlCategories.html:35
 msgid "Main Category New Name"
 msgstr "اسم التخصص الرئيسى"
@@ -178,10 +193,11 @@ msgstr "صفحتى الخاصة"
 #: .\mainApp\templates\Admin\controlpanel.html:221
 #: .\mainApp\templates\activation.html:30
 #: .\mainApp\templates\activation.html:63
-#: .\mainApp\templates\activation.html:284 .\mainApp\templates\index.html:31
-#: .\mainApp\templates\index.html:64 .\mainApp\templates\index.html:292
-#: .\mainApp\templates\index_company.html:55
+#: .\mainApp\templates\activation.html:284 .\mainApp\templates\index.html:19
+#: .\mainApp\templates\index.html:58 .\mainApp\templates\index_company.html:55
 #: .\mainApp\templates\index_company.html:568
+#: .\mainApp\templates\index_old.html:31 .\mainApp\templates\index_old.html:64
+#: .\mainApp\templates\index_old.html:292
 #: .\mainApp\templates\index_search.html:55
 #: .\mainApp\templates\index_search.html:272
 #: .\mainApp\templates\profile.html:68 .\mainApp\templates\profile.html:531
@@ -191,8 +207,9 @@ msgid "Home"
 msgstr "الرئيسية"
 
 #: .\mainApp\templates\Admin\controlpanel.html:76
-#: .\mainApp\templates\activation.html:71 .\mainApp\templates\index.html:72
+#: .\mainApp\templates\activation.html:71 .\mainApp\templates\index.html:62
 #: .\mainApp\templates\index_company.html:63
+#: .\mainApp\templates\index_old.html:72
 #: .\mainApp\templates\index_search.html:63
 #: .\mainApp\templates\profile.html:76
 #: .\mainApp\templates\showUserMessages.html:75
@@ -200,8 +217,9 @@ msgid "Profile"
 msgstr "صفحتى"
 
 #: .\mainApp\templates\Admin\controlpanel.html:83
-#: .\mainApp\templates\activation.html:78 .\mainApp\templates\index.html:79
+#: .\mainApp\templates\activation.html:78 .\mainApp\templates\index.html:69
 #: .\mainApp\templates\index_company.html:70
+#: .\mainApp\templates\index_old.html:79
 #: .\mainApp\templates\index_search.html:70
 #: .\mainApp\templates\profile.html:83
 #: .\mainApp\templates\showUserMessages.html:82
@@ -209,8 +227,9 @@ msgid "Customer Services"
 msgstr "خدمة العملاء"
 
 #: .\mainApp\templates\Admin\controlpanel.html:89
-#: .\mainApp\templates\activation.html:84 .\mainApp\templates\index.html:85
+#: .\mainApp\templates\activation.html:84 .\mainApp\templates\index.html:75
 #: .\mainApp\templates\index_company.html:76
+#: .\mainApp\templates\index_old.html:85
 #: .\mainApp\templates\index_search.html:76
 #: .\mainApp\templates\profile.html:89
 #: .\mainApp\templates\showUserMessages.html:88
@@ -218,11 +237,13 @@ msgid "Control Panel"
 msgstr "وحدة التحكم"
 
 #: .\mainApp\templates\Admin\controlpanel.html:96
-#: .\mainApp\templates\activation.html:91 .\mainApp\templates\index.html:92
+#: .\mainApp\templates\activation.html:91 .\mainApp\templates\index.html:89
+#: .\mainApp\templates\index.html:109 .\mainApp\templates\index.html:135
 #: .\mainApp\templates\index_company.html:83
 #: .\mainApp\templates\index_login.html:31
 #: .\mainApp\templates\index_login.html:70
 #: .\mainApp\templates\index_login.html:93
+#: .\mainApp\templates\index_old.html:92
 #: .\mainApp\templates\index_reg.html:164
 #: .\mainApp\templates\index_search.html:83
 #: .\mainApp\templates\profile.html:96
@@ -231,8 +252,9 @@ msgid "Login"
 msgstr "تسجيل الدخول"
 
 #: .\mainApp\templates\Admin\controlpanel.html:99
-#: .\mainApp\templates\activation.html:94 .\mainApp\templates\index.html:95
+#: .\mainApp\templates\activation.html:94 .\mainApp\templates\index.html:92
 #: .\mainApp\templates\index_company.html:86
+#: .\mainApp\templates\index_old.html:95
 #: .\mainApp\templates\index_search.html:86
 #: .\mainApp\templates\profile.html:99
 #: .\mainApp\templates\showUserMessages.html:98
@@ -240,8 +262,9 @@ msgid "Register"
 msgstr "انضم الأن"
 
 #: .\mainApp\templates\Admin\controlpanel.html:104
-#: .\mainApp\templates\activation.html:99 .\mainApp\templates\index.html:100
+#: .\mainApp\templates\activation.html:99 .\mainApp\templates\index.html:97
 #: .\mainApp\templates\index_company.html:91
+#: .\mainApp\templates\index_old.html:100
 #: .\mainApp\templates\index_search.html:91
 #: .\mainApp\templates\profile.html:104
 #: .\mainApp\templates\showUserMessages.html:103
@@ -249,10 +272,11 @@ msgid "SignOut"
 msgstr "تسجيل الخروج"
 
 #: .\mainApp\templates\Admin\controlpanel.html:112
-#: .\mainApp\templates\activation.html:107 .\mainApp\templates\index.html:108
-#: .\mainApp\templates\index.html:120
+#: .\mainApp\templates\activation.html:107 .\mainApp\templates\index.html:183
 #: .\mainApp\templates\index_company.html:99
 #: .\mainApp\templates\index_company.html:111
+#: .\mainApp\templates\index_old.html:108
+#: .\mainApp\templates\index_old.html:120
 #: .\mainApp\templates\index_search.html:99
 #: .\mainApp\templates\profile.html:112
 #: .\mainApp\templates\showUserMessages.html:111
@@ -268,14 +292,6 @@ msgstr "وحدة التحكم"
 msgid "Add Details"
 msgstr "اضافة تفاصيل"
 
-#: .\mainApp\templates\Admin\controlpanel.html:145
-msgid "Control Categories"
-msgstr "التخصصات الرئيسية"
-
-#: .\mainApp\templates\Admin\controlpanel.html:146
-msgid "Control Branch Categories"
-msgstr "التخصصات الفرعى"
-
 #: .\mainApp\templates\Admin\controlpanel.html:147
 #: .\mainApp\templates\profile.html:148
 msgid "MailBox"
@@ -287,8 +303,9 @@ msgid "Settings"
 msgstr "اعدادات"
 
 #: .\mainApp\templates\Admin\controlpanel.html:219
-#: .\mainApp\templates\activation.html:282 .\mainApp\templates\index.html:290
+#: .\mainApp\templates\activation.html:282
 #: .\mainApp\templates\index_company.html:566
+#: .\mainApp\templates\index_old.html:290
 #: .\mainApp\templates\index_search.html:270
 #: .\mainApp\templates\profile.html:529
 #: .\mainApp\templates\showUserMessages.html:205
@@ -296,8 +313,9 @@ msgid "Our Info"
 msgstr "بياناتنا"
 
 #: .\mainApp\templates\Admin\controlpanel.html:222
-#: .\mainApp\templates\activation.html:285 .\mainApp\templates\index.html:293
+#: .\mainApp\templates\activation.html:285
 #: .\mainApp\templates\index_company.html:569
+#: .\mainApp\templates\index_old.html:293
 #: .\mainApp\templates\index_search.html:273
 #: .\mainApp\templates\profile.html:532
 #: .\mainApp\templates\showUserMessages.html:208
@@ -305,8 +323,9 @@ msgid "All Services"
 msgstr "الخدمات كلها"
 
 #: .\mainApp\templates\Admin\controlpanel.html:229
-#: .\mainApp\templates\activation.html:292 .\mainApp\templates\index.html:300
+#: .\mainApp\templates\activation.html:292
 #: .\mainApp\templates\index_company.html:576
+#: .\mainApp\templates\index_old.html:300
 #: .\mainApp\templates\index_search.html:280
 #: .\mainApp\templates\profile.html:539
 #: .\mainApp\templates\showUserMessages.html:215
@@ -314,8 +333,9 @@ msgid "Contact Info"
 msgstr "بيانات الأتصال"
 
 #: .\mainApp\templates\Admin\controlpanel.html:231
-#: .\mainApp\templates\activation.html:294 .\mainApp\templates\index.html:302
+#: .\mainApp\templates\activation.html:294
 #: .\mainApp\templates\index_company.html:578
+#: .\mainApp\templates\index_old.html:302
 #: .\mainApp\templates\index_reg.html:91
 #: .\mainApp\templates\index_search.html:282
 #: .\mainApp\templates\profile.html:247 .\mainApp\templates\profile.html:541
@@ -349,7 +369,8 @@ msgid "Call"
 msgstr "اتصل"
 
 #: .\mainApp\templates\Admin\controlpanel.html:1069
-#: .\mainApp\templates\index_login.html:245
+#: .\mainApp\templates\index.html:639 .\mainApp\templates\index.html:643
+#: .\mainApp\templates\index.html:649 .\mainApp\templates\index_login.html:245
 #: .\mainApp\templates\index_login.html:249
 #: .\mainApp\templates\index_login.html:255
 #: .\mainApp\templates\index_reg.html:287
@@ -373,34 +394,143 @@ msgstr "اختر احد الخيارات"
 
 #: .\mainApp\templates\activation.html:119
 msgid "Please check your Email to Activate your account"
-msgstr ""
+msgstr "برجاء فحص ايميلك لتفعيل الحساب"
 
-#: .\mainApp\templates\activation.html:133 .\mainApp\templates\index.html:134
+#: .\mainApp\templates\activation.html:133
 #: .\mainApp\templates\index_company.html:125
+#: .\mainApp\templates\index_old.html:134
 msgid "All"
 msgstr "الكل"
 
-#: .\mainApp\templates\activation.html:207 .\mainApp\templates\index.html:214
+#: .\mainApp\templates\activation.html:207
+#: .\mainApp\templates\index_old.html:214
 msgid "Who us"
 msgstr "من نحن"
 
-#: .\mainApp\templates\activation.html:215 .\mainApp\templates\index.html:222
+#: .\mainApp\templates\activation.html:215 .\mainApp\templates\index.html:329
+#: .\mainApp\templates\index_old.html:222
 msgid "Word about us"
 msgstr ""
 "موقع مهنتى أول موقع خدمى يعمل على توصيل الخدمات العامة بمحتجيها بشكل سهل "
 "وبسيط,عن طريق تنظيم الخدمات وفصلها بشكل سلس وبسيط"
 
-#: .\mainApp\templates\activation.html:217 .\mainApp\templates\index.html:224
+#: .\mainApp\templates\activation.html:217
+#: .\mainApp\templates\index_old.html:224
 msgid "See More"
 msgstr "المزيد"
 
-#: .\mainApp\templates\activation.html:229 .\mainApp\templates\index.html:236
+#: .\mainApp\templates\activation.html:229 .\mainApp\templates\index.html:259
+#: .\mainApp\templates\index_old.html:236
 msgid "Our Services"
 msgstr "الخدمات الخاصة بنا"
 
-#: .\mainApp\templates\activation.html:248 .\mainApp\templates\index.html:255
+#: .\mainApp\templates\activation.html:248 .\mainApp\templates\index.html:273
+#: .\mainApp\templates\index_old.html:255
 msgid "Read More"
 msgstr "المزيد"
+
+#: .\mainApp\templates\index.html:120 .\mainApp\templates\index_login.html:80
+msgid "Please Enter the user name"
+msgstr "برجاء ادخال اسم المستخدم"
+
+#: .\mainApp\templates\index.html:125 .\mainApp\templates\index_login.html:89
+msgid "Secret Number "
+msgstr "الرقم السرى"
+
+#: .\mainApp\templates\index.html:179
+msgid "Find your Nearby"
+msgstr "قم بالبحث بالقرب منك عن "
+
+#: .\mainApp\templates\index.html:180
+msgid ""
+"Find some of the best tips from around the city from our partners and "
+"friends."
+msgstr "اعثر على بعض أفضل النصائح من جميع أنحاء المدينة من شركائنا وأصدقائنا"
+
+#: .\mainApp\templates\index.html:210
+msgid "Or Browse Popular Categories"
+msgstr "أو تصفح الخدمات الفرعية المفضلة"
+
+#: .\mainApp\templates\index.html:214
+msgid "Restaurant"
+msgstr "طعام"
+
+#: .\mainApp\templates\index.html:220
+msgid "Fitness"
+msgstr "خدمات صحية"
+
+#: .\mainApp\templates\index.html:226
+msgid "Events"
+msgstr "أحداث عامة"
+
+#: .\mainApp\templates\index.html:232
+msgid "Hotels"
+msgstr "خدمات فندقية"
+
+#: .\mainApp\templates\index.html:238
+msgid "Real Estate"
+msgstr "خدمات عقارية"
+
+#: .\mainApp\templates\index.html:244
+msgid "Business"
+msgstr "أعمال حرة"
+
+#: .\mainApp\templates\index.html:282
+msgid "Most Visited Places"
+msgstr "أكثر الخدمات مشاهدة"
+
+#: .\mainApp\templates\index.html:282
+msgid "Explore the greates places in the city"
+msgstr "استمتع بالبحث عن خدماتك المفضلة فقط على موقع مهنتى"
+
+#: .\mainApp\templates\index.html:291
+msgid "Featured"
+msgstr "مميز"
+
+#: .\mainApp\templates\index.html:292
+msgid "Open Now"
+msgstr "مفتوح الأن"
+
+#: .\mainApp\templates\index.html:321
+msgid "Browse Listings Attractions List"
+msgstr "تصفح القائمة الأكثر مشاهدة"
+
+#: .\mainApp\templates\index.html:329
+msgid "What Say Our Customers"
+msgstr "ماذا يقول عنا زبائنا"
+
+#: .\mainApp\templates\index.html:531
+msgid "Needs"
+msgstr "متطلباتك"
+
+#: .\mainApp\templates\index.html:531
+msgid "Concerns"
+msgstr "أهتماماتك"
+
+#: .\mainApp\templates\index.html:643 .\mainApp\templates\index.html:649
+#: .\mainApp\templates\index_login.html:249
+#: .\mainApp\templates\index_login.html:255
+msgid "Error while Login"
+msgstr "مشلكة عند التحميل"
+
+#: .\mainApp\templates\index.html:676 .\mainApp\templates\index_login.html:282
+msgid "Error While Login"
+msgstr "مشلكة عند التحميل"
+
+#: .\mainApp\templates\index.html:676 .\mainApp\templates\index.html:708
+#: .\mainApp\templates\index.html:744 .\mainApp\templates\index_login.html:282
+#: .\mainApp\templates\index_login.html:314
+#: .\mainApp\templates\index_login.html:349
+msgid "Problem"
+msgstr "مشكلة"
+
+#: .\mainApp\templates\index.html:708 .\mainApp\templates\index_login.html:314
+msgid "Please Revies Username or Password"
+msgstr "برجاء مراجعة اسم المستخدم وكلمة المرور"
+
+#: .\mainApp\templates\index.html:744 .\mainApp\templates\index_login.html:349
+msgid "No one registered with this username or password"
+msgstr "هناك شخص مسجل بهذا الاسم او كلمة المرور"
 
 #: .\mainApp\templates\index_company.html:26
 #: .\mainApp\templates\profile.html:379
@@ -476,14 +606,6 @@ msgstr "برجاء الدخول لامكانية عمل هذا الحدث"
 msgid "Please Enter your Credentials"
 msgstr "برجاء ادخال البيانات الخاصة بك"
 
-#: .\mainApp\templates\index_login.html:80
-msgid "Please Enter the user name"
-msgstr "برجاء ادخال اسم المستخدم"
-
-#: .\mainApp\templates\index_login.html:89
-msgid "Secret Number "
-msgstr "الرقم السرى"
-
 #: .\mainApp\templates\index_login.html:98
 msgid "OR Login with"
 msgstr "أو الدخول باستخدام"
@@ -495,29 +617,6 @@ msgstr "لست عضوا؟"
 #: .\mainApp\templates\index_login.html:128
 msgid "Join Us"
 msgstr "شاركنا"
-
-#: .\mainApp\templates\index_login.html:249
-#: .\mainApp\templates\index_login.html:255
-msgid "Error while Login"
-msgstr "مشلكة عند التحميل"
-
-#: .\mainApp\templates\index_login.html:282
-msgid "Error While Login"
-msgstr "مشلكة عند التحميل"
-
-#: .\mainApp\templates\index_login.html:282
-#: .\mainApp\templates\index_login.html:314
-#: .\mainApp\templates\index_login.html:349
-msgid "Problem"
-msgstr "مشكلة"
-
-#: .\mainApp\templates\index_login.html:314
-msgid "Please Revies Username or Password"
-msgstr "برجاء مراجعة اسم المستخدم وكلمة المرور"
-
-#: .\mainApp\templates\index_login.html:349
-msgid "No one registered with this username or password"
-msgstr "هناك شخص مسجل بهذا الاسم او كلمة المرور"
 
 #: .\mainApp\templates\index_reg.html:66
 msgid "Register new Memeber"

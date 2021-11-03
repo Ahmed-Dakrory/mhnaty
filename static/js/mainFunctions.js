@@ -1,3 +1,5 @@
+
+
 /*
  function getCookie(name) {
     var cookieValue = null;
@@ -19,23 +21,7 @@ var csrftoken = getCookie('csrftoken');
 var csrftoken = $("input[name='csrfmiddlewaretoken']").val();
 
 
-function makeSelectDropDown(){
-    $(".dropdown-item").click(function(event) {
-        $(this).parents('.dropdown').find('.dropdown-toggle').html($(event.target).html());
-        
-        console.log($(this).parents('.dropdown').find('.dropdown-toggle').attr('id'));
 
-        varSelect = $(this).parents('.dropdown').find('.dropdown-toggle').attr('id');
-        if(varSelect == 'dropdownMenuLink'){
-            $('#dataOfCategory').attr('value',$(this).attr('categoryid'));
-        }else if(varSelect == 'cityDropDown'){
-            $('#dataOfcity').attr('value',$(event.target).html());
-        }else if(varSelect == 'regionDropDown'){
-            $('#dataOfRegion').attr('value',$(event.target).html());
-        }
-
-    });
-}
 
 
 function showLoader(){
@@ -52,16 +38,16 @@ function hideLoader(){
 
 
 
-$('.cityElementSelect').click(function(){
-    //Some code
-
+$('select#listOfcities.selectpicker.default').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                      
     $('#dataOfRegion').attr('value','');
     console.log("Okcity");
-    city = $(this).attr('city');
+    city = $('#listOfcities').val();
     getListOfRegions(city);
 });
 
 
+  
 
 function getlistOfcities(){
 
@@ -79,28 +65,26 @@ function getlistOfcities(){
                 cache: false,
                 success: function(result) {
                     console.log(result);
-                    $('#cityDropDown').html($('#cityDropDown').attr('mainName'));
                     $('#listOfcities').empty();
                    if(result['Result']=='Ok'){
             
                     result.data.forEach(element => {
-                        $('#listOfcities').append('<li><a class="dropdown-item cityElementSelect" city="'+element.name+'">'+element.name+'</a></li>');
+                        $('#listOfcities').append('<option value="'+element.name+'">'+element.name+'</option>');
                     });
                    
             
-            
-                    makeSelectDropDown();
                    }else{
-                    $('#listOfcities').append('<li><a class="dropdown-item cityElementSelect" city=""></a></li>');
+                    $('#listOfcities').append('<option value="All">All</option>');
                    }
 
-                   
-                    $('.cityElementSelect').click(function(){
+                   $('select').selectpicker('refresh');
+                    
+                    $('select#listOfcities.selectpicker.default').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
                         //Some code
 
-                        $('#dataOfRegion').attr('value','');
                         console.log("Ok");
-                        city = $(this).attr('city');
+                        
+                        city = $('#listOfcities').val();
                         getListOfRegions(city);
                     });
 
@@ -115,14 +99,14 @@ function getlistOfcities(){
 
 
                 function goToSearchPage(language){
-                    var category = $("#dataOfCategory").attr('value');
-                      var city = $("#dataOfcity").attr('value');
-                      var region = $("#dataOfRegion").attr('value');
+                    var category = $("#dropdownMenuLink").val();
+                      var city = $("#listOfcities").val();
+                      var region = $("#listOfregions").val();
                     url_Search = '/'+language+'/SearchPage/?category='+category+'&city='+city+'&region='+region;
                 
                 
-                    // console.log(url_Search);
-                    window.location.href = url_Search;
+                    console.log(url_Search);
+                    // window.location.href = url_Search;
                   }
 
                 
@@ -171,20 +155,21 @@ function getListOfRegions(city){
                         cache: false,
                         success: function(result) {
                             console.log(result);
-                            $('#regionDropDown').html($('#regionDropDown').attr('mainName'));
                             $('#listOfregions').empty();
                            if(result['Result']=='Ok'){
                     
                             result.data.forEach(element => {
-                                $('#listOfregions').append('<li><a class="dropdown-item" region="'+element.name+'">'+element.name+'</a></li>');
+                                $('#listOfregions').append('<option value="'+element.name+'">'+element.name+'</option>');
                             });
                            
                     
                     
-                            makeSelectDropDown();
                            }else{
-                            $('#listOfregions').append('<li><a class="dropdown-item" region=""></a></li>');
+                            $('#listOfregions').append('<option value="All">All</option>');
                            }
+
+                           
+                   $('select').selectpicker('refresh');
                         },error: function (xhr, ajaxOptions, thrownError) {
                             console.log(thrownError)
                                }

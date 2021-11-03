@@ -282,6 +282,7 @@ class theadd(models.Model):
     owner = models.ForeignKey(profile, on_delete=models.PROTECT)
     name = models.CharField(max_length=500,default=None)
     details = models.TextField(default=None)
+    price = models.FloatField(blank=True, null=True)
     category = models.ForeignKey(category, on_delete=models.PROTECT)
     images = models.ManyToManyField(attachmenttranscript)
     videoUrl = models.TextField(default=None,null=True)
@@ -298,6 +299,13 @@ class theadd(models.Model):
     class Meta:
         db_table = "theadd"
         ordering = ['-created']
+
+    def avg_ratings(self):
+        # return 3.5
+        if self.comments.aggregate(Avg('rate'))['rate__avg'] != None:
+            return self.comments.aggregate(Avg('rate'))['rate__avg']
+        else:
+            return 0
 
 
     def to_json(self):

@@ -873,8 +873,10 @@ def CompanyPage(request):
 
 def loadMainPage(request):
 
+    mostViewed = theadd.objects.filter(Q(id__lt=9))
 
     data = {
+        'mostViewed':mostViewed
     }
     return render(request,'index.html',data)
 
