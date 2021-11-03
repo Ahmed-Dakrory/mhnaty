@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '9q#6$z_ohh_$#&&^anu2d_26p3=&!641tm3+yij@e!#xy^l)-h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = [False]
+DEBUG = [True]
 
 ALLOWED_HOSTS = ['mhnaty.com','*']
 
