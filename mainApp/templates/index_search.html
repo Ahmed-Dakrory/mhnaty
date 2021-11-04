@@ -12,11 +12,11 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <h2>Layout List With Sidebar</h2>
+        <h2>{% trans "Search For Your Services" %}</h2>
         <nav id="breadcrumbs">
           <ul>
-            <li><a href="index_1.html">Home</a></li>
-            <li>Layout List With Sidebar</li>
+            <li><a href="/{{LANGUAGE_CODE}}/">{% trans "Home" %}</a></li>
+            <li>{% trans "Services" %}</li>
           </ul>
         </nav>
       </div>
@@ -27,6 +27,92 @@
   <div class="row">
 
     
+    <!-- Sidebar -->
+    <div id="searchForMobile" class="col-lg-4 col-md-4 d-md-none  d-sm-block">
+      <div class="sidebar">
+        <div class="utf_box_widget margin-bottom-35">
+          <h3><i class="sl sl-icon-direction"></i> {% trans "Filter" %}</h3>			
+                     
+          
+          <div class="services mb-5 d-md-block order-0 order-md-1">
+            <div class="services-title">
+              <h4>{% trans "Detailed Search" %}</h4>
+            </div>
+            
+            <div class="services-body">
+
+              <div class="toggle-wrap"> 
+                <span class="trigger active">
+                <a href="#">{% trans "Services" %}<i class="fa fa-angle-double-right"></i> </a>
+                </span>
+                <div class="toggle-container" >
+                  <div class="panel CategoriesSearch  mt-2"></div>
+                </div>
+              </div>
+
+
+              <div class="toggle-wrap"> 
+                <span class="trigger active">
+                <a href="#">{% trans "City" %}<i class="fa fa-angle-double-right"></i> </a>
+                </span>
+                <div class="toggle-container" >
+                  <div class="panel citySearch  mt-2"></div>
+                </div>
+              </div>
+
+              <div class="toggle-wrap"> 
+                <span class="trigger active">
+                <a href="#">{% trans "Region" %}<i class="fa fa-angle-double-right"></i> </a>
+                </span>
+                <div class="toggle-container" >
+                  <div class="panel regionSearch  mt-2"></div>
+                </div>
+              </div>
+
+             
+
+
+              
+
+              <div class="toggle-wrap"> 
+                <span class="trigger active">
+                <a href="#">{% trans "Experienses" %}<i class="fa fa-angle-double-right"></i> </a>
+                </span>
+                <div class="toggle-container" >
+                  <div class="panel expSearch  mt-2"></div>
+                </div>
+              </div>
+
+
+              <div class="toggle-wrap"> 
+                <span class="trigger active">
+                <a href="#">{% trans "Rate" %}<i class="fa fa-angle-double-right"></i> </a>
+                </span>
+                <div class="toggle-container" >
+                  <div class="row mt-4 mb-3" style="direction: rtl;max-height: 87px;">
+                    {% trans "Rate" %}: <b class="ml-3">0</b> 
+                    <input  type="text" class="span2 ex2" value="" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="[0,5]"/>
+                      <b class="mr-3">5</b>
+                  </div>
+                </div>
+              </div>
+              
+            
+            </div>
+
+            
+          </div>
+          
+          <button class="button fullwidth_block margin-top-5" onclick="getAddsNew();">{% trans "Search" %}</button>
+        </div>		  
+        <div class="services-body mt-3 d-md-block d-none" style=" border-style: solid; border-radius: 7px; border-width: 1px; ">
+          <a href="/"> 
+            <img src="/media/attachments/allImages/1.jpg"  alt="logo" style="width: 100%;height: 550px;">
+          </a>
+        </div>
+      </div>
+    </div>
+
     <div class="col-lg-8 col-md-8 order-2">
       
       <div class="row" id="ListOfAdds">
@@ -51,10 +137,10 @@
     </div>
     
     <!-- Sidebar -->
-    <div class="col-lg-4 col-md-4  ">
+    <div id="searchForComputer" class="col-lg-4 col-md-4 d-md-block d-none">
       <div class="sidebar">
         <div class="utf_box_widget margin-bottom-35">
-          <h3><i class="sl sl-icon-direction"></i> Filters</h3>			
+          <h3><i class="sl sl-icon-direction"></i> {% trans "Filter" %}</h3>			
                      
           
           <div class="services mb-5 d-md-block order-0 order-md-1">
@@ -181,6 +267,17 @@
 
 
 <script>
+
+
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+ // some code..
+$('#searchForComputer').empty();
+
+}else{
+$('#searchForMobile').empty();
+
+}
+
   var citiesSearch="";
   var categoriesSearch="";
   var experiensesSearch="";

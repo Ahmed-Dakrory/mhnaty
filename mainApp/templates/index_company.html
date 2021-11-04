@@ -1,929 +1,496 @@
-<html>
-    <head>
+{% extends "theme.html" %} 
+{%load static%}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <meta http-equiv="cache-control" content="no-cache" />
-        <meta http-equiv="Pragma" content="no-cache" />
-        <meta http-equiv="Expires" content="-1" />
-        
-      {%load static%}
-      {% load i18n %}
-      {% get_current_language as LANGUAGE_CODE %}
-   
-        
-        <link rel="icon" type="image/png" sizes="32x32" href="/static/img/Logo 2.png"> 
 
-        
-        
 
-<link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/owl.carousel.min.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/index_style.css' %}">
 
-<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
-<title>{% trans "Service Details" %}</title>
+{% block "bodyOfPage" %}
 
+{% if mainImage != None %}
 
-
-
-    </head>
-
-
-    <body>
-      {% csrf_token %}
-      <div id="loading">
-        <div id="loadingImg"></div>
-      </div>
-
-        
-<section id="company" class="mb-3">
-        
-  <div class="layer">
-   
-<div  style="background: #232f3e;position: fixed;top: 0px;z-index: 9999;">
-  <input type="hidden" id="LANGUAGE_CODE" value="{{LANGUAGE_CODE}}"/>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid" style="direction:{% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %}">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/{{LANGUAGE_CODE}}">{% trans "Home" %}</a>
-          </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="#">انواع الخدمات</a>
-          </li> -->
-          
-          {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="/{{LANGUAGE_CODE}}/profile/">{% trans "Profile" %}</a>
-          </li>
-          {% endif %}
-
-
-          {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="/{{LANGUAGE_CODE}}/showUserMessages/{{id_of_Admin}}">{% trans "Customer Services" %}</a>
-          </li>
-          {% endif %}
-
-          {% if user.is_superuser %}
-          <li class="nav-item">
-            <a class="nav-link" href="/{{LANGUAGE_CODE}}/controlpanel/">{% trans "Control Panel" %}</a>
-          </li>
-          {% endif %}
-          
-         
-          {% if not user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="/{{LANGUAGE_CODE}}/accounts/login/">{% trans "Login" %}</a>
-          </li>
-          <li class="nav-item login">
-            <a class="nav-link" href="/{{LANGUAGE_CODE}}/loadRegPage/">{% trans "Register" %}</a>
-          </li>
-          {% endif %}
-          {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="/{{LANGUAGE_CODE}}/logout/">{% trans "SignOut" %}</a>
-          </li>
-          {% endif %}
-        
-        </ul>
-     </div>
-  
-     <div class=" w-100 m-md-1 p-1  ml-md-5 mt-md-2 col-6 mr-2">
-      <input type="text" class="w-100 p-3 border rounded" id="searchInputMhnaty" placeholder='{% trans "Search For Your Services" %}' style="height: 37px;font-size: 1.1rem;background: #f2f2f2;box-shadow: 2px 2px 4px 1px grey;"/>
-      </div>
-     
-     <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-100" alt="logo"></a>
-  
-    </div>
-    </nav>
-      </div>
-      
-     
-      <section id="Search" style="margin-top: 0px!important;">
-        <div class="container">
-          <h1>{% trans "Search For Your Services" %}</h1>
-
-          <input type="hidden" id="dataOfCategory" value="">
-          <input type="hidden" id="dataOfcity" value="">
-          <input type="hidden" id="dataOfRegion" value="">
-
-              <div class="row search-bar" style="direction:{% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %}">
-                  <div class="col-md-3 col-12 w-100 mt-1 p-1">
-                      <div class="dropdown w-100">
-                          <a class="btn btn-secondary dropdown-toggle w-100" mainName='{% trans "Services" %}' href="#" type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {% trans "Services" %}
-                          </a>
-                        
-                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item categoryElementSelect" categoryId="">{% trans "All" %}</a></li>
-                            {% for item in allMainCategories %}
-                            <li><a class="dropdown-item categoryElementSelect" categoryId="{{item.id}}">{{item.name}}</a></li>
-                            {% endfor %}
-
-                          </ul>
-                        </div>
-                  </div>
-                 
-
-                <div class="col-md-3 col-12 w-100 mt-1 p-1">
-                  <div class="dropdown w-100">
-                      <a class="btn btn-secondary dropdown-toggle w-100" mainName='{% trans "City" %}' href="#" type="button" id="cityDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {% trans "City" %}
-                      </a>
-                    
-                      <ul class="dropdown-menu" aria-labelledby="cityDropDown" id="listOfcities">
-                      </ul>
-                    </div>
-              </div>
-
-                <div class="col-md-3 col-12 w-100 mt-1 p-1">
-                  <div class="dropdown w-100">
-                      <a class="btn btn-secondary dropdown-toggle w-100" mainName='{% trans "Region" %}' href="#" type="button" id="regionDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {% trans "Region" %}
-                      </a>
-                    
-                      <ul class="dropdown-menu" aria-labelledby="regionDropDown" id="listOfregions">
-                      </ul>
-                    </div>
-              </div>
-
-
-              <!-- <div class="col-md-3 w-100 mt-1 p-1 "></div> -->
-              <div class="col-md-3 w-100 mt-1 p-1">
-                  <a onclick="goToSearchPage('{{LANGUAGE_CODE}}')" class="btn btn-primary btn-lg w-100">{% trans "Search" %}<i class="fas fa-search"></i></a>
-
-              </div>
-              <!-- <div class="col-md-3 w-100 mt-1 p-1"></div> -->
-              
-              </div>    
-  
-
-        </div>
-
-        
-    </section>
-
-
-    
-  </div>
-  
-
-  </section>
-
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-    <defs>
-      <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" style="stop-color:rgb(248, 174, 21);stop-opacity:1" />
-        <stop offset="100%" style="stop-color:rgba(248, 172, 21, 0);stop-opacity:1" />
-      </linearGradient>
-    </defs>
-    <path fill="url(#grad1)" fill-opacity="1" d="M0,192L34.3,176C68.6,160,137,128,206,144C274.3,160,343,224,411,218.7C480,213,549,139,617,128C685.7,117,754,171,823,176C891.4,181,960,139,1029,117.3C1097.1,96,1166,96,1234,117.3C1302.9,139,1371,181,1406,202.7L1440,224L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
-
-
-
-
-<section id="about-company" style=" direction: {% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %}; " >
-    <div class="container w-100">
-        <div class="row  m-0">
-         
-          <div class="col-md-2 services mb-5 d-md-block d-none order-md-1">
-               
-            <div class="services-body mt-3" style=" border-style: solid; border-radius: 7px; border-width: 1px; ">
-              <a href="/"> 
-               <img src="/media/attachments/allImages/1.jpg" alt="logo" style="width: 100%;height: 950px;">
-              </a>
-            </div>
-
-      </div>
-
-          <div class="col-md-6  about-company-img about-company-text row order-md-2  m-0">
-
-            <div class="container p-md-3 p-0">
-
-              
-            <div class="company-text-title">
-              <h2>{{thisAdd.name}}</h2>
-            </div>
-
-
-
-            
-            {% if mainImage != None %}
-
-            <div class="row w-100 p-0 m-0">
-            <div class="col-md-10 p-0 col-9">
-
-              <img src="{{mainImage.file.url}}" id="mainImage" numberOfImage = "1"  class="mainImageForGallary w-100">
-            </div>
-
-
-            <div class="col-md-2 p-0 col-3 colForAllImages" >
-              
-              {% for images in allFiles%}
-              <div class="column2 p-1">
-                <img src="{{images.file.url}}" numberOfImage = "{{forloop.counter}}"  class="hover-shadow w-100">
-              </div>
-              {% endfor %}
-             
-
-
-            </div>
-          </div>
-
-          {% endif %}
-          <div id="myModal" class="modal">
-            <span class="close cursor" onclick="closeModal()">&times;</span>
-            <div class="modal-content">
-
-
-              {% for images in allFiles%}
-              <div class="mySlides">
-                <div class="numbertext">{{forloop.counter}} / {{numberOfFiles}}</div>
-                <img src="{{images.file.url}}"  class="w-100 h-75">
-              </div>
-              {% endfor %}
-
-
-              
-
-            
-
-              
-
-             
-
-
-              
-
-              <!-- Next/previous controls -->
-              <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-              <a class="next" onclick="plusSlides(1)">&#10095;</a>
-
-              <!-- Caption text -->
-              <div class="caption-container">
-                <p id="caption"></p>
-              </div>
-
-
-              {% for images in allFiles%}
-              <!-- Thumbnail image controls -->
-              <div class="column">
-                <img class="demo w-100" src="{{images.file.url}}" onclick="currentSlide({{forloop.counter}})" >
-              </div>
-              {% endfor %}
-
-
-              
-
-
-              
-            </div>
-          </div>
-
-
-            <div class="evaluate  m-auto w-100 pt-3">
-
-              <h5>{% trans "Company Rating" %}</h5>
-              <div class="evaluate-clints">
-                <div id = "halfstarsReview" data-rating-readonly="true" class=" mb-3" dir="rtl"></div>
-              </div>
-            </div>
-
-            <div class="company-text-body pt-0">
-              {% if thisAdd.owner.aboutMe != None or thisAdd.owner.aboutMe != '' %}
-              <h5>{% trans "About the Company" %}</h5>
-              <p>{{thisAdd.owner.aboutMe}}</p>
-              {% endif %}
-
-
-                  <p>{% trans "Company Experiences" %}</p>
-                  <div class="row w-100 m-3" style="direction:  rtl ;">
-                    {% for item in allTags %}
-                    <a href="#" class="badge badge-primary">{{item.name}}</a>
-                    {% endfor %}
-                  </div>
-            </div>
-            {% if thisAdd.details != None %}
-            <div class="company-text-body">
-              <h5>{% trans "Company Services" %}</h5>
-              <p>{{thisAdd.details}}</p>
-            </div>
-            {% endif %}
-
-
-            {% if thisAdd.videoUrl != None %}
-            <div class="company-text-body w-100 mb-3">
-              <h5>{% trans "Video for the Service" %}</h5>
-              <div class="w-100">
-                <iframe style="width: 100%;height: 355px;"
-                src="{{thisAdd.videoUrl}}">
-                </iframe>
-              </div>
-            </div>
-            {% endif %}
-
-       
-
-          </div>
-
-          </div>
-
-          <!-- <div class="col-md-1 order-2"></div> -->
-              
-          <div class="col-md-4 about-company-text row order-md-3  m-0 mb-3" style=" background: #7c90b545; border-radius: 2%; padding: 17px; ">
-            
-            <div class="container">
-
-            <div class="company-text-body " style=" padding: 5%;background: #716e6614;border-radius: 16px;border-top-left-radius: 16px;margin-bottom: 6%;">
-              <h5>{% trans "Call us" %}</h5>
-              <div class="row">
-                
-
-                {% if thisAdd.owner.address != None and thisAdd.owner.address != '' and thisAdd.owner.address != ' ' %}
-                <div class="col-sm-10 order-2">
-                  <p>{{thisAdd.owner.address}}</p>
-              </div>
-              <div class="col-sm-2  order-1">
-                  <i class="fas fa-map-marker-alt"></i>
-              </div>
-              {% endif %}
-
-              
-                  {% if thisAdd.owner.phone != None and thisAdd.owner.phone != '' and thisAdd.owner.phone != ' ' %}
-                  <div class="col-sm-10  order-4 mb-3">
-                    <div class="phone" datatel="{{thisAdd.owner.phone}}">
-                       <a href="#">{% trans "Show More" %} </a>
-                    </div>
-                  </div>
-                  <div class="col-sm-2  order-3">
-                      <i class="fas fa-phone"></i>
-                  </div>
-                  {% endif %}
-
-
-                  {% if thisAdd.owner.user.email != None and thisAdd.owner.user.email != '' and thisAdd.owner.user.email != ' ' %}
-                  <div class="col-sm-10 order-6">
-                      <p>{{thisAdd.owner.user.email}}</p>
-                  </div>
-                  <div class="col-sm-2 mb-2 order-5">
-                      <i class="fas fa-envelope"></i>
-                  </div>
-                  {% endif %}
-          </div>
-              </div>
-
-
-
-              
-
-
-                  <div id="form" class="w-100">
-                    <div class="container">
-                      <form method="POST" id="mainform" class="needs-validation form-horizontal" novalidate>
-                      {% csrf_token %}
-                        
-                      <input type="hidden"  name="typeOfForm" value="feedBack">
-                      <input type="hidden"  name="mainRateFromUser" id="mainRateFromUser" value="0">
-                      {% if user.is_authenticated %}
-                    
-                       
-                        <label for="subject">{% trans "Your Comment is a matter for us" %}</label>
-                        <div id= "rateSend"  class=" mb-3" dir="rtl"></div>
-  
-                        <textarea id="subject" name="subject" placeholder='{% trans "Leave your Message" %} ..' style="height:100px"></textarea>
-                        
-                        <input type="submit" value='{% trans "Send" %}'>
-                        {% else %}
-
-                        <p class="text-secondary mr-3">{% trans "Please Login to be Able to Make Comment" %}</p>
-                        {% endif %}
-                      </form>
-                    </div>
-                  </div>
-
-
-
-                  
-
-<section id="review" class="mt-3">
-  <div class="container p-0">
-    <div class="review-head">
-    <h2 class="pb-2">{% trans "Customer Comments" %}</h2>
-    <p class="pb-4 pr-3 pl-3">{% trans "You can see Customer and other comments" %}
-      </p>
-    </div>
-  
-    
-
-
-    <div class="reviewComments w-100 p-4">
-    
-
-
-      {% for comment in allcomments%}
-      <div class="row rowDetails commentDetails w-100" style="direction:  rtl;">
-        <div class="row col-md-12 w-100">
-          <div class="col-md-3 img-comments col-5 m-0">
-              <img src="{{comment.fromUser.image.url}}" class="w-100" alt="">
-          </div>
-
-          <div class="col-md-9 clint-name text-right col-7 m-0 p-0">
-            <p class="m-0">{{comment.fromUser.user.first_name}}</p>
-            <div class="evaluation">
-              <div class="commentRate" data-rating-stars="5" data-rating-readonly="true" data-rating-input="#dataReadonlyInput" data-rating-value="{{comment.rate}}" dir="rtl" rating="true" style="color: rgb(252, 215, 3);"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
-              
-              <p>{{comment.created|date:"d/m/Y"}}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-12  w-100 text-right col-12 mb-0">
-          <p class="commentTextDetails">{{comment.details}}</p>
-        </div>
-
-
-
-        <div class="col-md-12 w-100 pr-5 pt-1" id="commentReplies_{{comment.id}}" >
-          
-        
-        </div>
-        
-        <div class="col-md-12 mt-0 mb-3 pr-5">
-          <div class="feedback-clints">
-            <input type="text" class="form-control w-100 commentEnter" id="commentText_{{comment.id}}"   placeholder="Write a comment...">
-          </div>
-        </div>
-  
-      </div>
-      {% endfor %}
-
-
-
-      
-    
-    </div>
-
-
-
-
-  </div>
-  </section>
-  
-
-                </div>
-
-
-                  
-              </div>
-
-            
-
+<div id="utf_listing_gallery_part" class="utf_listing_section">
+  <div class="utf_listing_slider utf_gallery_container margin-bottom-0"> 
+    {% for images in allFiles%}
+       <a href="{{images.file.url}}" data-background-image="{{images.file.url}}" class="item utf_gallery"></a>
+    {% endfor %}
 </div>
-        </div>
-    </div>
-</section>
+</div>    
 
-<!-- 
+{% endif %}
 
-<section id="review" >
 <div class="container">
-  <h2 class="pb-2">أراء العملاء</h2>
-  <p class="pb-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem pariatur repellendus eos quas sit, 
-    excepturi labore aliquid laborum cum ducimus ab voluptas? Non, amet praesentium.</p>
-  <div class="owl-carousel owl-theme">
-    <div class="item">
-      <i class="fas fa-quote-left"></i>
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis non totam error labore illo sequi?</p>
-
+  <div class="row utf_sticky_main_wrapper">
+    <div class="col-lg-8 col-md-8">
+      <div id="titlebar" class="utf_listing_titlebar">
+        <div class="utf_listing_titlebar_title">
+         <h2>{{thisAdd.name}} <span class="listing-tag">Apartment</span></h2>
+          <span> <a href="#utf_listing_location" class="listing-address">The Ritz-Carlton, Hong Kong <i class="sl sl-icon-location"></i></a> </span>			
+    <span class="call_now">(415) 796-3633 <i class="sl sl-icon-phone"></i></span>
+          <div class="utf_star_rating_section" data-rating="{{rate|default_if_none:0}}">
+            <div class="utf_counter_star_rating">({{rate|default_if_none:0}}) / (14 Reviews)</div>
+          </div>
+          <ul class="listing_item_social">
+            <li><a href="#">Bookmark <i class="fa fa-bookmark"></i></a></li>
+      <li><a href="#">Add Review <i class="fa fa-star"></i></a></li>              
+            <li><a href="#">Featured <i class="fa fa-flag"></i></a></li>
+            <li><a href="#">Share <i class="fa fa-share"></i></a></li>
+      <li><a href="#" class="now_open">Open Now</a></li>
+          </ul>
+    <div class="utf_room_detail">
+    <ul>
+      <li>3 Rooms</li>
+      <li>3 Bed Room</li>
+      <li>4 Bed</li>
+      <li>3 Bath Room</li>
+    </ul>
     </div>
+        </div>
+      </div>
+      <div id="utf_listing_overview" class="utf_listing_section">
+        <h3 class="utf_listing_headline_part margin-top-30 margin-bottom-30">{% trans "Company Services" %}</h3>
+        <p>{{thisAdd.details}}</p>
+    <div id="utf_listing_tags" class="utf_listing_section listing_tags_section margin-bottom-10 margin-top-0">          
+      <a href="#"><i class="sl sl-icon-phone" aria-hidden="true"></i> +(01) 1123-254-456</a>			
+    <a href="#"><i class="fa fa-envelope-o" aria-hidden="true"></i> info@example.com</a>	
+    <a href="#"><i class="sl sl-icon-globe" aria-hidden="true"></i> www.example.com</a>			
+        </div>
+    <div class="social-contact">
+    <a href="#" class="facebook-link"><i class="fa fa-facebook"></i> Facebook</a>
+    <a href="#" class="twitter-link"><i class="fa fa-twitter"></i> Twitter</a>
+    <a href="#" class="instagram-link"><i class="fa fa-instagram"></i> Instagram</a>
+    <a href="#" class="linkedin-link"><i class="fa fa-linkedin"></i> Linkedin</a>
+    <a href="#" class="youtube-link"><i class="fa fa-youtube-play"></i> Youtube</a>
+    </div>		  
+      </div>
+      
+      <div id="utf_listing_amenities" class="utf_listing_section">
+        <h3 class="utf_listing_headline_part margin-top-50 margin-bottom-40">{% trans "Company Experiences" %}</h3>
+        <ul class="utf_listing_features checkboxes margin-top-0">
+          {% for item in allTags %}
+          <li>{{item.name}}</li>
+          {% endfor %}           
+        </ul>
+      </div>
+  
+      {% if thisAdd.videoUrl != None %}
+  <div id="utf_listing_video" class="utf_listing_section">
+        <h3 class="utf_listing_headline_part margin-top-50 margin-bottom-40">{% trans "Video for the Service" %}</h3>
+        <div class="detail-video">
+          <iframe width="835" height="420" src="{{thisAdd.videoUrl}}" allowfullscreen></iframe>
+        </div>
+      </div>
+    {% endif %}
 
-    <div class="item">
-      <i class="fas fa-quote-left"></i>
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis non totam error labore illo sequi?</p>
 
+  <div id="utf_listing_faq" class="utf_listing_section">
+        <h3 class="utf_listing_headline_part margin-top-50 margin-bottom-40">Listing FAQ's</h3>
+        <div class="style-2">
+    <div class="accordion">
+      <h3><span class="ui-accordion-header-icon ui-icon ui-accordion-icon"></span><i class="sl sl-icon-plus"></i> (1) How to Open an Account?</h3>
+      <div>
+      <p>Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum is simply dummy text of the printing and type setting industry.</p>
+      </div>
+      <h3><span class="ui-accordion-header-icon ui-icon ui-accordion-icon"></span><i class="sl sl-icon-plus"></i> (2) How to Add Listing?</h3>
+      <div>
+      <p>Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum is simply dummy text of the printing and type setting industry.</p>
+      </div>
+      <h3><span class="ui-accordion-header-icon ui-icon ui-accordion-icon"></span><i class="sl sl-icon-plus"></i> (3) What is Featured Listing?</h3>
+      <div>
+      <p>Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum is simply dummy text of the printing and type setting industry.</p>
+      </div>			  			  				  			  
     </div>
-
-    <div class="item">
-      <i class="fas fa-quote-left"></i>
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis non totam error labore illo sequi?</p>
-
     </div>
-
-    <div class="item">
-      <i class="fas fa-quote-left"></i>
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis non totam error labore illo sequi?</p>
-
-    </div>
-
-    <div class="item">
-      <i class="fas fa-quote-left"></i>
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis non totam error labore illo sequi?</p>
-
-    </div>
-
-    <div class="item">
-      <i class="fas fa-quote-left"></i>
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis non totam error labore illo sequi?</p>
-
-    </div>
-
-    <div class="item">
-      <i class="fas fa-quote-left"></i>
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis non totam error labore illo sequi?</p>
-
+      </div>	
+      
+      <div id="utf_listing_reviews" class="utf_listing_section">
+        <h3 class="utf_listing_headline_part margin-top-75 margin-bottom-20">Reviews <span>(08)</span></h3>
+        <div class="clearfix"></div>
+   
+        <div class="comments utf_listing_reviews">
+          <ul>
+            <li>
+              <div class="avatar"><img src="/static/images/client-avatar1.jpg" alt="" /></div>
+              <div class="utf_comment_content">
+                <div class="utf_arrow_comment"></div>
+                <div class="utf_star_rating_section" data-rating="5"></div>
+        <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>
+                <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2019 - 8:52 am</span> </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>                                    
+      </div>
+            </li>
+            <li>
+              <div class="avatar"><img src="/static/images/client-avatar2.jpg" alt="" /> </div>
+              <div class="utf_comment_content">
+                <div class="utf_arrow_comment"></div>
+                <div class="utf_star_rating_section" data-rating="4"></div>
+        <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>
+                <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2019 - 8:52 am</span> </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>                  
+      </div>
+            </li>
+      <li>
+              <div class="avatar"><img src="/static/images/client-avatar3.jpg" alt="" /> </div>
+              <div class="utf_comment_content">
+                <div class="utf_arrow_comment"></div>
+                <div class="utf_star_rating_section" data-rating="4"></div>                  
+                <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2019 - 8:52 am</span> </div>
+        <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>                  
+      </div>
+            </li>
+            <li>
+              <div class="avatar"><img src="/static/images/client-avatar1.jpg" alt="" /></div>
+              <div class="utf_comment_content">
+                <div class="utf_arrow_comment"></div>
+                <div class="utf_star_rating_section" data-rating="4.5"></div>                  
+                <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2019 - 8:52 am</span> </div>
+        <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>
+                <div class="review-images utf_gallery_container"> 
+          <a href="/static/images/review-image-01.jpg" class="utf_gallery"><img src="/static/images/review-image-01.jpg" alt=""></a> 
+        <a href="/static/images/review-image-02.jpg" class="utf_gallery"><img src="/static/images/review-image-02.jpg" alt=""></a> 
+        <a href="/static/images/review-image-03.jpg" class="utf_gallery"><img src="/static/images/review-image-03.jpg" alt=""></a> 
+        <a href="/static/images/review-image-01.jpg" class="utf_gallery"><img src="/static/images/review-image-01.jpg" alt=""></a> 
+        <a href="/static/images/review-image-02.jpg" class="utf_gallery"><img src="/static/images/review-image-02.jpg" alt=""></a> 
+        <a href="/static/images/review-image-03.jpg" class="utf_gallery"><img src="/static/images/review-image-03.jpg" alt=""></a> 
+        </div>                  
+      </div>
+            </li>
+      <li>
+              <div class="avatar"><img src="/static/images/client-avatar3.jpg" alt="" /> </div>
+              <div class="utf_comment_content">
+                <div class="utf_arrow_comment"></div>
+                <div class="utf_star_rating_section" data-rating="4"></div>                  
+                <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2019 / 8:52 am</span> </div>
+        <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>                  
+      </div>
+            </li>
+          </ul>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="utf_pagination_container_part margin-top-30">
+              <nav class="pagination">
+                <ul>
+                  <li><a href="#"><i class="sl sl-icon-arrow-right"></i></a></li>
+                  <li><a href="#" class="current-page">1</a></li>
+                  <li><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#"><i class="sl sl-icon-arrow-left"></i></a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div id="utf_add_review" class="utf_add_review-box">
+        <h3 class="utf_listing_headline_part margin-bottom-20">{% trans "Your Comment is a matter for us" %}</h3>
+        <span class="utf_leave_rating_title">Your email address will not be published.</span>
+        <div class="row">
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="add-review-photos margin-bottom-30">
+              <div class="photoUpload"> <span>Upload Photo <i class="sl sl-icon-arrow-up-circle"></i></span>
+                <input type="file" class="upload" />
+              </div>
+            </div>
+          </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="clearfix"></div>
+            <div class="utf_leave_rating margin-bottom-30">
+              <input type="radio" name="rating" id="rating-1" value="1"/>
+              <label for="rating-1" class="fa fa-star"></label>
+              <input type="radio" name="rating" id="rating-2" value="2"/>
+              <label for="rating-2" class="fa fa-star"></label>
+              <input type="radio" name="rating" id="rating-3" value="3"/>
+              <label for="rating-3" class="fa fa-star"></label>
+              <input type="radio" name="rating" id="rating-4" value="4"/>
+              <label for="rating-4" class="fa fa-star"></label>
+              <input type="radio" name="rating" id="rating-5" value="5"/>
+              <label for="rating-5" class="fa fa-star"></label>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form id="utf_add_comment" class="utf_add_comment">
+          <fieldset>
+            <div class="row">
+              <div class="col-md-4">
+                <label>Name:</label>
+                <input type="text" placeholder="Name" value=""/>
+              </div>
+              <div class="col-md-4">
+                <label>Email:</label>
+                <input type="text" placeholder="Email" value=""/>
+              </div>
+              <div class="col-md-4">
+                <label>Subject:</label>
+                <input type="text" placeholder="Subject" value=""/>
+              </div>
+            </div>
+            <div>
+              <label>Review:</label>
+              <textarea cols="40" placeholder="Your Message..." rows="3"></textarea>
+            </div>
+          </fieldset>
+          <button class="button">Submit Review</button>
+          <div class="clearfix"></div>
+        </form>
+      </div>
     </div>
     
-</div>
-</div>
-</section> -->
-
-<section id="footer-contact">
-
-
-
-
-  <footer class="new_footer_area bg_color">
-    <div class="new_footer_top">
-        <div class="container w-95 " style="direction:{% if LANGUAGE_CODE == 'ar' %} ltr {% else %} rtl {% endif %}">
-            <div class="row text-center text-md-left">
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
-                        
-                          <img src="/static/img/Logo 2.png" alt="footer-logo">
-            
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
-                      <h3 class="f-title f_600 t_color f_size_18">{% trans "Our Info" %}</h3>
-                      <ul class="list-unstyled f_list">
-                          <li><a href="#">{% trans "Home" %} </a></li>
-                          <li><a href="#">{% trans "All Services" %} </a></li>
-                      </ul>  
-                      
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-6 mt-5 mt-md-0">
-                    <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInLeft;">
-                        <h3 class="f-title f_600 t_color f_size_18">{% trans "Contact Info" %}</h3>
-                        <ul class="list-unstyled f_list">
-                            <li><a href="#">{% trans "Address" %}</a></li>
-                            <li><a href="#">Term &amp; conditions</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-6 mt-5 mt-md-0">
-                    <div class="f_widget social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInLeft;">
-                        <h3 class="f-title f_600 t_color f_size_18">Team Solutions</h3>
-                        <div class="f_social_icon">
-                            <a href="#" class="fab fa-facebook"></a>
-                            <a href="#" class="fab fa-twitter"></a>
-                            <a href="#" class="fab fa-linkedin"></a>
-                            <a href="#" class="fab fa-pinterest"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Sidebar -->
+    <div class="col-lg-4 col-md-4 margin-top-75 sidebar-search">
+      
+      <div class="utf_box_widget margin-top-35">
+        <h3><i class="sl sl-icon-phone"></i> {% trans "Call us" %}</h3>
+        <div class="utf_hosted_by_user_title"> <a href="#" class="utf_hosted_by_avatar_listing"><img src="/static/images/dashboard-avatar.jpg" alt=""></a>
+          <h4><a href="#">Kathy Brown</a><span>Posted 3 Days Ago</span>
+            {% if thisAdd.owner.address != None and thisAdd.owner.address != '' and thisAdd.owner.address != ' ' %}
+             <span>{{thisAdd.owner.address}} <i class="sl sl-icon-location"></i></span>
+             {% endif %}
+          </h4>
         </div>
-        <!-- <div class="footer_bg">
-            <div class="footer_bg_one"></div>
-            <div class="footer_bg_two"></div>
-        </div> -->
+    <ul class="utf_social_icon rounded margin-top-10">
+          <li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
+          <li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
+          <li><a class="gplus" href="#"><i class="icon-gplus"></i></a></li>
+          <li><a class="linkedin" href="#"><i class="icon-linkedin"></i></a></li>
+          <li><a class="instagram" href="#"><i class="icon-instagram"></i></a></li>            
+        </ul>
+        <ul class="utf_listing_detail_sidebar">
+          {% if thisAdd.owner.address != None and thisAdd.owner.address != '' and thisAdd.owner.address != ' ' %}
+          <li><i class="sl sl-icon-map"></i> {{thisAdd.owner.address}} </li>
+          {% endif %}
+          <li><i class="sl sl-icon-phone"></i> +(012) 1123-254-456</li>
+          <li><i class="fa fa-envelope-o"></i> <a href="mailto:{{thisAdd.owner.user.email}}">{{thisAdd.owner.user.email}}</a></li>
+        </ul>		  
+      </div>
+      <div class="utf_box_widget margin-top-35">
+        <h3><i class="sl sl-icon-folder-alt"></i> Categories</h3>
+        <ul class="utf_listing_detail_sidebar">
+          <li><i class="fa fa-angle-double-right"></i> <a href="#">Travel</a></li>
+          <li><i class="fa fa-angle-double-right"></i> <a href="#">Nightlife</a></li>
+          <li><i class="fa fa-angle-double-right"></i> <a href="#">Fitness</a></li>
+          <li><i class="fa fa-angle-double-right"></i> <a href="#">Real Estate</a></li>
+          <li><i class="fa fa-angle-double-right"></i> <a href="#">Restaurant</a></li>
+          <li><i class="fa fa-angle-double-right"></i> <a href="#">Dance Floor</a></li>
+        </ul>
+      </div>
+      <div class="utf_box_widget opening-hours margin-top-35">
+        <h3><i class="sl sl-icon-clock"></i> Business Hours</h3>
+        <ul>
+          <li>Monday <span>10:00 AM - 06:00 PM</span></li>
+          <li>Tuesday <span>10:00 AM - 06:00 PM</span></li>
+          <li>Wednesday <span>10:00 AM - 06:00 PM</span></li>
+          <li>Thursday <span>10:00 AM - 06:00 PM</span></li>
+          <li>Friday <span>10:00 AM - 06:00 PM</span></li>
+          <li>Saturday <span>Closed</span></li>
+          <li>Sunday <span>Closed</span></li>
+        </ul>
+      </div>
+ 	
+  
+
+  <div class="utf_box_widget opening-hours margin-top-35">
+        <h3><i class="sl sl-icon-info"></i> Google AdSense</h3>
+        <span><img src="/static/images/google_adsense.jpg" alt="" /></span>
+      </div>
+      <div class="utf_box_widget margin-top-35">
+        <h3><i class="sl sl-icon-phone"></i> Quick Contact to Help?</h3>
+        <p>Excepteur sint occaecat non proident, sunt in culpa officia deserunt mollit anim id est laborum.</p>
+        <ul class="utf_social_icon rounded">
+          <li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
+          <li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
+          <li><a class="gplus" href="#"><i class="icon-gplus"></i></a></li>
+          <li><a class="linkedin" href="#"><i class="icon-linkedin"></i></a></li>
+          <li><a class="instagram" href="#"><i class="icon-instagram"></i></a></li>            
+        </ul>
+        <a class="utf_progress_button button fullwidth_block margin-top-5" href="contact.html">Contact Us</a> 
+  </div>
+    
     </div>
-    <div class="footer_bottom" style="direction:{% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %}">
-        <div class="container">
-            <div class="row align-items-center p-1">
-              <div class="col-md-3 text-center text-md-left mt-1">
+  </div>
+</div>
 
-                <div class="dropdown" style=" height: 27px; ">
-                  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" style=" height: 100%; vertical-align: middle; color: white; padding: 0px; " data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    
-
-                                
-
-                      {% if LANGUAGE_CODE == 'en' %}
-                      English
-                      {% endif %}
-
-                      
-
-                      {% if LANGUAGE_CODE == 'ar' %}
-                      عربى
-                      {% endif %}
-
-
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1"  style="padding: 1px 0px;width: fit-content;background: #232f3e;">
-                    <li class="aOfFooterLi"  onclick="addReplaceLangCode('en')" {% if LANGUAGE_CODE == 'en' %} style=" background: orange; " {% endif %}><a href="javascript:void(0)" class="aOfFooter">English</a></li>
-                    
-                    <li role="separator" class="divider"></li>
-                    <li class="aOfFooterLi"  onclick="addReplaceLangCode('ar')" {% if LANGUAGE_CODE == 'ar' %} style=" background: orange; " {% endif %}><a href="javascript:void(0)"  class="aOfFooter">عربى</a></li>
-                  </ul>
-                </div>
-                
-              </div>
-              <div class="col-lg-5 col-sm-12 text-center text-md-left mt-1">
-                  <p class="mb-0 f_400">© Mhnaty Inc.. 2021 All rights reserved.</p>
-              </div>
-              <div class="col-lg-4 col-sm-12 text-center {% if LANGUAGE_CODE == 'ar' %} text-md-left {% else %} text-md-right {% endif %} mt-1">
-                  <p class="mb-0 f_400">Made By <i class="icon_heart"></i> in <a href="domainjo.com">DomainCom Web Solutions..</a></p>
-              </div>
-
-            </div>
+<section class="fullwidth_block padding-top-20 padding-bottom-50">
+  <div class="container">
+    <div class="row slick_carousel_slider">
+      <div class="col-md-12">
+        <h3 class="headline_part centered margin-bottom-25">Similar Listings</h3>
+      </div>		
+  <div class="row">
+    <div class="col-md-12">
+      <div class="simple_slick_carousel_block utf_dots_nav"> 
+        <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
+        <div class="utf_listing_item"> <img src="/static/images/utf_listing_item-01.jpg" alt=""> <span class="tag"><i class="im im-icon-Chef-Hat"></i> Restaurant</span> <span class="featured_tag">Featured</span>
+          <span class="utf_open_now">Open Now</span>
+          <div class="utf_listing_item_content">
+            <div class="utf_listing_prige_block">							
+            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $25 - $55</span>							
+            <span class="utp_approve_item"><i class="utf_approve_listing"></i></span>
+          </div>
+          <h3>Chontaduro Barcelona</h3>
+          <span><i class="sl sl-icon-location"></i> The Ritz-Carlton, Hong Kong</span>
+          <span><i class="sl sl-icon-phone"></i> (415) 796-3633</span>											
+          </div>					  
         </div>
+        <div class="utf_star_rating_section" data-rating="4.5">
+          <div class="utf_counter_star_rating">(4.5)</div>
+          <span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
+          <span class="like-icon"></span>
+        </div>
+        </a> 
+        </div>
+        
+        <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
+        <div class="utf_listing_item"> <img src="/static/images/utf_listing_item-02.jpg" alt=""> <span class="tag"><i class="im im-icon-Electric-Guitar"></i> Events</span>
+          <div class="utf_listing_item_content">
+            <div class="utf_listing_prige_block">							
+            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $45 - $70</span>							
+          </div>
+          <h3>The Lounge & Bar</h3>
+          <span><i class="sl sl-icon-location"></i> The Ritz-Carlton, Hong Kong</span>
+          <span><i class="sl sl-icon-phone"></i> (415) 796-3633</span>												
+          </div>
+        </div>
+        <div class="utf_star_rating_section" data-rating="4.5">
+          <div class="utf_counter_star_rating">(4.5)</div>
+          <span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
+          <span class="like-icon"></span>
+        </div>
+        </a> 
+        </div>
+        
+        <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
+        <div class="utf_listing_item"> <img src="/static/images/utf_listing_item-03.jpg" alt=""> <span class="tag"><i class="im im-icon-Hotel"></i> Hotels</span>
+          <span class="utf_closed">Closed</span>
+          <div class="utf_listing_item_content">
+            <div class="utf_listing_prige_block">							
+            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $25 - $55</span>							
+          </div>
+          <h3>Westfield Sydney</h3>
+          <span><i class="sl sl-icon-location"></i> The Ritz-Carlton, Hong Kong</span>
+          <span><i class="sl sl-icon-phone"></i> (415) 796-3633</span>												
+          </div>
+        </div>
+        <div class="utf_star_rating_section" data-rating="4.5">
+          <div class="utf_counter_star_rating">(4.5)</div>
+          <span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
+          <span class="like-icon"></span>
+        </div>
+        </a> 
+        </div>
+        
+        <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
+        <div class="utf_listing_item"> <img src="/static/images/utf_listing_item-04.jpg" alt=""> <span class="tag"><i class="im im-icon-Dumbbell"></i> Fitness</span>
+          <div class="utf_listing_item_content">
+            <div class="utf_listing_prige_block">							
+            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $45 - $70</span>							
+            <span class="utp_approve_item"><i class="utf_approve_listing"></i></span>
+          </div>
+          <h3>Ruby Beauty Center</h3>
+          <span><i class="sl sl-icon-location"></i> The Ritz-Carlton, Hong Kong</span>
+          <span><i class="sl sl-icon-phone"></i> (415) 796-3633</span>												
+          </div>
+        </div>
+        <div class="utf_star_rating_section" data-rating="4.5">
+          <div class="utf_counter_star_rating">(4.5)</div>
+          <span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
+          <span class="like-icon"></span>
+        </div>
+        </a> 
+        </div>
+        
+        <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
+        <div class="utf_listing_item"> <img src="/static/images/utf_listing_item-05.jpg" alt=""> <span class="tag"><i class="im im-icon-Hotel"></i> Hotels</span> <span class="featured_tag">Featured</span>
+          <span class="utf_closed">Closed</span>
+          <div class="utf_listing_item_content">
+            <div class="utf_listing_prige_block">							
+            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $45 - $70</span>							
+          </div>
+          <h3>UK Fitness Club</h3>
+          <span><i class="sl sl-icon-location"></i> The Ritz-Carlton, Hong Kong</span>
+          <span><i class="sl sl-icon-phone"></i> (415) 796-3633</span>												
+          </div>
+        </div>
+        <div class="utf_star_rating_section" data-rating="4.5">
+          <div class="utf_counter_star_rating">(4.5)</div>
+          <span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
+          <span class="like-icon"></span>
+        </div>
+        </a> 
+         </div>
+        
+        <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
+        <div class="utf_listing_item"> <img src="/static/images/utf_listing_item-06.jpg" alt=""> <span class="tag"><i class="im im-icon-Chef-Hat"></i> Restaurant</span>
+          <span class="utf_open_now">Open Now</span>
+          <div class="utf_listing_item_content">
+            <div class="utf_listing_prige_block">							
+            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $25 - $45</span>							
+            <span class="utp_approve_item"><i class="utf_approve_listing"></i></span>
+          </div>
+          <h3>Fairmont Pacific Rim</h3>
+          <span><i class="sl sl-icon-location"></i> The Ritz-Carlton, Hong Kong</span>
+          <span><i class="sl sl-icon-phone"></i> (415) 796-3633</span>											
+          </div>
+        </div>
+        <div class="utf_star_rating_section" data-rating="4.5">
+          <div class="utf_counter_star_rating">(4.5)</div>
+          <span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
+          <span class="like-icon"></span>
+        </div>
+        </a>
+        </div>
+      </div>
+      </div>
     </div>
-  </footer>
-
-
-
+   </div>
+  </div>
 </section>
 
-        
-
-<script src="{% static 'js/jquery-3.5.1.js' %}"></script> 
- <script src="{% static 'js/jquery-ui.min.js' %}"></script> 
- <script src="{% static 'js/popper.min.js' %}"></script> 
- <script src="{% static 'js/bootstrap.min.js' %}"></script>  
- <script src="{% static 'js/jquery.easing.1.3.js' %}"></script> 
- <script src="{% static 'js/owl.carousel.min.js' %}"></script> 
- <script src="{% static 'js/index.js' %}"></script> 
- <script src="{% static 'js/company.js' %}"></script> 
-
-
-
- <script src="{% static 'js/sweetalert.min.js' %}"></script>
- 
- <script src="{% static 'js/rating.js' %}"></script> 
-
- <script src="{% static 'js/mainFunctions.js' %}"></script>
-       
- 
- <script>
-
-
-getlistOfcities();
-getListOfRegions("");
-makeSelectDropDown();
-  
-  
-  
-  
-   </script>
-   
-
- 
-
- <script>
-
-            {%  if numberOfFiles > 0 %}
-            var slideIndex = 1;
-              showSlides(slideIndex);
-            {% endif %}
-
-          {% for comment in allcomments %}
-
-
-          
-
-
-          $('#commentText_{{comment.id}}').bind("enterKey",function(e){
-
-            if("{{userProfile.user.is_authenticated}}"=="True"){
-
-              
-                
-  $.ajax({
-            type: 'POST',
-            url: '/en/sendReply',
-            data: { 
-               'commentid': {{comment.id}},
-               'profileid': "{{userProfile.id}}",
-               'replyDetails': $(this).val()
-            },
-            headers:{
-                "X-CSRFToken": csrftoken
-                 },
-            dataType: 'json',
-            cache: false,
-            success: function(result) {
-              console.log(result)
-               if(result['Result']=='Ok'){
-                $('#commentReplies_{{comment.id}}').empty();
-                result.data.forEach(element => {
-               
-                  console.log('comment: {{comment.id}} ,Reply: '+element.id);
-                            $('#commentReplies_{{comment.id}}').append(`
-                            <div class="row w-100">
-                                <div class="col-md-2 img-comments col-4 w-100 pb-2 pr-1 pl-2">
-                                  <img src="`+element.image+`" class="w-100" alt="">
-                                </div>
-
-                                <div class="col-md-9 clint-name text-right col-7 m-0 p-0">
-                                  <p class="m-0" style=" font-size: 12px; ">`+element.username+`</p>
-                                  <div class="evaluation">
-                                    <p style=" font-size: 12px; padding:0; margin:0;">`+element.created+`</p>
-                                  </div>
-                                </div>
-
-                                <div class="col-md-12 w-100 text-right col-12 m-0">
-                                  <p class="commentTextDetails" style="font-size:11px;">`+element.details+`</p>
-                                </div>
-                                
-                              </div>
-                              
-
-                            `)
-                            $('#commentText_{{comment.id}}').attr('value','');
-                            $('#commentText_{{comment.id}}').val('');
-                });
-
-
-              
-        
-               
-             
-               }
-
-            },error: function (xhr, ajaxOptions, thrownError) {
-                console.log(thrownError)
-                   }
-        });
-        
-
-            }else{
-              
-              swal('{% trans "Alert" %}', '{% trans "You have to Login to be able to make this action" %}', "warning");
-            }
-            
-          });
-
-
-  $.ajax({
-            type: 'POST',
-            url: '/en/getAllRepliesForComment',
-            data: { 
-               'id': {{comment.id}}
-            },
-            headers:{
-                "X-CSRFToken": csrftoken
-                 },
-            dataType: 'json',
-            cache: false,
-            success: function(result) {
-              // console.log(result)
-               if(result['Result']=='Ok'){
-                $('#commentReplies_{{comment.id}}').empty();
-                result.data.forEach(element => {
-               
-                  // console.log('comment: {{comment.id}} ,Reply: '+element.id);
-                            $('#commentReplies_{{comment.id}}').append(`
-                            <div class="row w-100">
-                                <div class="col-md-2 img-comments col-4 w-100 pb-2 pr-1 pl-2">
-                                  <img src="`+element.image+`" class="w-100" alt="">
-                                </div>
-
-                                <div class="col-md-9 clint-name text-right col-7 m-0 p-0">
-                                  <p class="m-0" style=" font-size: 12px; ">`+element.username+`</p>
-                                  <div class="evaluation">
-                                    <p style=" font-size: 12px; padding:0; margin:0;">`+element.created+`</p>
-                                  </div>
-                                </div>
-
-                                <div class="col-md-12 w-100 text-right col-12 m-0">
-                                  <p class="commentTextDetails" style="font-size:11px;">`+element.details+`</p>
-                                </div>
-                                
-                              </div>
-                              
-
-                            `)
-                
-                });
-
-
-              
-        
-               
-             
-               }
-
-            },error: function (xhr, ajaxOptions, thrownError) {
-                console.log(thrownError)
-                   }
-        });
-        
-        {% endfor %}
-
-
-
-        $('.commentEnter').keyup(function(e){
-              if(e.keyCode == 13)
-              {
-                  $(this).trigger("enterKey");
-              }
-          });
-    </script>
-
-
-
-        
- <script>
-
-$(".commentRate").rating({"readonly":true});
-
-$("#rateSend").rating({
-                            "half": true,
-                            "halfStar":"fas fa-star-half-alt fa-flip-horizontal",
-                            "filledStar":"fas fa-star",
-                            // "readonly":true,
-                            "value":0,
-                            "click": function (e) {
-                                // console.log(e);
-                               $("#mainRateFromUser").val(e.stars);
-                               $("#mainRateFromUser").attr('value',e.stars);
-                            }
-                        });
-
-
-$("#halfstarsReview").rating({
-                            "half": true,
-                            "halfStar":"fas fa-star-half-alt fa-flip-horizontal",
-                            "filledStar":"fas fa-star",
-                            "readonly":true,
-                            "value":{{rate|default_if_none:0}},
-                            "click": function (e) {
-                                console.log(e);
-                               // $(".halfstarsInput").val(e.stars);
-                            }
-                        });
-
-
-                      
-
-
-                        makeSelectDropDown();
- 
-
-
-
-                        
-  </script>
-  
-
-  <script>
-    
-    
-
-    (function($) {
-                            $.fn.hidePhoneNum = function(options) {
-                        
-                                var settings = $.extend({
-                                    showNumber: 3,
-                                    linkClass: 'tel-link'
-                                }, options);
-                        
-                                return this.each(function() {
-                                    var telNum = $(this).attr("datatel"),
-                                            htmlNum = $(this).html(),
-                                            myRegex = /[\s-\(\()]/g,
-                                            telNewNum = telNum.replace(myRegex, '');
-                        
-                                            console.log(telNum);
-                                    $(this).html(telNum.substr(0, settings.showNumber) + " " + htmlNum);
-                                    
-                                    $(this).find('a').on('click', function(e) {
-                                        e.preventDefault();
-                                        if("{{userProfile.user.is_authenticated}}"=="True"){
-                                        $(this).parent().html("<a href='tel:"+telNewNum+"' class='"+settings.linkClass+"'>"+telNum+"</a>");
-                                        }else{
-                                          swal("Alert", '{% trans "You have to login to make this action" %}', "warning");
-                                        }
-                                    })
-                        
-                                });
-                            };
-                        }(jQuery));
+<section class="utf_cta_area_item utf_cta_area2_block">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="utf_subscribe_block clearfix">                    
+                  <div class="col-md-4 col-sm-5">
+                      <div class="contact-form-action">
+                          <form method="post">
+                              <span class="la la-envelope-o"></span>
+                              <input class="form-control" type="email" placeholder="Enter your email" required="">
+                              <button class="utf_theme_btn" type="submit">Subscribe</button>
+                          </form>
+                      </div>
+                  </div>
+        <div class="col-md-8 col-sm-7">
+                      <div class="section-heading">
+                          <h2 class="utf_sec_title_item utf_sec_title_item2">Subscribe to Newsletter!</h2>
+                          <p class="utf_sec_meta">
+                              Subscribe to get latest updates and information.
+                          </p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+</section>
 
 
 
 
+{% endblock %}
 
-                        
-                        $(function(){
-                            
-                            $('.phone').hidePhoneNum();
-                          
-                          });
-    </script>
-    </body>
 
-        </html>
+
+
+{% block "javascriptOfPage" %}
+
+
+
+{% endblock %}
