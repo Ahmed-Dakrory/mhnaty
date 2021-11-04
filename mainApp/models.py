@@ -315,7 +315,7 @@ class theadd(models.Model):
             'featureAddNumber':self.featureAddNumber,
             'owner':self.owner.user.first_name,
             'phone':self.owner.phone,
-            'averageRate':self.comments.aggregate(Avg('rate'))['rate__avg'],
+            'averageRate':0 if self.comments.aggregate(Avg('rate'))['rate__avg'] == None else self.comments.aggregate(Avg('rate'))['rate__avg'] ,
             'address':self.owner.address,
             'details':self.details,
             'mainImage':self.mainImage.url,

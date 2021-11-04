@@ -1,815 +1,236 @@
+{% extends "theme.html" %} 
 {%load static%}
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
 
-<!DOCTYPE html>
-<html lang="{{LANGUAGE_CODE}}" {% if LANGUAGE_CODE == 'ar' %}dir="rtl"{% endif %}>
-<head>
-<meta name="author" content="">
-<meta name="description" content="">
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<meta name="google-signin-scope" content="profile email">
-        
-<meta name="google-signin-client_id" content="204450024885-4s8o46icvli7m58qfm2jbfs6ksf8b75q.apps.googleusercontent.com">
-<script src="https://apis.google.com/js/platform.js?onload=onLoadGoogleCallback" async defer></script>
-
-
-<title>{% trans "Home" %}</title>
-
-<!-- Favicon -->
-<link rel="shortcut icon" href="/static/images/favicon.png">
-<!-- Style CSS -->
-{% if LANGUAGE_CODE == 'ar' %} 
-<link rel="stylesheet"  href="{% static 'rtl/css/stylesheet.css' %}">
-<link rel="stylesheet"  href="{% static 'rtl/css/mmenu.css' %}">
-<link rel="stylesheet"  href="{% static 'rtl/css/style.css' %}"  id="colors">
-<link rel="stylesheet"  href="{% static 'rtl/css/stylesheet_rtl.css' %}">
-{% else %}
-<link rel="stylesheet"  href="{% static 'ltr/css/stylesheet.css' %}">
-<link rel="stylesheet"  href="{% static 'ltr/css/mmenu.css' %}">
-<link rel="stylesheet"  href="{% static 'ltr/css/style.css' %}"  id="colors">
-{% endif %}
-
-<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800&display=swap&subset=latin-ext,vietnamese" rel="stylesheet"> 
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700,800" rel="stylesheet" type="text/css">
-</head>
-<body class="header-one">
-
-<!-- Wrapper -->
-<div id="main_wrapper">
-  <header id="header_part"> 
-    <div id="header">
-      <div class="container"> 
-        <div class="utf_left_side"> 
-          <div id="logo"> <a href="index_1.html"><img src="/static/images/logo.png" alt=""></a> </div>
-          <div class="mmenu-trigger">
-			<button class="hamburger utfbutton_collapse" type="button">
-				<span class="utf_inner_button_box">
-					<span class="utf_inner_section"></span>
-				</span>
-			</button>
-		  </div>
-          <nav id="navigation" class="style_one">
-            <ul id="responsive">
-              <li><a class="current" href="/{{LANGUAGE_CODE}}">{% trans "Home" %}</a>
-              </li>	
-              
-              
-              {% if LANGUAGE_CODE == 'ar' %}
-              <li><a class="current" onclick="addReplaceLangCode('en')" href="javascript:void(0)">English</a>
-              </li>	
-              {% endif %}
-
-              
-
-              {% if LANGUAGE_CODE == 'en' %}
-              
-              <li><a class="current" onclick="addReplaceLangCode('ar')" href="javascript:void(0)">عربى</a>
-              </li>	
-              {% endif %}
-
-              {% if user.is_authenticated %}
-              <li>
-                <a href="/{{LANGUAGE_CODE}}/profile/">{% trans "Profile" %}</a>
-              </li>
-              {% endif %}
-    
-    
-              {% if user.is_authenticated %}
-              <li>
-                <a href="/{{LANGUAGE_CODE}}/showUserMessages/{{id_of_Admin}}">{% trans "Customer Services" %}</a>
-              </li>
-              {% endif %}
-    
-              {% if user.is_superuser %}
-              <li>
-                <a href="/{{LANGUAGE_CODE}}/controlpanel/">{% trans "Control Panel" %}</a>
-              </li>
-              {% endif %}
 
 
 
-            </ul>
-          </nav>
-          <div class="clearfix"></div>
-        </div>
-        <div class="utf_right_side">
-          <div class="header_widget"> 
-            {% if not user.is_authenticated %}
-              <a href="#dialog_signin_part" class="button border sign-in popup-with-zoom-anim">
-                  <i class="fa fa-sign-in"></i> {% trans "Login" %}</a>
-
-              <a href="/{{LANGUAGE_CODE}}/loadRegPage/" class="button border with-icon">
-              <i class="sl sl-icon-user"></i>{% trans "Register" %}</a>
-            {% endif %}
-
-            {% if user.is_authenticated %}
-            <a href="/{{LANGUAGE_CODE}}/logout/" class="button border with-icon">
-                <i class="fa fa-sign-out"></i> {% trans "SignOut" %}</a>
-            {% endif %}
-
-          </div>
-        </div>
-        
-        <div id="dialog_signin_part" class="zoom-anim-dialog mfp-hide">
-          <div class="small_dialog_header">
-            <h3>Sign In</h3>
-          </div>
-          <div class="utf_signin_form style_one">
-            <ul class="utf_tabs_nav">
-              <li class=""><a href="#tab1">{% trans "Login" %}</a></li>
-              <li><a href="#tab2">Register</a></li>
-            </ul>
-            <div class="tab_container alt"> 
-              <div class="tab_content" id="tab1" style="display:none;">
-                <form  id="formLogin" class="login">
-                    {% csrf_token %}
-				  <a href="javascript:void(0);"  id="facebook" onclick="fb_login();" class="social_bt facebook_btn">Login with Facebook <i class="fa fa-facebook"></i></a>
-				  <a href="javascript:void(0);" id="google"  class="social_bt google_btn">Login with Google <i class="fa fa-google-plus"></i></a>
-                  <p class="utf_row_form utf_form_wide_block">
-                    <label for="username">
-                      <input type="text" value="admin" placeholder='{% trans "Please Enter the user name" %}'  class="input-text" name="username" id="username" value=""  />
-                    </label>
-                  </p>
-                  <p class="utf_row_form utf_form_wide_block">
-                    <label for="password">
-                      <input class="input-text" value="Aaa123456789" placeholder='{% trans "Secret Number " %}' type="password" name="password" id="password" placeholder="Password"/>
-                    </label>
-                  </p>
-                  <div class="utf_row_form utf_form_wide_block form_forgot_part"> <span class="lost_password fl_left"> <a href="javascript:void(0);">Forgot Password?</a> </span>
-                    <div class="checkboxes fl_right">
-                      <input id="remember-me" type="checkbox" name="check">
-                      <label for="remember-me">Remember Me</label>
-                    </div>
-                  </div>
-                  <div class="utf_row_form">
-                    <a  id="loginButton" href="javascript:void(0)" class="button border margin-top-5 text-center"  >{% trans "Login" %}</a>
-                  </div>
-                </form>
-              </div>
-              
-              <div class="tab_content" id="tab2" style="display:none;">
-                <form method="post" class="register">
-                  <p class="utf_row_form utf_form_wide_block">
-                    <label for="username2">
-                      <input type="text" class="input-text" name="username" id="username2" value="" placeholder="Username" />
-                    </label>
-                  </p>
-                  <p class="utf_row_form utf_form_wide_block">
-                    <label for="email2">
-                      <input type="text" class="input-text" name="email" id="email2" value="" placeholder="Email" />
-                    </label>
-                  </p>
-                  <p class="utf_row_form utf_form_wide_block">
-                    <label for="password1">
-                      <input class="input-text" type="password" name="password1" id="password1" placeholder="Password" />
-                    </label>
-                  </p>
-                  <p class="utf_row_form utf_form_wide_block">
-                    <label for="password2">
-                      <input class="input-text" type="password" name="password2" id="password2" placeholder="Confirm Password" />
-                    </label>
-                  </p>
-                  <input type="submit" class="button border fw margin-top-10" name="register" value="Register" />
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-  <div class="clearfix"></div>
-  
-  <!-- Banner -->
-  <div class="search_container_block home_main_search_part main_search_block" data-background-image="/static/images/city_search_background.jpg">
-    <div class="main_inner_search_block">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <h2>{% trans "Find your Nearby" %} <span class="typed-words"></span></h2>
-            <h4>{% trans "Find some of the best tips from around the city from our partners and friends." %}</h4>
-            <div class="main_input_search_part">
-              <div class="main_input_search_part_item">
-                <input type="text" id="searchInputMhnaty" placeholder='{% trans "Search For Your Services" %}' value=""/>
-              </div>
-              <div class="main_input_search_part_item intro-search-field">
-				  <select id="dropdownMenuLink" class="selectpicker default categoryElementSelect" categoryId="" data-live-search="true"  data-selected-text-format="count" data-size="5" title='{% trans "Services" %}''>
-                    {% for item in allMainCategories %}
-                    <option value="{{item.id}}">{{item.name}}</option>
-                    {% endfor %}
-				  </select>
-			  </div>
-
-              <div class="main_input_search_part_item intro-search-field">
-                <select id="listOfcities" data-placeholder='{% trans "City" %}'  class="selectpicker default" title='{% trans "City" %}' data-live-search="true" data-selected-text-format="count" data-size="5">
-                 
-                </select>
-              </div>
-
-
-              <div class="main_input_search_part_item intro-search-field">
-                <select id="listOfregions" data-placeholder='{% trans "Region" %}'  class="selectpicker default" title='{% trans "Region" %}' data-live-search="true" data-selected-text-format="count" data-size="5">
-                 
-                </select>
-              </div>
-
-
-              <button class="button" onclick="goToSearchPage('{{LANGUAGE_CODE}}')">{% trans "Search" %}</button>
-            </div>
-			<div class="main_popular_categories">
-			  <h3>{% trans "Or Browse Popular Categories" %}</h3>	
-              <ul class="main_popular_categories_list">
-				<li> <a href="#">
-                  <div class="utf_box"> <i class="im im-icon-Chef-Hat" aria-hidden="true"></i>
-                    <p>{% trans "Restaurant" %}</p>					
-                  </div>
-                  </a> 
-				</li>
-                <li> <a href="#">
-                  <div class="utf_box"> <i class="im im-icon-Dumbbell" aria-hidden="true"></i>
-                    <p>{% trans "Fitness" %}</p>
-                  </div>
-                  </a> 
-				</li>
-                <li> <a href="#">
-                  <div class="utf_box"> <i class="im im-icon-Electric-Guitar" aria-hidden="true"></i>
-                    <p>{% trans "Events" %}</p>
-                  </div>
-                  </a> 
-				</li>
-                <li> <a href="#">
-                  <div class="utf_box"> <i class="im im-icon-Hotel" aria-hidden="true"></i>
-                    <p>{% trans "Hotels" %}</p>
-                  </div>
-                  </a> 
-				</li>                
-                <li> <a href="#">
-                  <div class="utf_box"> <i class="im im-icon-Home-2" aria-hidden="true"></i>
-                    <p>{% trans "Real Estate" %}</p>
-                  </div>
-                  </a> 
-				</li>
-				<li> <a href="#">
-                  <div class="utf_box"> <i class="im im-icon-Business-Man" aria-hidden="true"></i>
-                    <p>{% trans "Business" %}</p>
-                  </div>
-                  </a> 
-				</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-    
-  <div class="container padding-bottom-70">
-    <div class="row">
-      <div class="col-md-12">
-        <h3 class="headline_part centered margin-bottom-35 margin-top-70"> {% trans "Our Services" %} <span></span></h3>
-      </div>
-
-      {% for item in allMainCategories%}
-      <div class="col-md-4"> 
-         <a href="/{{LANGUAGE_CODE}}/SearchPage/?category={{item.id}}&provider=&city=&region=" class="img-box" data-background-image="{{item.image}}">
-			<div class="utf_img_content_box visible">
-			  <h4>{{item.name}} </h4>
-			  <!-- <span>18 Listings</span>  -->
-			</div>
-         </a> 
-	  </div>
-      {% endfor %}
-
-	  <div class="col-md-12 centered_content"> <a href="/{{LANGUAGE_CODE}}/SearchPage/?category={{item.id}}&provider=&city=&region=" class="button border margin-top-20">{% trans "Read More" %}</a> </div>
-    </div>
-  </div>
-  <div class="clearfix"></div>
-  
-  <section class="fullwidth_block padding-top-75 padding-bottom-70" data-background-color="#f9f9f9">
-    <div class="container">
-      <div class="row slick_carousel_slider">
-        <div class="col-md-12">
-          <h3 class="headline_part centered margin-bottom-45"> {% trans "Most Visited Places" %} <span>{% trans "Explore the greates places in the city" %}</span> </h3>
-        </div>
-		
-		<div class="row">
-			<div class="col-md-12">
-				<div class="simple_slick_carousel_block utf_dots_nav" id="add_mostViewed"> 
-				 
-                 {% for item in mostViewed %}
-                    <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
-					<div class="utf_listing_item"> <img src="{{item.mainImage.url}}" alt=""> <span class="tag"><i class="im im-icon-Chef-Hat"></i> {{item.category.name}}</span> {% if item.featureAddNumber > 0 %}<span class="featured_tag">{% trans "Featured" %}</span>{% endif %}
-					  <span class="utf_open_now">{% trans "Open Now" %}</span>
-					  <div class="utf_listing_item_content">
-					    <div class="utf_listing_prige_block">	
-                            {% if item.price != None %}						
-							<span class="utf_meta_listing_price"><i class="fa fa-tag"></i> {{item.price}}</span>							
-							<span class="utp_approve_item"><i class="utf_approve_listing"></i></span>
-                            {% endif %}
-						</div>
-						<h3>{{item.name}}</h3>
-						<span><i class="sl sl-icon-location"></i> {{item.owner.address}}</span>
-						<span><i class="sl sl-icon-phone"></i> {{item.owner.phone}}</span>											
-					  </div>					  
-					</div>
-					<div class="utf_star_rating_section" data-rating="{{item.avg_ratings}}">
-						<div class="utf_counter_star_rating">({{item.avg_ratings}})</div>
-						<span class="like-icon"></span>
-					</div>
-					</a> 
-				  </div>
-				  {% endfor %}
-				  
-				</div>
-			  </div>
-		  </div>
-	   </div>
-    </div>
-  </section>
-  
-  <a href="listings_grid_full_width.html" class="flip-banner parallax" data-background="/static/images/slider-bg-02.jpg" data-color="#000" data-color-opacity="0.85" data-img-width="2500" data-img-height="1666">
-	  <div class="flip-banner-content">
-		<h2 class="flip-visible">{% trans "Browse Listings Attractions List" %}</h2>    
-	  </div>
-  </a>
-  
-  <section class="utf_testimonial_part fullwidth_block padding-top-75 padding-bottom-75"> 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-          <h3 class="headline_part centered"> {% trans "What Say Our Customers" %} <span class="margin-top-15">{% trans "Word about us" %}</span> </h3>
-        </div>
-      </div>
-    </div>
-    <div class="fullwidth_carousel_container_block margin-top-20">
-      <div class="utf_testimonial_carousel testimonials"> 
-        <div class="utf_carousel_review_part">
-          <div class="utf_testimonial_box">
-            <div class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</div>
-          </div>
-          <div class="utf_testimonial_author"> <img src="/static/images/happy-client-01.jpg" alt="">
-            <h4>Denwen Evil <span>Web Developer</span></h4>
-          </div>
-        </div>
-        <div class="utf_carousel_review_part">
-          <div class="utf_testimonial_box">
-            <div class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</div>
-          </div>
-          <div class="utf_testimonial_author"> <img src="/static/images/happy-client-02.jpg" alt="">
-            <h4>Adam Alloriam <span>Web Developer</span></h4>
-          </div>
-        </div>
-        <div class="utf_carousel_review_part">
-          <div class="utf_testimonial_box">
-            <div class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</div>
-          </div>
-          <div class="utf_testimonial_author"> <img src="/static/images/happy-client-03.jpg" alt="">
-            <h4>Illa Millia <span>Project Manager</span></h4>
-          </div>
-        </div>
-		<div class="utf_carousel_review_part">
-          <div class="utf_testimonial_box">
-            <div class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</div>
-          </div>
-          <div class="utf_testimonial_author"> <img src="/static/images/happy-client-01.jpg" alt="">
-            <h4>Denwen Evil <span>Web Developer</span></h4>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-<!--   
-  <section class="fullwidth_block padding-top-75 padding-bottom-75" data-background-color="#ffffff">
+{% block "bodyOfPage" %}
+<!-- Banner -->
+<div class="search_container_block home_main_search_part main_search_block" data-background-image="/static/images/city_search_background.jpg">
+  <div class="main_inner_search_block">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h3 class="headline_part centered margin-bottom-50"> Letest Tips & Blog<span>Discover & connect with top-rated local businesses</span></h3>
-        </div>
+          <h2>{% trans "Find your Nearby" %} <span class="typed-words"></span></h2>
+          <h4>{% trans "Find some of the best tips from around the city from our partners and friends." %}</h4>
+          <div class="main_input_search_part">
+            <div class="main_input_search_part_item">
+              <input type="text" id="searchInputMhnaty" placeholder='{% trans "Search For Your Services" %}' value=""/>
+            </div>
+            <div class="main_input_search_part_item intro-search-field">
+        <select id="dropdownMenuLink" class="selectpicker default categoryElementSelect" categoryId="" data-live-search="true"  data-selected-text-format="count" data-size="5" title='{% trans "Services" %}''>
+                  {% for item in allMainCategories %}
+                  <option value="{{item.id}}">{{item.name}}</option>
+                  {% endfor %}
+        </select>
       </div>
-      <div class="row"> 
-        <div class="col-md-3 col-sm-6 col-xs-12"> <a href="blog_detail_post.html" class="blog_compact_part-container">
-          <div class="blog_compact_part"> <img src="/static/images/blog-compact-post-01.jpg" alt="">
-            <div class="blog_compact_part_content">              
-			  <h3>The Most Popular New top Places Listing</h3>
-			  <ul class="blog_post_tag_part">
-                <li>22 January 2019</li>				
-              </ul>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor</p>
-            </div>
-          </div>
-          </a> 
-		</div>
-        
-        <div class="col-md-3 col-sm-6 col-xs-12"> <a href="blog_detail_post.html" class="blog_compact_part-container">
-          <div class="blog_compact_part"> <img src="/static/images/blog-compact-post-02.jpg" alt="">
-            <div class="blog_compact_part_content">              
-              <h3>Greatest Event Places in Listing</h3>
-			  <ul class="blog_post_tag_part">
-                <li>18 January 2019</li>
-              </ul>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor</p>
-            </div>
-          </div>
-          </a> 
-		</div>
-        
-        <div class="col-md-3 col-sm-6 col-xs-12"> <a href="blog_detail_post.html" class="blog_compact_part-container">
-          <div class="blog_compact_part"> <img src="/static/images/blog-compact-post-03.jpg" alt="">
-            <div class="blog_compact_part_content">              
-              <h3>Top 15 Greatest Ideas for Health & Body</h3>
-			  <ul class="blog_post_tag_part">
-                <li>10 January 2019</li>
-              </ul>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor</p>
-            </div>
-          </div>
-          </a> 
-		</div>
-        
-        <div class="col-md-3 col-sm-6 col-xs-12"> <a href="blog_detail_post.html" class="blog_compact_part-container">
-          <div class="blog_compact_part"> <img src="/static/images/blog-compact-post-04.jpg" alt="">
-            <div class="blog_compact_part_content">              
-              <h3>Top 10 Best Clothing Shops in Sydney</h3>
-			  <ul class="blog_post_tag_part">
-                <li>18 January 2019</li>
-              </ul>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor</p>
-            </div>
-          </div>
-          </a> 
-		</div>        
-        <div class="col-md-12 centered_content"> <a href="blog_page.html" class="button border margin-top-20">View More Blog</a> </div>
-      </div>
-    </div>
-  </section>
-   -->
-  
-  <!-- Footer -->
-  <div id="footer" class="footer_sticky_part"> 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-2 col-sm-3 col-xs-6">
-          <h4>Useful Links</h4>
-          <ul class="social_footer_link">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Listing</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
-        </div>
-        <div class="col-md-2 col-sm-3 col-xs-6">
-          <h4>My Account</h4>
-          <ul class="social_footer_link">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">My Listing</a></li>
-            <li><a href="#">Favorites</a></li>
-          </ul>
-        </div>
-        <div class="col-md-2 col-sm-3 col-xs-6">
-          <h4>Pages</h4>
-          <ul class="social_footer_link">
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Our Partners</a></li>
-            <li><a href="#">How It Work</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-        </div>
-        <div class="col-md-2 col-sm-3 col-xs-6">
-          <h4>Help</h4>
-          <ul class="social_footer_link">
-            <li><a href="#">Sign In</a></li>
-            <li><a href="#">Register</a></li>
-            <li><a href="#">Add Listing</a></li>
-            <li><a href="#">Pricing</a></li>
-            <li><a href="#">Contact Us</a></li>
-          </ul>
-        </div>
-        <div class="col-md-4 col-sm-12 col-xs-12"> 
-          <h4>About Us</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore</p>          
-        </div>
-      </div>
-      
-      <div class="row">
-        <div class="col-md-12">
-          <div class="footer_copyright_part">
-            <div class="footer_bottom" style="direction:ltr">
-                <div class="container">
-                    <div class="row align-items-center">
-                      <div class="col-md-3 text-center text-md-left">
-        
-                        
-                      </div>
-                      <div class="col-lg-5 col-sm-12 text-center text-md-left">
-                          <p class="mb-0 f_400">© Mhnaty Inc.. 2021 All rights reserved.</p>
-                      </div>
-                      <div class="col-lg-4 col-sm-12 text-center {% if LANGUAGE_CODE == 'ar' %} text-md-left {% else %} text-md-right {% endif %} mt-1">
-                          <p class="mb-0 f_400">Made By <i class="icon_heart"></i> in <a href="domainjo.com">DomainCom Web Solutions..</a></p>
-                      </div>
-        
-                    </div>
-                </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="bottom_backto_top"><a href="#"></a></div>
-</div>
 
-<!-- Scripts --> 
-{% if LANGUAGE_CODE == 'ar' %} 
-
-<script src="{% static 'rtl/scripts/jquery-3.4.1.min.js' %}"></script> 
-<script src="{% static 'rtl/scripts/chosen.min.js' %}"></script> 
-<script src="{% static 'rtl/scripts/slick.min.js' %}"></script> 
-<script src="{% static 'rtl/scripts/rangeslider.min.js' %}"></script> 
-<script src="{% static 'rtl/scripts/magnific-popup.min.js' %}"></script> 
-<script src="{% static 'rtl/scripts/jquery-ui.min.js' %}"></script> 
-<script src="{% static 'rtl/scripts/bootstrap-select.min.js' %}"></script>
-<script src="{% static 'rtl/scripts/mmenu.js' %}"></script>
-<script src="{% static 'rtl/scripts/tooltips.min.js' %}"></script> 
-<script src="{% static 'rtl/scripts/color_switcher.js' %}"></script>
-<script src="{% static 'rtl/scripts/jquery_custom.js' %}"></script>
-<script src="{% static 'rtl/scripts/typed.js' %}"></script>
-{% else %}
-<script src="{% static 'ltr/scripts/jquery-3.4.1.min.js' %}"></script> 
-<script src="{% static 'ltr/scripts/chosen.min.js' %}"></script> 
-<script src="{% static 'ltr/scripts/slick.min.js' %}"></script> 
-<script src="{% static 'ltr/scripts/rangeslider.min.js' %}"></script> 
-<script src="{% static 'ltr/scripts/magnific-popup.min.js' %}"></script> 
-<script src="{% static 'ltr/scripts/jquery-ui.min.js' %}"></script> 
-<script src="{% static 'ltr/scripts/bootstrap-select.min.js' %}"></script>
-<script src="{% static 'ltr/scripts/mmenu.js' %}"></script>
-<script src="{% static 'ltr/scripts/tooltips.min.js' %}"></script> 
-<script src="{% static 'ltr/scripts/color_switcher.js' %}"></script>
-<script src="{% static 'ltr/scripts/jquery_custom.js' %}"></script>
-<script src="{% static 'ltr/scripts/typed.js' %}"></script>
-{% endif %}
-
- 
-<script src="{% static 'js/sweetalert.min.js' %}"></script>
-<script src="{% static 'js/jquery-ui.min.js' %}"></script> 
-<script src="{% static 'js/mainFunctions.js' %}"></script>
-
-<script>
-var typed = new Typed('.typed-words', {
-strings: [' {% trans "Needs" %} ',' {% trans "Concerns" %} ',' {% trans "Services" %} '],
-	typeSpeed: 80,
-	backSpeed: 80,
-	backDelay: 4000,
-	startDelay: 1000,
-	loop: true,
-	showCursor: true
-});
-</script>
-
-
-
-
-
-
-                        
-<script>
-
-    function fb_login(){
-        FB.login(function(response) {
-    
-            if (response.authResponse) {
-                console.log('Welcome!  Fetching your information.... ');
-                //console.log(response); // dump complete info
-                access_token = response.authResponse.accessToken; //get access token
-                user_id = response.authResponse.userID; //get FB UID
-    
-                FB.api('/me?fields=id,name,email,first_name,last_name,picture.type(large)', function(response) {
-                        // console.log("ahhhhhhhhhh: "+response.name);
-                        SignInNowSocial(response.name.replace(/\s/g, ''),response.email,
-                        response.first_name,
-                        response.last_name,
-                    response.picture.data.url,2,"Facebook");
-    
-                        console.log(response.picture.data.url);
-                        console.log(response.first_name);
-                        console.log(response.last_name);
-                        console.log(response.email);
-                    
-                        }); 
-    
-            } else {
-                //user hit cancel button
-                console.log('User cancelled login or did not fully authorize.');
-    
-            }
-        }, {
-            scope: 'public_profile,email,user_photos'
-        });
-    }
-    
-    
-    
-        window.fbAsyncInit = function() {
-          FB.init({
-            appId      : '363144762180447',
-            cookie     : true,
-            xfbml      : true,
-            version    : 'v11.0'
-          });
-            console.log("FbLoaded");
-            
-        };
-      
-        (function(d, s, id){
-           var js, fjs = d.getElementsByTagName(s)[0];
-           if (d.getElementById(id)) {return;}
-           js = d.createElement(s); js.id = id;
-           js.src = "https://connect.facebook.net/en_US/sdk.js";
-           fjs.parentNode.insertBefore(js, fjs);
-         }(document, 'script', 'facebook-jssdk'));
-      </script>
-                            
-                <script>
-     
-        
-    
-    
-        function SignInNowSocial(username,mail,firstname,lastname,imgUrl,role,typeOfRegisteration){
-            showLoader();
-                    
-            $.ajax({
-                      type: 'POST',
-                      url: '/{{LANGUAGE_CODE}}/AuthOutSide',
-                      dataType: 'json',
-                      data: { 
-                          'username':username,
-                          'email':mail,
-                          'lastName':lastname,
-                          'firstName':firstname,
-                          'role':role,
-                          'img':imgUrl,
-                          'typeOfRegisteration':typeOfRegisteration
-                      },
-                      headers:{
-                          "X-CSRFToken": csrftoken
-                              },
-                      cache: false,
-                      success: function(result) {
-                          
-                          hideLoader();
-                          console.log(result)
-                          if(result.State=="Ok"){
-                              if(result.ableToLogin=='Yes'){
-                                    window.location.href = result.RedirectUrl;
-                                }else{
-                                    
-                                    // swal("مشكلة",result.Error, "error");
-                            swal('{% trans "Error" %}', result.Error, "error");
-                                }
-    
-                          }else{
-                            swal('{% trans "Error" %}', '{% trans "Error while Login" %}', "error");
-                          }
-                        
-                      },
-                      error: function (xhr, ajaxOptions, thrownError) {
-                        hideLoader();
-                            swal('{% trans "Error" %}', '{% trans "Error while Login" %}', "error");
-                      }
-                  });
-    
-                  
-        }
-    
-          function onLoadGoogleCallback(){
-            gapi.load('auth2', function() {
-                auth2 = gapi.auth2.init({
-                client_id: '204450024885-4s8o46icvli7m58qfm2jbfs6ksf8b75q.apps.googleusercontent.com',
-                cookiepolicy: 'single_host_origin',
-                scope: 'profile'
-                });
-    
-            auth2.attachClickHandler(element, {},
-                function(googleUser) {
-                    var profile = googleUser.getBasicProfile();
-                   
-                    //console.log(profile.getName().replace(/\s/g, ''));
-                    SignInNowSocial(profile.getName().replace(/\s/g, ''),profile.getEmail(),
-                    profile.getGivenName(),
-                    profile.getFamilyName(),
-                    profile.getImageUrl(),2,'Gmail');
-    
-                }, function(error) {
-                    
-                    swal('{% trans "Error While Login" %}', '{% trans "Problem" %}', "error");
-                    
-                }
-                );
-            });
-    
-            element = document.getElementById('google');
-    }
-    
-    
-    
-                    $('#loginButton').on('click', function() {
-                        login();
-     });
-    
-     $("#formLogin").keyup(function(event) {
-        if (event.keyCode === 13) {
-           // Add your logic to submit to your backend server here.
-                    login();
+            <div class="main_input_search_part_item intro-search-field">
+              <select id="listOfcities" data-placeholder='{% trans "City" %}'  class="selectpicker default" title='{% trans "City" %}' data-live-search="true" data-selected-text-format="count" data-size="5">
                
-        }
-    });
-    
-    
-    function login(){
-    
-    var username = $('#username').val();
-    var password = $('#password').val();
-    
-    if (username==""||password==""){
-        // swal("مشكلة", " برجاء مراجعة الأسم والرقم السرى !", "error");
-           
-        swal('{% trans "Please Revies Username or Password" %}', '{% trans "Problem" %}', "error");
-        
-    }else{
-    
-    //Auth
-    $('#loginButton').html('Loging ... ');
-    
-    $.ajax({
-        type: 'POST',
-        url: '/{{LANGUAGE_CODE}}/authUser',
-        data: { 
-            'username': username,
-            'password': password
-        },
-        headers:{
-            "X-CSRFToken": csrftoken
-             },
-        dataType: 'json',
-        cache: false,
-        success: function(result) {
-            console.log(result);
-           if(result['Result']=='Success'){
-            var urlNew = result['url'];
-           
-             console.log(urlNew);
-            if(urlNew.includes("/accounts/login/")){
-                window.location.href = "/";
-            }else{
-                //var urlNew = result['url'].substr(result['url'].indexOf("next=/")+"next=/".length, result['url'].length);
-
-                window.location.href = window.location.href;//decodeURIComponent(urlNew);
-            }
-           }else{
-    
-            $('#loginButton').html('SIGN IN');
-            
-            swal('{% trans "No one registered with this username or password" %}', '{% trans "Problem" %}', "error");
-            // swal("مشكلة", "لايوجد شخص مسجل بهذه البيانات برجاء مراجعة الأسم والرقم السرى !", "error");
-           
-           }
-        },error: function (xhr, ajaxOptions, thrownError) {
-            console.log(thrownError)
-               }
-    });
-    }
-    
-    
-    }
+              </select>
+            </div>
 
 
+            <div class="main_input_search_part_item intro-search-field">
+              <select id="listOfregions" data-placeholder='{% trans "Region" %}'  class="selectpicker default" title='{% trans "Region" %}' data-live-search="true" data-selected-text-format="count" data-size="5">
+               
+              </select>
+            </div>
 
 
-
-    
-getlistOfcities();
-getListOfRegions("");
-$('select').selectpicker('refresh');
-                </script>
-<!-- Style Switcher -->
-<div id="color_switcher_preview">
-  <h2>Choose Your Color <a href="#"><i class="fa fa-gear fa-spin (alias)"></i></a></h2>	
-	<div>
-		<ul class="colors" id="color1">
-			<li><a href="#" class="stylesheet"></a></li>
-			<li><a href="#" class="stylesheet_1"></a></li>
-			<li><a href="#" class="stylesheet_2"></a></li>			
-			<li><a href="#" class="stylesheet_3"></a></li>						
-			<li><a href="#" class="stylesheet_4"></a></li>
-			<li><a href="#" class="stylesheet_5"></a></li>			
-		</ul>
-	</div>		
+            <button class="button" onclick="goToSearchPage('{{LANGUAGE_CODE}}')">{% trans "Search" %}</button>
+          </div>
+    <div class="main_popular_categories">
+      <h3>{% trans "Or Browse Popular Categories" %}</h3>	
+            <ul class="main_popular_categories_list">
+      <li> <a href="#">
+                <div class="utf_box"> <i class="im im-icon-Chef-Hat" aria-hidden="true"></i>
+                  <p>{% trans "Restaurant" %}</p>					
+                </div>
+                </a> 
+      </li>
+              <li> <a href="#">
+                <div class="utf_box"> <i class="im im-icon-Dumbbell" aria-hidden="true"></i>
+                  <p>{% trans "Fitness" %}</p>
+                </div>
+                </a> 
+      </li>
+              <li> <a href="#">
+                <div class="utf_box"> <i class="im im-icon-Electric-Guitar" aria-hidden="true"></i>
+                  <p>{% trans "Events" %}</p>
+                </div>
+                </a> 
+      </li>
+              <li> <a href="#">
+                <div class="utf_box"> <i class="im im-icon-Hotel" aria-hidden="true"></i>
+                  <p>{% trans "Hotels" %}</p>
+                </div>
+                </a> 
+      </li>                
+              <li> <a href="#">
+                <div class="utf_box"> <i class="im im-icon-Home-2" aria-hidden="true"></i>
+                  <p>{% trans "Real Estate" %}</p>
+                </div>
+                </a> 
+      </li>
+      <li> <a href="#">
+                <div class="utf_box"> <i class="im im-icon-Business-Man" aria-hidden="true"></i>
+                  <p>{% trans "Business" %}</p>
+                </div>
+                </a> 
+      </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-</body>
-</html>
+  
+<div class="container padding-bottom-70">
+  <div class="row">
+    <div class="col-md-12">
+      <h3 class="headline_part centered margin-bottom-35 margin-top-70"> {% trans "Our Services" %} <span></span></h3>
+    </div>
+
+    {% for item in allMainCategories%}
+    <div class="col-md-4"> 
+       <a href="/{{LANGUAGE_CODE}}/SearchPage/?category={{item.id}}&provider=&city=&region=" class="img-box" data-background-image="{{item.image}}">
+    <div class="utf_img_content_box visible">
+      <h4>{{item.name}} </h4>
+      <!-- <span>18 Listings</span>  -->
+    </div>
+       </a> 
+  </div>
+    {% endfor %}
+
+  <div class="col-md-12 centered_content"> <a href="/{{LANGUAGE_CODE}}/SearchPage/?category={{item.id}}&provider=&city=&region=" class="button border margin-top-20">{% trans "Read More" %}</a> </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+
+<section class="fullwidth_block padding-top-75 padding-bottom-70" data-background-color="#f9f9f9">
+  <div class="container">
+    <div class="row slick_carousel_slider">
+      <div class="col-md-12">
+        <h3 class="headline_part centered margin-bottom-45"> {% trans "Most Visited Places" %} <span>{% trans "Explore the greates places in the city" %}</span> </h3>
+      </div>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="simple_slick_carousel_block utf_dots_nav" id="add_mostViewed"> 
+       
+               {% for item in mostViewed %}
+                  <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
+        <div class="utf_listing_item"> <img src="{{item.mainImage.url}}" alt=""> <span class="tag"><i class="im im-icon-Chef-Hat"></i> {{item.category.name}}</span> {% if item.featureAddNumber > 0 %}<span class="featured_tag">{% trans "Featured" %}</span>{% endif %}
+          <span class="utf_open_now">{% trans "Open Now" %}</span>
+          <div class="utf_listing_item_content">
+            <div class="utf_listing_prige_block">	
+                          {% if item.price != None %}						
+            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> {{item.price}}</span>							
+            <span class="utp_approve_item"><i class="utf_approve_listing"></i></span>
+                          {% endif %}
+          </div>
+          <h3>{{item.name}}</h3>
+          <span><i class="sl sl-icon-location"></i> {{item.owner.address}}</span>
+          <span><i class="sl sl-icon-phone"></i> {{item.owner.phone}}</span>											
+          </div>					  
+        </div>
+        <div class="utf_star_rating_section" data-rating="{{item.avg_ratings}}">
+          <div class="utf_counter_star_rating">({{item.avg_ratings}})</div>
+          <span class="like-icon"></span>
+        </div>
+        </a> 
+        </div>
+        {% endfor %}
+        
+      </div>
+      </div>
+    </div>
+   </div>
+  </div>
+</section>
+
+<a href="listings_grid_full_width.html" class="flip-banner parallax" data-background="/static/images/slider-bg-02.jpg" data-color="#000" data-color-opacity="0.85" data-img-width="2500" data-img-height="1666">
+  <div class="flip-banner-content">
+  <h2 class="flip-visible">{% trans "Browse Listings Attractions List" %}</h2>    
+  </div>
+</a>
+
+<section class="utf_testimonial_part fullwidth_block padding-top-75 padding-bottom-75"> 
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h3 class="headline_part centered"> {% trans "What Say Our Customers" %} <span class="margin-top-15">{% trans "Word about us" %}</span> </h3>
+      </div>
+    </div>
+  </div>
+  <div class="fullwidth_carousel_container_block margin-top-20">
+    <div class="utf_testimonial_carousel testimonials"> 
+      <div class="utf_carousel_review_part">
+        <div class="utf_testimonial_box">
+          <div class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</div>
+        </div>
+        <div class="utf_testimonial_author"> <img src="/static/images/happy-client-01.jpg" alt="">
+          <h4>Denwen Evil <span>Web Developer</span></h4>
+        </div>
+      </div>
+      <div class="utf_carousel_review_part">
+        <div class="utf_testimonial_box">
+          <div class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</div>
+        </div>
+        <div class="utf_testimonial_author"> <img src="/static/images/happy-client-02.jpg" alt="">
+          <h4>Adam Alloriam <span>Web Developer</span></h4>
+        </div>
+      </div>
+      <div class="utf_carousel_review_part">
+        <div class="utf_testimonial_box">
+          <div class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</div>
+        </div>
+        <div class="utf_testimonial_author"> <img src="/static/images/happy-client-03.jpg" alt="">
+          <h4>Illa Millia <span>Project Manager</span></h4>
+        </div>
+      </div>
+  <div class="utf_carousel_review_part">
+        <div class="utf_testimonial_box">
+          <div class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</div>
+        </div>
+        <div class="utf_testimonial_author"> <img src="/static/images/happy-client-01.jpg" alt="">
+          <h4>Denwen Evil <span>Web Developer</span></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+
+
+
+{% block "javascriptOfPage" %}
+
+
+<script>
+  var typed = new Typed('.typed-words', {
+  strings: [' {% trans "Needs" %} ',' {% trans "Concerns" %} ',' {% trans "Services" %} '],
+    typeSpeed: 80,
+    backSpeed: 80,
+    backDelay: 4000,
+    startDelay: 1000,
+    loop: true,
+    showCursor: true
+  });
+  
+  
+      
+  getlistOfcities();
+  getListOfRegions("");
+  $('select').selectpicker('refresh');
+  </script>
+  
+
+  
+{% endblock %}

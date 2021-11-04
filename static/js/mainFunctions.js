@@ -105,8 +105,8 @@ function getlistOfcities(){
                     url_Search = '/'+language+'/SearchPage/?category='+category+'&city='+city+'&region='+region;
                 
                 
-                    console.log(url_Search);
-                    // window.location.href = url_Search;
+                    //console.log(url_Search);
+                    window.location.href = url_Search;
                   }
 
                 

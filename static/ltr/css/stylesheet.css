@@ -6503,7 +6503,7 @@ body .notification strong {
 	background-color: #fff;
 	border: 1px solid #e0e0e0;
 	transition: background-color 0.2s, color 0.2s;
-	padding:20px;
+	padding: 5px;
 	margin: -1px 0 0 0;
 }
 .ui-accordion .ui-accordion-header i, .trigger a i {
@@ -6517,9 +6517,9 @@ body .notification strong {
 }
 .style-2 .ui-accordion .ui-accordion-header:hover, .style-2 .trigger a:hover { color: #66676b; }
 .trigger.active a, .ui-accordion .ui-accordion-header-active:hover, .ui-accordion .ui-accordion-header-active {
-	background-color: #f9ae17;
-	border-color: #f9ae17;
-	color: #fff;
+	background-color: #dcdcdc47;
+    border-color: #ffffff;
+    color: #272424;
 }
 .ui-accordion .ui-accordion-header i, .trigger a i {
 	margin: 0 4px 0 0;
@@ -7856,8 +7856,8 @@ body .style-2 .ui-accordion .ui-accordion-header, body .style-2 .trigger a { tex
 	color: #fff;
 }
 .utf_listing_item-container.list-layout .utf_listing_item-inner {
-	position: absolute;
-	top: 50%;
+	position: relative;
+	top: 37%;
 	transform: translateY(-50%);
 	left: 25px;
 	padding-right: 20px;
@@ -10984,6 +10984,7 @@ label.switch {
 .switch input {
 	display: none;
 }
+/*
 .slider {
 	position: absolute;
 	cursor: pointer;
@@ -11012,6 +11013,7 @@ input:checked+.slider {
 input:checked+.slider:before {
 	transform: translateX(30px);
 }
+*/
 .utf_submit_section h4{
 	font-size:18px;
 	font-weight:500;
@@ -18330,3 +18332,100 @@ width: 5px;
 #utf_rev_slider_block .bootstrap-select.btn-group .dropdown-menu.inner{
     height: 150px;
 }
+
+
+.tag_mail{
+	
+    text-transform: uppercase;
+    font-size: 23px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    background: #f8a43cb0 !important;
+    border-radius: 4px;
+    padding: 3px 5px;
+    line-height: 20px;
+    color: #fff;
+    font-weight: 600;
+    border: 2px solid #ffffff1f;
+    margin-bottom: 9px;
+    position: absolute;
+    z-index: 9999;
+    bottom: 8px;
+    right: 13px;
+
+}
+
+.tag_mail:hover{
+	
+    text-transform: uppercase;
+    font-size: 23px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    background: #f8dfbfb0 !important;
+    border-radius: 4px;
+    padding: 3px 5px;
+    line-height: 20px;
+    color: #fff;
+    font-weight: 600;
+    border: 2px solid #ffffff1f;
+    margin-bottom: 9px;
+    position: absolute;
+    z-index: 9999;
+    bottom: 8px;
+    right: 13px;
+
+}
+
+
+
+
+#loading {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+    width: 103%;
+    height: 15344%;
+    background-color: rgba(192, 192, 192, 0.5);
+  }
+  
+  
+  #loadingImg {
+    width: 100%;
+    height: 91px;
+    position: fixed;
+    top: 39%;
+    background-image: url(https://i.stack.imgur.com/MnyxU.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 59px 59px;
+  }
+  
+
+
+  
+  .inputCheckFilter{
+	height: 15px;
+		line-height: 50px;
+		padding: 0 15px;
+		outline: none;
+		font-size: 15px;
+		color: #808080;
+		margin: 0 0 1px 0;
+     width: fit-content;
+		box-sizing: border-box;
+		display: block;
+		background-color: #fff;
+		border: 1px solid #dbdbdb;
+		box-shadow: 0 4px 8px 0 rgb(0 0 0 / 3%);
+		font-weight: 400;
+		opacity: 1;
+		border-radius: 4
+	px
+	;
+  }
+
+  .labelFilter{
+	display: contents;
+  }
