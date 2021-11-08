@@ -18,7 +18,7 @@ from django.core.files import File
 from django.conf import settings
 import mimetypes
 
-from django.db.models import F, Func
+from django.db.models import F, Func,Max
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 from django.core.exceptions import SuspiciousOperation
@@ -540,8 +540,53 @@ def SearchPage(request):
     return render(request,'index_search.html',None)
 
 
+
 @login_required
-def profileWeb(request):
+def profile_main(request):
+    user =request.user
+    userobject = User.objects.filter(pk=user.id)
+    userProfile = profile.objects.filter(user=user)
+    userProfileMe = profile.objects.get(user__id=user.id)
+    allCities = city.objects.filter(Q(deleted=False))
+
+   
+    
+
+    if request.method=='POST':
+        typeOfForm = request.POST['typeOfForm']  
+
+        if typeOfForm == 'mainData':
+
+            nameData = request.POST['name'] 
+            phoneData = request.POST['phone']
+            addressData = request.POST['address']
+            mobileData = request.POST['mobile'] 
+            regionId = request.POST['region']
+
+            regionData = region.objects.get(pk=regionId)
+            userobject.update(first_name=nameData)
+            userProfile.update(phone=phoneData,region=regionData,mobile=mobileData,address=addressData)
+        elif typeOfForm == 'mainImage':
+            userProfile = profile.objects.get(user=user)
+            userProfile.image = request.FILES['file-input']
+            
+            userProfile.save()
+    
+
+    data = {
+        'allCities':allCities
+    }
+
+        
+    return render(request,'dashboard/profile_main.html',data)
+
+
+
+
+
+
+@login_required
+def dashboard_add_listing(request):
     user =request.user
     userobject = User.objects.filter(pk=user.id)
     userProfile = profile.objects.filter(user=user)
@@ -675,7 +720,157 @@ def profileWeb(request):
         'profilesOfTheAdd':profilesOfTheAdd,
     }
         
-    return render(request,'profile.html',data)
+    return render(request,'dashboard/dashboard_add_listing.html',data)
+
+
+
+
+
+@login_required
+def dashboard_messages(request):
+    user =request.user
+    userobject = User.objects.filter(pk=user.id)
+    userProfile = profile.objects.filter(user=user)
+    userProfileMe = profile.objects.get(user__id=user.id)
+    userLastProfile = user.profile_set.last()
+    allCities = city.objects.filter(Q(deleted=False))
+   
+    getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id))
+    
+
+    try:
+        theAddObj = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id)).last()
+    except:
+        theAddObj = None
+        
+    profilesOfTheAdd_ids = message.objects.filter(theadd=theAddObj).values_list('from_user',flat=True)
+    lastMessagesUsers = message.objects.all().filter(Q(theadd__id=theAddObj.id)&Q(deleted = False)).values("from_user").distinct()
+    lastMessages = []
+    for item in lastMessagesUsers:
+        if item['from_user']!=userProfileMe.id:
+            lastMessages.append(message.objects.filter(Q(theadd__id=theAddObj.id)&Q(deleted = False)&Q(from_user__id=item['from_user'])).last())
+
+   
+
+    profilesOfTheAdd = profile.objects.filter(id__in=profilesOfTheAdd_ids)
+
+
+    allparentCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=True))
+
+
+    if len(getMyAdd)==0:
+        categoryNow = category.objects.get(pk=1)
+        getMyAdd = theadd.objects.create(name="",details="",category=categoryNow,owner=userProfileMe,mainImage=None,
+        videoUrl="",featureAddNumber=0)
+        try:
+            parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+        except:
+            parentCategory = None
+    else:
+        getMyAdd = theadd.objects.filter(Q(owner__id=userProfileMe.id)&Q(deleted=False)).last()
+        try:
+            parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+        except:
+            parentCategory = None
+    
+
+    if request.method=='POST':
+        typeOfForm = request.POST['typeOfForm']  
+
+        if typeOfForm == 'mainData':
+
+            nameData = request.POST['name'] 
+            phoneData = request.POST['phone']
+            addressData = request.POST['address']
+            mobileData = request.POST['mobile'] 
+            regionId = request.POST['region']
+
+            regionData = region.objects.get(pk=regionId)
+            userobject.update(first_name=nameData)
+            userProfile.update(phone=phoneData,region=regionData,mobile=mobileData,address=addressData)
+        elif typeOfForm == 'AddData':   
+            # print(request.POST)
+            userProfileMe.tags.all().delete()
+            nameData = request.POST['name'] 
+            
+            aboutMeData = request.POST['aboutMe']
+            detailsData = request.POST['details']
+            categoryData = request.POST['category'] 
+            videoData = request.POST['video']
+            experienses = request.POST['experienses']
+
+            allExperienses = experienses.split(",")
+            for itemExp in allExperienses:
+                if itemExp != '':
+                    newTag = tag.objects.create(name=itemExp,propertyType=0)
+                    newTag.save()
+                    userProfileMe.tags.add(newTag)
+
+            categoryData = category.objects.get(pk=categoryData)
+            # userobject.update(first_name=nameData)
+            userProfile.update(aboutMe=aboutMeData)
+            getMyAdd = theadd.objects.filter(Q(owner__id=userProfileMe.id))
+            getMyAdd.update(name=nameData,details=detailsData,category=categoryData,videoUrl=videoData)
+            getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id)).last()
+
+            try:
+                parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+            except:
+                parentCategory = None
+
+
+            attachments = request.POST.getlist('imagesAddFiles')
+            for item_att in attachments:
+                if item_att!='' and item_att!=None:
+                    fileOld = attachmenttranscript.objects.filter(file = item_att).count()
+                    if fileOld==0:
+                        file_path = os.path.join(settings.MEDIA_ROOT, item_att)
+                        file_type, file_encoding = mimetypes.guess_type(file_path)
+                        fi = open(file_path, 'rb')
+                        local_file = File(fi)
+                        fileName = os.path.basename(local_file.name).split('``__``')[0]
+                        
+                        attachmetToAdd = attachmenttranscript.objects.create(file=local_file,content_type=file_type,name = fileName)
+                        attachmetToAdd.save()
+                        
+                        local_file.close()
+                        getMyAdd.images.add(attachmetToAdd)
+                        default_storage.delete(item_att)
+
+            allFiles = getMyAdd.images.all()
+        elif typeOfForm == 'mainImage':
+            userProfile = profile.objects.get(user=user)
+            userProfile.image = request.FILES['file-input']
+            
+            userProfile.save()
+
+        elif typeOfForm == 'addMainImage':
+            getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id)).last()
+            getMyAdd.mainImage = request.FILES['file-inputAddImage']
+            
+            getMyAdd.save()
+
+    allFiles = getMyAdd.images.all()
+    allTags = getMyAdd.owner.tags.all()
+    allTagsArray = list(allTags)
+    allTagsDelemited = ','.join(map(str, allTagsArray))
+    print(allTagsDelemited)
+
+
+    data = {
+        'lastMessages':lastMessages,
+        'allparentCategory':allparentCategory,
+        'allCities':allCities,
+        'getMyAdd':getMyAdd,
+        'allFiles':allFiles,
+        'allTags':allTags,
+        'allTagsDelemited':allTagsDelemited,
+        'parentCategory':parentCategory,
+        'theAddObj': theAddObj,
+        'profilesOfTheAdd':profilesOfTheAdd,
+    }
+        
+    return render(request,'dashboard/dashboard_messages.html',data)
 
 
 
@@ -856,9 +1051,12 @@ def CompanyPage(request):
                 commentNew.save()
                 thisAdd.comments.add(commentNew)
 
-    
+    allAddsRelated = theadd.objects.filter(Q(deleted=False)&Q(category__id=thisAdd.category.id)).exclude(id=thisAdd.id)
 
+    allparentCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=True))
     data = {
+        'allparentCategory':allparentCategory,
+        'allAddsRelated':allAddsRelated,
         'allTags':allTags,
         'thisAdd':thisAdd,
         'rate':thisAdd.comments.aggregate(Avg('rate'))['rate__avg'],

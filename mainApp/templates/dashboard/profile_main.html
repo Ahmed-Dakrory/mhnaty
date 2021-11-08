@@ -1,0 +1,219 @@
+{% extends "dashboard/theme_dashboard.html" %} 
+{%load static%}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+
+{% block "headerOfPage1" %}{% trans "Profile Details" %}{% endblock %}
+
+{% block "headerOfPage2" %}{% trans "Profile Details" %}{% endblock %}
+
+
+{% block "bodyOfPage" %}
+
+<div class="col-lg-12 col-md-12">
+    <div class="utf_dashboard_list_box margin-top-0">
+      <h4 class="gray"><i class="sl sl-icon-user"></i> {% trans "Profile Details" %}</h4>
+      <div class="utf_dashboard_list_box-static"> 
+        <div class="edit-profile-photo"> 
+            <label class="btn btn-outline-primary" for="file-input" >
+            {% if userProfile.image != None and userProfile.image != '' %}
+                <img src="{{userProfile.image.url}}" alt="" >
+            {% else %}
+            <img src="/static/images/user-avatar.jpg" alt="">
+            {% endif %}   
+         
+            <div class="change-photo-btn">
+            <div class="photoUpload"> <span><i class="fa fa-upload"></i>{% trans "Select New Image" %}</span>
+                <form  method="POST" enctype="multipart/form-data" id="formImage" class="needs-validation form-horizontal" novalidate style="display: none;">
+                    {% csrf_token %}
+                    
+                    <input type="hidden"  name="typeOfForm" value="mainImage">
+                    <input id="file-input" class="account-settings-fileinput upload" accept="image/x-png,image/gif,image/jpeg" type="file" name="file-input" onchange="document.getElementById('formImage').submit();" />
+
+                  </form>
+            </div>
+          </div>
+        </label>
+        </div>
+        <div class="my-profile">
+            <form method="POST" id="mainform" class="needs-validation form-horizontal" novalidate>
+                {% csrf_token %}
+                <input type="hidden"  name="typeOfForm" value="mainData">
+                <div class="row with-forms">
+                    
+                    <div class="form-group col-md-4">
+                        <label class="form-label" for="email">{% trans "Mail Address" %}</label>
+                        <input type="text" id="email" name="email" required="" disabled class="form-control mb-1 required"  value="{{userProfile.user.email}}">
+                        <div class="invalid-feedback">
+                          {% trans "Please fill this field" %}
+                        </div> 
+                      </div>
+
+
+                    <div class="form-group col-md-4">
+                        <label class="form-label" for="name">{% trans "Your name (The used one if you have a service)" %}</label>
+                        <input type="text" id="name" name="name" required="" class="form-control mb-1 required"  value="{{userProfile.user.first_name}}">
+                        <div class="invalid-feedback">
+                          {% trans "Please fill this field" %}
+                        </div> 
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label class="form-label" for="username">{% trans "Username" %}</label>
+                        <input type="text" id="username" name="username" required="" disabled class="form-control mb-1 required" value="{{userProfile.user.username}}">
+                    </div>
+
+                    
+                      
+
+                    <div class="form-group col-md-4">
+                        <label class="form-label" for="phone">{% trans "Phone Number" %}</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" value="{{userProfile.phone}}">
+
+                      </div>
+
+
+                    <div class="form-group col-md-4">
+                        <label class="form-label" for="region" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; width: 100%; ">{% trans "Region" %}</label>
+                        <select  id="region" name="region" value="{{userProfile.region.id}}" required=""  class="form-control mb-1 required {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}">
+                          <option value="">{% trans "Select one item" %}</option>
+                        </select>
+                      <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; ">
+                        {% trans "Please select from this field" %}
+                      </div> 
+                      </div>
+
+
+                      <div class="form-group col-md-4">
+                        <label class="form-label" for="city" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; width: 100%; ">{% trans "City Name" %}</label>
+                        <select  id="city" name="city" required="" value="{{userProfile.region.cityOfRegion.id}}" class="form-control mb-1 required {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}">
+                            <option value="">{% trans "Select one item" %}</option>
+                            {% for item in allCities %}
+                            <option value="{{item.id}}">{{item.name}}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; ">
+                          {% trans "Please select from this field" %}
+                        </div> 
+                      </div>
+
+                    
+
+
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="mobile">{% trans "Mobile Number" %}</label>
+                          <input type="tel" id="mobile" name="mobile" class="form-control" value="{{userProfile.mobile}}">
+
+                        </div>
+
+
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="address">{% trans "Address" %} </label>
+                          <input type="text" id="address" name="address" class="form-control" value="{{userProfile.address}}">
+
+                        </div>
+
+
+                </div>	
+                <button class="button preview btn_center_item margin-top-15">{% trans "Save" %}</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
+
+
+
+
+{% block "javascriptOfPage" %}
+
+
+<script>
+    
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+        }, false);
+        });
+        }, false);
+        })();
+    
+    
+
+        
+    function fill_regionAndSelect(isfirstTime){
+  showLoader();
+  $.ajax({ 
+        type: 'POST',
+        url: '/en/getListOfRegionsByCityId',
+                      data: { 
+                          'city': $('#city').val()
+          },
+        headers:{
+            "X-CSRFToken": csrftoken
+                },
+        async: true,
+        cache: true,
+        success: function(result) {
+            
+            
+          $('#region')
+                        .find('option')
+                        .remove()
+                        .end()
+                        .append('<option value="">{% trans "Select One" %}</option>')
+                        .val('')
+                        ;
+
+                        var $region = $('#region');
+                        console.log(result);
+                         if(result['Result']=='Ok'){
+                  
+                          result.data.forEach(element => {
+                            $region.append($("<option />").val(element.id).text(element.name));
+                          });
+                         
+                  
+                         }
+
+            if(isfirstTime){
+              $('#region').val($('#region').attr('value'));
+            }
+            hideLoader();
+        },error: function (xhr, ajaxOptions, thrownError) {
+            hideLoader();
+           }
+    });
+
+    hideLoader();
+}
+
+
+
+$('#city').on('change', function() {
+    
+    fill_regionAndSelect(false);
+  });
+
+  $('#city').val($('#city').attr('value'));
+  fill_regionAndSelect(true);
+
+        
+  $('#profile_db').addClass('active');
+  $('#profile_nav').addClass('current');
+        </script>
+{% endblock %}

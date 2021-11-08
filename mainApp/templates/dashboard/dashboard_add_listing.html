@@ -1,0 +1,362 @@
+{% extends "dashboard/theme_dashboard.html" %} 
+{%load static%}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+
+
+
+{% block "headerOfPage1" %}{% trans "Ad Details" %}{% endblock %}
+
+{% block "headerOfPage2" %}{% trans "Ad Details" %}{% endblock %}
+
+{% block "bodyOfPage" %}
+
+<div class="col-lg-12 col-md-12">
+    <div class="utf_dashboard_list_box margin-top-0">
+      <h4 class="gray"><i class="sl sl-icon-user"></i> {% trans "Ad Details" %}</h4>
+      <div class="utf_dashboard_list_box-static"> 
+        <div class="edit-ad-photo"> 
+            <label class="btn btn-outline-primary" for="file-inputAddImage" >
+            {% if getMyAdd.mainImage != None and getMyAdd.mainImage != '' %}
+                <img src="{{getMyAdd.mainImage.url}}" alt="" class="d-block " style=" border-radius: 19px; ">
+            {% else %}
+            <img src="/static/images/user-avatar.jpg" alt="" class="d-block " style=" border-radius: 19px; ">
+            {% endif %}   
+         
+            <div class="change-adPhoto-btn">
+            <div class="photoUpload"> <span><i class="fa fa-upload"></i>{% trans "Select New Image" %}</span>
+                <form  method="POST" enctype="multipart/form-data" id="formAddImage" class="needs-validation form-horizontal" novalidate style="display: none;">    {% csrf_token %}
+                    
+                    <input type="hidden"  name="typeOfForm" value="addMainImage">
+                    <input id="file-inputAddImage" class="account-settings-fileinput" accept="image/x-png,image/gif,image/jpeg" type="file" name="file-inputAddImage" onchange="document.getElementById('formAddImage').submit();" />
+            
+                  </form>
+            </div>
+          </div>
+        </label>
+        </div>
+        <div class="my-profile">
+            <form method="POST" id="mainform" class="needs-validation form-horizontal" novalidate>
+                {% csrf_token %}
+                <input type="hidden"  name="typeOfForm" value="AddData">
+                <div class="row with-forms">
+                   
+                    
+                    <div class="form-group col-md-4">
+                        <label class="form-label" for="category" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; width: 100%; ">{% trans "branch category" %}</label>
+                        <select  id="category" name="category" value="{{getMyAdd.category.id}}" required=""  class="form-control mb-1 required {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}">
+                          <option value="">{% trans "Select one item" %}</option>
+                        </select>
+                      <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; ">
+                        {% trans "Please select from this field" %}
+                      </div> 
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label class="form-label" for="mainCategory" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; width: 100%; ">{% trans "Main Category" %}</label>
+                        <select  id="mainCategory" name="mainCategory" required="" value="{{parentCategory.id}}" class="form-control mb-1 required {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}">
+                            <option value="">{% trans "Select one item" %}</option>
+                            {% for item in allparentCategory %}
+                            <option value="{{item.id}}">{{item.name}}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; ">
+                          {% trans "Please select from this field" %}
+                        </div> 
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label class="form-label" for="name">{% trans "Service Name" %}</label>
+                        <input type="text" id="name" name="name" required=""  class="form-control mb-1 required" value="{{getMyAdd.name}}">
+                        <div class="invalid-feedback">
+                          {% trans "Please fill this field" %}
+                        </div> 
+                      </div>
+                  
+
+
+
+                      <div class="form-group col-md-12">
+                        <label class="form-label" for="video">{% trans "Video About the Service" %}</label>
+                        <input type="text" id="video" name="video"   class="form-control mb-1 " value="{{getMyAdd.videoUrl}}">
+                        <div class="invalid-feedback">
+                          {% trans "Please fill this field" %}
+                        </div> 
+                      </div>
+
+
+                     
+
+
+                      <div class="form-group col-md-12">
+                        <input type="hidden" value="{{allTagsDelemited}}" name="experienses" id="experienses"/>
+                        <label class="form-label">{% trans "My Experienses" %}</label>
+                        <div class="panel " style="padding-top: 10px;padding-bottom: 10px;">
+                          <div class="bs-example w-100 " style="max-height: 150px; direction:{% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %};">
+                            <input type="text" class="ServiceTag" data-role="tagsinput" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group col-md-12">
+                        <label class="form-label">{% trans "About US" %}</label>
+                        <textarea class="form-control {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}" name="aboutMe" rows="5">{{userProfile.aboutMe}}</textarea>
+                      </div>
+
+
+
+                      <div class="form-group col-md-12">
+                        <label class="form-label">{% trans "Service Details" %}</label>
+                        <textarea class="form-control {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}" name="details" rows="5">{{getMyAdd.details}}</textarea>
+                      </div>
+
+
+
+                      
+                      <div class="form-group col-md-12">
+                        <!---------------------------------------------------------------------------------------------------------------------------------------->
+  
+                          <div class="card"> 
+                            <div class="card-header">
+                                <h4>{% trans "Additional files" %}</h4>
+                            </div>
+                            
+                            <div class="card-body bg-white p-3">
+                                <div class="form-row row ">
+                                    <div class="container" style="width:100%">
+                                      
+                                      <input type="file"
+                                      id="AllImagesOfAdd" 
+                                      class="filepond"
+                                      name="imagesAddFiles" 
+                                      multiple 
+                                      accept="image/*"
+                                      data-allow-reorder="true"
+                                      data-max-file-size="3MB"
+                                      data-max-files="20">
+  
+                                    </div>
+                                  </div>
+  
+                            </div>
+  
+                          </div>
+                          <!---------------------------------------------------------------------------------------------------------------------------------------->
+  
+                      </div>
+
+
+
+                </div>	
+                <button class="button preview btn_center_item margin-top-15">{% trans "Save" %}</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
+
+
+
+
+{% block "javascriptOfPage" %}
+
+
+<script>
+    
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+        }, false);
+        });
+        }, false);
+        })();
+    
+    
+
+
+
+        
+    function fill_categoryAndSelect(isfirstTime){
+  showLoader();
+  $.ajax({ 
+        type: 'POST',
+        url: '/en/getListOfcategoriesByparentOneId',
+                      data: { 
+                          'mainCategory': $('#mainCategory').val()
+          },
+        headers:{
+            "X-CSRFToken": csrftoken
+                },
+        async: true,
+        cache: true,
+        success: function(result) {
+            
+            
+          $('#category')
+                        .find('option')
+                        .remove()
+                        .end()
+                        .append('<option value="">{% trans "Select One" %}</option>')
+                        .val('')
+                        ;
+
+                        var $category = $('#category');
+
+                         if(result['Result']=='Ok'){
+                  
+                          result.data.forEach(element => {
+                            $category.append($("<option />").val(element.id).text(element.name));
+                          });
+                         
+                  
+                         }
+
+            if(isfirstTime){
+              $('#category').val($('#category').attr('value'));
+            }
+            hideLoader();
+        },error: function (xhr, ajaxOptions, thrownError) {
+            hideLoader();
+           }
+    });
+
+    hideLoader();
+}
+
+
+$('#mainCategory').on('change', function() {
+    
+  fill_categoryAndSelect(false);
+  });
+
+  $('#mainCategory').val($('#mainCategory').attr('value'));
+  fill_categoryAndSelect(true);
+
+
+        
+        </script>
+        <script>
+
+
+
+
+var serviceTag = $('.ServiceTag');
+
+var ServiceData = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  // prefetch: '/getAllCategoriesJson.json?query=Null',
+  remote: {
+    url: '/getAllTagsJson?query=%QUERY',
+    wildcard: '%QUERY'
+  }
+});
+ServiceData.initialize();
+
+serviceTag.tagsinput({
+  
+  itemValue: 'value',
+  itemText: 'text',
+  typeaheadjs: {
+    name: 'ServiceData',
+    displayKey: 'text',
+    source: ServiceData
+  }
+});
+
+
+
+data = $('#experienses').attr('value').split(",")
+{% for item in allTags %}
+serviceTag.tagsinput('add', { "value": '{{item.name}}' , "text": "{{item.name}}"  , "continent": "{{item.name}}"   });
+{% endfor %}
+serviceTag.on('itemAdded', function(event) {
+  // event.item: contains the item
+  data.push((event.item.value).toString());
+
+  $('#experienses').attr('value',data);
+  $('#experienses').val(data);
+});
+
+
+serviceTag.on('itemAddedOnInit', function(event) {
+  // event.item: contains the item
+  // event.item: contains the item
+  console.log("Ahmed");
+  data.push((event.item.value).toString());
+  // console.log(event)
+  // console.log(event.item.value)
+  $('#experienses').attr('value',data);
+  $('#experienses').val(data);
+});
+
+serviceTag.on('beforeItemRemove', function(event) {
+  // event.item: contains the item
+  // event.cancel: set to true to prevent the item getting removed
+  data.splice(data.indexOf((event.item.value).toString()), 1); 
+  $('#experienses').attr('value',data);
+  $('#experienses').val(data);
+});
+
+{% for item in tags %}
+
+//serviceTag.tagsinput('add', { "value": "{{item.name}}" , "text": "{{item.name}}"  , "continent": "{{item.name}}"   });
+
+{% endfor %}
+FilePond.registerPlugin(FilePondPluginImagePreview,FilePondPluginGetFile,FilePondPluginFileValidateType);
+        const inputElement = document.querySelector('#AllImagesOfAdd');
+        const pond = FilePond.create( inputElement );
+        
+        file = [
+        {% for item in allFiles %}        
+            {source: "{{item.file}}",
+              options: {
+                type: "local",
+                }
+            },
+        {% endfor %}
+        ];
+        
+        FilePond.setOptions({
+            
+            
+            server: {
+                url: '/{{LANGUAGE_CODE}}/uploadFiles_ForAdd',
+                
+                process: {
+                    headers:{
+                        "X-CSRFToken": csrftoken
+                            }
+                },
+                revert:{
+                    headers:{
+                        "X-CSRFToken": csrftoken
+                            }
+                },
+                withCredentials: false,
+                onload: (response) => response.key,
+                onerror: (response) => response.data,
+                load:'?load='
+            },
+            files:file,
+            acceptedFileTypes: ['image/png','image/jpg','image/jpeg'],
+        });
+
+
+        $('#myServices_db').addClass('active');
+        </script>
+{% endblock %}

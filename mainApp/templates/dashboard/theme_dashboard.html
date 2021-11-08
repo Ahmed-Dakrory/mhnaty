@@ -1,0 +1,326 @@
+{%load static%}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<!DOCTYPE html>
+<html lang="{{LANGUAGE_CODE}}" {% if LANGUAGE_CODE == 'ar' %}dir="rtl"{% endif %}>
+<head>
+<meta name="author" content="">
+<meta name="description" content="">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U-Listing Directory - Listing HTML Template</title>
+
+
+<!-- Favicon -->
+<link rel="shortcut icon" href="/static/images/favicon.png">
+
+<!-- Style CSS -->
+{% if LANGUAGE_CODE == 'ar' %} 
+<link rel="stylesheet"  href="{% static 'rtl/css/stylesheet.css' %}">
+<link rel="stylesheet"  href="{% static 'rtl/css/mmenu.css' %}">
+<link rel="stylesheet"  href="{% static 'rtl/css/style.css' %}"  id="colors">
+<link rel="stylesheet"  href="{% static 'rtl/css/stylesheet_rtl.css' %}">
+{% else %}
+<link rel="stylesheet"  href="{% static 'ltr/css/stylesheet.css' %}">
+<link rel="stylesheet"  href="{% static 'ltr/css/mmenu.css' %}">
+<link rel="stylesheet"  href="{% static 'ltr/css/style.css' %}"  id="colors">
+{% endif %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-tagsinput.css' %}">
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap_dashboard.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-slider.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
+
+        
+<link rel="stylesheet" type="text/css" href="{% static 'css/filepond20201101.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/filepond-plugin-image-preview.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/filepond-plugin-image-overlay.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/filepond-plugin-get-file.css' %}">
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800&display=swap&subset=latin-ext,vietnamese" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700,800" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+
+<!-- Wrapper -->
+<div id="main_wrapper"> 
+  <header id="header_part" class="fixed fullwidth_block dashboard"> 
+    <div id="header" class="not-sticky">
+      <div class="container"> 
+        <div class="utf_left_side"> 
+          <div id="logo"> <a href="index_1.html"><img src="/static/images/logo.png" alt=""></a> <a href="index_1.html" class="dashboard-logo"><img src="/static/images/logo.png" alt=""></a> </div>
+          <div class="mmenu-trigger">
+			<button class="hamburger utfbutton_collapse" type="button">
+				<span class="utf_inner_button_box">
+					<span class="utf_inner_section"></span>
+				</span>
+			</button>
+		  </div>
+          <nav id="navigation" class="style_one">
+            <ul id="responsive">
+                <li><a href="/{{LANGUAGE_CODE}}">{% trans "Home" %}</a>
+                </li>	
+                
+                
+                {% if LANGUAGE_CODE == 'ar' %}
+                <li><a class="current" onclick="addReplaceLangCode('en')" href="javascript:void(0)">English</a>
+                </li>	
+                {% endif %}
+  
+                
+  
+                {% if LANGUAGE_CODE == 'en' %}
+                
+                <li><a class="current" onclick="addReplaceLangCode('ar')" href="javascript:void(0)">عربى</a>
+                </li>	
+                {% endif %}
+  
+                {% if user.is_authenticated %}
+                <li>
+                  <a id="profile_nav" href="/{{LANGUAGE_CODE}}/profile/">{% trans "Profile" %}</a>
+                </li>
+                {% endif %}
+      
+      
+                {% if user.is_authenticated %}
+                <li>
+                  <a href="/{{LANGUAGE_CODE}}/showUserMessages/{{id_of_Admin}}">{% trans "Customer Services" %}</a>
+                </li>
+                {% endif %}
+      
+                {% if user.is_superuser %}
+                <li>
+                  <a href="/{{LANGUAGE_CODE}}/controlpanel/">{% trans "Control Panel" %}</a>
+                </li>
+                {% endif %}
+  
+  
+  
+              </ul>
+          </nav>
+          <div class="clearfix"></div>
+        </div>
+        <div class="utf_right_side"> 
+          <div class="header_widget"> 
+			<!-- <div class="dashboard_header_button_item has-noti js-item-menu">
+				<i class="sl sl-icon-bell"></i>
+				<div class="dashboard_notifi_dropdown js-dropdown">
+					<div class="dashboard_notifi_title">
+						<p>You Have 2 Notifications</p>
+					</div>
+					<div class="dashboard_notifi_item">
+						<div class="bg-c1 red">
+							<i class="fa fa-check"></i>
+						</div>
+						<div class="content">
+							<p>Your Listing <b>Burger House (MG Road)</b> Has Been Approved!</p>
+							<span class="date">2 hours ago</span>
+						</div>
+					</div>
+					<div class="dashboard_notifi_item">
+						<div class="bg-c1 green">
+							<i class="fa fa-envelope"></i>
+						</div>
+						<div class="content">
+							<p>You Have 7 Unread Messages</p>
+							<span class="date">5 hours ago</span>
+						</div>
+					</div>
+					<div class="dashboard_notify_bottom text-center pad-tb-20">
+						<a href="#">View All Notification</a>
+					</div>
+				</div>
+			</div> -->
+            <div class="utf_user_menu">
+              <div class="utf_user_name">
+                {% if userProfile.image != None and userProfile.image != '' %}
+                <span><img src="{{userProfile.image.url}}" alt=""></span>
+                {% else %}
+                <span><img src="/static/images/dashboard-avatar.jpg" alt=""></span>
+                {% endif %}
+                
+                  Hi, {{userProfile.user.first_name}}
+                </div>
+              <ul>
+                <!-- <li><a href="dashboard.html"><i class="sl sl-icon-layers"></i> Dashboard</a></li> -->
+                <li><a href="/{{LANGUAGE_CODE}}/profile/"><i class="sl sl-icon-user"></i> {% trans "My Profile" %}</a></li>
+				<!-- <li><a href="dashboard_my_listing.html"><i class="sl sl-icon-list"></i> My Listing</a></li>
+				<li><a href="dashboard_messages.html"><i class="sl sl-icon-envelope-open"></i> Messages</a></li>
+				<li><a href="dashboard_bookings.html"><i class="sl sl-icon-docs"></i> Booking</a></li> -->
+
+
+
+                <li><a href="/{{LANGUAGE_CODE}}/logout/"><i class="sl sl-icon-power"></i> {% trans "SignOut" %}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="clearfix"></div>
+  
+  <!-- Dashboard -->
+  <div id="dashboard"> 
+    <a href="#" class="utf_dashboard_nav_responsive"><i class="fa fa-reorder"></i> {% trans "My Control Page" %}</a>
+    <div class="utf_dashboard_navigation">
+      <div class="utf_dashboard_navigation_inner_block">
+        <ul>     
+		  <li id="myServices_db"><a href="/{{LANGUAGE_CODE}}/dashboard_add_listing"><i class="sl sl-icon-plus"></i> {% trans "My Service Details" %}</a></li>	          
+		 
+		  <li id="mailbox_db"> <a href="/{{LANGUAGE_CODE}}/dashboard_messages"><i class="sl sl-icon-envelope-open"></i> {% trans "MailBox" %}</a></li>  
+          <li id="profile_db"><a href="/{{LANGUAGE_CODE}}/profile"><i class="sl sl-icon-user"></i> {% trans "My Profile" %}</a></li>
+          <!-- <li id="adsMessages_db"><a href="/{{LANGUAGE_CODE}}/showUserMessages"><i class="sl sl-icon-user"></i> {% trans "Ads Messages" %}</a></li> -->
+		  <!-- <li><a href="dashboard_change_password.html"><i class="sl sl-icon-key"></i> Change Password</a></li> -->
+          <li><a href="/{{LANGUAGE_CODE}}/logout/"><i class="sl sl-icon-power"></i> {% trans "SignOut" %}</a></li>
+        </ul>
+      </div>
+    </div>
+
+
+
+    <div class="utf_dashboard_content"> 
+
+        
+   
+    
+    <div id="titlebar" class="dashboard_gradient">
+        <div class="row">
+          <div class="col-md-12">
+            <h2> {% block "headerOfPage1" %}{% trans "My Profile" %}{% endblock %}</h2>
+            <nav id="breadcrumbs">
+              <ul>
+                <li><a href="/{{LANGUAGE_CODE}}"> {% trans "Home" %}</a></li>
+                <li> {% block "headerOfPage2" %}{% trans "My Profile" %}{% endblock %}</li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+     
+
+      <div class="row"> 
+
+        
+        {% block "bodyOfPage" %}
+       
+        {% endblock %}
+
+        <div class="row">
+            <div class="col-md-12">
+              <div class="footer_copyright_part">
+                <div class="footer_bottom" style="direction:ltr">
+                    <div class="container">
+                        <div class="row align-items-center">
+                          <div class="col-md-3 text-center text-md-left">
+            
+                            
+                          </div>
+                          <div class="col-lg-5 col-sm-12 text-center text-md-left">
+                              <p class="mb-0 f_400">© Mhnaty Inc.. 2021 All rights reserved.</p>
+                          </div>
+                          <div class="col-lg-4 col-sm-12 text-center {% if LANGUAGE_CODE == 'ar' %} text-md-left {% else %} text-md-right {% endif %} mt-1">
+                              <p class="mb-0 f_400">Made By <i class="icon_heart"></i> in <a href="domainjo.com">DomainCom Web Solutions..</a></p>
+                          </div>
+            
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+      </div>
+    </div>
+  </div>  
+</div>
+
+
+<!-- Scripts --> 
+{% if LANGUAGE_CODE == 'ar' %} 
+
+<script src="{% static 'js/jquery-3.5.1.js' %}"></script> 
+<script src="{% static 'rtl/scripts/chosen.min.js' %}"></script> 
+<script src="{% static 'rtl/scripts/slick.min.js' %}"></script> 
+<script src="{% static 'rtl/scripts/rangeslider.min.js' %}"></script> 
+<script src="{% static 'rtl/scripts/magnific-popup.min.js' %}"></script> 
+<script src="{% static 'rtl/scripts/jquery-ui.min.js' %}"></script> 
+<script src="{% static 'rtl/scripts/bootstrap-select.min.js' %}"></script>
+<script src="{% static 'rtl/scripts/mmenu.js' %}"></script>
+<script src="{% static 'rtl/scripts/tooltips.min.js' %}"></script> 
+<script src="{% static 'rtl/scripts/color_switcher.js' %}"></script>
+<script src="{% static 'rtl/scripts/jquery_custom.js' %}"></script>
+<script src="{% static 'rtl/scripts/typed.js' %}"></script>
+{% else %}
+<script src="{% static 'js/jquery-3.5.1.js' %}"></script> 
+<script src="{% static 'ltr/scripts/chosen.min.js' %}"></script> 
+<script src="{% static 'ltr/scripts/slick.min.js' %}"></script> 
+<script src="{% static 'ltr/scripts/rangeslider.min.js' %}"></script> 
+<script src="{% static 'ltr/scripts/magnific-popup.min.js' %}"></script> 
+<script src="{% static 'ltr/scripts/jquery-ui.min.js' %}"></script> 
+<script src="{% static 'ltr/scripts/bootstrap-select.min.js' %}"></script>
+<script src="{% static 'ltr/scripts/mmenu.js' %}"></script>
+<script src="{% static 'ltr/scripts/tooltips.min.js' %}"></script> 
+<script src="{% static 'ltr/scripts/color_switcher.js' %}"></script>
+<script src="{% static 'ltr/scripts/jquery_custom.js' %}"></script>
+<script src="{% static 'ltr/scripts/typed.js' %}"></script>
+{% endif %}
+
+ 
+<script src="{% static 'js/sweetalert.min.js' %}"></script>
+<script src="{% static 'js/jquery-ui.min.js' %}"></script> 
+<script src="{% static 'js/mainFunctions.js' %}"></script>
+
+    
+
+    
+<script src="{% static 'js_old/typeahead.bundle.min.js' %}"></script> 
+<script src="{% static 'js_old/bootstrap-tagsinput.min.js' %}"></script> 
+
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+<script src="{% static 'js/filepond-plugin-get-file.js' %}"></script>
+<script src="{% static 'js/filepond-plugin-image-preview.js' %}"></script> 
+<script src="{% static 'js/filepond.js' %}"></script>
+
+<script>
+(function($) {
+try {
+	var jscr1 = $('.js-scrollbar');
+	if (jscr1[0]) {
+		const ps1 = new PerfectScrollbar('.js-scrollbar');
+
+	}
+    } catch (error) {
+        console.log(error);
+    }
+})(jQuery);
+</script>
+
+
+
+{% block "javascriptOfPage" %}
+
+
+{% endblock %}
+<!-- Style Switcher -->
+<div id="color_switcher_preview">
+  <h2>Choose Your Color <a href="#"><i class="fa fa-gear fa-spin (alias)"></i></a></h2>	
+	<div>
+		<ul class="colors" id="color1">
+			<li><a href="#" class="stylesheet"></a></li>
+			<li><a href="#" class="stylesheet_1"></a></li>
+			<li><a href="#" class="stylesheet_2"></a></li>			
+			<li><a href="#" class="stylesheet_3"></a></li>						
+			<li><a href="#" class="stylesheet_4"></a></li>
+			<li><a href="#" class="stylesheet_5"></a></li>			
+		</ul>
+	</div>		
+</div>
+</body>
+</html>

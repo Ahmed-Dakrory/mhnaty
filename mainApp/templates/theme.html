@@ -13,7 +13,6 @@
 <meta name="google-signin-scope" content="profile email">
         
 <meta name="google-signin-client_id" content="204450024885-4s8o46icvli7m58qfm2jbfs6ksf8b75q.apps.googleusercontent.com">
-<script src="https://apis.google.com/js/platform.js?onload=onLoadGoogleCallback" async defer></script>
 
 
 <title>{% trans "Home" %}</title>
@@ -136,7 +135,7 @@
                 <form  id="formLogin" class="login">
                     {% csrf_token %}
 				  <a href="javascript:void(0);"  id="facebook" onclick="fb_login();" class="social_bt facebook_btn">Login with Facebook <i class="fa fa-facebook"></i></a>
-				  <a href="javascript:void(0);" id="google"  class="social_bt google_btn">Login with Google <i class="fa fa-google-plus"></i></a>
+				  <a href="javascript:void(0);"  id="google"  class="social_bt google_btn">Login with Google <i class="fa fa-google-plus"></i></a>
                   <p class="utf_row_form utf_form_wide_block">
                     <label for="username">
                       <input type="text" value="admin" placeholder='{% trans "Please Enter the user name" %}'  class="input-text" name="username" id="username" value=""  />
@@ -276,7 +275,7 @@
 <!-- Scripts --> 
 {% if LANGUAGE_CODE == 'ar' %} 
 
-<script src="{% static 'rtl/scripts/jquery-3.4.1.min.js' %}"></script> 
+<script src="{% static 'js/jquery-3.5.1.js' %}"></script> 
 <script src="{% static 'rtl/scripts/chosen.min.js' %}"></script> 
 <script src="{% static 'rtl/scripts/slick.min.js' %}"></script> 
 <script src="{% static 'rtl/scripts/rangeslider.min.js' %}"></script> 
@@ -289,7 +288,7 @@
 <script src="{% static 'rtl/scripts/jquery_custom.js' %}"></script>
 <script src="{% static 'rtl/scripts/typed.js' %}"></script>
 {% else %}
-<script src="{% static 'ltr/scripts/jquery-3.4.1.min.js' %}"></script> 
+<script src="{% static 'js/jquery-3.5.1.js' %}"></script> 
 <script src="{% static 'ltr/scripts/chosen.min.js' %}"></script> 
 <script src="{% static 'ltr/scripts/slick.min.js' %}"></script> 
 <script src="{% static 'ltr/scripts/rangeslider.min.js' %}"></script> 
@@ -312,9 +311,14 @@
 
 
 
-                        
+         
+<script src="https://apis.google.com/js/api:client.js?onload=onLoadCallback" async defer></script>               
 <script>
+var auth2;
+var googleUser = {};
+var auth3;
 
+element = document.getElementById('google');
     function fb_login(){
         FB.login(function(response) {
     
@@ -422,7 +426,10 @@
                   
         }
     
-          function onLoadGoogleCallback(){
+
+        
+
+window.onLoadCallback = function(){
             gapi.load('auth2', function() {
                 auth2 = gapi.auth2.init({
                 client_id: '204450024885-4s8o46icvli7m58qfm2jbfs6ksf8b75q.apps.googleusercontent.com',
@@ -430,7 +437,17 @@
                 scope: 'profile'
                 });
     
-            auth2.attachClickHandler(element, {},
+
+                auth3 = true;
+                startApp();
+
+           
+            });
+    
+    };
+
+    function startApp(){
+      auth2.attachClickHandler(element, {},
                 function(googleUser) {
                     var profile = googleUser.getBasicProfile();
                    
@@ -446,13 +463,13 @@
                     
                 }
                 );
-            });
-    
-            element = document.getElementById('google');
     }
     
     
-    
+    if (auth3){
+        startApp();
+    }
+
      $('#loginButton').on('click', function() {
                         login();
      });

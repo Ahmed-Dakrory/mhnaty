@@ -90,6 +90,9 @@
   </div>
 </div>
   
+
+
+
 <div class="container padding-bottom-70">
   <div class="row">
     <div class="col-md-12">
@@ -110,7 +113,32 @@
   <div class="col-md-12 centered_content"> <a href="/{{LANGUAGE_CODE}}/SearchPage/?category={{item.id}}&provider=&city=&region=" class="button border margin-top-20">{% trans "Read More" %}</a> </div>
   </div>
 </div>
+
+
 <div class="clearfix"></div>
+
+<div class="parallax" data-background="/static/images/back1.jpg"> 
+  <div class="utf_text_content white-font">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-sm-12">
+          <h2>{% trans 'About'%}<br>{% trans 'Mhnaty Website'%}</h2>
+          <p>
+            انبثق موقع مهنتي بمبادرة طموحة من شباب متفائل عام 202‪1  من وحي الواقع الملح للمجتمع في الوصول الى اصحاب المهن و المهارات للأفراد و الشركات و يسعى فريقنا لخدمة كل فرد في المجتمع من خلال اتاحة قاعدة بيانات مجانية ضخمة من ملفات التعريف لاصحاب المهن على تنوعها (الحرفي و الاكاديمي) و تيسير التواصل مع اصحابها لطلب خدماتهم من خلال منصة الكترونية واحدة. يسعى فريقنا لكسب ثقة المجتمع من خلال توفير موقع الكتروني ابداعي و ديناميكي صمم باحترافية لتسهيل عمليات البحث حسب المهنة و الموقع الجغرافي و توفير معلومات الملف المهني و الصور. ليصبح الوصول إلى المعلم او الطبيب او البنّاء او المدير و الاف المهن الاخرى بكل سهولة و يسر.
+
+          </p>
+          <!-- <a href="listings_list_with_sidebar.html" class="button margin-top-25">Get Started</a> -->
+         </div>
+      </div>
+    </div>
+  </div>   
+</div>
+
+
+
+
+
+
 
 <section class="fullwidth_block padding-top-75 padding-bottom-70" data-background-color="#f9f9f9">
   <div class="container">
@@ -124,7 +152,7 @@
       <div class="simple_slick_carousel_block utf_dots_nav" id="add_mostViewed"> 
        
                {% for item in mostViewed %}
-                  <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
+                  <div class="utf_carousel_item"> <a href="/{{LANGUAGE_CODE}}/CompanyPage/?id={{item.id}}" class="utf_listing_item-container compact">
         <div class="utf_listing_item"> <img src="{{item.mainImage.url}}" alt=""> <span class="tag"><i class="im im-icon-Chef-Hat"></i> {{item.category.name}}</span> {% if item.featureAddNumber > 0 %}<span class="featured_tag">{% trans "Featured" %}</span>{% endif %}
           <span class="utf_open_now">{% trans "Open Now" %}</span>
           <div class="utf_listing_item_content">
@@ -136,12 +164,11 @@
           </div>
           <h3>{{item.name}}</h3>
           <span><i class="sl sl-icon-location"></i> {{item.owner.address}}</span>
-          <span><i class="sl sl-icon-phone"></i> {{item.owner.phone}}</span>											
+          <!-- <span><i class="sl sl-icon-phone"></i> {{item.owner.phone}}</span>											 -->
           </div>					  
         </div>
         <div class="utf_star_rating_section" data-rating="{{item.avg_ratings}}">
           <div class="utf_counter_star_rating">({{item.avg_ratings}})</div>
-          <span class="like-icon"></span>
         </div>
         </a> 
         </div>
@@ -154,57 +181,34 @@
   </div>
 </section>
 
-<a href="listings_grid_full_width.html" class="flip-banner parallax" data-background="/static/images/slider-bg-02.jpg" data-color="#000" data-color-opacity="0.85" data-img-width="2500" data-img-height="1666">
-  <div class="flip-banner-content">
-  <h2 class="flip-visible">{% trans "Browse Listings Attractions List" %}</h2>    
-  </div>
-</a>
 
-<section class="utf_testimonial_part fullwidth_block padding-top-75 padding-bottom-75"> 
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-        <h3 class="headline_part centered"> {% trans "What Say Our Customers" %} <span class="margin-top-15">{% trans "Word about us" %}</span> </h3>
+
+
+<div class="parallax" data-background="/static/images/Untitled-1-01.png"> 
+  <div class="utf_text_content white-font">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-sm-12">
+          <h2>رسالتنا و رؤيتنا وصولا الى <br>هدفنا</h2>
+          <p>تحقيق رضا الافراد و الشركات في الوصول المجاني و السهل الى مقدمي الخدمات و طالبيها على تنوعها من خلال منصة الكترونية واحدة مع امكانية التقييم من العميل.
+          </p>
+
+          <p>ان يكون موقع مهنتي المنصة الأولى المجانية و الفريدة التي تجمع كل ما يحتاجه المجتمع من مهن و مهارات مختلفة.
+          </p>
+
+
+          <p>التميز في خدمة كل افراد المجتمع للوصول السريع للمهن التي يحتاجونها.
+          </p>
+</div>
       </div>
     </div>
-  </div>
-  <div class="fullwidth_carousel_container_block margin-top-20">
-    <div class="utf_testimonial_carousel testimonials"> 
-      <div class="utf_carousel_review_part">
-        <div class="utf_testimonial_box">
-          <div class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</div>
-        </div>
-        <div class="utf_testimonial_author"> <img src="/static/images/happy-client-01.jpg" alt="">
-          <h4>Denwen Evil <span>Web Developer</span></h4>
-        </div>
-      </div>
-      <div class="utf_carousel_review_part">
-        <div class="utf_testimonial_box">
-          <div class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</div>
-        </div>
-        <div class="utf_testimonial_author"> <img src="/static/images/happy-client-02.jpg" alt="">
-          <h4>Adam Alloriam <span>Web Developer</span></h4>
-        </div>
-      </div>
-      <div class="utf_carousel_review_part">
-        <div class="utf_testimonial_box">
-          <div class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</div>
-        </div>
-        <div class="utf_testimonial_author"> <img src="/static/images/happy-client-03.jpg" alt="">
-          <h4>Illa Millia <span>Project Manager</span></h4>
-        </div>
-      </div>
-  <div class="utf_carousel_review_part">
-        <div class="utf_testimonial_box">
-          <div class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</div>
-        </div>
-        <div class="utf_testimonial_author"> <img src="/static/images/happy-client-01.jpg" alt="">
-          <h4>Denwen Evil <span>Web Developer</span></h4>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  </div>   
+</div>
+
+
+
+
+
 {% endblock %}
 
 

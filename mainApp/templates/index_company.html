@@ -25,11 +25,9 @@
     <div class="col-lg-8 col-md-8">
       <div id="titlebar" class="utf_listing_titlebar">
         <div class="utf_listing_titlebar_title">
-         <h2>{{thisAdd.name}} <span class="listing-tag">Apartment</span></h2>
-          <span> <a href="#utf_listing_location" class="listing-address">The Ritz-Carlton, Hong Kong <i class="sl sl-icon-location"></i></a> </span>			
-    <span class="call_now">(415) 796-3633 <i class="sl sl-icon-phone"></i></span>
+         <h2>{{thisAdd.name}} <span class="listing-tag">{{thisAdd.category.name}}</span></h2>
           <div class="utf_star_rating_section" data-rating="{{rate|default_if_none:0}}">
-            <div class="utf_counter_star_rating">({{rate|default_if_none:0}}) / (14 Reviews)</div>
+            <div class="utf_counter_star_rating">({{rate|default_if_none:0}}) / ({{allcomments | length}} {% trans "Review" %})</div>
           </div>
           <ul class="listing_item_social">
             <li><a href="#">Bookmark <i class="fa fa-bookmark"></i></a></li>
@@ -38,33 +36,33 @@
             <li><a href="#">Share <i class="fa fa-share"></i></a></li>
       <li><a href="#" class="now_open">Open Now</a></li>
           </ul>
-    <div class="utf_room_detail">
+    <!-- <div class="utf_room_detail">
     <ul>
       <li>3 Rooms</li>
       <li>3 Bed Room</li>
       <li>4 Bed</li>
       <li>3 Bath Room</li>
     </ul>
-    </div>
+    </div> -->
         </div>
       </div>
       <div id="utf_listing_overview" class="utf_listing_section">
         <h3 class="utf_listing_headline_part margin-top-30 margin-bottom-30">{% trans "Company Services" %}</h3>
         <p>{{thisAdd.details}}</p>
     <div id="utf_listing_tags" class="utf_listing_section listing_tags_section margin-bottom-10 margin-top-0">          
-      <a href="#"><i class="sl sl-icon-phone" aria-hidden="true"></i> +(01) 1123-254-456</a>			
-    <a href="#"><i class="fa fa-envelope-o" aria-hidden="true"></i> info@example.com</a>	
-    <a href="#"><i class="sl sl-icon-globe" aria-hidden="true"></i> www.example.com</a>			
+      <a href="tel:{{thisAdd.owner.phone}}" {% if not user.is_authenticated %} disabled {% endif %}><i class="sl sl-icon-phone" aria-hidden="true"></i> {% trans "Call" %}</a>			
+    <a href="/showUserMessages/{{thisAdd.id}}"><i class="fa fa-envelope-o" aria-hidden="true"></i> {% trans "chat" %}</a>		
         </div>
-    <div class="social-contact">
+    <!-- <div class="social-contact">
     <a href="#" class="facebook-link"><i class="fa fa-facebook"></i> Facebook</a>
     <a href="#" class="twitter-link"><i class="fa fa-twitter"></i> Twitter</a>
     <a href="#" class="instagram-link"><i class="fa fa-instagram"></i> Instagram</a>
     <a href="#" class="linkedin-link"><i class="fa fa-linkedin"></i> Linkedin</a>
     <a href="#" class="youtube-link"><i class="fa fa-youtube-play"></i> Youtube</a>
-    </div>		  
+    </div>		   -->
       </div>
       
+      {% if allTags|length > 0 %}
       <div id="utf_listing_amenities" class="utf_listing_section">
         <h3 class="utf_listing_headline_part margin-top-50 margin-bottom-40">{% trans "Company Experiences" %}</h3>
         <ul class="utf_listing_features checkboxes margin-top-0">
@@ -73,6 +71,7 @@
           {% endfor %}           
         </ul>
       </div>
+      {% endif %}
   
       {% if thisAdd.videoUrl != None %}
   <div id="utf_listing_video" class="utf_listing_section">
@@ -84,7 +83,7 @@
     {% endif %}
 
 
-  <div id="utf_listing_faq" class="utf_listing_section">
+  <!-- <div id="utf_listing_faq" class="utf_listing_section">
         <h3 class="utf_listing_headline_part margin-top-50 margin-bottom-40">Listing FAQ's</h3>
         <div class="style-2">
     <div class="accordion">
@@ -102,76 +101,34 @@
       </div>			  			  				  			  
     </div>
     </div>
-      </div>	
+      </div>	 -->
       
       <div id="utf_listing_reviews" class="utf_listing_section">
-        <h3 class="utf_listing_headline_part margin-top-75 margin-bottom-20">Reviews <span>(08)</span></h3>
+        <h3 class="utf_listing_headline_part margin-top-75 margin-bottom-20">{% trans "Customer Comments" %}</h3>
         <div class="clearfix"></div>
    
         <div class="comments utf_listing_reviews">
           <ul>
+            
+          {% for comment in allcomments%}
             <li>
-              <div class="avatar"><img src="/static/images/client-avatar1.jpg" alt="" /></div>
+              {% if comment.fromUser.image.url != None %}
+              <div class="avatar"><img src="{{comment.fromUser.image.url}}" alt="" /></div>
+              {% endif %}
               <div class="utf_comment_content">
                 <div class="utf_arrow_comment"></div>
-                <div class="utf_star_rating_section" data-rating="5"></div>
-        <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>
-                <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2019 - 8:52 am</span> </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>                                    
+                <div class="utf_star_rating_section" data-rating="{{comment.rate}}"></div>
+        <!-- <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a> -->
+                <div class="utf_by_comment">{{comment.fromUser.user.first_name}}<span class="date"><i class="fa fa-clock-o"></i> {{comment.created|date:"d/m/Y"}}</span> </div>
+                <p>{{comment.details}}</p>                                    
       </div>
             </li>
-            <li>
-              <div class="avatar"><img src="/static/images/client-avatar2.jpg" alt="" /> </div>
-              <div class="utf_comment_content">
-                <div class="utf_arrow_comment"></div>
-                <div class="utf_star_rating_section" data-rating="4"></div>
-        <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>
-                <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2019 - 8:52 am</span> </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>                  
-      </div>
-            </li>
-      <li>
-              <div class="avatar"><img src="/static/images/client-avatar3.jpg" alt="" /> </div>
-              <div class="utf_comment_content">
-                <div class="utf_arrow_comment"></div>
-                <div class="utf_star_rating_section" data-rating="4"></div>                  
-                <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2019 - 8:52 am</span> </div>
-        <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>                  
-      </div>
-            </li>
-            <li>
-              <div class="avatar"><img src="/static/images/client-avatar1.jpg" alt="" /></div>
-              <div class="utf_comment_content">
-                <div class="utf_arrow_comment"></div>
-                <div class="utf_star_rating_section" data-rating="4.5"></div>                  
-                <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2019 - 8:52 am</span> </div>
-        <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>
-                <div class="review-images utf_gallery_container"> 
-          <a href="/static/images/review-image-01.jpg" class="utf_gallery"><img src="/static/images/review-image-01.jpg" alt=""></a> 
-        <a href="/static/images/review-image-02.jpg" class="utf_gallery"><img src="/static/images/review-image-02.jpg" alt=""></a> 
-        <a href="/static/images/review-image-03.jpg" class="utf_gallery"><img src="/static/images/review-image-03.jpg" alt=""></a> 
-        <a href="/static/images/review-image-01.jpg" class="utf_gallery"><img src="/static/images/review-image-01.jpg" alt=""></a> 
-        <a href="/static/images/review-image-02.jpg" class="utf_gallery"><img src="/static/images/review-image-02.jpg" alt=""></a> 
-        <a href="/static/images/review-image-03.jpg" class="utf_gallery"><img src="/static/images/review-image-03.jpg" alt=""></a> 
-        </div>                  
-      </div>
-            </li>
-      <li>
-              <div class="avatar"><img src="/static/images/client-avatar3.jpg" alt="" /> </div>
-              <div class="utf_comment_content">
-                <div class="utf_arrow_comment"></div>
-                <div class="utf_star_rating_section" data-rating="4"></div>                  
-                <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2019 / 8:52 am</span> </div>
-        <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>                  
-      </div>
-            </li>
+
+            {% endfor %}
           </ul>
         </div>
         <div class="clearfix"></div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-md-12">
             <div class="utf_pagination_container_part margin-top-30">
               <nav class="pagination">
@@ -185,61 +142,55 @@
               </nav>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="clearfix"></div>
       </div>
       <div id="utf_add_review" class="utf_add_review-box">
         <h3 class="utf_listing_headline_part margin-bottom-20">{% trans "Your Comment is a matter for us" %}</h3>
-        <span class="utf_leave_rating_title">Your email address will not be published.</span>
-        <div class="row">
-          <div class="col-md-6 col-sm-6 col-xs-12">
-            <div class="add-review-photos margin-bottom-30">
-              <div class="photoUpload"> <span>Upload Photo <i class="sl sl-icon-arrow-up-circle"></i></span>
-                <input type="file" class="upload" />
-              </div>
-            </div>
-          </div>
-    <div class="col-md-6 col-sm-6 col-xs-12">
-            <div class="clearfix"></div>
-            <div class="utf_leave_rating margin-bottom-30">
-              <input type="radio" name="rating" id="rating-1" value="1"/>
-              <label for="rating-1" class="fa fa-star"></label>
-              <input type="radio" name="rating" id="rating-2" value="2"/>
-              <label for="rating-2" class="fa fa-star"></label>
-              <input type="radio" name="rating" id="rating-3" value="3"/>
-              <label for="rating-3" class="fa fa-star"></label>
-              <input type="radio" name="rating" id="rating-4" value="4"/>
-              <label for="rating-4" class="fa fa-star"></label>
-              <input type="radio" name="rating" id="rating-5" value="5"/>
-              <label for="rating-5" class="fa fa-star"></label>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-        </div>
-        <form id="utf_add_comment" class="utf_add_comment">
-          <fieldset>
-            <div class="row">
-              <div class="col-md-4">
-                <label>Name:</label>
-                <input type="text" placeholder="Name" value=""/>
-              </div>
-              <div class="col-md-4">
-                <label>Email:</label>
-                <input type="text" placeholder="Email" value=""/>
-              </div>
-              <div class="col-md-4">
-                <label>Subject:</label>
-                <input type="text" placeholder="Subject" value=""/>
-              </div>
-            </div>
+        <span class="utf_leave_rating_title">{% trans "You can see Customer and other comments" %}</span>
+        {% if user.is_authenticated %}
+        <form method="POST" id="mainform" class="needs-validation form-horizontal" novalidate>
+          {% csrf_token %}
+                        
+          <div class="row">
+        
+            <div class="col-md-12">
+                    <div class="clearfix"></div>
+                    
+                    <div class="utf_leave_rating margin-bottom-30">
+                      <input type="radio" name="mainRateFromUser" id="rating-5" value="5"/>
+                      <label for="rating-5" class="fa fa-star"></label>
+                      <input type="radio" name="mainRateFromUser" id="rating-4" value="4"/>
+                      <label for="rating-4" class="fa fa-star"></label>
+                      <input type="radio" name="mainRateFromUser" id="rating-3" value="3"/>
+                      <label for="rating-3" class="fa fa-star"></label>
+                      <input type="radio" name="mainRateFromUser" id="rating-2" value="2"/>
+                      <label for="rating-2" class="fa fa-star"></label>
+                      <input type="radio" name="mainRateFromUser" id="rating-1" value="1"/>
+                      <label for="rating-1" class="fa fa-star"></label>
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+
+          <input type="hidden"  name="typeOfForm" value="feedBack">
+          
+            
             <div>
-              <label>Review:</label>
-              <textarea cols="40" placeholder="Your Message..." rows="3"></textarea>
+              <label for="subject">{% trans "Your Comment is a matter for us" %}</label>
+              <div id= "rateSend"  class=" mb-3" dir="rtl"></div>
+
+              <textarea id="subject" name="subject" placeholder='{% trans "Leave your Message" %} ..' style="height:100px"></textarea>
+              
             </div>
-          </fieldset>
-          <button class="button">Submit Review</button>
+            <input type="submit" class="button" value='{% trans "Send" %}'>
           <div class="clearfix"></div>
         </form>
+        {% else %}
+
+        <p class="text-secondary mr-3">{% trans "Please Login to be Able to Make Comment" %}</p>
+        {% endif %}
       </div>
     </div>
     
@@ -248,40 +199,53 @@
       
       <div class="utf_box_widget margin-top-35">
         <h3><i class="sl sl-icon-phone"></i> {% trans "Call us" %}</h3>
-        <div class="utf_hosted_by_user_title"> <a href="#" class="utf_hosted_by_avatar_listing"><img src="/static/images/dashboard-avatar.jpg" alt=""></a>
-          <h4><a href="#">Kathy Brown</a><span>Posted 3 Days Ago</span>
+        <div class="utf_hosted_by_user_title"> <a href="#" class="utf_hosted_by_avatar_listing">
+          {% if thisAdd.owner.image.url != None %}
+            <img src="{{thisAdd.owner.image.url}}" alt="">
+          {% endif %}
+
+          </a>
+          <h4><a href="#">{{thisAdd.owner.user.first_name}}</a>
             {% if thisAdd.owner.address != None and thisAdd.owner.address != '' and thisAdd.owner.address != ' ' %}
              <span>{{thisAdd.owner.address}} <i class="sl sl-icon-location"></i></span>
              {% endif %}
           </h4>
         </div>
-    <ul class="utf_social_icon rounded margin-top-10">
+    <!-- <ul class="utf_social_icon rounded margin-top-10">
           <li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
           <li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
           <li><a class="gplus" href="#"><i class="icon-gplus"></i></a></li>
           <li><a class="linkedin" href="#"><i class="icon-linkedin"></i></a></li>
           <li><a class="instagram" href="#"><i class="icon-instagram"></i></a></li>            
-        </ul>
+        </ul> -->
         <ul class="utf_listing_detail_sidebar">
           {% if thisAdd.owner.address != None and thisAdd.owner.address != '' and thisAdd.owner.address != ' ' %}
           <li><i class="sl sl-icon-map"></i> {{thisAdd.owner.address}} </li>
           {% endif %}
-          <li><i class="sl sl-icon-phone"></i> +(012) 1123-254-456</li>
+          <li>
+            {% if thisAdd.owner.phone != None and thisAdd.owner.phone != '' and thisAdd.owner.phone != ' ' %}
+                  <div class="">
+                    <div class="phone" datatel="{{thisAdd.owner.phone}}">
+                       <a href="#">{% trans "Show More" %} </a>
+                    </div>
+                  </div>
+                  <div class="">
+                      <i class="sl sl-icon-phone"></i>
+                  </div>
+              {% endif %}
+          </li>
           <li><i class="fa fa-envelope-o"></i> <a href="mailto:{{thisAdd.owner.user.email}}">{{thisAdd.owner.user.email}}</a></li>
         </ul>		  
       </div>
       <div class="utf_box_widget margin-top-35">
-        <h3><i class="sl sl-icon-folder-alt"></i> Categories</h3>
+        <h3><i class="sl sl-icon-folder-alt"></i> {% trans "Categories" %}</h3>
         <ul class="utf_listing_detail_sidebar">
-          <li><i class="fa fa-angle-double-right"></i> <a href="#">Travel</a></li>
-          <li><i class="fa fa-angle-double-right"></i> <a href="#">Nightlife</a></li>
-          <li><i class="fa fa-angle-double-right"></i> <a href="#">Fitness</a></li>
-          <li><i class="fa fa-angle-double-right"></i> <a href="#">Real Estate</a></li>
-          <li><i class="fa fa-angle-double-right"></i> <a href="#">Restaurant</a></li>
-          <li><i class="fa fa-angle-double-right"></i> <a href="#">Dance Floor</a></li>
+          {% for item in allparentCategory %}
+          <li><i class="fa fa-angle-double-right"></i> <a href="/{{LANGUAGE_CODE}}/SearchPage/?category={{item.id}}&city=&region=">{{item.name}}</a></li>
+          {% endfor %}
         </ul>
       </div>
-      <div class="utf_box_widget opening-hours margin-top-35">
+      <!-- <div class="utf_box_widget opening-hours margin-top-35">
         <h3><i class="sl sl-icon-clock"></i> Business Hours</h3>
         <ul>
           <li>Monday <span>10:00 AM - 06:00 PM</span></li>
@@ -292,7 +256,7 @@
           <li>Saturday <span>Closed</span></li>
           <li>Sunday <span>Closed</span></li>
         </ul>
-      </div>
+      </div> -->
  	
   
 
@@ -301,8 +265,8 @@
         <span><img src="/static/images/google_adsense.jpg" alt="" /></span>
       </div>
       <div class="utf_box_widget margin-top-35">
-        <h3><i class="sl sl-icon-phone"></i> Quick Contact to Help?</h3>
-        <p>Excepteur sint occaecat non proident, sunt in culpa officia deserunt mollit anim id est laborum.</p>
+        <h3><i class="sl sl-icon-phone"></i> {% trans 'Quick Contact to Help?'%}</h3>
+        <p>{% trans 'Contact Us Statement'%}</p>
         <ul class="utf_social_icon rounded">
           <li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
           <li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
@@ -316,7 +280,7 @@
     </div>
   </div>
 </div>
-
+{% if allAddsRelated|length > 0 %}
 <section class="fullwidth_block padding-top-20 padding-bottom-50">
   <div class="container">
     <div class="row slick_carousel_slider">
@@ -326,133 +290,45 @@
   <div class="row">
     <div class="col-md-12">
       <div class="simple_slick_carousel_block utf_dots_nav"> 
-        <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
-        <div class="utf_listing_item"> <img src="/static/images/utf_listing_item-01.jpg" alt=""> <span class="tag"><i class="im im-icon-Chef-Hat"></i> Restaurant</span> <span class="featured_tag">Featured</span>
-          <span class="utf_open_now">Open Now</span>
+      
+        
+        {% for item in allAddsRelated%}
+        
+      
+        <div class="utf_carousel_item"> <a href="/LANGUAGE_CODE/CompanyPage/?id={{item.id}}" class="utf_listing_item-container compact">
+        <div class="utf_listing_item"> <img src="{{item.mainImage.url}}" alt=""> <span class="tag"><i class="im im-icon-Chef-Hat"></i> {{item.category.name}}</span> {% if item.featureAddNumber > 0 %}<span class="featured_tag">{% trans "Featured" %}</span>{% endif %}
+          <!-- <span class="utf_open_now">Open Now</span> -->
           <div class="utf_listing_item_content">
-            <div class="utf_listing_prige_block">							
-            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $25 - $55</span>							
+            <div class="utf_listing_prige_block">		
+              {% if item.price != None %}						
+            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> {{item.price}}</span>							
             <span class="utp_approve_item"><i class="utf_approve_listing"></i></span>
+                          {% endif %}
           </div>
-          <h3>Chontaduro Barcelona</h3>
-          <span><i class="sl sl-icon-location"></i> The Ritz-Carlton, Hong Kong</span>
-          <span><i class="sl sl-icon-phone"></i> (415) 796-3633</span>											
+          <h3>{{item.name}}</h3>
+          <span><i class="sl sl-icon-location"></i> {{item.owner.address}}</span>
+          <!-- <span><i class="sl sl-icon-phone"></i> {{item.owner.phone}}</span>											 -->
           </div>					  
         </div>
-        <div class="utf_star_rating_section" data-rating="4.5">
-          <div class="utf_counter_star_rating">(4.5)</div>
-          <span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
-          <span class="like-icon"></span>
+        <div class="utf_star_rating_section" data-rating="{{item.avg_ratings}}">
+          <div class="utf_counter_star_rating">({{item.avg_ratings}})</div>
         </div>
         </a> 
         </div>
+
+        {% endfor %}
+      
         
-        <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
-        <div class="utf_listing_item"> <img src="/static/images/utf_listing_item-02.jpg" alt=""> <span class="tag"><i class="im im-icon-Electric-Guitar"></i> Events</span>
-          <div class="utf_listing_item_content">
-            <div class="utf_listing_prige_block">							
-            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $45 - $70</span>							
-          </div>
-          <h3>The Lounge & Bar</h3>
-          <span><i class="sl sl-icon-location"></i> The Ritz-Carlton, Hong Kong</span>
-          <span><i class="sl sl-icon-phone"></i> (415) 796-3633</span>												
-          </div>
-        </div>
-        <div class="utf_star_rating_section" data-rating="4.5">
-          <div class="utf_counter_star_rating">(4.5)</div>
-          <span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
-          <span class="like-icon"></span>
-        </div>
-        </a> 
-        </div>
+       
         
-        <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
-        <div class="utf_listing_item"> <img src="/static/images/utf_listing_item-03.jpg" alt=""> <span class="tag"><i class="im im-icon-Hotel"></i> Hotels</span>
-          <span class="utf_closed">Closed</span>
-          <div class="utf_listing_item_content">
-            <div class="utf_listing_prige_block">							
-            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $25 - $55</span>							
-          </div>
-          <h3>Westfield Sydney</h3>
-          <span><i class="sl sl-icon-location"></i> The Ritz-Carlton, Hong Kong</span>
-          <span><i class="sl sl-icon-phone"></i> (415) 796-3633</span>												
-          </div>
-        </div>
-        <div class="utf_star_rating_section" data-rating="4.5">
-          <div class="utf_counter_star_rating">(4.5)</div>
-          <span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
-          <span class="like-icon"></span>
-        </div>
-        </a> 
-        </div>
-        
-        <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
-        <div class="utf_listing_item"> <img src="/static/images/utf_listing_item-04.jpg" alt=""> <span class="tag"><i class="im im-icon-Dumbbell"></i> Fitness</span>
-          <div class="utf_listing_item_content">
-            <div class="utf_listing_prige_block">							
-            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $45 - $70</span>							
-            <span class="utp_approve_item"><i class="utf_approve_listing"></i></span>
-          </div>
-          <h3>Ruby Beauty Center</h3>
-          <span><i class="sl sl-icon-location"></i> The Ritz-Carlton, Hong Kong</span>
-          <span><i class="sl sl-icon-phone"></i> (415) 796-3633</span>												
-          </div>
-        </div>
-        <div class="utf_star_rating_section" data-rating="4.5">
-          <div class="utf_counter_star_rating">(4.5)</div>
-          <span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
-          <span class="like-icon"></span>
-        </div>
-        </a> 
-        </div>
-        
-        <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
-        <div class="utf_listing_item"> <img src="/static/images/utf_listing_item-05.jpg" alt=""> <span class="tag"><i class="im im-icon-Hotel"></i> Hotels</span> <span class="featured_tag">Featured</span>
-          <span class="utf_closed">Closed</span>
-          <div class="utf_listing_item_content">
-            <div class="utf_listing_prige_block">							
-            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $45 - $70</span>							
-          </div>
-          <h3>UK Fitness Club</h3>
-          <span><i class="sl sl-icon-location"></i> The Ritz-Carlton, Hong Kong</span>
-          <span><i class="sl sl-icon-phone"></i> (415) 796-3633</span>												
-          </div>
-        </div>
-        <div class="utf_star_rating_section" data-rating="4.5">
-          <div class="utf_counter_star_rating">(4.5)</div>
-          <span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
-          <span class="like-icon"></span>
-        </div>
-        </a> 
-         </div>
-        
-        <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
-        <div class="utf_listing_item"> <img src="/static/images/utf_listing_item-06.jpg" alt=""> <span class="tag"><i class="im im-icon-Chef-Hat"></i> Restaurant</span>
-          <span class="utf_open_now">Open Now</span>
-          <div class="utf_listing_item_content">
-            <div class="utf_listing_prige_block">							
-            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $25 - $45</span>							
-            <span class="utp_approve_item"><i class="utf_approve_listing"></i></span>
-          </div>
-          <h3>Fairmont Pacific Rim</h3>
-          <span><i class="sl sl-icon-location"></i> The Ritz-Carlton, Hong Kong</span>
-          <span><i class="sl sl-icon-phone"></i> (415) 796-3633</span>											
-          </div>
-        </div>
-        <div class="utf_star_rating_section" data-rating="4.5">
-          <div class="utf_counter_star_rating">(4.5)</div>
-          <span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
-          <span class="like-icon"></span>
-        </div>
-        </a>
-        </div>
+       
       </div>
       </div>
     </div>
    </div>
   </div>
 </section>
-
+{% endif %}
 <section class="utf_cta_area_item utf_cta_area2_block">
   <div class="container">
       <div class="row">
@@ -491,6 +367,52 @@
 
 {% block "javascriptOfPage" %}
 
+<script>
 
+  
+    
+
+(function($) {
+                            $.fn.hidePhoneNum = function(options) {
+                        
+                                var settings = $.extend({
+                                    showNumber: 3,
+                                    linkClass: 'tel-link'
+                                }, options);
+                        
+                                return this.each(function() {
+                                    var telNum = $(this).attr("datatel"),
+                                            htmlNum = $(this).html(),
+                                            myRegex = /[\s-\(\()]/g,
+                                            telNewNum = telNum.replace(myRegex, '');
+                        
+                                            console.log(telNum);
+                                    $(this).html(telNum.substr(0, settings.showNumber) + " " + htmlNum);
+                                    
+                                    $(this).find('a').on('click', function(e) {
+                                        e.preventDefault();
+                                        if("{{userProfile.user.is_authenticated}}"=="True"){
+                                        $(this).parent().html("<a href='tel:"+telNewNum+"' class='"+settings.linkClass+"'>"+telNum+"</a>");
+                                        }else{
+                                          swal("Alert", '{% trans "You have to login to make this action" %}', "warning");
+                                        }
+                                    })
+                        
+                                });
+                            };
+                        }(jQuery));
+
+
+
+
+
+                        
+                        $(function(){
+                            
+                            $('.phone').hidePhoneNum();
+                          
+                          });
+                          
+</script>
 
 {% endblock %}

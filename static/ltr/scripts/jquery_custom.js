@@ -195,6 +195,7 @@
         }
         if (!$("html").hasClass("touch")) {
             $(".parallax").css("background-attachment", "fixed");
+            $(".parallax").css("background-size", "cover");
         }
 
         function fullscreenFix() {
@@ -263,7 +264,7 @@
                     }
                     var orizontalPosition = path.attr("data-oriz-pos");
                     orizontalPosition = orizontalPosition ? orizontalPosition : "50%";
-                    $(this).css("background-position", orizontalPosition + " " + value + "px");
+                    // $(this).css("background-position", orizontalPosition + " " + value + "px");
                 }
             });
         }
