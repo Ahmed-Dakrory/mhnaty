@@ -17193,7 +17193,7 @@ ul.main_popular_categories_list li a{
 	margin-top:20px;
 }
 .main_inner_search_block {
-    top: 51%;
+    top: 60%;
 }
 ul.main_popular_categories_list{
 	padding-left:0;
@@ -18526,9 +18526,7 @@ width: 5px;
 		box-shadow: 0 4px 8px 0 rgb(0 0 0 / 3%);
 		font-weight: 400;
 		opacity: 1;
-		border-radius: 4
-	px
-	;
+		border-radius: 4px	;
   }
 
   .labelFilter{
