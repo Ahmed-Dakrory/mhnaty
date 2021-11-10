@@ -26,7 +26,7 @@ def defaultContextProcessor(request):
         userProfile = None
         tags=None
     
-    allMainCategories = category.objects.filter(Q(isFirstHead=True) & Q(deleted=False))
+    allMainCategories = category.objects.filter(Q(isFirstHead=True) & Q(deleted=False) & Q(deleted=False) & Q(id__lt=7))
 
     return dict(
         userProfile = userProfile,

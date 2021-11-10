@@ -144,7 +144,7 @@
        
                {% for item in mostViewed %}
                   <div class="utf_carousel_item"> <a href="/{{LANGUAGE_CODE}}/CompanyPage/?id={{item.id}}" class="utf_listing_item-container compact">
-        <div class="utf_listing_item"> <img src="{{item.mainImage.url}}" alt=""> <span class="tag"><i class="im im-icon-Chef-Hat"></i> {{item.category.name}}</span> {% if item.featureAddNumber > 0 %}<span class="featured_tag">{% trans "Featured" %}</span>{% endif %}
+        <div class="utf_listing_item"> <img src="{{item.mainImage.url}}" alt=""> <span class="tag"><i class="im im-icon-Chef-Hat"></i> {{item.categoryMain.name}}</span> {% if item.featureAddNumber > 0 %}<span class="featured_tag">{% trans "Featured" %}</span>{% endif %}
           <span class="utf_open_now">{% trans "Open Now" %}</span>
           <div class="utf_listing_item_content">
             <div class="utf_listing_prige_block">	
@@ -261,5 +261,12 @@ function fill_categoryAndSelect(isfirstTime){
       
         fill_categoryAndSelect(true);
 </script>
+  
+
+
+
+<script>
+  $('#home_navigation').addClass('current');
+    </script>
   
 {% endblock %}

@@ -104,7 +104,7 @@ def authUser(request):
 
 def loadLoginPage(request):
     
-    return render(request,'index_login.html',None)
+    return render(request,'index.html',None)
 
 
 def loadRegPage(request):
@@ -432,12 +432,12 @@ def getNewResultsForAds(request):
         if searchKey == '':
 
             if category!='':
-                categorySearch = Q(category__parentCategory=category)
+                categorySearch = Q(categoryMain__id=category)
             else:
                 categorySearch = Q(id__isnull=False)
 
             if categorySub!='':
-                categorySubSearch = Q(category__id=categorySub)
+                categorySubSearch = Q(subcategories__id__icontains=categorySub)
             else:
                 categorySubSearch = Q(id__isnull=False)
 
@@ -464,12 +464,12 @@ def getNewResultsForAds(request):
             if categoriesSearch!='':
                 categorySearch = Q(id__isnull=True) 
                 for item in categoriesSearch.split(','):
-                    categorySearch = categorySearch | Q(category__parentCategory=item)
+                    categorySearch = categorySearch | Q(categoryMain__id=item)
             else:
                 categorySearch = Q(id__isnull=False)
 
             if categorySub!='':
-                categorySubSearch = Q(category__id=categorySub)
+                categorySubSearch = Q(subcategories__id__icontains=categorySub)
             else:
                 categorySubSearch = Q(id__isnull=False)
 
@@ -624,16 +624,16 @@ def dashboard_add_listing(request):
 
     if len(getMyAdd)==0:
         categoryNow = category.objects.get(pk=1)
-        getMyAdd = theadd.objects.create(name="",details="",category=categoryNow,owner=userProfileMe,mainImage=None,
+        getMyAdd = theadd.objects.create(name="",details="",categoryMain=categoryNow,owner=userProfileMe,mainImage=None,
         videoUrl="",featureAddNumber=0)
         try:
-            parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+            parentCategory = category.objects.get(pk=getMyAdd.categoryMain.id)
         except:
             parentCategory = None
     else:
         getMyAdd = theadd.objects.filter(Q(owner__id=userProfileMe.id)&Q(deleted=False)).last()
         try:
-            parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+            parentCategory = category.objects.get(pk=getMyAdd.categoryMain.id)
         except:
             parentCategory = None
     
@@ -656,10 +656,12 @@ def dashboard_add_listing(request):
             # print(request.POST)
             userProfileMe.tags.all().delete()
             nameData = request.POST['name'] 
+            priceData = request.POST['price'] 
             
             aboutMeData = request.POST['aboutMe']
             detailsData = request.POST['details']
-            categoryData = request.POST['category'] 
+            categoryData = request.POST['mainCategory'] 
+            subcategoriesData= request.POST['category'] 
             videoData = request.POST['video']
             experienses = request.POST['experienses']
 
@@ -670,15 +672,26 @@ def dashboard_add_listing(request):
                     newTag.save()
                     userProfileMe.tags.add(newTag)
 
+            getMyAdd = theadd.objects.get(owner__id=userProfileMe.id)
+            getMyAdd.subcategories.clear()
+            allsubcategoriesData = subcategoriesData.split(",")
+            for itemExp in allsubcategoriesData:
+                if itemExp != '':
+                    print('----------------------------------')
+                    print(itemExp)
+                    categorySelected = category.objects.filter(name=itemExp)
+                    if len(categorySelected) > 0:
+                        getMyAdd.subcategories.add(categorySelected[0])
+
             categoryData = category.objects.get(pk=categoryData)
             # userobject.update(first_name=nameData)
             userProfile.update(aboutMe=aboutMeData)
             getMyAdd = theadd.objects.filter(Q(owner__id=userProfileMe.id))
-            getMyAdd.update(name=nameData,details=detailsData,category=categoryData,videoUrl=videoData)
+            getMyAdd.update(name=nameData,price=priceData,details=detailsData,categoryMain=categoryData,videoUrl=videoData)
             getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id)).last()
 
             try:
-                parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+                parentCategory = category.objects.get(pk=getMyAdd.categoryMain.id)
             except:
                 parentCategory = None
 
@@ -718,7 +731,12 @@ def dashboard_add_listing(request):
     allTags = getMyAdd.owner.tags.all()
     allTagsArray = list(allTags)
     allTagsDelemited = ','.join(map(str, allTagsArray))
-    print(allTagsDelemited)
+    
+    allsubcategories = getMyAdd.subcategories.all()
+    allsubcategoriesArray = list(allsubcategories)
+    allsubcategoriesDelemited = ','.join(map(str, allsubcategoriesArray))
+
+    print(allsubcategoriesDelemited)
 
 
     data = {
@@ -728,6 +746,8 @@ def dashboard_add_listing(request):
         'allFiles':allFiles,
         'allTags':allTags,
         'allTagsDelemited':allTagsDelemited,
+        'allsubcategories':allsubcategories,
+        'allsubcategoriesDelemited':allsubcategoriesDelemited,
         'parentCategory':parentCategory,
         'theAddObj': theAddObj,
         'profilesOfTheAdd':profilesOfTheAdd,
@@ -773,16 +793,16 @@ def dashboard_messages(request):
 
     if len(getMyAdd)==0:
         categoryNow = category.objects.get(pk=1)
-        getMyAdd = theadd.objects.create(name="",details="",category=categoryNow,owner=userProfileMe,mainImage=None,
+        getMyAdd = theadd.objects.create(name="",details="",categoryMain=categoryNow,owner=userProfileMe,mainImage=None,
         videoUrl="",featureAddNumber=0)
         try:
-            parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+            parentCategory = category.objects.get(pk=getMyAdd.categoryMain.id)
         except:
             parentCategory = None
     else:
         getMyAdd = theadd.objects.filter(Q(owner__id=userProfileMe.id)&Q(deleted=False)).last()
         try:
-            parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+            parentCategory = category.objects.get(pk=getMyAdd.categoryMain.id)
         except:
             parentCategory = None
     
@@ -823,11 +843,11 @@ def dashboard_messages(request):
             # userobject.update(first_name=nameData)
             userProfile.update(aboutMe=aboutMeData)
             getMyAdd = theadd.objects.filter(Q(owner__id=userProfileMe.id))
-            getMyAdd.update(name=nameData,details=detailsData,category=categoryData,videoUrl=videoData)
+            getMyAdd.update(name=nameData,details=detailsData,categoryMain=categoryData,videoUrl=videoData)
             getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id)).last()
 
             try:
-                parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+                parentCategory = category.objects.get(pk=getMyAdd.categoryMain.id)
             except:
                 parentCategory = None
 
@@ -1266,16 +1286,16 @@ def chat_admin(request):
 
     if len(getMyAdd)==0:
         categoryNow = category.objects.get(pk=1)
-        getMyAdd = theadd.objects.create(name="",details="",category=categoryNow,owner=userProfileMe,mainImage=None,
+        getMyAdd = theadd.objects.create(name="",details="",categoryMain=categoryNow,owner=userProfileMe,mainImage=None,
         videoUrl="",featureAddNumber=0)
         try:
-            parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+            parentCategory = category.objects.get(pk=getMyAdd.categoryMain.id)
         except:
             parentCategory = None
     else:
         getMyAdd = theadd.objects.filter(Q(owner__id=userProfileMe.id)&Q(deleted=False)).last()
         try:
-            parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+            parentCategory = category.objects.get(pk=getMyAdd.categoryMain.id)
         except:
             parentCategory = None
     
@@ -1316,11 +1336,11 @@ def chat_admin(request):
             # userobject.update(first_name=nameData)
             userProfile.update(aboutMe=aboutMeData)
             getMyAdd = theadd.objects.filter(Q(owner__id=userProfileMe.id))
-            getMyAdd.update(name=nameData,details=detailsData,category=categoryData,videoUrl=videoData)
+            getMyAdd.update(name=nameData,details=detailsData,categoryMain=categoryData,videoUrl=videoData)
             getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id)).last()
 
             try:
-                parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+                parentCategory = category.objects.get(pk=getMyAdd.categoryMain.id)
             except:
                 parentCategory = None
 
@@ -1425,6 +1445,7 @@ def CompanyPage(request):
     thisAdd = theadd.objects.get(pk=id)
     allFiles = thisAdd.images.all()
     allTags = thisAdd.owner.tags.all()
+    allsubcategories = thisAdd.subcategories.all()
     numberOfFiles = len(allFiles)
     if len(allFiles) > 0: 
         mainImage = thisAdd.images.first
@@ -1445,13 +1466,14 @@ def CompanyPage(request):
                 commentNew.save()
                 thisAdd.comments.add(commentNew)
 
-    allAddsRelated = theadd.objects.filter(Q(deleted=False)&Q(category__id=thisAdd.category.id)).exclude(id=thisAdd.id)
+    allAddsRelated = theadd.objects.filter(Q(deleted=False)&Q(categoryMain__id=thisAdd.categoryMain.id)).exclude(id=thisAdd.id)
 
     allparentCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=True))
     data = {
         'allparentCategory':allparentCategory,
         'allAddsRelated':allAddsRelated,
         'allTags':allTags,
+        'allsubcategories':allsubcategories,
         'thisAdd':thisAdd,
         'rate':thisAdd.comments.aggregate(Avg('rate'))['rate__avg'],
         'allFiles':allFiles,
@@ -1465,7 +1487,8 @@ def CompanyPage(request):
 
 def loadMainPage(request):
 
-    mostViewed = theadd.objects.filter(Q(id__lt=9))
+    mostViewed = theadd.objects.filter(Q(deleted=False))[:10]
+
 
     data = {
         'mostViewed':mostViewed
@@ -1577,8 +1600,6 @@ def getAllAdsByCategoriesJson(request):
 
 
 
-
-
 def getAllTagsJson(request):
     SearchQuery =request.GET['query'] 
 
@@ -1591,6 +1612,40 @@ def getAllTagsJson(request):
                         SELECT  tag.id,tag.name as name FROM tag
                         where tag.deleted=0 and tag.name like '%"""+SearchQuery+"""%'
                         group by tag.name 
+                        ) x;
+
+
+                """
+
+        # print(sql_query)
+        with connection.cursor() as cursorLast:
+            cursorLast.execute(sql_query)
+            cursorAllData = cursorLast.fetchone()
+            y=cursorAllData[0].replace('\r\n','')
+            # print(y)
+        return HttpResponse(y,content_type='application/json')
+    except Exception as e:
+            print(e)
+            allJson = {"Result": "Fail"}
+            return JsonResponse(allJson, safe=False)
+
+
+
+
+def getAllCategoriesJsonQuery(request):
+    SearchQuery =request.GET['query'] 
+    parentCategory =request.GET['parentCategory'] 
+
+    try:
+        sql_query = """
+
+                select concat('[',group_concat(concat('{"value":"',x.name,'","text":"',x.name,'","continent":"',x.name,'"}')),']')
+                        as output 
+                        from (
+                        SELECT  category.id,category.name as name FROM category
+                        where category.deleted=0 and category.name like '%"""+SearchQuery+"""%'
+                        and parentCategory = """+parentCategory+"""
+                        group by category.name 
                         ) x;
 
 

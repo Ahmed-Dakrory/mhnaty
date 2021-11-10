@@ -283,13 +283,14 @@ class theadd(models.Model):
     name = models.CharField(max_length=500,default=None)
     details = models.TextField(default=None)
     price = models.FloatField(blank=True, null=True)
-    category = models.ForeignKey(category, on_delete=models.PROTECT)
+    categoryMain = models.ForeignKey(category, on_delete=models.PROTECT)
     images = models.ManyToManyField(attachmenttranscript)
     videoUrl = models.TextField(default=None,null=True)
     mainImage = models.ImageField(upload_to='attachments/mainImage/',null=True)
     
     featureAddNumber = models.IntegerField(default=0,null=True)
 
+    subcategories = models.ManyToManyField(category, blank=True,related_name="subcategories")
     comments = models.ManyToManyField(comment)
     created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
     updated = models.BooleanField(default=False)
@@ -319,7 +320,7 @@ class theadd(models.Model):
             'address':self.owner.address,
             'details':self.details,
             'mainImage':self.mainImage.url,
-            'category_name':self.category.name,
+            'category_name':self.categoryMain.name,
             }
         
 

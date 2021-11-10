@@ -47,17 +47,30 @@
                 <div class="row with-forms">
                    
                     
-                    <div class="form-group col-md-4">
+                    <!-- <div class="form-group col-md-4">
                         <label class="form-label" for="category" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; width: 100%; ">{% trans "branch category" %}</label>
-                        <select  id="category" name="category" value="{{getMyAdd.category.id}}" required=""  class="form-control mb-1 required {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}">
+                        <select  id="category" name="category" value="{{getMyAdd.categoryMain.id}}" required=""  class="form-control mb-1 required {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}">
                           <option value="">{% trans "Select one item" %}</option>
                         </select>
                       <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; ">
                         {% trans "Please select from this field" %}
                       </div> 
+                      </div> -->
+
+
+
+                      <!-- <div class="form-group col-md-8"></div> -->
+
+                      <div class="form-group col-md-12">
+                        <label class="form-label" for="name">{% trans "Service Name" %}</label>
+                        <input type="text" id="name" name="name" required=""  class="form-control mb-1 required" value="{{getMyAdd.name}}">
+                        <div class="invalid-feedback">
+                          {% trans "Please fill this field" %}
+                        </div> 
                       </div>
 
-                      <div class="form-group col-md-4">
+
+                      <div class="form-group col-md-12 ">
                         <label class="form-label" for="mainCategory" style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; width: 100%; ">{% trans "Main Category" %}</label>
                         <select  id="mainCategory" name="mainCategory" required="" value="{{parentCategory.id}}" class="form-control mb-1 required {% if LANGUAGE_CODE == 'ar' %} text-right {% else %} text-left {% endif %}">
                             <option value="">{% trans "Select one item" %}</option>
@@ -70,20 +83,33 @@
                         </div> 
                       </div>
 
-                      <div class="form-group col-md-4">
-                        <label class="form-label" for="name">{% trans "Service Name" %}</label>
-                        <input type="text" id="name" name="name" required=""  class="form-control mb-1 required" value="{{getMyAdd.name}}">
+                  
+
+
+                      
+                      <div class="form-group col-md-12">
+                        <input type="hidden" value="{{allsubcategoriesDelemited}}" name="category" id="category"/>
+                        <label class="form-label">{% trans "branch category" %}</label>
+                        <div class="panel " style="padding-top: 10px;padding-bottom: 10px;">
+                          <div class="bs-example w-100 " style="max-height: 150px; direction:{% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %};">
+                            <input type="text" class="categoryTag" data-role="tagsinput" />
+                          </div>
+                        </div>
+                      </div>
+                      
+
+
+                      <div class="form-group col-md-6">
+                        <label class="form-label" for="video">{% trans "Video About the Service" %}</label>
+                        <input type="text" id="video" name="video"   class="form-control mb-1 " value="{{getMyAdd.videoUrl}}">
                         <div class="invalid-feedback">
                           {% trans "Please fill this field" %}
                         </div> 
                       </div>
-                  
 
-
-
-                      <div class="form-group col-md-12">
-                        <label class="form-label" for="video">{% trans "Video About the Service" %}</label>
-                        <input type="text" id="video" name="video"   class="form-control mb-1 " value="{{getMyAdd.videoUrl}}">
+                      <div class="form-group col-md-6">
+                        <label class="form-label" for="price">{% trans "Price" %}</label>
+                        <input type="number" id="price" name="price"   class="form-control mb-1 " value="{{getMyAdd.price}}">
                         <div class="invalid-feedback">
                           {% trans "Please fill this field" %}
                         </div> 
@@ -194,61 +220,63 @@
 
 
         
-    function fill_categoryAndSelect(isfirstTime){
-  showLoader();
-  $.ajax({ 
-        type: 'POST',
-        url: '/en/getListOfcategoriesByparentOneId',
-                      data: { 
-                          'mainCategory': $('#mainCategory').val()
-          },
-        headers:{
-            "X-CSRFToken": csrftoken
-                },
-        async: true,
-        cache: true,
-        success: function(result) {
+//     function fill_categoryAndSelect(isfirstTime){
+//   showLoader();
+//   $.ajax({ 
+//         type: 'POST',
+//         url: '/en/getListOfcategoriesByparentOneId',
+//                       data: { 
+//                           'mainCategory': $('#mainCategory').val()
+//           },
+//         headers:{
+//             "X-CSRFToken": csrftoken
+//                 },
+//         async: true,
+//         cache: true,
+//         success: function(result) {
             
             
-          $('#category')
-                        .find('option')
-                        .remove()
-                        .end()
-                        .append('<option value="">{% trans "Select One" %}</option>')
-                        .val('')
-                        ;
+//           $('#category')
+//                         .find('option')
+//                         .remove()
+//                         .end()
+//                         .append('<option value="">{% trans "Select One" %}</option>')
+//                         .val('')
+//                         ;
 
-                        var $category = $('#category');
+//                         var $category = $('#category');
 
-                         if(result['Result']=='Ok'){
+//                          if(result['Result']=='Ok'){
                   
-                          result.data.forEach(element => {
-                            $category.append($("<option />").val(element.id).text(element.name));
-                          });
+//                           result.data.forEach(element => {
+//                             $category.append($("<option />").val(element.id).text(element.name));
+//                           });
                          
                   
-                         }
+//                          }
 
-            if(isfirstTime){
-              $('#category').val($('#category').attr('value'));
-            }
-            hideLoader();
-        },error: function (xhr, ajaxOptions, thrownError) {
-            hideLoader();
-           }
-    });
+//             if(isfirstTime){
+//               $('#category').val($('#category').attr('value'));
+//             }
+//             hideLoader();
+//         },error: function (xhr, ajaxOptions, thrownError) {
+//             hideLoader();
+//            }
+//     });
 
-    hideLoader();
-}
+//     hideLoader();
+// }
 
 
 $('#mainCategory').on('change', function() {
-    
-  fill_categoryAndSelect(false);
+  categoryTag.tagsinput('removeAll');
+  datacategory = [];
+
+  $('#category').attr('value',datacategory);
+  $('#category').val(datacategory);
   });
 
   $('#mainCategory').val($('#mainCategory').attr('value'));
-  fill_categoryAndSelect(true);
 
 
         
@@ -362,5 +390,79 @@ FilePond.registerPlugin(FilePondPluginImagePreview,FilePondPluginGetFile,FilePon
 
 
         $('#myServices_db').addClass('active');
+        </script>
+
+
+
+
+        <script>
+//category Tag
+
+          
+
+var categoryTag = $('.categoryTag');
+
+var categoryData = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  // prefetch: '/getAllCategoriesJson.json?query=Null',
+  remote: {
+    url: "/getAllCategoriesJsonQuery?parentCategory=%category79&query=%QUERY",
+    wildcard: '%QUERY',
+    replace: function (url, query) {
+                url = url.replace(new RegExp('%category79','g'), $('#mainCategory').val().toString());
+                url = url.replace(new RegExp('%QUERY','g'), query);
+                console.log(url);
+                return url;
+            }
+  }
+});
+categoryData.initialize();
+
+categoryTag.tagsinput({
+  
+  itemValue: 'value',
+  itemText: 'text',
+  typeaheadjs: {
+    name: 'categoryData',
+    displayKey: 'text',
+    source: categoryData
+  }
+});
+
+
+
+datacategory = $('#category').attr('value').split(",")
+{% for item in allsubcategories %}
+categoryTag.tagsinput('add', { "value": '{{item.name}}' , "text": "{{item.name}}"  , "continent": "{{item.name}}"   });
+{% endfor %}
+categoryTag.on('itemAdded', function(event) {
+  // event.item: contains the item
+  datacategory.push((event.item.value).toString());
+
+  $('#category').attr('value',datacategory);
+  $('#category').val(datacategory);
+});
+
+
+categoryTag.on('itemAddedOnInit', function(event) {
+  // event.item: contains the item
+  // event.item: contains the item
+  console.log("Ahmed");
+  datacategory.push((event.item.value).toString());
+  // console.log(event)
+  // console.log(event.item.value)
+  $('#category').attr('value',datacategory);
+  $('#category').val(datacategory);
+});
+
+categoryTag.on('beforeItemRemove', function(event) {
+  // event.item: contains the item
+  // event.cancel: set to true to prevent the item getting removed
+  datacategory.splice(datacategory.indexOf((event.item.value).toString()), 1); 
+  $('#category').attr('value',datacategory);
+  $('#category').val(datacategory);
+});
+
         </script>
 {% endblock %}

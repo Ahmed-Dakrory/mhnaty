@@ -7883,7 +7883,7 @@ body .style-2 .ui-accordion .ui-accordion-header, body .style-2 .trigger a { tex
 }
 .utf_listing_item-container.list-layout .utf_listing_item-inner {
 	position: relative;
-	top: 37%;
+	top: 55%;
 	transform: translateY(-50%);
 	padding-right: 20px;
 }

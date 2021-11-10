@@ -19,6 +19,8 @@ urlpatterns = [
     path('getAllCategoriesJson',views.getAllCategoriesJson,name = 'getAllCategoriesJson'),
     path('getAllExperiansesJson',views.getAllExperiansesJson,name = 'getAllExperiansesJson'),
     path('getAllTagsJson',views.getAllTagsJson,name = 'getAllTagsJson'),
+    path('getAllCategoriesJsonQuery',views.getAllCategoriesJsonQuery,name = 'getAllCategoriesJsonQuery'),
+    
 
 
     

@@ -7882,10 +7882,10 @@ body .style-2 .ui-accordion .ui-accordion-header, body .style-2 .trigger a { tex
 }
 .utf_listing_item-container.list-layout .utf_listing_item-inner {
 	position: relative;
-	top: 37%;
+	top: 51%;
 	transform: translateY(-50%);
 	left: 25px;
-	padding-right: 20px;
+	padding-right: 27px;
 }
 .utf_listing_item-inner .utf_star_rating_section .utf_counter_star_rating{
 	color: #fff;
