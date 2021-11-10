@@ -6,6 +6,8 @@
 
 
 
+{% block "title" %}{% trans "MailBox" %}{% endblock %}
+
 {% block "bodyOfPage" %}
 
 <style>
@@ -122,9 +124,8 @@ function loadAllMessages(stateDrop){
             var profileId  = $('#idOfProfile').val()
 
             $('#append-messages').empty()
-            $.each(messages, function(index, value){
-              // console.log(value)
           $('#messageControl').css("display", "block")
+            $.each(messages, function(index, value){
             var date = value.created
             formatedDate=date.replace("T", " ").split('.')[0];
 
@@ -194,6 +195,7 @@ if(stateDrop){
 }, 2000);
 
 
+{% if allowSend %}
 
 $('#message-text').bind("enterKey",function(e){
    //do stuff here
@@ -213,7 +215,7 @@ $('#sendMessage').on('click', function(e){
 
     });
 
-
+{% endif %}
 
     function sendMessage(){
 

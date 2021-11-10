@@ -8,6 +8,9 @@
 
 {% block "headerOfPage2" %}{% trans "MailBox" %}{% endblock %}
 
+
+{% block "title" %}{% trans "MailBox" %}{% endblock %}
+
 {% block "bodyOfPage" %}
 {% csrf_token %}
 <input type="hidden" id="idOfProfile" value="{{request.user.profile_set.last.id}}">

@@ -1,0 +1,70 @@
+{% extends "theme.html" %} 
+{%load static%}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+
+
+{% block "title" %}{% trans "Terms&Conditions" %}{% endblock %}
+
+{% block "bodyOfPage" %}
+
+
+
+
+
+<div class="search_container_block overlay_dark_part">
+  <div class="main_inner_search_block">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>{% trans "Terms&Conditions" %}</h2>
+          <h4> 
+            
+            لسياسات المحتوى المدرجة أدناه دور مهم في ترك انطباعات إيجابية لدى جميع مستخدمي منتجات Mhnaty. ونحن بحاجة إلى الحد من حالات إساءة الاستخدام التي تهدد قدرتنا على تقديم هذه الخدمات، ونطلب من الجميع الالتزام بالسياسات الواردة أدناه لمساعدتنا على تحقيق هذا الهدف.
+
+تُطبَّق هذه السياسات على المحتوى الذي تتم مشاركته على موقعك الإلكتروني في نشاطي التجاري على Mhnaty. وعند تطبيق هذه السياسات، قد تكون هناك استثناءات إذا تبين لنا أن الصفحة تحتوي على معلومات تحقق المصلحة العامة. واحرص على مراجعة هذه السياسات لاحقًا من حين لآخر، لأنها ربما تتغير. تحتفظ Mhnaty بحقها في تعليق وصول من يخالف هذه الإرشادات من أفراد أو أنشطة تجارية إلى أداة إنشاء المواقع الإلكترونية في "نشاطي التجاري على Mhnaty" أو إلي خدمات Mhnaty الأخرى.
+
+
+          </h4>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="utf_video_container">
+    <video poster="/static/images/search_video_bg.jpg" loop autoplay muted>
+      <source src="/static/images/search_bg_video.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+
+
+
+
+
+     
+
+
+
+
+      
+
+{% endblock %}
+
+
+
+
+{% block "javascriptOfPage" %}
+
+
+
+<script>
+  $('#terms_navigation').addClass('current');
+    </script>
+  
+
+  
+{% endblock %}

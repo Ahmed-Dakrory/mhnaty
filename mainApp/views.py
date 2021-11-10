@@ -405,6 +405,10 @@ def getNewResultsForAds(request):
     category = request.POST['category']
     city = request.POST['city']
     region = request.POST['region']
+    try:
+        categorySub = request.POST['categorySub']
+    except:
+        categorySub = ''
 
     citiesSearch = request.POST['citiesSearch']
     categoriesSearch = request.POST['categoriesSearch']
@@ -432,7 +436,10 @@ def getNewResultsForAds(request):
             else:
                 categorySearch = Q(id__isnull=False)
 
-            
+            if categorySub!='':
+                categorySubSearch = Q(category__id=categorySub)
+            else:
+                categorySubSearch = Q(id__isnull=False)
 
             if city!='':
                 citySearch = Q(owner__region__cityOfRegion__name__contains=city)
@@ -447,7 +454,8 @@ def getNewResultsForAds(request):
             allElements = theadd.objects.filter( Q(id__isnull=False)
             & (categorySearch
             & citySearch
-            & regionSearch)
+            & regionSearch
+            & categorySubSearch)
             & Q(deleted=False)).order_by(typeOfOrder+'created')
 
         else:
@@ -460,6 +468,10 @@ def getNewResultsForAds(request):
             else:
                 categorySearch = Q(id__isnull=False)
 
+            if categorySub!='':
+                categorySubSearch = Q(category__id=categorySub)
+            else:
+                categorySubSearch = Q(id__isnull=False)
 
             if citiesSearch!='':
                 citySearch = Q(id__isnull=True) 
@@ -501,11 +513,12 @@ def getNewResultsForAds(request):
 
             # print(rateMaxSearch)
             allElements = theadd.objects.prefetch_related('comments').annotate(rateFilter = rateExpression).filter(Q(deleted=False) & 
-            (categorySearch &
-             citySearch     &
-             regionSearch   &
-             expSearch      &
-             rateMaxSearch  &
+            (categorySearch    &
+             citySearch        &
+             regionSearch      &
+             categorySubSearch &
+             expSearch         &
+             rateMaxSearch     &
              rateMinSearch)).order_by(typeOfOrder+'created')
 
 
@@ -941,7 +954,7 @@ def controlpanel(request):
                 mainCategory2Id = request.POST['mainCategory2']
                 newBranchCategoryName = request.POST['newBranchCategoryName']
                 detailsSecondary = request.POST['detailsSecondary']
-                newCategory = category.objects.create(name=newBranchCategoryName,isFirstHead=True,details=detailsSecondary,parentCategory=mainCategory2Id)
+                newCategory = category.objects.create(name=newBranchCategoryName,isFirstHead=False,details=detailsSecondary,parentCategory=mainCategory2Id)
                 mainSelectedCategory = category.objects.get(id = mainCategory2Id)
                 allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategory2Id))
                 branchSelectedCategory = category.objects.get(id = newCategory.id)
@@ -986,6 +999,387 @@ def controlpanel(request):
         
 
     return render(request,'Admin/controlpanel.html',data)
+
+
+
+@login_required
+def controlCategories(request):
+    user =request.user
+    userobject = User.objects.filter(pk=user.id)
+    userProfile = profile.objects.filter(user=user)
+    userProfileMe = profile.objects.get(user__id=user.id)
+    userLastProfile = user.profile_set.last()
+   
+    
+    try:
+        theAddObj = theadd.objects.get( id=settings.ID_ADD_ADMIN)
+    except:
+        theAddObj = None
+        
+    CurrentTab = 1
+    profilesOfTheAdd_ids = message.objects.filter(theadd=theAddObj).values_list('from_user',flat=True)
+    profilesOfTheAdd = profile.objects.filter(id__in=profilesOfTheAdd_ids).exclude(id=userProfileMe.id)
+
+    
+    allparentCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=True))
+    
+    mainSelectedCategory = None
+    allBranchCategory = None
+    branchSelectedCategory = None
+    if request.method=='POST':
+        
+        typeOfForm = request.POST['typeOfForm']
+        if typeOfForm == 'mainData':
+            CurrentTab = 2
+            actionOfFormNow = request.POST['actionOfFormNow']
+            if actionOfFormNow == 'add':
+                newMainCategoryName = request.POST['newMainCategoryName']
+                detailsMain = request.POST['detailsMain']
+                newCategory = category.objects.create(name=newMainCategoryName,isFirstHead=True,details=detailsMain)
+                mainSelectedCategory = category.objects.get(id = newCategory.id)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=newCategory.id))
+                
+            
+            elif actionOfFormNow == 'edit':
+                mainCategoryId = request.POST['mainCategory']
+                newMainCategoryName = request.POST['newMainCategoryName']
+                detailsMain = request.POST['detailsMain']
+                print('---------------------------------------------------')
+                print(request.POST)
+                category.objects.filter(id = mainCategoryId).update(name=newMainCategoryName,details=detailsMain)
+                mainSelectedCategory = category.objects.get(id = mainCategoryId)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategoryId))
+                
+
+
+            elif actionOfFormNow == 'delete':
+                mainCategoryId = request.POST['mainCategory']
+                category.objects.filter(id = mainCategoryId).update(deleted=True)
+
+            elif actionOfFormNow == 'show':
+                mainCategoryId = request.POST['mainCategory']
+                mainSelectedCategory = category.objects.get(id = mainCategoryId)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategoryId))
+        elif typeOfForm == 'BranchData':
+            CurrentTab = 3
+            actionOfFormNow = request.POST['actionOfFormNow']
+            if actionOfFormNow == 'add':
+                categoryId = request.POST['category']
+                mainCategory2Id = request.POST['mainCategory2']
+                newBranchCategoryName = request.POST['newBranchCategoryName']
+                detailsSecondary = request.POST['detailsSecondary']
+                newCategory = category.objects.create(name=newBranchCategoryName,isFirstHead=False,details=detailsSecondary,parentCategory=mainCategory2Id)
+                mainSelectedCategory = category.objects.get(id = mainCategory2Id)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategory2Id))
+                branchSelectedCategory = category.objects.get(id = newCategory.id)
+                
+            
+            elif actionOfFormNow == 'edit':
+                mainCategory2Id = request.POST['mainCategory2']
+                categoryId = request.POST['category']
+                newBranchCategoryName = request.POST['newBranchCategoryName']
+                detailsSecondary = request.POST['detailsSecondary']
+                category.objects.filter(id = categoryId).update(name=newBranchCategoryName,details=detailsSecondary)
+                mainSelectedCategory = category.objects.get(id = mainCategory2Id)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategory2Id))
+                branchSelectedCategory = category.objects.get(id = categoryId)
+
+
+            elif actionOfFormNow == 'delete':
+                categoryId = request.POST['category']
+                category.objects.filter(id = categoryId).update(deleted=True)
+
+            elif actionOfFormNow == 'show':
+                mainCategory2Id = request.POST['mainCategory2']
+                categoryId = request.POST['category']
+                newBranchCategoryName = request.POST['newBranchCategoryName']
+                detailsSecondary = request.POST['detailsSecondary']
+                mainSelectedCategory = category.objects.get(id = mainCategory2Id)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategory2Id))
+                branchSelectedCategory = category.objects.get(id = categoryId)
+                
+
+
+
+    data = {
+        'branchSelectedCategory':branchSelectedCategory,
+        'allBranchCategory':allBranchCategory,
+        'mainSelectedCategory':mainSelectedCategory,
+        'CurrentTab':CurrentTab,
+        'theAddObj': theAddObj,
+        'profilesOfTheAdd':profilesOfTheAdd,
+        'allparentCategory':allparentCategory
+    }
+        
+
+    return render(request,'Admin/controlCategories.html',data)
+
+
+
+
+@login_required
+def controlBranchCategories(request):
+    user =request.user
+    userobject = User.objects.filter(pk=user.id)
+    userProfile = profile.objects.filter(user=user)
+    userProfileMe = profile.objects.get(user__id=user.id)
+    userLastProfile = user.profile_set.last()
+   
+    
+    try:
+        theAddObj = theadd.objects.get( id=settings.ID_ADD_ADMIN)
+    except:
+        theAddObj = None
+        
+    CurrentTab = 1
+    profilesOfTheAdd_ids = message.objects.filter(theadd=theAddObj).values_list('from_user',flat=True)
+    profilesOfTheAdd = profile.objects.filter(id__in=profilesOfTheAdd_ids).exclude(id=userProfileMe.id)
+
+    
+    allparentCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=True))
+    
+    mainSelectedCategory = None
+    allBranchCategory = None
+    branchSelectedCategory = None
+    if request.method=='POST':
+        
+        typeOfForm = request.POST['typeOfForm']
+        if typeOfForm == 'mainData':
+            CurrentTab = 2
+            actionOfFormNow = request.POST['actionOfFormNow']
+            if actionOfFormNow == 'add':
+                newMainCategoryName = request.POST['newMainCategoryName']
+                detailsMain = request.POST['detailsMain']
+                newCategory = category.objects.create(name=newMainCategoryName,isFirstHead=True,details=detailsMain)
+                mainSelectedCategory = category.objects.get(id = newCategory.id)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=newCategory.id))
+                
+            
+            elif actionOfFormNow == 'edit':
+                mainCategoryId = request.POST['mainCategory']
+                newMainCategoryName = request.POST['newMainCategoryName']
+                detailsMain = request.POST['detailsMain']
+                print('---------------------------------------------------')
+                print(request.POST)
+                category.objects.filter(id = mainCategoryId).update(name=newMainCategoryName,details=detailsMain)
+                mainSelectedCategory = category.objects.get(id = mainCategoryId)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategoryId))
+                
+
+
+            elif actionOfFormNow == 'delete':
+                mainCategoryId = request.POST['mainCategory']
+                category.objects.filter(id = mainCategoryId).update(deleted=True)
+
+            elif actionOfFormNow == 'show':
+                mainCategoryId = request.POST['mainCategory']
+                mainSelectedCategory = category.objects.get(id = mainCategoryId)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategoryId))
+        elif typeOfForm == 'BranchData':
+            CurrentTab = 3
+            actionOfFormNow = request.POST['actionOfFormNow']
+            if actionOfFormNow == 'add':
+                categoryId = request.POST['category']
+                mainCategory2Id = request.POST['mainCategory2']
+                newBranchCategoryName = request.POST['newBranchCategoryName']
+                detailsSecondary = request.POST['detailsSecondary']
+                newCategory = category.objects.create(name=newBranchCategoryName,isFirstHead=False,details=detailsSecondary,parentCategory=mainCategory2Id)
+                mainSelectedCategory = category.objects.get(id = mainCategory2Id)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategory2Id))
+                branchSelectedCategory = category.objects.get(id = newCategory.id)
+                
+            
+            elif actionOfFormNow == 'edit':
+                mainCategory2Id = request.POST['mainCategory2']
+                categoryId = request.POST['category']
+                newBranchCategoryName = request.POST['newBranchCategoryName']
+                detailsSecondary = request.POST['detailsSecondary']
+                category.objects.filter(id = categoryId).update(name=newBranchCategoryName,details=detailsSecondary)
+                mainSelectedCategory = category.objects.get(id = mainCategory2Id)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategory2Id))
+                branchSelectedCategory = category.objects.get(id = categoryId)
+
+
+            elif actionOfFormNow == 'delete':
+                categoryId = request.POST['category']
+                category.objects.filter(id = categoryId).update(deleted=True)
+
+            elif actionOfFormNow == 'show':
+                mainCategory2Id = request.POST['mainCategory2']
+                categoryId = request.POST['category']
+                newBranchCategoryName = request.POST['newBranchCategoryName']
+                detailsSecondary = request.POST['detailsSecondary']
+                mainSelectedCategory = category.objects.get(id = mainCategory2Id)
+                allBranchCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=False)&Q(parentCategory=mainCategory2Id))
+                branchSelectedCategory = category.objects.get(id = categoryId)
+                
+
+
+
+    data = {
+        'branchSelectedCategory':branchSelectedCategory,
+        'allBranchCategory':allBranchCategory,
+        'mainSelectedCategory':mainSelectedCategory,
+        'CurrentTab':CurrentTab,
+        'theAddObj': theAddObj,
+        'profilesOfTheAdd':profilesOfTheAdd,
+        'allparentCategory':allparentCategory
+    }
+        
+
+    return render(request,'Admin/controlBranchCategories.html',data)
+
+
+
+
+@login_required
+def chat_admin(request):
+    user =request.user
+    userobject = User.objects.filter(pk=user.id)
+    userProfile = profile.objects.filter(user=user)
+    userProfileMe = profile.objects.get(user__id=user.id)
+    userLastProfile = user.profile_set.last()
+    allCities = city.objects.filter(Q(deleted=False))
+   
+    getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id))
+    
+
+    try:
+        theAddObj = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id)).last()
+    except:
+        theAddObj = None
+        
+    profilesOfTheAdd_ids = message.objects.filter(theadd=theAddObj).values_list('from_user',flat=True)
+    lastMessagesUsers = message.objects.all().filter(Q(theadd__id=theAddObj.id)&Q(deleted = False)).values("from_user").distinct()
+    lastMessages = []
+    for item in lastMessagesUsers:
+        if item['from_user']!=userProfileMe.id:
+            lastMessages.append(message.objects.filter(Q(theadd__id=theAddObj.id)&Q(deleted = False)&Q(from_user__id=item['from_user'])).last())
+
+   
+
+    profilesOfTheAdd = profile.objects.filter(id__in=profilesOfTheAdd_ids)
+
+
+    allparentCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=True))
+
+
+    if len(getMyAdd)==0:
+        categoryNow = category.objects.get(pk=1)
+        getMyAdd = theadd.objects.create(name="",details="",category=categoryNow,owner=userProfileMe,mainImage=None,
+        videoUrl="",featureAddNumber=0)
+        try:
+            parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+        except:
+            parentCategory = None
+    else:
+        getMyAdd = theadd.objects.filter(Q(owner__id=userProfileMe.id)&Q(deleted=False)).last()
+        try:
+            parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+        except:
+            parentCategory = None
+    
+
+    if request.method=='POST':
+        typeOfForm = request.POST['typeOfForm']  
+
+        if typeOfForm == 'mainData':
+
+            nameData = request.POST['name'] 
+            phoneData = request.POST['phone']
+            addressData = request.POST['address']
+            mobileData = request.POST['mobile'] 
+            regionId = request.POST['region']
+
+            regionData = region.objects.get(pk=regionId)
+            userobject.update(first_name=nameData)
+            userProfile.update(phone=phoneData,region=regionData,mobile=mobileData,address=addressData)
+        elif typeOfForm == 'AddData':   
+            # print(request.POST)
+            userProfileMe.tags.all().delete()
+            nameData = request.POST['name'] 
+            
+            aboutMeData = request.POST['aboutMe']
+            detailsData = request.POST['details']
+            categoryData = request.POST['category'] 
+            videoData = request.POST['video']
+            experienses = request.POST['experienses']
+
+            allExperienses = experienses.split(",")
+            for itemExp in allExperienses:
+                if itemExp != '':
+                    newTag = tag.objects.create(name=itemExp,propertyType=0)
+                    newTag.save()
+                    userProfileMe.tags.add(newTag)
+
+            categoryData = category.objects.get(pk=categoryData)
+            # userobject.update(first_name=nameData)
+            userProfile.update(aboutMe=aboutMeData)
+            getMyAdd = theadd.objects.filter(Q(owner__id=userProfileMe.id))
+            getMyAdd.update(name=nameData,details=detailsData,category=categoryData,videoUrl=videoData)
+            getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id)).last()
+
+            try:
+                parentCategory = category.objects.get(pk=getMyAdd.category.parentCategory)
+            except:
+                parentCategory = None
+
+
+            attachments = request.POST.getlist('imagesAddFiles')
+            for item_att in attachments:
+                if item_att!='' and item_att!=None:
+                    fileOld = attachmenttranscript.objects.filter(file = item_att).count()
+                    if fileOld==0:
+                        file_path = os.path.join(settings.MEDIA_ROOT, item_att)
+                        file_type, file_encoding = mimetypes.guess_type(file_path)
+                        fi = open(file_path, 'rb')
+                        local_file = File(fi)
+                        fileName = os.path.basename(local_file.name).split('``__``')[0]
+                        
+                        attachmetToAdd = attachmenttranscript.objects.create(file=local_file,content_type=file_type,name = fileName)
+                        attachmetToAdd.save()
+                        
+                        local_file.close()
+                        getMyAdd.images.add(attachmetToAdd)
+                        default_storage.delete(item_att)
+
+            allFiles = getMyAdd.images.all()
+        elif typeOfForm == 'mainImage':
+            userProfile = profile.objects.get(user=user)
+            userProfile.image = request.FILES['file-input']
+            
+            userProfile.save()
+
+        elif typeOfForm == 'addMainImage':
+            getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id)).last()
+            getMyAdd.mainImage = request.FILES['file-inputAddImage']
+            
+            getMyAdd.save()
+
+    allFiles = getMyAdd.images.all()
+    allTags = getMyAdd.owner.tags.all()
+    allTagsArray = list(allTags)
+    allTagsDelemited = ','.join(map(str, allTagsArray))
+    print(allTagsDelemited)
+
+
+    data = {
+        'lastMessages':lastMessages,
+        'allparentCategory':allparentCategory,
+        'allCities':allCities,
+        'getMyAdd':getMyAdd,
+        'allFiles':allFiles,
+        'allTags':allTags,
+        'allTagsDelemited':allTagsDelemited,
+        'parentCategory':parentCategory,
+        'theAddObj': theAddObj,
+        'profilesOfTheAdd':profilesOfTheAdd,
+    }
+        
+
+        
+
+    return render(request,'Admin/chat.html',data)
 
 
 
@@ -1515,7 +1909,14 @@ def checkemail(request):
     return JsonResponse(response, safe=False)
 
 
+def TermsAndConditions(request):
 
+    return render(request, 'termsAndConditions.html', None)
+
+
+def AboutUs(request):
+
+    return render(request, 'aboutUs.html', None)
 
 @login_required
 def showUserMessages(request, id):
@@ -1527,7 +1928,7 @@ def showUserMessages(request, id):
         allowSend = False
     else:
         allowSend = True
-    # print(user.first_name)
+    # print(not allowSend)
     if request.method == 'POST':
         message_text = request.POST.get('input_message')
 
@@ -1540,11 +1941,12 @@ def showUserMessages(request, id):
         (Q(theadd = theaddObj))
         ).order_by('created')
 
+
     context = {
         'messages' : messages,
         'theaddObj':theaddObj,
-        'imageOFImageOwner':theaddObj.owner.image.url if theaddObj.owner.image!=None else '/static/Img/blank-profile-picture-973460_640.png' ,
-        'imageOFImageMe':user.profile_set.last().image.url if user.profile_set.last().image!=None else '/static/Img/blank-profile-picture-973460_640.png' ,
+        'imageOFImageOwner':theaddObj.owner.image.url if theaddObj.owner.image!=None else '/static/Images/blank-profile-picture-973460_640.png' ,
+        'imageOFImageMe':user.profile_set.last().image.url if user.profile_set.last().image!=None and user.profile_set.last().image!='' else '/static/Images/blank-profile-picture-973460_640.png' ,
         'allowSend':allowSend
     }
     return render(request, 'showUserMessages.html', context)
@@ -1571,7 +1973,7 @@ def getProfileMessages(request):
         messagesData.append(item.to_json())
 
     response={
-      'imageOfCurrentChat':userProfile.image.url if userProfile.image!=None else '/static/Img/blank-profile-picture-973460_640.png' ,
+      'imageOfCurrentChat':userProfile.image.url if userProfile.image!=None and userProfile.image!='' else '/static/Images/blank-profile-picture-973460_640.png' ,
       'nameOfCurrentChat':userProfile.user.first_name,
       'numberOfCurrentChat':str(len(messages)),
       'messagesData':messagesData, 

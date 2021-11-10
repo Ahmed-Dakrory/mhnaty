@@ -1,75 +1,315 @@
-
+{% extends "Admin/theme_admin_dashboard.html" %} 
 {%load static%}
 {% load i18n %}
-
 {% get_current_language as LANGUAGE_CODE %}
 
 
 
+{% block "headerOfPage1" %}{% trans "MailBox" %}{% endblock %}
+
+{% block "headerOfPage2" %}{% trans "MailBox" %}{% endblock %}
+
+{% block "title" %}{% trans "MailBox" %}{% endblock %}
+{% block "bodyOfPage" %}
+{% csrf_token %}
+<input type="hidden" id="idOfProfile" value="{{request.user.profile_set.last.id}}">
 
 
-<div class="card-body pb-2" style=" text-align: right;">
-                            
-    <div class="row">
-      <div class="col-md-4 col-xl-4 chat">
-        <div class="card" >
-            <div class="card-header msg_head w-100">
-                <div class="d-flex bd-highlight" >
-                
-                    <div class="user_info w-100" >
-                        <button id="theadd" value="{{theAddObj.id}}" class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                          {{theAddObj.name}}- {{theAddObj.category.name}}
-                        </button>
-                        <div class="collapse" id="collapseExample">
-                          <div class="card card-body" style=" height: 369px; overflow-y: auto; ">
-                              {%for profile in profilesOfTheAdd %}
-                                 <a href="javascript:void(0)"  id="{{profile.id}}" value="{{profile.id}}" class="profile"   > {{profile.user.first_name}} </a>
-                              {%endfor%}
-                          </div>
-                        </div>
-                    
-                    </div>
-    
-                </div>
-                
-            </div>
-         
+<div class="col-lg-12 col-md-12">
+  <div class="utf_dashboard_list_box margin-top-0">
+    <h4 class="gray" id="theadd" value="{{theAddObj.id}}"><i class="sl sl-icon-user"></i> {{theAddObj.name}}- {{theAddObj.category.name}}</h4>            
+<div class="utf_messages_block_inner"> 
+      <div class="utf_user_messages_block">
+        <ul>
+          {%for MessageLastFrom_profile in lastMessages %}
         
-            </div>
+          <li class="active-message"> 
+  <a href="javascript:void(0)" id="{{MessageLastFrom_profile.from_user.id}}" value="{{MessageLastFrom_profile.from_user.id}}" class="profile"   >
+    <div class="utf_message_user online">
+      {% if MessageLastFrom_profile.from_user.image != None and MessageLastFrom_profile.from_user.image != '' %}
+      <img src="{{MessageLastFrom_profile.from_user.image.url}}" alt="user_avatar" />
+      {% else %}
+      <img src="/static/images/user_avatar_01.jpg" alt="user_avatar" />
+    {% endif %}
+    </div>
+    <div class="utf_message_headline_item">
+      <div class="utf_message_headline_text">
+        <!-- <h5>John Doe <i>New</i></h5> -->
+        <h5>{{MessageLastFrom_profile.from_user.user.first_name}}</h5>
+      
+      <span><i class="fa fa-clock-o"></i> {{MessageLastFrom_profile.created}}</span>  
+      </div>
+      <p>{{MessageLastFrom_profile.message}}</p>
+    </div>
+            </a> 
+  </li>
+  {%endfor%}
+               
+        </ul>
+      </div>
+      
+      <div class="utf_message_content_part">
+        <div class="card-body msg_card_body" id="append-messages">
+                  
+      </div>    
+        <div class="clearfix"></div>
+        <div class="utf_message_reply_block" id="messageControl" style="display: none;">
+          <textarea cols="50" rows="4" id="message-text" name ="input_message" placeholder="Your Message..."></textarea>
+          <button class="button"  type="submit" id="sendMessage">Send Message</button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>        
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+{% block "javascriptOfPage" %}
+
+
+<script>
+    
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+        }, false);
+        });
+        }, false);
+        })();
+    
     
 
-    <div class="col-md-8 col-xl-8 chat">
-      <div class="card">
-          <div class="card-header msg_head">
-              <div class="d-flex bd-highlight">
-                  <div class="img_cont">
-                      <img width="50" height="50" id="imageOfCurrentChat" style="display: none;" src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
-                      <span class="online_icon"></span>
-                  </div>
-                  <div class="user_info">
-                      <span id="nameOfCurrentChat">messages </span>
-                      <p id="numberOfCurrentChat"></p>
-                  </div>
-               
-                  </div> 
-              </div>
+            
+    var idOfToUserProfile = ''
+
+
+
+
+
+
+    
+$('#message-text').bind("enterKey",function(e){
+   //do stuff here
+   console.log("Ahmed");
+   sendMessage();
+});
+$('#message-text').keyup(function(e){
+    if(e.keyCode == 13)
+    {
+        $(this).trigger("enterKey");
+    }
+});
+
+
+$('#sendMessage').on('click', function(e){
+     sendMessage();
+
+    });
+
+
+
+
+    function sendMessage(){
+      
+ 
+      var messageContent = $("#message-text").val();
+      var theaddId =  $("#theadd").attr('value')
+      var fromProfileId  = $('#idOfProfile').val()
+
+      $.ajax({ 
+        type: 'POST',
+        url: '/ar/sendMessage',
+        data: { 
+            'messageContent': messageContent,
+            'theaddId':theaddId,
+            'fromProfileId':fromProfileId,
+            'idOfToUserProfile':idOfToUserProfile,
+
+          },
+        headers:{
+            "X-CSRFToken": csrftoken
+                },
+        async: true,
+        cache: true,
+        success: function(data) {
+
+        messageData = data['messagesData']
+        var profileId  = $('#idOfProfile').val()
+
+
+            // if (messageData.from_user__id == profileId){
+              $.each(messageData, function(index, value){
+                date = value.created
+                formatedDate=date.replace("T", " ").split('.')[0];
+                console.log(formatedDate,"date")
+            
+                
+                $('#append-messages').append(
+              
+                `
+              
+                <div class="utf_message_content_item send_user">
+          <div class="utf_message_user"><img src="`+value.from_user_image+`" alt="user_message" /></div>
+          <div class="utf_message_text" style="{% if LANGUAGE_CODE == 'ar' %} text-align: start; {% else %} text-align: end; {% endif %}">
+            <p>`+value.message+`</p><br>
+                <span class="msg_time_send">`+formatedDate+`</span>
           </div>
-          <div class="card-body msg_card_body" id="append-messages">
-           
+        </div>
+        `);
+            
+
+              })
+
+          
+
+
+              objDiv = document.getElementById("append-messages");
+              objDiv.scrollTop = objDiv.scrollHeight;
+                  
+
+              $('#message-text').val('');
+
+          }
+    
+        })
+     
+
+
+    }
+
+    idOfProfileOfTheAdd = null;
+
+
+    $('.profile').on('click', function(e) {
+          e.preventDefault()
+          console.log("clicked")
+          idOfFromUserProfile = $(this).attr('id')
+          idOfToUserProfile = idOfFromUserProfile
+          idOfProfileOfTheAdd = $("#theadd").attr('value')
+          console.log(idOfFromUserProfile,"//",idOfProfileOfTheAdd)
+         
+
+          updateMessages(true);
+    });
+  
+
+    
+
+  var intervalId = window.setInterval(function(){
+  /// call your function here
+  if(idOfProfileOfTheAdd!=null){
+      updateMessages(true);
+    }
+}, 2000);
+    
+
+
+
+    function updateMessages(stateDrop){
+      $.ajax({ 
+        type: 'POST',
+        url: '/ar/getProfileMessages',
+        data: { 
+            'idOfFromUserProfile': idOfFromUserProfile,
+            'idOfProfileOfTheAdd':idOfProfileOfTheAdd,
+
+          },
+        headers:{
+            "X-CSRFToken": csrftoken
+                },
+        async: true,
+        cache: true,
+        success: function(data) {
+          
+          console.log(data)
+          $('#imageOfCurrentChat').attr('src',data['imageOfCurrentChat']);
+          $('#imageOfCurrentChat').css("display", "block")
+          $('#messageControl').css("display", "block")
+          
+          $('#nameOfCurrentChat').html("Messages From "+data['nameOfCurrentChat']);
+          
+          $('#numberOfCurrentChat').html(data['numberOfCurrentChat']+" Message");
+            var messages = data['messagesData']
+            // var profileId = "{{request.user.getUserLastProfile}}"
+            var profileId  = $('#idOfProfile').val()
+
+            $('#append-messages').empty()
+            $.each(messages, function(index, value){
+              console.log(value)
+            var date = value.created
+            formatedDate=date.replace("T", " ").split('.')[0];
+
+            if ((value.from_user__id).toString() == (profileId).toString()){
+            $('#append-messages').append(
+              `
+              
+              <div class="utf_message_content_item send_user">
+          <div class="utf_message_user"><img src="`+value.from_user_image+`" alt="user_message" /></div>
+          <div class="utf_message_text" style="{% if LANGUAGE_CODE == 'ar' %} text-align: start; {% else %} text-align: end; {% endif %}">
+            <p>`+value.message+`</p><br>
+                <span class="msg_time_send">`+formatedDate+`</span>
           </div>
-          <div  class="card-footer mb-4" id="messageControl" style="display: none;">
-              <div class="input-group">
-           
-           
+        </div>
 
-                <textarea style="width: 100%;height: 34px;" id="message-text" class="mb-2" name ="input_message"></textarea>
-                      <button class="btn btn-primary btn-lg" style="width: 100%;" type="submit" id="sendMessage" >Send</button>
-                 
-              </div>
+        `)
+            
+          }
+          else {
+            $('#append-messages').append(
+              ` <div class="utf_message_content_item">
+          <div class="utf_message_user"><img src="`+value.from_user_image+`" alt="user_message" /></div>
+          <div class="utf_message_text" style="{% if LANGUAGE_CODE == 'ar' %} text-align: end; {% else %} text-align: start; {% endif %}">
+            <p>`+value.message+`</p><br>
+                <span class="msg_time_send">`+formatedDate+`</span>
+          </div>
+        </div>
+        
+      `)
+          }
+        
+        });
+            
 
 
-</div>
-</div>
-</div>
-</div>
+        
+if(stateDrop){
+  
+  objDiv = document.getElementById("append-messages");
+          objDiv.scrollTop = objDiv.scrollHeight;
+}
+
+                  
+
+          }
+    
+        })
+     
+
+    }
+
+
+
+
+        
+  $('#chat_admin_db').addClass('active');
+        </script>
+{% endblock %}

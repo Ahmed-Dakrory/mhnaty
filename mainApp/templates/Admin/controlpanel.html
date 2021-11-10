@@ -1,1084 +1,747 @@
-<!DOCTYPE html>
-
+{% extends "Admin/theme_admin_dashboard.html" %} 
 {%load static%}
 {% load i18n %}
-
 {% get_current_language as LANGUAGE_CODE %}
 
-<html>
-    <head>
-       
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <meta http-equiv="cache-control" content="no-cache" />
-        <meta http-equiv="Pragma" content="no-cache" />
-        <meta http-equiv="Expires" content="-1" />
-     
-   
-        
-        <link rel="icon" type="image/png" sizes="32x32" href="/static/img/Logo 2.png"> 
+
+{% block "headerOfPage1" %}{% trans "Search For Your Services" %}{% endblock %}
+{% block "headerOfPage2" %}{% trans "Services" %}{% endblock %}
 
 
 
-<link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/index_style.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-tagsinput.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-slider.min.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+{% block "title" %}{% trans "Search For Your Services" %}{% endblock %}
 
+{% block "bodyOfPage" %}
 
+<div class="container">
+  <div class="row">
 
-        
-<link rel="stylesheet" type="text/css" href="{% static 'css/filepond20201101.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/filepond-plugin-image-preview.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/filepond-plugin-image-overlay.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/filepond-plugin-get-file.css' %}">
-
-
-<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
-<title>{% trans "My Page" %}</title>
-
-
-    </head>
-
-
-    <body>
-      {% csrf_token %}
-      <div id="loading">
-        <div id="loadingImg"></div>
-      </div>
-
-      
-       
-<section id="company" >
-        
-  <div class="layer">
-   
-<div  style="background: #232f3e;position: fixed;top: 0px;z-index: 9999;">
-  <input type="hidden" id="LANGUAGE_CODE" value="{{LANGUAGE_CODE}}"/>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid" style="direction:{% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %}">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/{{LANGUAGE_CODE}}">{% trans "Home" %}</a>
-          </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="#">انواع الخدمات</a>
-          </li> -->
+    
+    <!-- Sidebar -->
+    <div id="searchForMobile" class="col-lg-4 col-md-4 d-md-none  d-sm-block">
+      <div class="sidebar">
+        <div class="utf_box_widget margin-bottom-35">
+          <h3><i class="sl sl-icon-direction"></i> {% trans "Filter" %}</h3>			
+                     
           
-          {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="/{{LANGUAGE_CODE}}/profile/">{% trans "Profile" %}</a>
-          </li>
-          {% endif %}
+          <div class="services mb-5 d-md-block order-0 order-md-1">
+            <div class="services-title">
+              <h4>{% trans "Detailed Search" %}</h4>
+            </div>
+            
+            <div class="services-body">
+
+              <div class="toggle-wrap"> 
+                <span class="trigger active">
+                <a href="#">{% trans "Services" %}<i class="fa fa-angle-double-right"></i> </a>
+                </span>
+                <div class="toggle-container" >
+                  <div class="panel CategoriesSearch  mt-2"></div>
+                </div>
+              </div>
 
 
-          {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="/{{LANGUAGE_CODE}}/showUserMessages/{{id_of_Admin}}">{% trans "Customer Services" %}</a>
-          </li>
-          {% endif %}
+              <div class="toggle-wrap"> 
+                <span class="trigger active">
+                <a href="#">{% trans "City" %}<i class="fa fa-angle-double-right"></i> </a>
+                </span>
+                <div class="toggle-container" >
+                  <div class="panel citySearch  mt-2"></div>
+                </div>
+              </div>
 
-          {% if user.is_superuser %}
-          <li class="nav-item">
-            <a class="nav-link" href="/{{LANGUAGE_CODE}}/controlpanel/">{% trans "Control Panel" %}</a>
-          </li>
-          {% endif %}
+              <div class="toggle-wrap"> 
+                <span class="trigger active">
+                <a href="#">{% trans "Region" %}<i class="fa fa-angle-double-right"></i> </a>
+                </span>
+                <div class="toggle-container" >
+                  <div class="panel regionSearch  mt-2"></div>
+                </div>
+              </div>
+
+             
+
+
+              
+
+              <div class="toggle-wrap"> 
+                <span class="trigger active">
+                <a href="#">{% trans "Experienses" %}<i class="fa fa-angle-double-right"></i> </a>
+                </span>
+                <div class="toggle-container" >
+                  <div class="panel expSearch  mt-2"></div>
+                </div>
+              </div>
+
+
+              <div class="toggle-wrap"> 
+                <span class="trigger active">
+                <a href="#">{% trans "Rate" %}<i class="fa fa-angle-double-right"></i> </a>
+                </span>
+                <div class="toggle-container" >
+                  <div class="row mt-4 mb-3" style="direction: rtl;max-height: 87px;">
+                    {% trans "Rate" %}: <b class="ml-3">0</b> 
+                    <input  type="text" class="span2 ex2" value="" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="[0,5]"/>
+                      <b class="mr-3">5</b>
+                  </div>
+                </div>
+              </div>
+              
+            
+            </div>
+
+            
+          </div>
           
-         
-          {% if not user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="/{{LANGUAGE_CODE}}/accounts/login/">{% trans "Login" %}</a>
-          </li>
-          <li class="nav-item login">
-            <a class="nav-link" href="/{{LANGUAGE_CODE}}/loadRegPage/">{% trans "Register" %}</a>
-          </li>
-          {% endif %}
-          {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="/{{LANGUAGE_CODE}}/logout/">{% trans "SignOut" %}</a>
-          </li>
-          {% endif %}
-        
-        </ul>
-     </div>
-  
-     <div class=" w-100 m-md-1 p-1  ml-md-5 mt-md-2 col-6 mr-2">
-      <input type="text" class="w-100 p-3 border rounded" id="searchInputMhnaty" placeholder='{% trans "Search For Your Services" %}' style="height: 37px;font-size: 1.1rem;background: #f2f2f2;box-shadow: 2px 2px 4px 1px grey;"/>
+          <button class="button fullwidth_block margin-top-5" onclick="getAddsNew();">{% trans "Search" %}</button>
+        </div>		  
+        <div class="services-body mt-3 d-md-block d-none" style=" border-style: solid; border-radius: 7px; border-width: 1px; ">
+          <a href="/"> 
+            <img src="/media/attachments/allImages/1.jpg"  alt="logo" style="width: 100%;height: 550px;">
+          </a>
+        </div>
       </div>
-     
-     <a class="navbar-brand" href="#"><img src="/static/img/Logo 2.png" class="w-100" alt="logo"></a>
-  
     </div>
-    </nav>
+
+    <div class="col-lg-8 col-md-8 order-2">
+      
+      <div class="row" id="ListOfAdds">
+        
       </div>
+      <div class="clearfix"></div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="utf_pagination_container_part margin-top-20 margin-bottom-70">
+            
+            <input type="hidden" numberOFResultView="1" id="currentDraw"/>
+            <nav class="pagination">
+              <ul>
+                <li id="goBackButton" onclick="getLastPage();"><a href="javascript:void(0)"><i class="sl sl-icon-arrow-{% if LANGUAGE_CODE == 'ar' %}right{% else %}left{% endif %}"></i></a></li>
+                <li><div >{% trans "Show" %} <span id="currentNumber">---</span> {% trans "From Results" %} <span id="AllRecords">---</span></div></li>
+                <li id="goNextButton" onclick="getNextPage();"><a href="javascript:void(0)"><i class="sl sl-icon-arrow-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %}"></i></a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
     
+    <!-- Sidebar -->
+    <div id="searchForComputer" class="col-lg-4 col-md-4 d-md-block d-none">
+      <div class="sidebar">
+        <div class="utf_box_widget margin-bottom-35">
+          <h3><i class="sl sl-icon-direction"></i> {% trans "Filter" %}</h3>			
+                     
+          
+          <div class="services mb-5 d-md-block order-0 order-md-1">
+            <div class="services-title">
+              <h4>{% trans "Detailed Search" %}</h4>
+            </div>
+            
+            <div class="services-body">
+
+              <div class="toggle-wrap"> 
+                <span class="trigger active">
+                <a href="#">{% trans "Services" %}<i class="fa fa-angle-double-right"></i> </a>
+                </span>
+                <div class="toggle-container" >
+                  <div class="panel CategoriesSearch  mt-2"></div>
+                </div>
+              </div>
+
+
+              <div class="toggle-wrap"> 
+                <span class="trigger active">
+                <a href="#">{% trans "City" %}<i class="fa fa-angle-double-right"></i> </a>
+                </span>
+                <div class="toggle-container" >
+                  <div class="panel citySearch  mt-2"></div>
+                </div>
+              </div>
+
+              <div class="toggle-wrap"> 
+                <span class="trigger active">
+                <a href="#">{% trans "Region" %}<i class="fa fa-angle-double-right"></i> </a>
+                </span>
+                <div class="toggle-container" >
+                  <div class="panel regionSearch  mt-2"></div>
+                </div>
+              </div>
+
+             
+
+
+              
+
+              <div class="toggle-wrap"> 
+                <span class="trigger active">
+                <a href="#">{% trans "Experienses" %}<i class="fa fa-angle-double-right"></i> </a>
+                </span>
+                <div class="toggle-container" >
+                  <div class="panel expSearch  mt-2"></div>
+                </div>
+              </div>
+
+
+              <div class="toggle-wrap"> 
+                <span class="trigger active">
+                <a href="#">{% trans "Rate" %}<i class="fa fa-angle-double-right"></i> </a>
+                </span>
+                <div class="toggle-container" >
+                  <div class="row mt-4 mb-3" style="direction: rtl;max-height: 87px;">
+                    {% trans "Rate" %}: <b class="ml-3">0</b> 
+                    <input  type="text" class="span2 ex2" value="" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="[0,5]"/>
+                      <b class="mr-3">5</b>
+                  </div>
+                </div>
+              </div>
+              
+            
+            </div>
+
+            
+          </div>
+          
+          <button class="button fullwidth_block margin-top-5" onclick="getAddsNew();">{% trans "Search" %}</button>
+        </div>		  
+        <div class="services-body mt-3 d-md-block d-none" style=" border-style: solid; border-radius: 7px; border-width: 1px; ">
+          <a href="/"> 
+            <img src="/media/attachments/allImages/1.jpg"  alt="logo" style="width: 100%;height: 550px;">
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
-  
+</div>
 
-  </section>
-
-  
-
-    <section >
-        <div class="container w-100">
-
-            <div class="container-fluid light-style" style="direction: rtl;">
-
-                <h4 class="font-weight-bold py-3 mb-4" style="text-align: right;">
-                  {% trans "My Control Page" %}
-                </h4>
-            
-                <div class="card overflow-hidden">
-                  <div class="row no-gutters row-bordered row-border-light">
-                    <div class="col-md-2 pt-0">
-                      <div class="list-group list-group-flush account-settings-links" style="    text-align: right;">
-                        {% if userProfile.typeOfRegisteration == 'Normal' %}
-                        <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Change Password</a> -->
-                        {% endif %}
-                        <a class="list-group-item list-group-item-action {% if CurrentTab == 1 %} active show {% endif %}" data-toggle="list" href="#account-info">{% trans "Add Details" %}</a>
-                        <a class="list-group-item list-group-item-action {% if CurrentTab == 2 %} active show {% endif %}" data-toggle="list" href="#account-ControlCategories">{% trans "Control Categories" %}</a>
-                        <a class="list-group-item list-group-item-action {% if CurrentTab == 3 %} active show {% endif %}" data-toggle="list" href="#account-ControlBranchCategories">{% trans "Control Branch Categories" %}</a>
-                        <a class="list-group-item list-group-item-action {% if CurrentTab == 4 %} active show {% endif %}" data-toggle="list" href="#account-chat-links">{% trans "MailBox" %}</a>
-                        <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-notifications">{% trans "Settings" %}</a> -->
+<section class="utf_cta_area_item utf_cta_area2_block">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="utf_subscribe_block clearfix">
+                  <div class="col-md-8 col-sm-7">
+                      <div class="section-heading">
+                          <h2 class="utf_sec_title_item utf_sec_title_item2">Subscribe to Newsletter!</h2>
+                          <p class="utf_sec_meta">
+                              Subscribe to get latest updates and information.
+                          </p>
                       </div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="tab-content">
-                        <div class="tab-pane fade  {% if CurrentTab == 1 %} active show {% endif %}" id="account-info">
-                           
-                                <!-- Add Details List -->
-
-                                {% include "Admin/ads.html" %}
-
-                         
-                        </div>
-
-
-
-                        <div class="tab-pane fade  {% if CurrentTab == 2 %} active show {% endif %}" id="account-ControlCategories">
-                           
-                          <!-- Add Details List -->
-
-                          {% include "Admin/controlCategories.html" %}
-
-                   
                   </div>
-
-
-
-                  <div class="tab-pane fade  {% if CurrentTab == 3 %} active show {% endif %}" id="account-ControlBranchCategories">
-                           
-                    <!-- Add Details List -->
-
-                    {% include "Admin/controlBranchCategories.html" %}
-
-             
-            </div>
-
-
-
-
-                        <!-- ---chat--- -->
-                        <div class="tab-pane fade  {% if CurrentTab == 4 %} active show {% endif %}" id="account-chat-links">
-                         
-
-                          {% include "Admin/chat.html" %}
-
-
-             
-                        </div>
-            
-
-        </div>
-    </section>
-
-    <section id="footer-contact">
-
-
-
-
-      <footer class="new_footer_area bg_color">
-        <div class="new_footer_top">
-            <div class="container w-95 " style="direction:{% if LANGUAGE_CODE == 'ar' %} ltr {% else %} rtl {% endif %}">
-                <div class="row text-center text-md-left">
-                    <div class="col-lg-3 col-md-6 col-6">
-                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
-                            
-                              <img src="/static/img/Logo 2.png" alt="footer-logo">
-                
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-6">
-                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
-                          <h3 class="f-title f_600 t_color f_size_18">{% trans "Our Info" %}</h3>
-                          <ul class="list-unstyled f_list">
-                              <li><a href="#">{% trans "Home" %} </a></li>
-                              <li><a href="#">{% trans "All Services" %} </a></li>
-                          </ul>  
-                          
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-6 mt-5 mt-md-0">
-                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInLeft;">
-                            <h3 class="f-title f_600 t_color f_size_18">{% trans "Contact Info" %}</h3>
-                            <ul class="list-unstyled f_list">
-                                <li><a href="#">{% trans "Address" %}</a></li>
-                                <li><a href="#">Term &amp; conditions</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-6 mt-5 mt-md-0">
-                        <div class="f_widget social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInLeft;">
-                            <h3 class="f-title f_600 t_color f_size_18">Team Solutions</h3>
-                            <div class="f_social_icon">
-                                <a href="#" class="fab fa-facebook"></a>
-                                <a href="#" class="fab fa-twitter"></a>
-                                <a href="#" class="fab fa-linkedin"></a>
-                                <a href="#" class="fab fa-pinterest"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- <div class="footer_bg">
-                <div class="footer_bg_one"></div>
-                <div class="footer_bg_two"></div>
-            </div> -->
-        </div>
-        <div class="footer_bottom" style="direction:{% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %}">
-            <div class="container">
-                <div class="row align-items-center p-1">
-                  <div class="col-md-3 text-center text-md-left mt-1">
-    
-                    <div class="dropdown" style=" height: 27px; ">
-                      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" style=" height: 100%; vertical-align: middle; color: white; padding: 0px; " data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        
-    
-                                    
-    
-                          {% if LANGUAGE_CODE == 'en' %}
-                          English
-                          {% endif %}
-    
-                          
-    
-                          {% if LANGUAGE_CODE == 'ar' %}
-                          عربى
-                          {% endif %}
-    
-    
-                        <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1"  style="padding: 1px 0px;width: fit-content;background: #232f3e;">
-                        <li class="aOfFooterLi"  onclick="addReplaceLangCode('en')" {% if LANGUAGE_CODE == 'en' %} style=" background: orange; " {% endif %}><a href="javascript:void(0)" class="aOfFooter">English</a></li>
-                        
-                        <li role="separator" class="divider"></li>
-                        <li class="aOfFooterLi"  onclick="addReplaceLangCode('ar')" {% if LANGUAGE_CODE == 'ar' %} style=" background: orange; " {% endif %}><a href="javascript:void(0)"  class="aOfFooter">عربى</a></li>
-                      </ul>
-                    </div>
-                    
+                  <div class="col-md-4 col-sm-5">
+                      <div class="contact-form-action">
+                          <form method="post">
+                              <span class="la la-envelope-o"></span>
+                              <input class="form-control" type="email" placeholder="Enter your email" required="">
+                              <button class="utf_theme_btn" type="submit">Subscribe</button>
+                          </form>
+                      </div>
                   </div>
-                  <div class="col-lg-5 col-sm-12 text-center text-md-left mt-1">
-                      <p class="mb-0 f_400">© Mhnaty Inc.. 2021 All rights reserved.</p>
-                  </div>
-                  <div class="col-lg-4 col-sm-12 text-center {% if LANGUAGE_CODE == 'ar' %} text-md-left {% else %} text-md-right {% endif %} mt-1">
-                      <p class="mb-0 f_400">Made By <i class="icon_heart"></i> in <a href="domainjo.com">DomainCom Web Solutions..</a></p>
-                  </div>
-    
-                </div>
-            </div>
-        </div>
-      </footer>
-    
-    
-    
-    </section>
-    
+              </div>
+          </div>
+      </div>
+    </div>
+</section>
 
 
-    <script src="{% static 'js/jquery-3.5.1.js' %}"></script> 
-    <script src="{% static 'js/jquery-ui.min.js' %}"></script> 
-    <script src="{% static 'js/popper.min.js' %}"></script> 
-    <script src="{% static 'js/bootstrap.min.js' %}"></script> 
-    
-    <script src="{% static 'js/sweetalert.min.js' %}"></script>
+
+{% endblock %}
 
 
-    <script src="{% static 'js/index_searchResults.js' %}"></script> 
-    <script src="{% static 'js/rating.js' %}"></script> 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script> 
 
-    <script src="{% static 'js/typeahead.bundle.min.js' %}"></script> 
-    <script src="{% static 'js/bootstrap-tagsinput.min.js' %}"></script> 
 
-    <script src="{% static 'js/mainFunctions.js' %}"></script>
+{% block "javascriptOfPage" %}
 
-    
-    <script src="{% static 'js/typeahead.bundle.min.js' %}"></script> 
-    <script src="{% static 'js/bootstrap-tagsinput.min.js' %}"></script> 
 
-    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-    <script src="{% static 'js/filepond-plugin-get-file.js' %}"></script>
-    <script src="{% static 'js/filepond-plugin-image-preview.js' %}"></script> 
-    <script src="{% static 'js/filepond.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script> 
+
 
 
 <script>
-(function() {
-    'use strict';
-    window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-    form.addEventListener('submit', function(event) {
-    if (form.checkValidity() === false) {
-    event.preventDefault();
-    event.stopPropagation();
-    }
-    form.classList.add('was-validated');
-    }, false);
-    });
-    }, false);
-    })();
 
 
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+ // some code..
+$('#searchForComputer').empty();
 
+}else{
+$('#searchForMobile').empty();
+$('#searchForMobile').removeClass();
 
-    var idOfToUserProfile = ''
-
-
-
-
-    showLoader();
-
-
-    
-$('#message-text').bind("enterKey",function(e){
-   //do stuff here
-   console.log("Ahmed");
-   sendMessage();
-});
-$('#message-text').keyup(function(e){
-    if(e.keyCode == 13)
-    {
-        $(this).trigger("enterKey");
-    }
-});
-
-
-$('#sendMessage').on('click', function(e){
-     sendMessage();
-
-    });
-
-
-
-
-    function sendMessage(){
-      
- 
-      var messageContent = $("#message-text").val();
-      var theaddId =  $("#theadd").attr('value')
-      var fromProfileId  = $('#idOfProfile').val()
-
-      $.ajax({ 
-        type: 'POST',
-        url: '/ar/sendMessage',
-        data: { 
-            'messageContent': messageContent,
-            'theaddId':theaddId,
-            'fromProfileId':fromProfileId,
-            'idOfToUserProfile':idOfToUserProfile,
-
-          },
-        headers:{
-            "X-CSRFToken": csrftoken
-                },
-        async: true,
-        cache: true,
-        success: function(data) {
-
-        messageData = data['messagesData']
-        var profileId  = $('#idOfProfile').val()
-
-
-            // if (messageData.from_user__id == profileId){
-              $.each(messageData, function(index, value){
-                date = value.created
-                formatedDate=date.replace("T", " ").split('.')[0];
-                console.log(formatedDate,"date")
-            
-                
-                $('#append-messages').append(
-              `<div class="d-flex justify-content-start mb-4">
-                <div class="img_cont_msg">
-                  <img width="50" height="50" src="`+value.from_user_image+`" class="rounded-circle user_img_msg"/>
-                </div>
-              <div class="msg_cotainer"> `+value.message+`<br>
-                <span class="msg_time_send">`+formatedDate+`</span>
-                </div>
-              </div>`);
-            
-
-              })
-
-          
-
-
-              objDiv = document.getElementById("append-messages");
-              objDiv.scrollTop = objDiv.scrollHeight;
-                  
-
-              $('#message-text').val('');
-
-          }
-    
-        })
-     
-
-
-    }
-
-    idOfProfileOfTheAdd = null;
-
-
-    $('.profile').on('click', function(e) {
-          e.preventDefault()
-          console.log("clicked")
-          idOfFromUserProfile = $(this).attr('id')
-          idOfToUserProfile = idOfFromUserProfile
-          idOfProfileOfTheAdd = $("#theadd").attr('value')
-          console.log(idOfFromUserProfile,"//",idOfProfileOfTheAdd)
-         
-
-          updateMessages(true);
-    });
-  
-
-    
-
-  var intervalId = window.setInterval(function(){
-  /// call your function here
-  if(idOfProfileOfTheAdd!=null){
-      updateMessages(false);
-    }
-}, 2000);
-    
-
-
-
-    function updateMessages(stateDrop){
-      $.ajax({ 
-        type: 'POST',
-        url: '/ar/getProfileMessages',
-        data: { 
-            'idOfFromUserProfile': idOfFromUserProfile,
-            'idOfProfileOfTheAdd':idOfProfileOfTheAdd,
-
-          },
-        headers:{
-            "X-CSRFToken": csrftoken
-                },
-        async: true,
-        cache: true,
-        success: function(data) {
-          
-          $('#imageOfCurrentChat').attr('src',data['imageOfCurrentChat']);
-          $('#imageOfCurrentChat').css("display", "block")
-          $('#messageControl').css("display", "block")
-          
-          $('#nameOfCurrentChat').html("Messages From "+data['nameOfCurrentChat']);
-          
-          $('#numberOfCurrentChat').html(data['numberOfCurrentChat']+" Message");
-            var messages = data['messagesData']
-            // var profileId = "{{request.user.getUserLastProfile}}"
-            var profileId  = $('#idOfProfile').val()
-
-            $('#append-messages').empty()
-            $.each(messages, function(index, value){
-              console.log(value)
-            var date = value.created
-            formatedDate=date.replace("T", " ").split('.')[0];
-
-            if ((value.from_user__id).toString() == (profileId).toString()){
-            $('#append-messages').append(
-              `<div class="d-flex justify-content-start mb-4">
-                <div class="img_cont_msg">
-                  <img width="50" height="50" src="`+value.from_user_image+`" class="rounded-circle user_img_msg"/>
-                </div>
-              <div class="msg_cotainer"> `+value.message+`<br>
-                <span class="msg_time_send">`+formatedDate+`</span>
-                </div>
-              </div>`)
-            
-          }
-          else {
-            $('#append-messages').append(
-              `<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">`+value.message+`
-                <br><span" class="msg_time_send">`+formatedDate+`</span>
-                </div>
-                <div class="img_cont_msg">
-                  <img width="50" height="50" src="`+value.from_user_image+`" class="rounded-circle user_img_msg">
-                </div>
-              </div>`)
-          }
-        
-        });
-            
-
-
-        
-if(stateDrop){
-  
-  objDiv = document.getElementById("append-messages");
-          objDiv.scrollTop = objDiv.scrollHeight;
 }
 
+  var citiesSearch="";
+  var categoriesSearch="";
+  var experiensesSearch="";
+  var regionsSearch="";
+  var rateMax="";
+  var rateMin="";
+
+  $.ajax({
+            type: 'POST',
+            url: '/en/getlistOfcities',
+            data: { 
+               
+            },
+            headers:{
+                "X-CSRFToken": csrftoken
+                 },
+            dataType: 'json',
+            cache: false,
+            success: function(result) {
+               if(result['Result']=='Ok'){
+        
+                result.data.forEach(element => {
+                
+                  $('.citySearch').append(`
+
+                            <div class="form-check">
+                              <input class="inputCheckFilter" type="checkbox" id="city_`+element.id+`" name="city" value="`+element.name+`">
+                              <label class="labelFilter" for="city_`+element.id+`">`+element.name+`</label>
+                            </div>
+
+                            `)
                   
 
-          }
-    
-        })
-     
-
-    }
+                           
+                
+                });
 
 
+                $('input[name="city"]').click(function() {
+                    // console.log(this.value);
+                    citiesSearch = $("input[name='city']:checked").map(function() {
+                      return $(this).attr('value');
+                    })
+                    .get() //returns basic array
+                    .join(','); //create a string
 
+                    cityData = $("input[name='city']:checked").map(function() {
+                      return "'"+$(this).attr('value')+"'";
+                    })
+                    .get() //returns basic array
+                    .join(','); //create a string
+
+                    // console.log(cityData);
+                    if(cityData==""){
+                      handleTheRegionsForList("''");
+                    }else{
+                      handleTheRegionsForList(cityData);
+                    }
+                    
+                });
+               
+        
+               
+             
+               }
+
+            },error: function (xhr, ajaxOptions, thrownError) {
+                console.log(thrownError)
+                   }
+        });
+        
+
+  function handleTheRegionsForList(city){
+    $.ajax({
+            type: 'POST',
+            url: '/en/getListOfRegions',
+            data: { 
+                'city': city
+            },
+            headers:{
+                "X-CSRFToken": csrftoken
+                 },
+            dataType: 'json',
+            cache: false,
+            success: function(result) {
+               if(result['Result']=='Ok'){
+                $('.regionSearch').empty();
+                result.data.forEach(element => {
+                // console.log(element.id)
+                  $('.regionSearch').append(`
+
+                            <div class="form-check">
+                                <input class="inputCheckFilter" type="checkbox" id="region_`+element.id+`" name="region" value="`+element.name+`">
+                              <label  class="labelFilter"  for="region_`+element.id+`">`+element.name+`</label>
+                            </div>
+
+                            `)
+                  
+                            $('input[name="region"]').click(function() {
+                    // console.log(this.value);
+                    regionsSearch = $("input[name='region']:checked").map(function() {
+                      return $(this).attr('value');
+                    })
+                    .get() //returns basic array
+                    .join(','); //create a string
+                });
+                            
+                
+                });
+
+
+              
+        
+               
+             
+               }
+
+            },error: function (xhr, ajaxOptions, thrownError) {
+                console.log(thrownError)
+                   }
+        });
+        
+
+
+  }
+
+
+        
+  
+  $.ajax({
+            type: 'POST',
+            url: '/en/getAllCategoriesJson',
+            data: { 
+                'category': ''
+            },
+            headers:{
+                "X-CSRFToken": csrftoken
+                 },
+            dataType: 'json',
+            cache: false,
+            success: function(result) {
+               if(result['Result']=='Ok'){
+        
+                result.data.forEach(element => {
+                
+                  $('.CategoriesSearch').append(`
+
+                            <div class="form-check">
+                                <input class="inputCheckFilter" type="checkbox" id="Categories_`+element.id+`" name="Categories" value="`+element.id+`">
+                              <label  class="labelFilter"  for="Categories_`+element.id+`">`+element.name+`</label>
+                            </div>
+
+                            `)
+                  
+
+                           
+                
+                });
+
+
+              
+                $('input[name="Categories"]').click(function() {
+                    // console.log(this.value);
+                    categoriesSearch = $("input[name='Categories']:checked").map(function() {
+                      return $(this).attr('value');
+                    })
+                    .get() //returns basic array
+                    .join(','); //create a string
+                });
+               
+             
+               }
+
+            },error: function (xhr, ajaxOptions, thrownError) {
+                console.log(thrownError)
+                   }
+        });
+        
+
+
+
+          
+  
+  $.ajax({
+            type: 'POST',
+            url: '/en/getAllExperiansesJson',
+            data: { 
+                'tag': ''
+            },
+            headers:{
+                "X-CSRFToken": csrftoken
+                 },
+            dataType: 'json',
+            cache: false,
+            success: function(result) {
+               if(result['Result']=='Ok'){
+        
+                result.data.forEach(element => {
+                
+                  $('.expSearch').append(`
+
+                            <div class="form-check">
+                                <input class="inputCheckFilter" type="checkbox" id="exp_`+element.id+`" name="exp" value="`+element.name+`">
+                              <label  class="labelFilter"  for="exp_`+element.id+`">`+element.name+`</label>
+                            </div>
+
+                            `)
+                  
+                $('input[name="exp"]').click(function() {
+                    // console.log(this.value);
+                    experiensesSearch = $("input[name='exp']:checked").map(function() {
+                      return $(this).attr('value');
+                    })
+                    .get() //returns basic array
+                    .join(','); //create a string
+                });
+                          
+                
+                });
+
+
+              
+        
+               
+             
+               }
+
+            },error: function (xhr, ajaxOptions, thrownError) {
+                console.log(thrownError)
+                   }
+        });
+        
+
+        handleTheRegionsForList("''");
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- Block of the Main Add handler -->
 <script>
-    var citiesSearch="";
-    var categoriesSearch="";
-    var experiensesSearch="";
-    var regionsSearch="";
-    var rateMax="";
-    var rateMin="";
-
-    $.ajax({
-              type: 'POST',
-              url: '/en/getlistOfcities',
-              data: { 
-                 
-              },
-              headers:{
-                  "X-CSRFToken": csrftoken
-                   },
-              dataType: 'json',
-              cache: false,
-              success: function(result) {
-                 if(result['Result']=='Ok'){
-          
-                  result.data.forEach(element => {
-                  
-                    $('.citySearch').append(`
-
-                              <div class="form-check">
-                                <label for="city_`+element.id+`">`+element.name+`</label>
-                                  <input type="checkbox" id="city_`+element.id+`" name="city" value="`+element.name+`">
-                              </div>
-
-                              `)
-                    
-
-                             
-                  
-                  });
-
-
-                  $('input[name="city"]').click(function() {
-                      // console.log(this.value);
-                      citiesSearch = $("input[name='city']:checked").map(function() {
-                        return $(this).attr('value');
-                      })
-                      .get() //returns basic array
-                      .join(','); //create a string
-
-                      cityData = $("input[name='city']:checked").map(function() {
-                        return "'"+$(this).attr('value')+"'";
-                      })
-                      .get() //returns basic array
-                      .join(','); //create a string
-
-                      // console.log(cityData);
-                      if(cityData==""){
-                        handleTheRegionsForList("''");
-                      }else{
-                        handleTheRegionsForList(cityData);
-                      }
-                      
-                  });
-                 
-          
-                 
-               
-                 }
-
-              },error: function (xhr, ajaxOptions, thrownError) {
-                  console.log(thrownError)
-                     }
-          });
-          
-
-    function handleTheRegionsForList(city){
-      $.ajax({
-              type: 'POST',
-              url: '/en/getListOfRegions',
-              data: { 
-                  'city': city
-              },
-              headers:{
-                  "X-CSRFToken": csrftoken
-                   },
-              dataType: 'json',
-              cache: false,
-              success: function(result) {
-                 if(result['Result']=='Ok'){
-                  $('.regionSearch').empty();
-                  result.data.forEach(element => {
-                  // console.log(element.id)
-                    $('.regionSearch').append(`
-
-                              <div class="form-check">
-                                <label for="region_`+element.id+`">`+element.name+`</label>
-                                  <input type="checkbox" id="region_`+element.id+`" name="region" value="`+element.name+`">
-                              </div>
-
-                              `)
-                    
-                              $('input[name="region"]').click(function() {
-                      // console.log(this.value);
-                      regionsSearch = $("input[name='region']:checked").map(function() {
-                        return $(this).attr('value');
-                      })
-                      .get() //returns basic array
-                      .join(','); //create a string
-                  });
-                              
-                  
-                  });
-
-
-                
-          
-                 
-               
-                 }
-
-              },error: function (xhr, ajaxOptions, thrownError) {
-                  console.log(thrownError)
-                     }
-          });
-          
-
-
-    }
-  
-
-          
-    
-    $.ajax({
-              type: 'POST',
-              url: '/en/getAllCategoriesJson',
-              data: { 
-                  'category': ''
-              },
-              headers:{
-                  "X-CSRFToken": csrftoken
-                   },
-              dataType: 'json',
-              cache: false,
-              success: function(result) {
-                 if(result['Result']=='Ok'){
-          
-                  result.data.forEach(element => {
-                  
-                    $('.CategoriesSearch').append(`
-
-                              <div class="form-check">
-                                <label for="Categories_`+element.id+`">`+element.name+`</label>
-                                  <input type="checkbox" id="Categories_`+element.id+`" name="Categories" value="`+element.id+`">
-                              </div>
-
-                              `)
-                    
-
-                             
-                  
-                  });
-
-
-                
-                  $('input[name="Categories"]').click(function() {
-                      // console.log(this.value);
-                      categoriesSearch = $("input[name='Categories']:checked").map(function() {
-                        return $(this).attr('value');
-                      })
-                      .get() //returns basic array
-                      .join(','); //create a string
-                  });
-                 
-               
-                 }
-
-              },error: function (xhr, ajaxOptions, thrownError) {
-                  console.log(thrownError)
-                     }
-          });
-          
-
-
-
-            
-    
-    $.ajax({
-              type: 'POST',
-              url: '/en/getAllExperiansesJson',
-              data: { 
-                  'tag': ''
-              },
-              headers:{
-                  "X-CSRFToken": csrftoken
-                   },
-              dataType: 'json',
-              cache: false,
-              success: function(result) {
-                 if(result['Result']=='Ok'){
-          
-                  result.data.forEach(element => {
-                  
-                    $('.expSearch').append(`
-
-                              <div class="form-check">
-                                <label for="exp_`+element.id+`">`+element.name+`</label>
-                                  <input type="checkbox" id="exp_`+element.id+`" name="exp" value="`+element.name+`">
-                              </div>
-
-                              `)
-                    
-                  $('input[name="exp"]').click(function() {
-                      // console.log(this.value);
-                      experiensesSearch = $("input[name='exp']:checked").map(function() {
-                        return $(this).attr('value');
-                      })
-                      .get() //returns basic array
-                      .join(','); //create a string
-                  });
-                            
-                  
-                  });
-
-
-                
-          
-                 
-               
-                 }
-
-              },error: function (xhr, ajaxOptions, thrownError) {
-                  console.log(thrownError)
-                     }
-          });
-          
-
-          handleTheRegionsForList("''");
-  </script>
-
-  <!-- Block of the Main Add handler -->
-  <script>
 
 if($('#orderButton').html()=='{% trans "New First" %}'){
-    typeOfOrder = '-';
-  }else{
-    typeOfOrder = '';
-  }
+  typeOfOrder = '-';
+}else{
+  typeOfOrder = '';
+}
 
 $(".dropdown-item").click(function(event) {
-    $(this).parents('.dropdown').find('.dropdown-toggle').html($(event.target).html());
+  $(this).parents('.dropdown').find('.dropdown-toggle').html($(event.target).html());
 
-    if($('#orderButton').html()=='{% trans "New First" %}'){
-    typeOfOrder = '-';
-  }else{
-    typeOfOrder = '';
-  }
+  if($('#orderButton').html()=='{% trans "New First" %}'){
+  typeOfOrder = '-';
+}else{
+  typeOfOrder = '';
+}
 
 
-  getAdds();
-  
+getAdds();
+
 });
-
 
 
 function getAddsNew(){
-    
-    category = '';
-    city ='';
-    region = '';
-   getAdds();
+
+   category = '';
+   city ='';
+   region = '';
+   categorySub = '';
+  getAdds();
+}
+   
+  var url = new URL(window.location);
+  var category = url.searchParams.get("category");
+  var city = url.searchParams.get("city");
+  var region = url.searchParams.get("region");
+  var categorySub = url.searchParams.get("categorySub");
+  // console.log(region);
+
+
+
+
+function getBlock(data){
+  phoneStatment = '';
+          if(data.phone !='' && data.phone !=null && data.phone!=' '){
+            phoneStatment = '<span class="phone"  datatel="'+data.phone+'"> <i class="sl sl-icon-phone"></i> {% trans "Show the Number" %}  </span>'
+            
+          }
+
+          priceStatment = '';
+          if(data.price !='' && data.price !=null && data.price!=' '){
+            priceStatment = '<span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $'+data.price+'</span>	';
+            
+          }
+          addressStatment = '';
+          if(data.address !=''  && data.address!=null&& data.address!=' '){
+            addressStatment = '<span><i class="sl sl-icon-location"></i> '+data.address+'</span>';
+          }
+          
+
+      if(data.featureAddNumber>0){
+        featureType = '<span class="utp_approve_item"><i class="utf_approve_listing"></i></span>';
+      }else{
+        featureType='';
+      }
+
+
+
+  return (`
+  
+  <div class="col-lg-12 col-md-12">
+          <div class="utf_listing_item-container list-layout"> 
+            <a href="javascript:void(0)" class="utf_listing_item">
+            <div class="utf_listing_item-image"> 
+              <img src="`+data.mainImage+`" alt=""> 
+              <span class="tag_mail" onclick="openMessage(`+data.id+`)"><i class="fa fa-envelope-o"></i> </span>
+              <span class="tag"><i class="im im-icon-Hotel"></i> `+data.category_name+`</span> 
+              <div class="utf_listing_prige_block utf_half_list">							
+                `+priceStatment+`		
+                `+featureType+`
+              </div>
+            </div>
+
+            <span class="utf_open_now">Open Now</span>
+            <div class="utf_listing_item_content">
+              <div class="utf_listing_item-inner">
+                <h3 onclick="openAdd(`+data.id+`)">`+data.name+`</h3>
+                `+addressStatment+`
+                `+phoneStatment+`
+                <div class="utf_star_rating_section" data-rating="`+data.averageRate+`">
+                  <div class="utf_counter_star_rating">(`+data.averageRate+`)</div>
+                </div>
+                <p>`+data.details+`</p>
+              </div>
+            </div>
+            </a> 
+          </div>
+      </div>
+  
+  `);
 }
 
-     
-    var url = new URL(window.location);
-    var category = url.searchParams.get("category");
-    var city = url.searchParams.get("city");
-    var region = url.searchParams.get("region");
-    // console.log(region);
 
+
+
+function openMessage(id){
+  window.open('/{{LANGUAGE_CODE}}/showUserMessages/'+id,'_newMessage');
+}
+
+function openAdd(id){
+  window.open('/{{LANGUAGE_CODE}}/CompanyPage?id='+id, '_addNew');
+}
+
+getAdds();
+
+
+  function getNextPage(){
+    resultRecordsFiltered =  $('#AllRecords').html();
+    if(parseInt($('#currentDraw').attr('numberOFResultView'))!=parseInt(resultRecordsFiltered)){
+                  
+      $('#goBackButton').removeClass('disabled');
+      pageNumber = parseInt($('#currentDraw').attr('numberOFResultView'))+1;
+      getPageOfResults(pageNumber)
+    }
+  }
+
+  function getLastPage(){
+
+   
+
+    resultRecordsFiltered =  $('#AllRecords').html();
+    if(parseInt($('#currentDraw').attr('numberOFResultView'))!=1){
+                  
+      $('#goNextButton').removeClass('disabled');
+        pageNumber = $('#currentDraw').attr('numberOFResultView')-1;
+        getPageOfResults(pageNumber);
+      }
+
+  }
+
+
+  function getPageOfResults(pageNumber){
+    
+    $('#currentDraw').attr('numberOFResultView',pageNumber);
+    getAdds();
+  }
+
+  function getAdds(){
+    showLoader();
+    // console.log($('#currentDraw').attr('numberOFResultView'));
+    if(parseInt($('#currentDraw').attr('numberOFResultView'))==1){
+      // console.log('StartPage');
+
+      $('#goBackButton').removeClass('disabled');
+      $('#goNextButton').removeClass('disabled');
+      $('#goBackButton').addClass('disabled');
+    
+      
+    }
+
+    // console.log($('#currentDraw').attr('numberOFResultView'));
+    
+      start = ($('#currentDraw').attr('numberOFResultView')-1)*3+1;
+    
+      // console.log(start)
+    $.ajax({
+              type: 'POST',
+              url: '/{{LANGUAGE_CODE}}/getNewResultsForAds',
+              dataType: 'json',
+              data: { 
+                  'length':3,
+                  'start':start,
+                  'draw':$('#currentDraw').attr('numberOFResultView'),
+                  'search[value]':'',
+                  'category':category,
+                  'city':city,
+                  'region':region,
+                  'categorySub':categorySub,
+                  'citiesSearch':citiesSearch,
+                  'regionsSearch':regionsSearch,
+                  'categoriesSearch':categoriesSearch,
+                  'experiensesSearch':experiensesSearch,
+                  'rateMin':rateMin,
+                  'rateMax':rateMax,
+                  'typeOfOrder':typeOfOrder
+              },
+              headers:{
+                  "X-CSRFToken": csrftoken
+                      },
+              cache: false,
+              success: function(result) {
+                
+                hideLoader();
+                $('#ListOfAdds').empty();
+
+                if(parseInt($('#currentDraw').attr('numberOFResultView'))==parseInt(result.recordsFiltered)){
+                  // console.log('StartPage');
+
+                  $('#goBackButton').removeClass('disabled');
+                  $('#goNextButton').removeClass('disabled');
+                  $('#goNextButton').addClass('disabled');
+                
+                  
+                }
+
+                  $('#currentDraw').attr('numberOFResultView',result.draw)
+                  $('#AllRecords').html(result.recordsFiltered);
+                  $('#currentNumber').html(result.draw);
+                    
+                    result.data.forEach(element => {
+                      block = getBlock(element);
+                      $('#ListOfAdds').append(block);
+                   
+
+                    });
+                    
+                    $('.phone').hidePhoneNum();
+
+                    starRating('.utf_star_rating_section');
+                    
+              },
+              error: function (xhr, ajaxOptions, thrownError) {
+                hideLoader();
+                swal('{% trans "Error" %}', '{% trans "Problem While Loading" %}', "error");
+              }
+          });
+
+
+      
+  }
+
+  
 
 
  
-  function getBlock(data){
-    phoneStatment = '';
-            if(data.phone !='' && data.phone!=' '){
-
-              phoneStatment =' <div style=" text-align: center; " class="phone mb-3" datatel="'+data.phone+'"><a href="#"> {% trans "Show the Number" %}  <i class="fas fa-phone pl-3"></i> </a> </div>';
-              // phoneStatment = '<p class="card-text pt-1">'+data.phone+'</p>';
-            }
-
-            addressStatment = '';
-            if(data.address !=''  && data.address!=' '){
-              addressStatment = '<p class="card-text pt-1">'+data.address+'<i class="fas fa-map-marker-alt pl-3"></i></p>';
-            }
-            
-
-        if(data.featureAddNumber>0){
-          featureType = '<i class="fa fa-cannabis text-info m-2"></i>';
-        }else{
-          featureType='';
-        }
-
-      return  (`
-
-      <div class="card mb-3 w-100 row m-0 container p-2">
-      <div class="row m-0">
-
-        <div class="col-md-4 contacts order-md-1 order-3 ">
-          <h4>{% trans "Details or Service Provider" %}</h4>
-          `+phoneStatment+addressStatment+`
-         
-          <div class="evaluate w-100">
-
-            <h5>{% trans "Service Provider Rating" %}</h5>
-            <div class="evaluate-clints">
-             
-              
-              
-
-
-              <div class="row">
-                      <div id = "halfstarsReview`+data.id+`" class=" mb-3" dir="rtl"></div>
-  
-              
-              </div>
-
-
-
-
-            </div>
-          </div>
-
-        </div>
-        
-        <div class="col-md-8 order-md-2 order-1 ">
-          <div class="row">
-
-            <div class="col-md-7 order-md-2 order-1 p-0">
-              <div class="card-body">
-                <a href="/{{LANGUAGE_CODE}}/CompanyPage?id=`+data.id+`" class="card-title mb-0 nameOfService">`+data.name+`</a>
-                <p class="card-text mb-2">
-                  `+data.details+`</p>
-                <a class="card-text mb-1" style="direction: rtl;color: #88b334;" href="/{{LANGUAGE_CODE}}/SearchPage/?category=`+data.category_name+`&provider=&city=&region=">`+featureType+data.category_name+` </a>
-              </div>
-            </div>
-
-            <div class="col-md-5 order-md-3 ml-3 m-md-0">
-              <div class="border">
-                <div class="profile-pic">
-              <img src="`+data.mainImage+`" class="img-fluid rounded-start" alt="...">
-            </div>
-          </div>
-            </div>
-
-
-          </div>
-          <div class="row m-md-1 mb-2">
-             
-            <div class="col-md-6 p-0 pr-1 col-6">
-              <a href="/showUserMessages/`+data.id+`" target="add" class="btn btn-warning w-100" style="direction: rtl;"><i class="fa fa-comments"></i> {% trans "chat" %} </a>
-            </div>
-            <div class="col-md-6 p-0 pr-1 col-6">
-              <a class="btn btn-warning w-100 {% if not user.is_authenticated %} disabled {% endif %}"  href="tel:`+data.phone+`" style="direction: rtl;"><i class="fa fa-phone"></i> {% trans "Call" %} </a>
-            </div>
-            
-          </div>
-        </div>
-
-        
-      </div>
-    </div>
-    </div>
-      `);
-  }
-  
-  
-
-
-
-
-  
-  getAdds();
-
-
-    function getNextPage(){
-      resultRecordsFiltered =  $('#AllRecords').html();
-      if(parseInt($('#currentDraw').attr('numberOFResultView'))!=parseInt(resultRecordsFiltered)){
-                    
-        $('#goBackButton').removeClass('disabled');
-        pageNumber = parseInt($('#currentDraw').attr('numberOFResultView'))+1;
-        getPageOfResults(pageNumber)
-      }
-    }
-
-    function getLastPage(){
-
-     
-
-      resultRecordsFiltered =  $('#AllRecords').html();
-      if(parseInt($('#currentDraw').attr('numberOFResultView'))!=1){
-                    
-        $('#goNextButton').removeClass('disabled');
-          pageNumber = $('#currentDraw').attr('numberOFResultView')-1;
-          getPageOfResults(pageNumber);
-        }
-
-    }
-
-
-    function getPageOfResults(pageNumber){
-      
-      $('#currentDraw').attr('numberOFResultView',pageNumber);
-      getAdds();
-    }
-
-    function getAdds(){
-      showLoader();
-      // console.log($('#currentDraw').attr('numberOFResultView'));
-      if(parseInt($('#currentDraw').attr('numberOFResultView'))==1){
-        // console.log('StartPage');
-
-        $('#goBackButton').removeClass('disabled');
-        $('#goNextButton').removeClass('disabled');
-        $('#goBackButton').addClass('disabled');
-      
-        
-      }
-
-      // console.log($('#currentDraw').attr('numberOFResultView'));
-      
-        start = ($('#currentDraw').attr('numberOFResultView')-1)*3+1;
-      
-        // console.log(start)
-      $.ajax({
-                type: 'POST',
-                url: '/{{LANGUAGE_CODE}}/getNewResultsForAds',
-                dataType: 'json',
-                data: { 
-                    'length':3,
-                    'start':start,
-                    'draw':$('#currentDraw').attr('numberOFResultView'),
-                    'search[value]':'',
-                    'category':category,
-                    'city':city,
-                    'region':region,
-                    'citiesSearch':citiesSearch,
-                    'regionsSearch':regionsSearch,
-                    'categoriesSearch':categoriesSearch,
-                    'experiensesSearch':experiensesSearch,
-                    'rateMin':rateMin,
-                    'rateMax':rateMax,
-                    'typeOfOrder':typeOfOrder
-                },
-                headers:{
-                    "X-CSRFToken": csrftoken
-                        },
-                cache: false,
-                success: function(result) {
-                  
-                  hideLoader();
-                  $('#ListOfAdds').empty();
-
-                  if(parseInt($('#currentDraw').attr('numberOFResultView'))==parseInt(result.recordsFiltered)){
-                    // console.log('StartPage');
-
-                    $('#goBackButton').removeClass('disabled');
-                    $('#goNextButton').removeClass('disabled');
-                    $('#goNextButton').addClass('disabled');
-                  
-                    
-                  }
-
-                    $('#currentDraw').attr('numberOFResultView',result.draw)
-                    $('#AllRecords').html(result.recordsFiltered);
-                    $('#currentNumber').html(result.draw);
-                      
-                      result.data.forEach(element => {
-                        block = getBlock(element);
-                        $('#ListOfAdds').append(block);
-                        $("#halfstarsReview"+element.id).rating({
-                          "half": true,
-                          "halfStar":"fas fa-star-half-alt fa-flip-horizontal",
-                          "filledStar":"fas fa-star",
-                          "readonly":true,
-                          "value":element.averageRate,
-                          "click": function (e) {
-                              // console.log(e);
-                              //$(".halfstarsInput").val(e.stars);
-                          }
-                      });
-
-                      });
-                      
-                      $('.phone').hidePhoneNum();
-
-
-                      
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                  hideLoader();
-                  swal('{% trans "Error" %}', '{% trans "Problem While Loading" %}', "error");
-                }
-            });
-
-
-        
-    }
-
-    
-
-
-   
-  </script>
+</script>
 
 <script>
 
@@ -1090,15 +753,14 @@ function getAddsNew(){
 
 
 // With JQuery
-$(".ex2").slider({});
+$(".ex2").bootstrapSlider({});
 
 $(".ex2").on("slide", function(slideEvt) {
 rateMax=slideEvt.value[1];
 rateMin=slideEvt.value[0];
 if(rateMin==0){
-  rateMin = '';
+rateMin = '';
 }
-  // $("#ex6SliderVal").text(slideEvt.value);
 });
 
 
@@ -1112,180 +774,46 @@ if(rateMin==0){
 
 
 <script>
-  
+
 
 (function($) {
-                        $.fn.hidePhoneNum = function(options) {
-                    
-                            var settings = $.extend({
-                                showNumber: 3,
-                                linkClass: 'tel-link'
-                            }, options);
-                    
-                            return this.each(function() {
-                                var telNum = $(this).attr("datatel"),
-                                        htmlNum = $(this).html(),
-                                        myRegex = /[\s-\(\()]/g,
-                                        telNewNum = telNum.replace(myRegex, '');
-                    
-                                        console.log(telNum);
-                                $(this).html(telNum.substr(0, settings.showNumber) + " " + htmlNum);
-                                
-                                $(this).find('a').on('click', function(e) {
-                                    e.preventDefault();
-                                    if("{{userProfile.user.is_authenticated}}"=="True"){
-                                    $(this).parent().html("<a href='tel:"+telNewNum+"' class='"+settings.linkClass+"'>"+telNum+" <i class='fas fa-phone pl-3'></i></a>");
-                                    }else{
-                                      swal("تنبيه", "لا يمكنك القيام بذلك برجاء تسجيل الدخول", "warning");
-                                    }
-                                })
-                    
-                            });
-                        };
-                    }(jQuery));
-
-
-
-
-
-
-
-
-
-
-
-                    
-
-    function fill_categoryAndSelect(isfirstTime){
-  showLoader();
-  $.ajax({ 
-        type: 'POST',
-        url: '/en/getListOfcategoriesByparentOneId',
-                      data: { 
-                          'mainCategory': $('#mainCategory2').val()
-          },
-        headers:{
-            "X-CSRFToken": csrftoken
-                },
-        async: true,
-        cache: true,
-        success: function(result) {
-            console.log(result)
-            
-          $('#category')
-                        .find('option')
-                        .remove()
-                        .end()
-                        .append('<option value="">{% trans "Select One" %}</option>')
-                        .val('')
-                        ;
-
-                        var $category = $('#category');
-
-                         if(result['Result']=='Ok'){
+                      $.fn.hidePhoneNum = function(options) {
                   
-                          result.data.forEach(element => {
-                            $category.append($("<option />").val(element.id).text(element.name));
+                          var settings = $.extend({
+                              showNumber: 3,
+                              linkClass: 'tel-link'
+                          }, options);
+                  
+                          return this.each(function() {
+                              var telNum = $(this).attr("datatel"),
+                                      htmlNum = $(this).html(),
+                                      myRegex = /[\s-\(\()]/g,
+                                      telNewNum = telNum.replace(myRegex, '');
+                  
+                                      console.log(telNum);
+                              $(this).html( htmlNum+ " " + telNum.substr(0, settings.showNumber));
+                              
+                              
+                              $(this).on('click', function(e) {
+                                console.log("done");
+                                  e.preventDefault();
+                                  if("{{userProfile.user.is_authenticated}}"=="True"){
+                                  $(this).html('<span> <i class="sl sl-icon-phone"></i>'+telNum+'  </span>');
+                                  }else{
+                                    swal("تنبيه", "لا يمكنك القيام بذلك برجاء تسجيل الدخول", "warning");
+                                  }
+                              })
+                  
                           });
-                         
-                  
-                         }
-
-            if(isfirstTime){
-              $('#category').val($('#category').attr('value'));
-            }
-            hideLoader();
-        },error: function (xhr, ajaxOptions, thrownError) {
-            hideLoader();
-           }
-    });
-
-    hideLoader();
-}
-
-
-$('#mainCategory').on('change', function() {
-    
-  
-  $('#actionOfFormNow').val('show');
-  $('#actionOfFormNow').attr('value','show');
-  $('#mainform').submit();
-
-});
-
-  $('#mainCategory').val({{mainSelectedCategory.id}});
-  $('#category').val($('#category').attr('value'));
-
-  
-  // $('#mainCategory').val($('#mainCategory').attr('value'));
-  // fill_categoryAndSelect(true);
-
-
-  $('#category').on('change', function() {
-   
-  $('#actionOfFormNowSecondary').val('show');
-  $('#actionOfFormNowSecondary').attr('value','show');
-  $('#mainBranchform').submit();
-
-    });
+                      };
+                  }(jQuery));
 
 
 
-
-  $('#mainCategory2').on('change', function() {
-    
-    fill_categoryAndSelect(false);
-  
-    });
-    
-    $('#mainCategory2').val($('#mainCategory2').attr('value'));
-    fill_categoryAndSelect(true);
+  $('#controlpanel_db').addClass('active');
 
 
-function addNewMain(){
-  $('#actionOfFormNow').val('add');
-  $('#actionOfFormNow').attr('value','add');
-  $('#mainform').submit();
-  
-}
-
-function deleteMain(){
-  $('#actionOfFormNow').val('delete');
-  $('#actionOfFormNow').attr('value','delete');
-  $('#mainform').submit();
-}
-
-function editMain(){
-  $('#actionOfFormNow').val('edit');
-  $('#actionOfFormNow').attr('value','edit');
-  $('#mainform').submit();
-}
-
-
-
-
-function addNewSecondary(){
-  $('#actionOfFormNowSecondary').val('add');
-  $('#actionOfFormNowSecondary').attr('value','add');
-  $('#mainBranchform').submit();
-  
-}
-
-function deleteSecondary(){
-  $('#actionOfFormNowSecondary').val('delete');
-  $('#actionOfFormNowSecondary').attr('value','delete');
-  $('#mainBranchform').submit();
-}
-
-function editSecondary(){
-  $('#actionOfFormNowSecondary').val('edit');
-  $('#actionOfFormNowSecondary').attr('value','edit');
-  $('#mainBranchform').submit();
-}
-
-hideLoader();
 </script>
 
-</body>
 
-    </html>
+{% endblock %}

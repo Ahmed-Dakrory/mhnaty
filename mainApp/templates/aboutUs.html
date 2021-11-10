@@ -1,0 +1,88 @@
+{% extends "theme.html" %} 
+{%load static%}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+
+
+{% block "title" %}{% trans "About Us" %}{% endblock %}
+
+{% block "bodyOfPage" %}
+
+
+
+
+
+<div class="search_container_block overlay_dark_part">
+  <div class="main_inner_search_block">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>{% trans 'About Mhnaty Website'%}</h2>
+          <h4> انبثق موقع مهنتي بمبادرة طموحة من شباب متفائل عام 202‪1  من وحي الواقع الملح للمجتمع في الوصول الى اصحاب المهن و المهارات للأفراد و الشركات و يسعى فريقنا لخدمة كل فرد في المجتمع من خلال اتاحة قاعدة بيانات مجانية ضخمة من ملفات التعريف لاصحاب المهن على تنوعها (الحرفي و الاكاديمي) و تيسير التواصل مع اصحابها لطلب خدماتهم من خلال منصة الكترونية واحدة. يسعى فريقنا لكسب ثقة المجتمع من خلال توفير موقع الكتروني ابداعي و ديناميكي صمم باحترافية لتسهيل عمليات البحث حسب المهنة و الموقع الجغرافي و توفير معلومات الملف المهني و الصور. ليصبح الوصول إلى المعلم او الطبيب او البنّاء او المدير و الاف المهن الاخرى بكل سهولة و يسر.
+          </h4>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="utf_video_container">
+    <video poster="/static/images/search_video_bg.jpg" loop autoplay muted>
+      <source src="/static/images/search_bg_video.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="parallax" data-background="/static/images/Untitled-1-01.png"> 
+  <div class="utf_text_content white-font">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-sm-12">
+          <h2>رسالتنا و رؤيتنا وصولا الى <br>هدفنا</h2>
+          <p>تحقيق رضا الافراد و الشركات في الوصول المجاني و السهل الى مقدمي الخدمات و طالبيها على تنوعها من خلال منصة الكترونية واحدة مع امكانية التقييم من العميل.
+          </p>
+
+          <p>ان يكون موقع مهنتي المنصة الأولى المجانية و الفريدة التي تجمع كل ما يحتاجه المجتمع من مهن و مهارات مختلفة.
+          </p>
+
+
+          <p>التميز في خدمة كل افراد المجتمع للوصول السريع للمهن التي يحتاجونها.
+          </p>
+</div>
+      </div>
+    </div>
+  </div>   
+</div>
+
+
+
+     
+
+
+
+
+      
+
+{% endblock %}
+
+
+
+
+{% block "javascriptOfPage" %}
+
+
+<script>
+$('#about_navigation').addClass('current');
+  </script>
+  
+
+  
+{% endblock %}

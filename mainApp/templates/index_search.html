@@ -4,8 +4,7 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 
-
-
+{% block "title" %}{% trans "Search" %}{% endblock %}
 {% block "bodyOfPage" %}
 
 <div id="titlebar" class="gradient">
@@ -543,6 +542,7 @@ function getAddsNew(){
    category = '';
    city ='';
    region = '';
+   categorySub = '';
   getAdds();
 }
    
@@ -550,6 +550,7 @@ function getAddsNew(){
   var category = url.searchParams.get("category");
   var city = url.searchParams.get("city");
   var region = url.searchParams.get("region");
+  var categorySub = url.searchParams.get("categorySub");
   // console.log(region);
 
 
@@ -690,6 +691,7 @@ getAdds();
                   'category':category,
                   'city':city,
                   'region':region,
+                  'categorySub':categorySub,
                   'citiesSearch':citiesSearch,
                   'regionsSearch':regionsSearch,
                   'categoriesSearch':categoriesSearch,

@@ -102,7 +102,8 @@ function getlistOfcities(){
                     var category = $("#dropdownMenuLink").val();
                       var city = $("#listOfcities").val();
                       var region = $("#listOfregions").val();
-                    url_Search = '/'+language+'/SearchPage/?category='+category+'&city='+city+'&region='+region;
+                      var categorySub = $("#category").val();
+                    url_Search = '/'+language+'/SearchPage/?categorySub='+categorySub+'&category='+category+'&city='+city+'&region='+region;
                 
                 
                     //console.log(url_Search);

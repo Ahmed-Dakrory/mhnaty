@@ -1,49 +1,28 @@
-<!DOCTYPE html>
-<html dir="rtl">
+{% extends "theme.html" %} 
+{%load static%}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
-    <head>
-        <meta charset="utf-8">      
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-        <meta name="viewport" content="width=device-width">
-            
-      {%load static%}
-        {% load i18n %}
-        {% get_current_language as LANGUAGE_CODE %}
 
-      
-      <link rel="icon" type="image/png" sizes="32x32" href="/static/img/Logo 2.png">
-      <!--Start of the imports css-->
-     
-         
 
-        <link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/owl.carousel.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/index_style.css' %}">
-       
-     
 
-        <title>انضم الينا  </title>
+{% block "bodyOfPage" %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap_dashboard.min.css' %}">
         <style>
             body {
                  background: #4f4d4d;
                 font-family: 'Poppins', sans-serif;
                 background-size: cover!important; 
                 
-    background-image: url(/static/img/back1.jpg);
+    background-image: url(/static/Images/back1.jpg);
     background-size: auto;
     background-blend-mode: overlay;
 
             }
         </style>
-      <!--End of the imports css-->
-      </head>
-
-
-
-        <body >
-          {% csrf_token %}
+ 
+ 
             <div id="loading">
                 <div id="loadingImg"></div>
               </div>
@@ -52,14 +31,14 @@
                         <div class="container">
                             <div class="row mt-5">
                                 <div class="col-md-4 col-4"></div>
-                                <div class="col-md-4 col-4"><img src="/static/img/Logo 2.png" alt="logo" style="width: 100%;"/></div>
+                                <div class="col-md-4 col-4"><img src="/static/Images/Logo 2.png" alt="logo" style="width: 100%;"/></div>
                                 <div class="col-md-4 col-4"></div>
                                 
                                
                             </div>
 
 
-                            <div class="row mt-5">
+                            <div class="row mt-5" style=" padding: 11px; ">
                                 <div class="col-md-3 col-1"></div>
                                 <div class="col-md-6 col-10" style=" background: #ffffffd6;padding: 18px;border-radius: 35px;box-shadow: 0px 1px 5px 5px #c0bcbc;">
                                     <div class="login-block col-sm-12">
@@ -70,17 +49,17 @@
                                             <hr class="hr-xs">
 
                                             <div class="form-group">
-                                                <label class="form-label" for="username" style=" text-align: right; width: 100%; ">{% trans "Username" %}</label>
+                                                <label class="form-label" for="username" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; width: 100%; ">{% trans "Username" %}</label>
                                                 <input type="text" id="username" name="username" required=""  class="form-control mb-1 required" >
-                                                <div class="invalid-feedback" style=" text-align: right; ">
+                                                <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; ">
                                                   {% trans "Please fill this field with not existing username" %}
                                                 </div> 
                                               </div>
 
                                               <div class="form-group">
-                                                <label class="form-label" for="first_name" style=" text-align: right; width: 100%; ">{% trans "Name" %} </label>
+                                                <label class="form-label" for="first_name" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; width: 100%; ">{% trans "Name" %} </label>
                                                 <input type="text" id="first_name" name="first_name" required=""  class="form-control mb-1 required">
-                                                <div class="invalid-feedback" style=" text-align: right; ">
+                                                <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; ">
                                                   {% trans "Please fill this field" %}
                                                 </div> 
                                               </div>
@@ -88,31 +67,31 @@
 
 
                                               <div class="form-group">
-                                                <label class="form-label" for="address" style=" text-align: right; width: 100%; "> {% trans "Address" %}</label>
+                                                <label class="form-label" for="address" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; width: 100%; "> {% trans "Address" %}</label>
                                                 <input type="text" id="address" name="address"  class="form-control mb-1 ">
                                             </div>
 
 
                                             <div class="form-group">
-                                                <label class="form-label" for="city" style=" text-align: right; width: 100%; ">{% trans "City" %} </label>
+                                                <label class="form-label" for="city" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; width: 100%; ">{% trans "City" %} </label>
                                                 <select  id="city" name="city" required=""  class="form-control mb-1 required">
                                                     <option value="">{% trans "Select one item" %}</option>
                                                     {% for item in allCities %}
                                                     <option value="{{item.id}}">{{item.name}}</option>
                                                     {% endfor %}
                                                 </select>
-                                                <div class="invalid-feedback" style=" text-align: right; ">
+                                                <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; ">
                                                   {% trans "Please select from this field" %}
                                                 </div> 
                                               </div>
 
 
                                             <div class="form-group">
-                                                <label class="form-label" for="region" style=" text-align: right; width: 100%; ">{% trans "Region" %}</label>
+                                                <label class="form-label" for="region" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; width: 100%; ">{% trans "Region" %}</label>
                                                 <select  id="region" name="region" required=""  class="form-control mb-1 required">
                                                   <option value="">{% trans "Select one item" %}</option>
                                                 </select>
-                                              <div class="invalid-feedback" style=" text-align: right; ">
+                                              <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; ">
                                                 {% trans "Please select from this field" %}
                                               </div> 
                                               </div>
@@ -123,45 +102,45 @@
 
 
                                               <div class="form-group">
-                                                <label class="form-label" for="email" style=" text-align: right; width: 100%; ">{% trans "Mail" %}  </label>
+                                                <label class="form-label" for="email" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; width: 100%; ">{% trans "Mail" %}  </label>
                                                 <input type="email" id="email" name="email" required=""  class="form-control mb-1 required">
-                                                <div class="invalid-feedback" style=" text-align: right; ">
+                                                <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; ">
                                                   {% trans "Please fill this field with not existing email" %}
                                                 </div> 
                                               </div>
 
 
                                               <div class="form-group">
-                                                <label class="form-label" for="password" style=" text-align: right; width: 100%; ">{% trans "password" %} </label>
+                                                <label class="form-label" for="password" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; width: 100%; ">{% trans "password" %} </label>
                                                 <input type="password" id="password" name="password" required=""  class="form-control mb-1 required">
-                                                <div class="invalid-feedback" style=" text-align: right; ">
+                                                <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; ">
                                                   {% trans "Please fill this field" %}
                                                 </div> 
                                               </div>
 
 
                                               <div class="form-group">
-                                                <label class="form-label" for="password2" style=" text-align: right; width: 100%; ">{% trans "The Password Again" %}</label>
+                                                <label class="form-label" for="password2" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; width: 100%; ">{% trans "The Password Again" %}</label>
                                                 <input type="password" id="password2" name="password2" required=""  class="form-control mb-1 required">
-                                                <div class="invalid-feedback" style=" text-align: right; ">
+                                                <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; ">
                                                   {% trans "Please fill this field with the same password" %}
                                                 </div> 
                                             </div>
 
 
                                             <div class="form-group">
-                                                <label class="form-label" for="phone" style=" text-align: right; width: 100%; ">{% trans "Home Phone Number" %} </label>
+                                                <label class="form-label" for="phone" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; width: 100%; ">{% trans "Home Phone Number" %} </label>
                                                 <input type="tel" id="phone" name="phone"  class="form-control mb-1 ">
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="form-label" for="phone2" style=" text-align: right; width: 100%; ">{% trans "Your Own Phone" %}</label>
+                                                <label class="form-label" for="phone2" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; width: 100%; ">{% trans "Your Own Phone" %}</label>
                                                 <input type="tel" id="phone2" name="phone2"  class="form-control mb-1 ">
                                             </div>
                                             
                                               
-                                            <div class=" row mt-3">
-                                                <button type="submit"  id="RegButton" class="btn btn-block" style="background-color: #e6aa32d9;font-family: system-ui;font-size: 17px;font-weight: 500;">{% trans "Login" %}  </button>
+                                            <div class=" row mt-3 text-center">
+                                                <button type="submit"  id="RegButton" class="btn btn-block" style="background-color: #f9ae17;font-family: system-ui;font-size: 17px;font-weight: 500;color: white;text-align: center;padding: 6px;width: 79%;border-radius: 10px;box-shadow: 3px 1px 11px 2px grey;">{% trans "Login" %}  </button>
                                             </div>
                                         </form>
                                         
@@ -174,24 +153,13 @@
                             </div>
                         </div>
 
-                       
+
+                        {% endblock %}
+                 
+{% block "javascriptOfPage" %}
+      
                   
 
-                    <script src="{% static 'js/jquery-3.5.1.js' %}"></script> 
-                    <script src="{% static 'js/popper.min.js' %}"></script> 
-                    <script src="{% static 'js/bootstrap.min.js' %}"></script> 
-                    
-                    <script src="{% static 'js/sweetalert.min.js' %}"></script>
-
-
-                    <script src="{% static 'js/index_searchResults.js' %}"></script> 
-                    <script src="{% static 'js/rating.js' %}"></script> 
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script> 
-
-                    <script src="{% static 'js/typeahead.bundle.min.js' %}"></script> 
-                    <script src="{% static 'js/bootstrap-tagsinput.min.js' %}"></script> 
-
-                    <script src="{% static 'js/mainFunctions.js' %}"></script>
             <script>
 
 
@@ -377,7 +345,8 @@ var csrftoken = $("input[name='csrfmiddlewaretoken']").val();
 });
 
 
-</script>
-        </body>
-   
-</html>
+            </script>
+
+  
+{% endblock %}
+            

@@ -15,7 +15,7 @@
 <meta name="google-signin-client_id" content="204450024885-4s8o46icvli7m58qfm2jbfs6ksf8b75q.apps.googleusercontent.com">
 
 
-<title>{% trans "Home" %}</title>
+<title>{% block "title" %}{% trans "Home" %}{% endblock %}</title>
 
 <!-- Favicon -->
 <link rel="shortcut icon" href="/static/images/favicon.png">
@@ -61,7 +61,7 @@
 		  </div>
           <nav id="navigation" class="style_one">
             <ul id="responsive">
-              <li><a class="current" href="/{{LANGUAGE_CODE}}">{% trans "Home" %}</a>
+              <li><a id="home_navigation" href="/{{LANGUAGE_CODE}}">{% trans "Home" %}</a>
               </li>	
               
               
@@ -80,23 +80,29 @@
 
               {% if user.is_authenticated %}
               <li>
-                <a href="/{{LANGUAGE_CODE}}/profile/">{% trans "Profile" %}</a>
+                <a id="profile_nav" href="/{{LANGUAGE_CODE}}/profile/">{% trans "Profile" %}</a>
               </li>
               {% endif %}
     
     
               {% if user.is_authenticated %}
               <li>
-                <a href="/{{LANGUAGE_CODE}}/showUserMessages/{{id_of_Admin}}">{% trans "Customer Services" %}</a>
+                <a id="customerServices_navigation" href="/{{LANGUAGE_CODE}}/showUserMessages/{{id_of_Admin}}">{% trans "Customer Services" %}</a>
               </li>
               {% endif %}
     
               {% if user.is_superuser %}
               <li>
-                <a href="/{{LANGUAGE_CODE}}/controlpanel/">{% trans "Control Panel" %}</a>
+                <a id="controlPanel_navigation" href="/{{LANGUAGE_CODE}}/controlpanel/">{% trans "Control Panel" %}</a>
               </li>
               {% endif %}
+              <li>
+                <a id="terms_navigation" href="/{{LANGUAGE_CODE}}/TermsAndConditions/">{% trans "Terms&Conditions" %}</a>
+              </li>
 
+              <li>
+                <a id="about_navigation" href="/{{LANGUAGE_CODE}}/AboutUs/">{% trans "About Us" %}</a>
+              </li>
 
 
             </ul>
@@ -126,10 +132,10 @@
             <h3>Sign In</h3>
           </div>
           <div class="utf_signin_form style_one">
-            <ul class="utf_tabs_nav">
+            <!-- <ul class="utf_tabs_nav">
               <li class=""><a href="#tab1">{% trans "Login" %}</a></li>
               <li><a href="#tab2">Register</a></li>
-            </ul>
+            </ul> -->
             <div class="tab_container alt"> 
               <div class="tab_content" id="tab1" style="display:none;">
                 <form  id="formLogin" class="login">
@@ -146,12 +152,12 @@
                       <input class="input-text" value="Aaa123456789" placeholder='{% trans "Secret Number " %}' type="password" name="password" id="password" placeholder="Password"/>
                     </label>
                   </p>
-                  <div class="utf_row_form utf_form_wide_block form_forgot_part"> <span class="lost_password fl_left"> <a href="javascript:void(0);">Forgot Password?</a> </span>
+                  <!-- <div class="utf_row_form utf_form_wide_block form_forgot_part"> <span class="lost_password fl_left"> <a href="javascript:void(0);">Forgot Password?</a> </span>
                     <div class="checkboxes fl_right">
                       <input id="remember-me" type="checkbox" name="check">
                       <label for="remember-me">Remember Me</label>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="utf_row_form">
                     <a  id="loginButton" href="javascript:void(0)" class="button border margin-top-5 text-center"  >{% trans "Login" %}</a>
                   </div>
@@ -197,51 +203,48 @@
 
   {% endblock %}
   <!-- Footer -->
+  
   <div id="footer" class="footer_sticky_part"> 
     <div class="container">
       <div class="row">
-        <div class="col-md-2 col-sm-3 col-xs-6">
-          <h4>Useful Links</h4>
+        <div class="col-lg-3 col-md-6 col-6">
+          <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
+              
+                <img src="/static/Images/Logo 2.png" alt="footer-logo" style=" margin-top: -82px; width: 234px; ">
+  
+          </div>
+      </div>
+      
+        <div class="col-lg-3 col-md-6 col-6">
+          <h4>{% trans "Our Info" %}</h4>
           <ul class="social_footer_link">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Listing</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="/{{LANGUAGE_CODE}}/">{% trans "Home" %}</a></li>
+            <li><a href="/{{LANGUAGE_CODE}}/SearchPage/?category=&city=&region=">{% trans "All Services" %}</a></li>
           </ul>
         </div>
-        <div class="col-md-2 col-sm-3 col-xs-6">
-          <h4>My Account</h4>
+
+        <div class="col-lg-3 col-md-6 col-6">
+          <h4>{% trans "More Info" %}</h4>
           <ul class="social_footer_link">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">My Listing</a></li>
-            <li><a href="#">Favorites</a></li>
+            <li><a href="/{{LANGUAGE_CODE}}/AboutUs">{% trans "About Us" %}</a></li>
+            <li><a href="/{{LANGUAGE_CODE}}/TermsAndConditions">{% trans "Terms&Conditions" %}</a></li>
           </ul>
         </div>
-        <div class="col-md-2 col-sm-3 col-xs-6">
-          <h4>Pages</h4>
-          <ul class="social_footer_link">
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Our Partners</a></li>
-            <li><a href="#">How It Work</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-        </div>
-        <div class="col-md-2 col-sm-3 col-xs-6">
-          <h4>Help</h4>
-          <ul class="social_footer_link">
-            <li><a href="#">Sign In</a></li>
-            <li><a href="#">Register</a></li>
-            <li><a href="#">Add Listing</a></li>
-            <li><a href="#">Pricing</a></li>
-            <li><a href="#">Contact Us</a></li>
-          </ul>
-        </div>
-        <div class="col-md-4 col-sm-12 col-xs-12"> 
-          <h4>About Us</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore</p>          
-        </div>
+      
+
+        <div class="col-lg-3 col-md-6 col-6">
+          <h4>{% trans "Contact Info" %}</h4>
+            
+              <ul class="utf_social_icon rounded" style="padding-left: 64px;max-width: 100%;margin-right: -25px;">
+                <li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
+                <li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
+                <li><a class="linkedin" href="#"><i class="icon-linkedin"></i></a></li>
+                <li><a class="instagram" href="#"><i class="icon-instagram"></i></a></li>            
+              </ul>
+      </div>
+
+    
+
       </div>
       
       <div class="row">

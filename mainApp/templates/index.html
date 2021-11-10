@@ -20,12 +20,20 @@
               <input type="text" id="searchInputMhnaty" placeholder='{% trans "Search For Your Services" %}' value=""/>
             </div>
             <div class="main_input_search_part_item intro-search-field">
-        <select id="dropdownMenuLink" class="selectpicker default categoryElementSelect" categoryId="" data-live-search="true"  data-selected-text-format="count" data-size="5" title='{% trans "Services" %}''>
-                  {% for item in allMainCategories %}
-                  <option value="{{item.id}}">{{item.name}}</option>
-                  {% endfor %}
-        </select>
-      </div>
+              <select id="dropdownMenuLink" class="selectpicker default categoryElementSelect" categoryId="" data-live-search="true"  data-selected-text-format="count" data-size="5" title='{% trans "Services" %}''>
+                        {% for item in allMainCategories %}
+                        <option value="{{item.id}}">{{item.name}}</option>
+                        {% endfor %}
+              </select>
+            </div>
+
+
+
+            <div class="main_input_search_part_item intro-search-field">
+              <select id="category" class="selectpicker default category" categoryId="" data-live-search="true"  data-selected-text-format="count" data-size="5" title='{% trans "Sub Categories" %}''>
+                       
+              </select>
+            </div>
 
             <div class="main_input_search_part_item intro-search-field">
               <select id="listOfcities" data-placeholder='{% trans "City" %}'  class="selectpicker default" title='{% trans "City" %}' data-live-search="true" data-selected-text-format="count" data-size="5">
@@ -117,23 +125,6 @@
 
 <div class="clearfix"></div>
 
-<div class="parallax" data-background="/static/images/back1.jpg"> 
-  <div class="utf_text_content white-font">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 col-sm-12">
-          <h2>{% trans 'About'%}<br>{% trans 'Mhnaty Website'%}</h2>
-          <p>
-            انبثق موقع مهنتي بمبادرة طموحة من شباب متفائل عام 202‪1  من وحي الواقع الملح للمجتمع في الوصول الى اصحاب المهن و المهارات للأفراد و الشركات و يسعى فريقنا لخدمة كل فرد في المجتمع من خلال اتاحة قاعدة بيانات مجانية ضخمة من ملفات التعريف لاصحاب المهن على تنوعها (الحرفي و الاكاديمي) و تيسير التواصل مع اصحابها لطلب خدماتهم من خلال منصة الكترونية واحدة. يسعى فريقنا لكسب ثقة المجتمع من خلال توفير موقع الكتروني ابداعي و ديناميكي صمم باحترافية لتسهيل عمليات البحث حسب المهنة و الموقع الجغرافي و توفير معلومات الملف المهني و الصور. ليصبح الوصول إلى المعلم او الطبيب او البنّاء او المدير و الاف المهن الاخرى بكل سهولة و يسر.
-
-          </p>
-          <!-- <a href="listings_list_with_sidebar.html" class="button margin-top-25">Get Started</a> -->
-         </div>
-      </div>
-    </div>
-  </div>   
-</div>
-
 
 
 
@@ -184,28 +175,6 @@
 
 
 
-<div class="parallax" data-background="/static/images/Untitled-1-01.png"> 
-  <div class="utf_text_content white-font">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 col-sm-12">
-          <h2>رسالتنا و رؤيتنا وصولا الى <br>هدفنا</h2>
-          <p>تحقيق رضا الافراد و الشركات في الوصول المجاني و السهل الى مقدمي الخدمات و طالبيها على تنوعها من خلال منصة الكترونية واحدة مع امكانية التقييم من العميل.
-          </p>
-
-          <p>ان يكون موقع مهنتي المنصة الأولى المجانية و الفريدة التي تجمع كل ما يحتاجه المجتمع من مهن و مهارات مختلفة.
-          </p>
-
-
-          <p>التميز في خدمة كل افراد المجتمع للوصول السريع للمهن التي يحتاجونها.
-          </p>
-</div>
-      </div>
-    </div>
-  </div>   
-</div>
-
-
 
 
 
@@ -235,6 +204,62 @@
   $('select').selectpicker('refresh');
   </script>
   
+<script>
+$('#dropdownMenuLink').on('change', function() {
+            
+            fill_categoryAndSelect(false);
+          
+            });
 
+  
+function fill_categoryAndSelect(isfirstTime){
+          showLoader();
+          $.ajax({ 
+                type: 'POST',
+                url: '/en/getListOfcategoriesByparentOneId',
+                              data: { 
+                                  'mainCategory': $('#dropdownMenuLink').val()
+                  },
+                headers:{
+                    "X-CSRFToken": csrftoken
+                        },
+                async: true,
+                cache: true,
+                success: function(result) {
+                    console.log(result)
+                    
+                  $('#category')
+                                .find('option')
+                                .remove()
+                                .end()
+                                .append('<option value="">{% trans "Select One" %}</option>')
+                                .val('')
+                                ;
+        
+                                var $category = $('#category');
+        
+                                 if(result['Result']=='Ok'){
+                          console.log(result)
+                                  result.data.forEach(element => {
+                                    $category.append($("<option />").val(element.id).text(element.name));
+                                  });
+                                 
+                          
+                                 }
+        
+                           
+                                 $('select').selectpicker('refresh');
+                    hideLoader();
+                },error: function (xhr, ajaxOptions, thrownError) {
+                    hideLoader();
+                   }
+            });
+        
+            hideLoader();
+        }
+        
+      
+        fill_categoryAndSelect(true);
+</script>
   
 {% endblock %}

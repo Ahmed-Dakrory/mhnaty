@@ -1,19 +1,22 @@
-
+{% extends "Admin/theme_admin_dashboard.html" %} 
 {%load static%}
 {% load i18n %}
-
 {% get_current_language as LANGUAGE_CODE %}
 
 
+{% block "headerOfPage1" %}{% trans "Control Branch Categories" %}{% endblock %}
+{% block "headerOfPage2" %}{% trans "All Branch Categories" %}{% endblock %}
+
+{% block "title" %}{% trans "Control Branch Categories" %}{% endblock %}
+{% block "bodyOfPage" %}
+                             
                                 
 
 
     <section id="ControlBranchCategories" style="direction: {% if LANGUAGE_CODE == 'ar' %} rtl {% else %} ltr {% endif %};">
           <div class="card m-4">
 
-            <div class="card-header">
-              <h3 style=" text-align: {% if LANGUAGE_CODE == 'ar' %} right {% else %} left {% endif %}; width: 100%; "> {% trans "Control Branch Categories" %}</h3>
-            </div>
+            
             <div class="card-body">
               <div class="container w-100">
                 <form method="POST" id="mainBranchform" class="needs-validation form-horizontal" novalidate>
@@ -69,19 +72,19 @@
 
                 <div class="row">
                   <div class="form-group col-md-2 text-center pt-3">
-                    <button id="addMainCategory" onclick="addNewSecondary()" type="button" style="height: 66%;background-color: rgb(218 218 218 / 84%);" class="btn w-100  required mt-3 text-center">
+                    <button id="addMainCategory" onclick="addNewSecondary()" type="button" style="height: 66%;width: 100%;background-color: rgb(218 218 218 / 84%);" class="btn w-100  required mt-3 text-center">
                       <span class="fa fa-plus-square"></span>
                       </button>
                   </div>
 
                   <div class="form-group col-md-2 text-center pt-3">
-                    <button id="EditMainCategory" onclick="editSecondary()" type="button" style="height: 66%;background-color: rgb(218 218 218 / 84%);" class="btn w-100  required mt-3  text-center">
+                    <button id="EditMainCategory" onclick="editSecondary()" type="button" style="height: 66%;width: 100%;background-color: rgb(218 218 218 / 84%);" class="btn w-100  required mt-3  text-center">
                       <span class="fa fa-edit"></span>
                       </button>
                   </div>
 
                   <div class="form-group col-md-2 text-center pt-3">
-                    <button id="DeleteMainCategory" onclick="deleteSecondary()" type="button" style="height: 66%;background-color: rgb(208 5 5 / 84%);" class="btn w-100 required mt-3 text-center">
+                    <button id="DeleteMainCategory" onclick="deleteSecondary()" type="button" style="height: 66%;width: 100%;color: white;background-color: rgb(220 65 18 / 84%);" class="btn w-100 required mt-3 text-center">
                       <span class="fa fa-trash"></span>
                       </button>
                   </div>
@@ -101,6 +104,234 @@
   
               
       </section>
+  
+  
+  
+
+      {% endblock %}
+
+
+      {% block "javascriptOfPage" %}
+      
+      
+      <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+            }, false);
+            });
+            }, false);
+            })();
+        
+        
+        
+        
+            showLoader();
+        
+        
+      
+        
+          
+        
+        </script>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <script>
+          
+        
+        
+        
+        
+        
+        
+        
+                            
+        
+            function fill_categoryAndSelect(isfirstTime){
+          showLoader();
+          $.ajax({ 
+                type: 'POST',
+                url: '/en/getListOfcategoriesByparentOneId',
+                              data: { 
+                                  'mainCategory': $('#mainCategory2').val()
+                  },
+                headers:{
+                    "X-CSRFToken": csrftoken
+                        },
+                async: true,
+                cache: true,
+                success: function(result) {
+                    console.log(result)
+                    
+                  $('#category')
+                                .find('option')
+                                .remove()
+                                .end()
+                                .append('<option value="">{% trans "Select One" %}</option>')
+                                .val('')
+                                ;
+        
+                                var $category = $('#category');
+        
+                                 if(result['Result']=='Ok'){
+                          
+                                  result.data.forEach(element => {
+                                    $category.append($("<option />").val(element.id).text(element.name));
+                                  });
+                                 
+                          
+                                 }
+        
+                    if(isfirstTime){
+                      $('#category').val($('#category').attr('value'));
+                    }
+                    hideLoader();
+                },error: function (xhr, ajaxOptions, thrownError) {
+                    hideLoader();
+                   }
+            });
+        
+            hideLoader();
+        }
+        
+        
+        $('#mainCategory').on('change', function() {
+            
+          
+          $('#actionOfFormNow').val('show');
+          $('#actionOfFormNow').attr('value','show');
+          $('#mainform').submit();
+        
+        });
+        
+          $('#mainCategory').val({{mainSelectedCategory.id}});
+          $('#category').val($('#category').attr('value'));
+        
+          
+          // $('#mainCategory').val($('#mainCategory').attr('value'));
+          // fill_categoryAndSelect(true);
+        
+        
+          $('#category').on('change', function() {
+           
+          $('#actionOfFormNowSecondary').val('show');
+          $('#actionOfFormNowSecondary').attr('value','show');
+          $('#mainBranchform').submit();
+        
+            });
+        
+        
+        
+        
+          $('#mainCategory2').on('change', function() {
+            
+            fill_categoryAndSelect(false);
+          
+            });
+            
+            $('#mainCategory2').val($('#mainCategory2').attr('value'));
+            fill_categoryAndSelect(true);
+        
+        
+        function addNewMain(){
+          $('#actionOfFormNow').val('add');
+          $('#actionOfFormNow').attr('value','add');
+          $('#mainform').submit();
+          
+        }
+        
+        function deleteMain(){
+          $('#actionOfFormNow').val('delete');
+          $('#actionOfFormNow').attr('value','delete');
+          $('#mainform').submit();
+        }
+        
+        function editMain(){
+          $('#actionOfFormNow').val('edit');
+          $('#actionOfFormNow').attr('value','edit');
+          $('#mainform').submit();
+        }
+        
+        
+        
+        
+        function addNewSecondary(){
+          $('#actionOfFormNowSecondary').val('add');
+          $('#actionOfFormNowSecondary').attr('value','add');
+          $('#mainBranchform').submit();
+          
+        }
+        
+        function deleteSecondary(){
+          $('#actionOfFormNowSecondary').val('delete');
+          $('#actionOfFormNowSecondary').attr('value','delete');
+          $('#mainBranchform').submit();
+        }
+        
+        function editSecondary(){
+          $('#actionOfFormNowSecondary').val('edit');
+          $('#actionOfFormNowSecondary').attr('value','edit');
+          $('#mainBranchform').submit();
+        }
+        
+        hideLoader();
+        </script>
+        
+            
+            
+            
+            <script>
+            
+            
+            
+           
+        
+        
+        
+        
+        
+        
+        
+            
+      
+        $('#controlBranchCategories_db').addClass('active');
+      
+            
+            
+          </script>
+          
+          
+          {% endblock %}
+      
+  
+  
+  
+  
   
   
   
