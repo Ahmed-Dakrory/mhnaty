@@ -244,7 +244,7 @@ class reply(models.Model):
             'details':self.details,
             'username':self.fromUser.user.first_name,
             
-            'image':self.fromUser.image.url if self.fromUser.image!=None else '/static/Images/blank-profile-picture-973460_640.png' ,
+            'image':self.fromUser.image.url if self.fromUser.image!=None else '/static/images/blank-profile-picture-973460_640.png' ,
             'created':self.created,
             }
     
@@ -364,6 +364,6 @@ class message(models.Model):
             'theadd__owner__user__username':self.theadd.owner.user.first_name,
             'message':self.message,
             'created':self.created,
-            'from_user_image':self.from_user.image.url if self.from_user.image!=None and self.from_user.image!='' else '/static/Images/blank-profile-picture-973460_640.png' ,
+            'from_user_image':self.from_user.image.url if self.from_user.image!=None and self.from_user.image!='' else '/static/images/blank-profile-picture-973460_640.png' ,
             }
         

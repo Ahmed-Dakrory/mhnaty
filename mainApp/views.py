@@ -2145,8 +2145,8 @@ def showUserMessages(request, id):
     context = {
         'messages' : messages,
         'theaddObj':theaddObj,
-        'imageOFImageOwner':theaddObj.owner.image.url if theaddObj.owner.image!=None else '/static/Images/blank-profile-picture-973460_640.png' ,
-        'imageOFImageMe':user.profile_set.last().image.url if user.profile_set.last().image!=None and user.profile_set.last().image!='' else '/static/Images/blank-profile-picture-973460_640.png' ,
+        'imageOFImageOwner':theaddObj.owner.image.url if theaddObj.owner.image!=None else '/static/images/blank-profile-picture-973460_640.png' ,
+        'imageOFImageMe':user.profile_set.last().image.url if user.profile_set.last().image!=None and user.profile_set.last().image!='' else '/static/images/blank-profile-picture-973460_640.png' ,
         'allowSend':allowSend
     }
     return render(request, 'showUserMessages.html', context)
@@ -2173,7 +2173,7 @@ def getProfileMessages(request):
         messagesData.append(item.to_json())
 
     response={
-      'imageOfCurrentChat':userProfile.image.url if userProfile.image!=None and userProfile.image!='' else '/static/Images/blank-profile-picture-973460_640.png' ,
+      'imageOfCurrentChat':userProfile.image.url if userProfile.image!=None and userProfile.image!='' else '/static/images/blank-profile-picture-973460_640.png' ,
       'nameOfCurrentChat':userProfile.user.first_name,
       'numberOfCurrentChat':str(len(messages)),
       'messagesData':messagesData, 
