@@ -9,6 +9,7 @@ urlpatterns = [
     path('',views.loadMainPage,name = 'loadMainPage'),
     path('SearchPage/',views.SearchPage,name = 'SearchPage'),
     path('CompanyPage/',views.CompanyPage,name = 'CompanyPage'),
+    path('AdminCompanyPage/',views.AdminCompanyPage,name = 'AdminCompanyPage'),
     path('TermsAndConditions/',views.TermsAndConditions,name = 'TermsAndConditions'),
     path('AboutUs/',views.AboutUs,name = 'AboutUs'),
     path('dashboard_add_listing/',views.dashboard_add_listing,name = 'dashboard_add_listing'),

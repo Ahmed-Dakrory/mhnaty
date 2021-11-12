@@ -26,11 +26,26 @@
     <div class="col-lg-8 col-md-8">
       <div id="titlebar" class="utf_listing_titlebar">
         <div class="utf_listing_titlebar_title">
-         <h2>{{thisAdd.name}} {{thisAdd.price|default_if_none:''}}{% if thisAdd.price != None %}${% endif %} <span class="listing-tag">{{thisAdd.categoryMain.name}}</span></h2>
+         <h2 > {{thisAdd.name}} 
+         
+
+      
+          
+          <span class="utf_listing_prige_block ">	
+            <span class="listing-tag">{{thisAdd.categoryMain.name}}</span>
+            {% if thisAdd.featureAddNumber > 0%}
+            <span class="utp_approve_item"><i class="utf_approve_listing"></i></span>
+            {% endif %}
+          </span>
+        
+        </h2>
+        
          
           <div class="utf_star_rating_section" data-rating="{{rate|default_if_none:0}}">
             <div class="utf_counter_star_rating">({{rate|default_if_none:0}}) / ({{allcomments | length}} {% trans "Review" %})</div>
           </div>
+
+          <h2>  {{thisAdd.price|default_if_none:''}}{% if thisAdd.price != None %}${% endif %}</h2>
           <ul class="listing_item_social">
             {% for item in allsubcategories %}
             <li><a href="/{{LANGUAGE_CODE}}/SearchPage/?categorySub={{item.id}}&category=&city=&region=">{{item.name}} <i class="fa fa-bookmark"></i></a></li>

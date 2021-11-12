@@ -759,6 +759,151 @@ def dashboard_add_listing(request):
 
 
 
+
+@login_required
+def AdminCompanyPage(request):
+    adNumber = request.GET['id']
+    addNumber = theadd.objects.get(id=adNumber)
+
+    user =addNumber.owner.user
+    userProfile = profile.objects.filter(user=user)
+    userProfileMe = profile.objects.get(user__id=user.id)
+    userLastProfile = user.profile_set.last()
+    allCities = city.objects.filter(Q(deleted=False))
+   
+    getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id))
+    
+
+    try:
+        theAddObj = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id)).last()
+    except:
+        theAddObj = None
+        
+
+
+    allparentCategory = category.objects.filter(Q(deleted=False)&Q(isFirstHead=True))
+
+
+    if len(getMyAdd)==0:
+        categoryNow = category.objects.get(pk=1)
+        getMyAdd = theadd.objects.create(name="",details="",categoryMain=categoryNow,owner=userProfileMe,mainImage=None,
+        videoUrl="",featureAddNumber=0)
+        try:
+            parentCategory = category.objects.get(pk=getMyAdd.categoryMain.id)
+        except:
+            parentCategory = None
+    else:
+        getMyAdd = theadd.objects.filter(Q(owner__id=userProfileMe.id)&Q(deleted=False)).last()
+        try:
+            parentCategory = category.objects.get(pk=getMyAdd.categoryMain.id)
+        except:
+            parentCategory = None
+    
+
+    if request.method=='POST':
+        typeOfForm = request.POST['typeOfForm']  
+
+        if typeOfForm == 'AddData':   
+            # print(request.POST)
+            userProfileMe.tags.all().delete()
+            nameData = request.POST['name'] 
+            priceData = request.POST['price'] 
+            if priceData == '':
+                priceData = 0
+                
+            aboutMeData = request.POST['aboutMe']
+            detailsData = request.POST['details']
+            featureAddNumberData = int(request.POST['featureAddNumber'])
+            categoryData = request.POST['mainCategory'] 
+            subcategoriesData= request.POST['category'] 
+            videoData = request.POST['video']
+            experienses = request.POST['experienses']
+
+            allExperienses = experienses.split(",")
+            for itemExp in allExperienses:
+                if itemExp != '':
+                    newTag = tag.objects.create(name=itemExp,propertyType=0)
+                    newTag.save()
+                    userProfileMe.tags.add(newTag)
+
+            getMyAdd = theadd.objects.get(owner__id=userProfileMe.id)
+            getMyAdd.subcategories.clear()
+            allsubcategoriesData = subcategoriesData.split(",")
+            for itemExp in allsubcategoriesData:
+                if itemExp != '':
+                    print('----------------------------------')
+                    print(itemExp)
+                    categorySelected = category.objects.filter(name=itemExp)
+                    if len(categorySelected) > 0:
+                        getMyAdd.subcategories.add(categorySelected[0])
+
+            categoryData = category.objects.get(pk=categoryData)
+            userProfile.update(aboutMe=aboutMeData)
+            getMyAdd = theadd.objects.filter(Q(owner__id=userProfileMe.id))
+            getMyAdd.update(name=nameData,price=priceData,details=detailsData,featureAddNumber=featureAddNumberData,categoryMain=categoryData,videoUrl=videoData)
+            getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id)).last()
+
+            try:
+                parentCategory = category.objects.get(pk=getMyAdd.categoryMain.id)
+            except:
+                parentCategory = None
+
+
+            attachments = request.POST.getlist('imagesAddFiles')
+            for item_att in attachments:
+                if item_att!='' and item_att!=None:
+                    fileOld = attachmenttranscript.objects.filter(file = item_att).count()
+                    if fileOld==0:
+                        file_path = os.path.join(settings.MEDIA_ROOT, item_att)
+                        file_type, file_encoding = mimetypes.guess_type(file_path)
+                        fi = open(file_path, 'rb')
+                        local_file = File(fi)
+                        fileName = os.path.basename(local_file.name).split('``__``')[0]
+                        
+                        attachmetToAdd = attachmenttranscript.objects.create(file=local_file,content_type=file_type,name = fileName)
+                        attachmetToAdd.save()
+                        
+                        local_file.close()
+                        getMyAdd.images.add(attachmetToAdd)
+                        default_storage.delete(item_att)
+
+            allFiles = getMyAdd.images.all()
+        elif typeOfForm == 'addMainImage':
+            getMyAdd = theadd.objects.filter(Q(deleted=False)& Q(owner__id=userProfileMe.id)).last()
+            getMyAdd.mainImage = request.FILES['file-inputAddImage']
+            
+            getMyAdd.save()
+
+    allFiles = getMyAdd.images.all()
+    allTags = getMyAdd.owner.tags.all()
+    allTagsArray = list(allTags)
+    allTagsDelemited = ','.join(map(str, allTagsArray))
+    
+    allsubcategories = getMyAdd.subcategories.all()
+    allsubcategoriesArray = list(allsubcategories)
+    allsubcategoriesDelemited = ','.join(map(str, allsubcategoriesArray))
+
+    print(allsubcategoriesDelemited)
+
+
+    data = {
+        'allparentCategory':allparentCategory,
+        'allCities':allCities,
+        'getMyAdd':getMyAdd,
+        'allFiles':allFiles,
+        'allTags':allTags,
+        'allTagsDelemited':allTagsDelemited,
+        'allsubcategories':allsubcategories,
+        'allsubcategoriesDelemited':allsubcategoriesDelemited,
+        'parentCategory':parentCategory,
+        'theAddObj': theAddObj,
+    }
+        
+    return render(request,'Admin/AdminCompanyPage.html',data)
+
+
+
+
 @login_required
 def dashboard_messages(request):
     user =request.user
