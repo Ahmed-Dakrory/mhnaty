@@ -104,7 +104,7 @@ def authUser(request):
 
 def loadLoginPage(request):
     
-    return render(request,'index.html',None)
+    return render(request,'index_login.html',None)
 
 
 def loadRegPage(request):
@@ -1964,7 +1964,7 @@ def AuthOutSide(request):
                     'State':'Ok',
                     'isExist':'Ok',
                     'ableToLogin':'Yes',
-                    'RedirectUrl':'/'
+                    'RedirectUrl':request.META['HTTP_REFERER']
                     }
             else:
                 response = {
