@@ -568,9 +568,13 @@ function getBlock(data){
 
       if(data.featureAddNumber>0){
         featureType = '<span class="utp_approve_item"><i class="utf_approve_listing"></i></span>';
+        featureTypeMain = '<span class="featured_tag">{% trans "Featured" %}</span>';
       }else{
         featureType='';
+        featureTypeMain = '';
       }
+
+
 
 
 
@@ -583,6 +587,7 @@ function getBlock(data){
               <img src="`+data.mainImage+`" alt=""> 
               <span class="tag_mail" onclick="openMessage(`+data.id+`)"><i class="fa fa-envelope-o"></i> </span>
               <span class="tag"><i class="im im-icon-Hotel"></i> `+data.category_name+`</span> 
+              `+featureTypeMain+`
               <div class="utf_listing_prige_block utf_half_list">							
                 `+priceStatment+`		
                 `+featureType+`

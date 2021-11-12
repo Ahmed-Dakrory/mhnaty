@@ -149,9 +149,13 @@
           <div class="utf_listing_item_content">
             <div class="utf_listing_prige_block">	
                           {% if item.price != None %}						
-            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> {{item.price}}</span>							
-            <span class="utp_approve_item"><i class="utf_approve_listing"></i></span>
+            <span class="utf_meta_listing_price"><i class="fa fa-tag"></i> {{item.price}}</span>	
                           {% endif %}
+
+                          						
+                          {% if item.featureAddNumber > 0  %}			
+            <span class="utp_approve_item"><i class="utf_approve_listing"></i></span>
+            {% endif %}
           </div>
           <h3>{{item.name}}</h3>
           <span><i class="sl sl-icon-location"></i> {{item.owner.address}}</span>
