@@ -111,8 +111,8 @@
 
 
                                               <div class="form-group">
-                                                <label class="form-label" for="password" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; width: 100%; ">{% trans "password" %} </label>
-                                                <input type="password" id="password" name="password" required=""  class="form-control mb-1 required">
+                                                <label class="form-label" for="passwordReg" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; width: 100%; ">{% trans "password" %} </label>
+                                                <input type="password" id="passwordReg" name="passwordReg" required=""  class="form-control mb-1 required">
                                                 <div class="invalid-feedback" style=" text-align: {% if LANGUAGE_CODE == 'en' %}left{% else %}right{% endif %}; ">
                                                   {% trans "Please fill this field" %}
                                                 </div> 
@@ -323,7 +323,9 @@ $.ajax({
 $('input[name=password2]').keyup(function () {
     'use strict';
 
-    if ($('input[name=password]').val() === $(this).val()) {
+    console.log($('input[name=passwordReg]').val());
+    console.log($(this).val());
+    if ($('input[name=passwordReg]').val() === $(this).val()) {
         this.setCustomValidity('');
     } else {
         this.setCustomValidity('Passwords must match');

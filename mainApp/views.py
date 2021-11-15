@@ -112,7 +112,7 @@ def loadRegPage(request):
     if request.method=='POST':
         firstNameData = request.POST['first_name']
         emailData = request.POST['email']
-        passwordData = request.POST['password']
+        passwordData = request.POST['passwordReg']
         roleId = 2
         regionId = request.POST['region']
         addressData = request.POST['address']
