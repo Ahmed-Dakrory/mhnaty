@@ -197,7 +197,7 @@ MEDIA_ROOT = '/home/mhnatyco/public_html/media/'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-DEFAULT_FROM_EMAIL = 'Only Dispatch LLC <usaonlydispatch@gmail.com>'
+DEFAULT_FROM_EMAIL = 'Mhnaty <usaonlydispatch@gmail.com>'
 SERVER_EMAIL = 'usaonlydispatch@gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
