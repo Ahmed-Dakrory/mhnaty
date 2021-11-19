@@ -197,11 +197,11 @@ MEDIA_ROOT = '/home/mhnatyco/public_html/media/'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-DEFAULT_FROM_EMAIL = 'Mhnaty <usaonlydispatch@gmail.com>'
-SERVER_EMAIL = 'usaonlydispatch@gmail.com'
+DEFAULT_FROM_EMAIL = 'Mhnaty <info@mhnaty.com>'
+SERVER_EMAIL = 'info@mhnaty.com'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'mail.mhnaty.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'usaonlydispatch@gmail.com'
-EMAIL_HOST_PASSWORD = 'fjediplcqgnfzdpy'
+EMAIL_HOST_USER = 'info@mhnaty.com'
+EMAIL_HOST_PASSWORD = 'MaHn-2021'
 
