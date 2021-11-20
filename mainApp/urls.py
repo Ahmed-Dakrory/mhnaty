@@ -14,7 +14,11 @@ urlpatterns = [
     path('AboutUs/',views.AboutUs,name = 'AboutUs'),
     path('dashboard_add_listing/',views.dashboard_add_listing,name = 'dashboard_add_listing'),
     path('dashboard_messages/',views.dashboard_messages,name = 'dashboard_messages'),
+    path('forgetPassword/',views.forgetPassword,name = 'forgetPassword'),
+    
+    
     path('profile/',views.profile_main,name = 'profileWeb'),
+    path('changePassword/',views.password_main,name = 'password_main'),
     path('accounts/login/',views.loadLoginPage,name = 'loadLoginPage'),
     path('loadRegPage/',views.loadRegPage,name = 'loadRegPage'),
     path('getAllCategoriesJson',views.getAllCategoriesJson,name = 'getAllCategoriesJson'),
@@ -28,6 +32,7 @@ urlpatterns = [
     path('getAllRepliesForComment',views.getAllRepliesForComment,name = 'getAllRepliesForComment'),
     path('sendReply',views.sendReply,name = 'sendReply'),
     path('controlpanel/',views.controlpanel,name='controlpanel'),
+    path('controlpanelMain/',views.controlpanelMain,name='controlpanelMain'),
     path('controlCategories/',views.controlCategories,name='controlCategories'),
     path('controlBranchCategories/',views.controlBranchCategories,name='controlBranchCategories'),
     path('chat_admin/',views.chat_admin,name='chat_admin'),
@@ -47,6 +52,7 @@ urlpatterns = [
     path('getProfileMessages',views.getProfileMessages,name = 'getProfileMessages'),
     path('sendMessage',views.sendMessage,name = 'sendMessage'),
     path('sendMessageToTheAdd',views.sendMessageToTheAdd,name='sendMessageToTheAdd'),
+    path('forgetPasswordEmailSent',views.forgetPasswordEmailSent,name='forgetPasswordEmailSent'),
     
 
 

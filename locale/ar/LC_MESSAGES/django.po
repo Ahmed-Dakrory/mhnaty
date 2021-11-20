@@ -684,7 +684,7 @@ msgstr "برجاء مراجعة اسم المستخدم وكلمة المرور"
 
 #: .\mainApp\templates\index_login.html:349 .\mainApp\templates\theme.html:533
 msgid "No one registered with this username or password"
-msgstr "هناك شخص مسجل بهذا الاسم او كلمة المرور"
+msgstr "خطأ بالأسم او كلمة المرور"
 
 #: .\mainApp\templates\index_reg.html:45
 msgid "Register new Memeber"

@@ -685,7 +685,7 @@ msgstr "Please Revies Username or Password"
 
 #: .\mainApp\templates\index_login.html:349 .\mainApp\templates\theme.html:533
 msgid "No one registered with this username or password"
-msgstr "There is one registered with this username or password"
+msgstr "Wrong username or password"
 
 #: .\mainApp\templates\index_reg.html:45
 msgid "Register new Memeber"

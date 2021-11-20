@@ -93,7 +93,7 @@
     
               {% if user.is_superuser %}
               <li>
-                <a id="controlPanel_navigation" href="/{{LANGUAGE_CODE}}/controlpanel/">{% trans "Control Panel" %}</a>
+                <a id="controlPanel_navigation" href="/{{LANGUAGE_CODE}}/controlpanelMain/">{% trans "Control Panel" %}</a>
               </li>
               {% endif %}
               <li>
@@ -152,12 +152,12 @@
                       <input class="input-text" value="" placeholder='{% trans "Secret Number " %}' type="password" name="password" id="password" placeholder="Password"/>
                     </label>
                   </p>
-                  <!-- <div class="utf_row_form utf_form_wide_block form_forgot_part"> <span class="lost_password fl_left"> <a href="javascript:void(0);">Forgot Password?</a> </span>
-                    <div class="checkboxes fl_right">
+                  <div class="utf_row_form utf_form_wide_block form_forgot_part"> <span class="lost_password fl_left"> <a href="/{{LANGUAGE_CODE}}/forgetPassword">{%trans "Forgot Password"%}</a> </span>
+                    <!-- <div class="checkboxes fl_right">
                       <input id="remember-me" type="checkbox" name="check">
                       <label for="remember-me">Remember Me</label>
-                    </div>
-                  </div> -->
+                    </div> -->
+                  </div>
                   <div class="utf_row_form">
                     <a  id="loginButton" href="javascript:void(0)" class="button border margin-top-5 text-center"  >{% trans "Login" %}</a>
                   </div>

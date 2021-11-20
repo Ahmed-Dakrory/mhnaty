@@ -1,0 +1,100 @@
+{% extends "Admin/theme_admin_dashboard.html" %} 
+{%load static%}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+
+{% block "headerOfPage1" %}{% trans "Control Panel" %}{% endblock %}
+{% block "headerOfPage2" %}{% trans "Control Panel" %}{% endblock %}
+
+
+
+{% block "title" %}{% trans "Control Panel" %}{% endblock %}
+
+{% block "bodyOfPage" %}
+
+
+
+
+<div class="row"> 
+  <div class="col-lg-2 col-md-6">
+    <div class="utf_dashboard_stat color-1">
+      <div class="utf_dashboard_stat_content">
+        <h4>{{allAds}}</h4>
+        <span>{%trans "Number of Ads"%}</span>
+</div>
+      <div class="utf_dashboard_stat_icon"><i class="im im-icon-Star"></i></div>
+    </div>
+  </div>
+  
+  <div class="col-lg-2 col-md-6">
+    <div class="utf_dashboard_stat color-2">
+      <div class="utf_dashboard_stat_content">
+        <h4>{{allUsers_Active}}</h4>
+        <span>{%trans "Number of Active Users"%}</span>
+</div>
+      <div class="utf_dashboard_stat_icon"><i class="im im-icon-Add-UserStar"></i></div>
+    </div>
+  </div>
+  
+  <div class="col-lg-2 col-md-6">
+    <div class="utf_dashboard_stat color-3">
+      <div class="utf_dashboard_stat_content">
+        <h4>{{allUsers_InActive}}</h4>
+        <span>{%trans "Number of InActive Users"%}</span>
+</div>
+      <div class="utf_dashboard_stat_icon"><i class="im im-icon-Align-JustifyRight"></i></div>
+    </div>
+  </div>
+  
+  <div class="col-lg-2 col-md-6">
+    <div class="utf_dashboard_stat color-4">
+      <div class="utf_dashboard_stat_content">
+        <h4>{{allParentCategories}}</h4>
+        <span>{%trans "Number of Main Categories"%}</span>
+</div>
+      <div class="utf_dashboard_stat_icon"><i class="im im-icon-Diploma"></i></div>
+    </div>
+  </div>
+
+<div class="col-lg-2 col-md-6">
+    <div class="utf_dashboard_stat color-5">
+      <div class="utf_dashboard_stat_content">
+        <h4>{{allBranchCategories}}</h4>
+        <span>{%trans "Secondary Categories"%}</span>
+</div>
+      <div class="utf_dashboard_stat_icon"><i class="im im-icon-Map2"></i></div>
+    </div>
+  </div>
+
+  <div class="col-lg-2 col-md-6">
+    <div class="utf_dashboard_stat color-6">
+      <div class="utf_dashboard_stat_content">
+        <h4>{{allUsers}}</h4>
+        <span>{%trans "Total Users"%}</span>
+</div>
+      <div class="utf_dashboard_stat_icon"><i class="im im-icon-Eye-Visible"></i></div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+
+
+
+{% block "javascriptOfPage" %}
+
+
+
+<script>
+
+
+  $('#controlpanelMain_db').addClass('active');
+
+
+</script>
+
+
+{% endblock %}

@@ -106,6 +106,23 @@ def loadLoginPage(request):
     
     return render(request,'index_login.html',None)
 
+def controlpanelMain(request):
+    allAds = theadd.objects.filter(Q(deleted=False)).count()
+    allUsers_Active = User.objects.filter(Q(is_active=True)).count()
+    allUsers_InActive = User.objects.filter(Q(is_active=False)).count()
+    allUsers = User.objects.filter().count()
+    allParentCategories = category.objects.filter(Q(deleted=False) & Q(isFirstHead=True)).count()
+    allBranchCategories = category.objects.filter(Q(deleted=False) & Q(isFirstHead=False)).count()
+    
+    data={
+        'allAds':allAds,
+        'allUsers_Active':allUsers_Active,
+        'allUsers_InActive':allUsers_InActive,
+        'allUsers':allUsers,
+        'allParentCategories':allParentCategories,
+        'allBranchCategories':allBranchCategories
+    }
+    return render(request,'Admin/controlpanelMain.html',data)
 
 def loadRegPage(request):
     allCities = city.objects.filter(Q(deleted=False))
@@ -185,10 +202,12 @@ def loadRegPage(request):
 
 def activateNow(request,token):
     uidb64 = request.GET['uitoken']
+    print('----------------------')
+    print(uidb64)
     try:
         
         uid = force_text(urlsafe_base64_decode(bytes(uidb64,encoding='utf8')))
-
+        print(uid)
         user = User.objects.get(pk=uid)
     except Exception as ex:
         user = None
@@ -198,13 +217,22 @@ def activateNow(request,token):
         user.save()
         login(request, user)
         # return redirect('home')
-        return HttpResponseRedirect('/'+get_language()+'/')
+        return HttpResponseRedirect('/'+get_language()+'/profile/')
     else:
-        return HttpResponseRedirect('/'+get_language()+'/')
+        return HttpResponseRedirect('/'+get_language()+'/profile/')
+
+
 
 def activation(request):
 
     return render(request,'activation.html',None)
+
+
+
+
+def forgetPasswordEmailSent(request):
+
+    return render(request,'forgetPasswordEmailSent.html',None)
 
 def getlistOfcities(request):
     
@@ -555,6 +583,35 @@ def SearchPage(request):
 
 
 @login_required
+def password_main(request):
+    user =request.user
+    userobject = User.objects.filter(pk=user.id)
+    userProfile = profile.objects.filter(user=user)
+    userProfileMe = profile.objects.get(user__id=user.id)
+
+   
+    
+
+    if request.method=='POST':
+        typeOfForm = request.POST['typeOfForm']  
+
+        if typeOfForm == 'mainData':
+
+            passwordData = request.POST['passwordReg']
+            user.set_password(passwordData)
+            user.save()
+        #     userProfile.update(phone=phoneData,region=regionData,mobile=mobileData,address=addressData)
+        
+    
+
+        
+    return render(request,'dashboard/password_main.html',None)
+
+
+
+
+
+@login_required
 def profile_main(request):
     user =request.user
     userobject = User.objects.filter(pk=user.id)
@@ -596,7 +653,60 @@ def profile_main(request):
 
 
 
+def forgetPassword(request):
+    
+    if request.method=='POST':
+        emailData = request.POST['emailForget']
+        
+        findLastUser = User.objects.filter(Q(email=emailData)|Q(username=emailData))
+       
+        
 
+        if len(findLastUser) > 0:
+            print('---------------------------------')
+            
+            usernew = findLastUser[0]
+
+            dataToInsert = profile.objects.filter(user=usernew)[0]
+            print(dataToInsert)
+
+            tokenString = account_activation_token.make_token(usernew)
+            uid = urlsafe_base64_encode(force_bytes(usernew.pk)).decode()
+            contextMail = {
+                'nameReceiver':dataToInsert.user.first_name,
+                'uid':uid,
+                'new_uuidOfProfile':str(tokenString)
+                }
+            print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+            print(uid)
+            print(tokenString)
+            # NDQ
+            # 5vx-76ea04568ea1daad39a8
+
+            subject = "Mhnaty Forget Password Link"
+            html_content = render_to_string('mailTemplateForgetPassword.html', contextMail)
+            email = EmailMessage(subject, html_content, to=[dataToInsert.user.email])
+            try:
+                email.content_subtype = 'html'
+                email.send()
+                Message = """An Email sent to your mailbox please check it
+                برجاء مراجعة ايميلك لتفعيل الحساب
+                """
+                
+            except Exception as e:
+                Message = """Message not Sent Please Send the admin
+                برجاء التواصل مع الادارة لوجود مشكلة ولم يتم ارسال ايميل التفعيل
+                """
+                print('-----------------------------------')
+                print(e)
+
+            return HttpResponseRedirect('/'+get_language()+'/forgetPasswordEmailSent')
+
+
+   
+
+
+    return render(request,'forgetPassword.html',None)
 
 @login_required
 def dashboard_add_listing(request):

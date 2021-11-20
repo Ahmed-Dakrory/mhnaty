@@ -100,7 +100,7 @@
     
               {% if user.is_superuser %}
               <li>
-                <a id="controlPanel_navigation" href="/{{LANGUAGE_CODE}}/controlpanel/">{% trans "Control Panel" %}</a>
+                <a id="controlPanel_navigation" href="/{{LANGUAGE_CODE}}/controlpanelMain/">{% trans "Control Panel" %}</a>
               </li>
               {% endif %}
               <li>
@@ -185,7 +185,8 @@
 		  <li id="myServices_db"><a href="/{{LANGUAGE_CODE}}/dashboard_add_listing"><i class="sl sl-icon-plus"></i> {% trans "My Service Details" %}</a></li>	          
 		 
 		  <li id="mailbox_db"> <a href="/{{LANGUAGE_CODE}}/dashboard_messages"><i class="sl sl-icon-envelope-open"></i> {% trans "MailBox" %}</a></li>  
-          <li id="profile_db"><a href="/{{LANGUAGE_CODE}}/profile"><i class="sl sl-icon-user"></i> {% trans "My Profile" %}</a></li>
+      <li id="profile_db"><a href="/{{LANGUAGE_CODE}}/profile"><i class="sl sl-icon-user"></i> {% trans "My Profile" %}</a></li>
+      <li id="password_db"><a href="/{{LANGUAGE_CODE}}/changePassword"><i class="sl sl-icon-user"></i> {% trans "Password" %}</a></li>
           <!-- <li id="adsMessages_db"><a href="/{{LANGUAGE_CODE}}/showUserMessages"><i class="sl sl-icon-user"></i> {% trans "Ads Messages" %}</a></li> -->
 		  <!-- <li><a href="dashboard_change_password.html"><i class="sl sl-icon-key"></i> Change Password</a></li> -->
           <li><a href="/{{LANGUAGE_CODE}}/logout/"><i class="sl sl-icon-power"></i> {% trans "SignOut" %}</a></li>

@@ -100,7 +100,7 @@
     
               {% if user.is_superuser %}
               <li>
-                <a id="controlPanel_navigation" href="/{{LANGUAGE_CODE}}/controlpanel/">{% trans "Control Panel" %}</a>
+                <a id="controlPanel_navigation" href="/{{LANGUAGE_CODE}}/controlpanelMain/">{% trans "Control Panel" %}</a>
               </li>
               {% endif %}
               <li>
@@ -181,8 +181,10 @@
     <a href="#" class="utf_dashboard_nav_responsive"><i class="fa fa-reorder"></i> {% trans "My Control Page" %}</a>
     <div class="utf_dashboard_navigation">
       <div class="utf_dashboard_navigation_inner_block">
-        <ul>     
-		  <li id="controlpanel_db"><a href="/{{LANGUAGE_CODE}}/controlpanel/"><i class="sl sl-icon-plus"></i> {% trans "Add Details" %}</a></li>	          
+        <ul>  
+          <li id="controlpanelMain_db"><a href="/{{LANGUAGE_CODE}}/controlpanelMain/"><i class="sl sl-icon-plus"></i> {% trans "Control Panel" %}</a></li>	          
+		    
+          <li id="controlpanel_db"><a href="/{{LANGUAGE_CODE}}/controlpanel/"><i class="sl sl-icon-plus"></i> {% trans "Add Details" %}</a></li>	          
 		 
 		  <li id="controlCategories_db"> <a href="/{{LANGUAGE_CODE}}/controlCategories"><i class="sl sl-icon-user"></i> {% trans "Control Categories" %}</a></li>  
           <li id="controlBranchCategories_db"><a href="/{{LANGUAGE_CODE}}/controlBranchCategories"><i class="sl sl-icon-user"></i> {% trans "Control Branch Categories" %}</a></li>
