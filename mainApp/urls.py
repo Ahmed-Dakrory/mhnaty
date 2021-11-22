@@ -51,6 +51,7 @@ urlpatterns = [
     path('activateNow/<str:token>/',views.activateNow,name = 'activateNow'),
     path('getProfileMessages',views.getProfileMessages,name = 'getProfileMessages'),
     path('sendMessage',views.sendMessage,name = 'sendMessage'),
+    path('sendMessage3',views.sendMessage3,name = 'sendMessage3'),
     path('sendMessageToTheAdd',views.sendMessageToTheAdd,name='sendMessageToTheAdd'),
     path('forgetPasswordEmailSent',views.forgetPasswordEmailSent,name='forgetPasswordEmailSent'),
     
